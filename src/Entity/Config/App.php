@@ -2,7 +2,7 @@
 
 namespace App\Entity\Config;
 
-use App\Doctrine\Annotations\NotUppercase;
+use CrosierSource\CrosierLibBaseBundle\Doctrine\Annotations\NotUppercase;
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityId;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;

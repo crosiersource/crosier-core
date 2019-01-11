@@ -3,7 +3,7 @@
 namespace App\Repository\Base;
 
 use App\Entity\Base\DiaUtil;
-use App\Repository\FilterRepository;
+use CrosierSource\CrosierLibBaseBundle\Repository\FilterRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;

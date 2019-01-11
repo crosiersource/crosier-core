@@ -3,6 +3,7 @@
 namespace App\Entity\Base;
 
 use App\Entity\Financeiro\TipoPessoa;
+use CrosierSource\CrosierLibBaseBundle\Entity\EntityId;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 

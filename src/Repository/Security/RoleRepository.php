@@ -3,7 +3,7 @@
 namespace App\Repository\Security;
 
 use App\Entity\Security\Role;
-use App\Repository\FilterRepository;
+use CrosierSource\CrosierLibBaseBundle\Repository\FilterRepository;
 
 /**
  * RepositoryUtils para a entidade Role.

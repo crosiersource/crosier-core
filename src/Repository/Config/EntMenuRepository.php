@@ -3,7 +3,7 @@
 namespace App\Repository\Config;
 
 use App\Entity\Config\EntMenu;
-use App\Repository\FilterRepository;
+use CrosierSource\CrosierLibBaseBundle\Repository\FilterRepository;
 use Symfony\Component\Security\Core\Security;
 
 /**

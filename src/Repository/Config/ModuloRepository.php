@@ -3,7 +3,7 @@
 namespace App\Repository\Config;
 
 use App\Entity\Config\Modulo;
-use App\Repository\FilterRepository;
+use CrosierSource\CrosierLibBaseBundle\Repository\FilterRepository;
 
 /**
  * Repository para a entidade Modulo.

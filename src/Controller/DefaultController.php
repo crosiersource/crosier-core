@@ -18,13 +18,11 @@ class DefaultController extends Controller
 
     /**
      *
-     * @Route("/bla", name="root")
+     * @Route("/", name="root")
      */
     public function index()
     {
-        DateTimeUtils::parseDateStr('31/12/2019809808098098098098');
-        return $this->render('base.html.twig');
-
+        return $this->render('@CrosierLibBase/index.html.twig');
     }
 
     /**

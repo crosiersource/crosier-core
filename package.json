@@ -1,0 +1,39 @@
+{
+    "devDependencies": {
+        "@coreui/coreui": "^2.0.4",
+        "@fortawesome/fontawesome-free": "^5.2.0",
+        "@symfony/webpack-encore": "^0.20.1",
+        "bootstrap": ">=4.1.2",
+        "copy-webpack-plugin": "^4.5.2",
+        "datatables": "^1.10.18",
+        "flag-icon": "^2.5.0",
+        "flag-icon-css": "^3.0.0",
+        "jquery": "^3.3.1",
+        "jquery-mask-plugin": "^1.14.15",
+        "jquery-maskmoney": "^3.0.2",
+        "moment": "^2.22.2",
+        "node-sass": "^4.9.3",
+        "numeral": "^2.0.6",
+        "pace": "^0.0.4",
+        "pace-progress": "HubSpot/pace",
+        "perfect-scrollbar": "1",
+        "popper.js": "^1.14.4",
+        "sass-loader": "^7.1.0",
+        "select2": "4",
+        "select2-bootstrap-theme": "^0.1.0-beta.10",
+        "simple-line-icons": "^2.4.1",
+        "sortablejs": "RubaXa/Sortable",
+        "summernote": "^0.8.10",
+        "toastr": "^2.1.4",
+        "webpack-notifier": "^1.6.0"
+    },
+    "license": "UNLICENSED",
+    "private": true,
+    "scripts": {
+        "dev-server": "encore dev-server",
+        "dev": "encore dev",
+        "watch": "encore dev --watch",
+        "build": "encore production"
+    },
+    "dependencies": {}
+}
