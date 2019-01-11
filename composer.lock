@@ -1,18 +1,18 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "856ab010fef82615b5b94494a08a8a29",
+    "content-hash": "f93104baa8d7e6d0fe15cd18a03103a7",
     "packages": [
         {
             "name": "crosiersource/crosierlib-base",
-            "version": "9999999-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "../crosierlib-base",
-                "reference": "6bbc5eb2b05fc9ee852e02aa695c1d9c13775a1e",
+                "reference": "273174eb22c84dc685992d05ae2080d334c6782e",
                 "shasum": null
             },
             "require": {
@@ -40,11 +40,11 @@
         },
         {
             "name": "crosiersource/crosierlib-utils",
-            "version": "9999999-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "../crosierlib-utils",
-                "reference": "decdfdb3300d90f4944d215efc4d84e80b5c6fd9",
+                "reference": "16178a3151bea8e37fc1e2daa6ffc0e55df7efa5",
                 "shasum": null
             },
             "require": {
@@ -52,6 +52,9 @@
                 "symfony/config": "^4.2",
                 "symfony/dependency-injection": "^4.2",
                 "symfony/http-kernel": "^4.2"
+            },
+            "require-dev": {
+                "crosiersource/crosierlib-base": "*@dev"
             },
             "type": "symfony-bundle",
             "autoload": {
@@ -5029,6 +5032,37 @@
                 "push"
             ],
             "time": "2019-01-03T09:07:35+00:00"
+        },
+        {
+            "name": "symfony/webpack-encore-pack",
+            "version": "v1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/webpack-encore-pack.git",
+                "reference": "8d7f51379d7ae17aea7cf501d910a11896895ac4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/webpack-encore-pack/zipball/8d7f51379d7ae17aea7cf501d910a11896895ac4",
+                "reference": "8d7f51379d7ae17aea7cf501d910a11896895ac4",
+                "shasum": ""
+            },
+            "require": {
+                "symfony/asset": "^3.3|^4.0"
+            },
+            "type": "symfony-pack",
+            "extra": {
+                "thanks": {
+                    "name": "symfony/webpack-encore",
+                    "url": "https://github.com/symfony/webpack-encore"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A pack for Symfony Encore",
+            "time": "2018-07-16T10:15:28+00:00"
         },
         {
             "name": "symfony/yaml",

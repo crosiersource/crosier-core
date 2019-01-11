@@ -1,0 +1,25 @@
+{% extends 'list.html.twig' %}
+
+
+{% set titulo = 'Configs' %}
+{% set route_form = 'cfg_config_form' %}
+{% set route_list = 'cfg_config_list' %}
+{% set route_list_ajax = 'cfg_config_datatablesJsList' %}
+{% set list_id = 'configList' %}
+
+{% set campos_pesquisar %}
+
+    <div class="form-group">
+        <label for="p_descricao">Descrição</label>
+        <input type="text"
+               class="form-control" id="filter[descricao]"
+               name="filter[descricao]"
+               value="{{ filter.descricao|default('') }}">
+    </div>
+
+{% endset %}
+
+
+{% block down_scripts %}
+    <script src="{{ asset('build/cfg/configList.js') }}"></script>
+{% endblock %}

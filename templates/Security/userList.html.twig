@@ -1,0 +1,25 @@
+{% extends 'list.html.twig' %}
+
+
+{% set titulo = 'Usuários do Sistema' %}
+{% set route_form = 'sec_user_form' %}
+{% set route_list = 'sec_user_list' %}
+{% set route_list_ajax = 'sec_user_datatablesJsList' %}
+{% set list_id = 'userList' %}
+
+{% set campos_pesquisar %}
+
+    <div class="form-group">
+        <label for="p_descricao">Usuário</label>
+        <input type="text"
+               class="form-control" id="filter[username]"
+               name="filter[username]"
+               value="{{ filter.username|default('') }}">
+    </div>
+
+{% endset %}
+
+
+{% block down_scripts %}
+    <script src="{{ asset('build/sec/userList.js') }}"></script>
+{% endblock %}

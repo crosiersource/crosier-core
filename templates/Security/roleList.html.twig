@@ -1,0 +1,25 @@
+{% extends 'list.html.twig' %}
+
+
+{% set titulo = 'Roles' %}
+{% set route_form = 'sec_role_form' %}
+{% set route_list = 'sec_role_list' %}
+{% set route_list_ajax = 'sec_role_datatablesJsList' %}
+{% set list_id = 'roleList' %}
+
+{% set campos_pesquisar %}
+
+    <div class="form-group">
+        <label for="p_descricao">Role</label>
+        <input type="text"
+               class="form-control" id="filter[role]"
+               name="filter[role]"
+               value="{{ filter.role|default('') }}">
+    </div>
+
+{% endset %}
+
+
+{% block down_scripts %}
+    <script src="{{ asset('build/sec/roleList.js') }}"></script>
+{% endblock %}

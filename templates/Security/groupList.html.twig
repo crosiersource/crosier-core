@@ -1,0 +1,25 @@
+{% extends 'list.html.twig' %}
+
+
+{% set titulo = 'Grupos de Usuários' %}
+{% set route_form = 'sec_group_form' %}
+{% set route_list = 'sec_group_list' %}
+{% set route_list_ajax = 'sec_group_datatablesJsList' %}
+{% set list_id = 'groupList' %}
+
+{% set campos_pesquisar %}
+
+    <div class="form-group">
+        <label for="p_descricao">Usuário</label>
+        <input type="text"
+               class="form-control" id="filter[groupname]"
+               name="filter[groupname]"
+               value="{{ filter.groupname|default('') }}">
+    </div>
+
+{% endset %}
+
+
+{% block down_scripts %}
+    <script src="{{ asset('build/sec/groupList.js') }}"></script>
+{% endblock %}
