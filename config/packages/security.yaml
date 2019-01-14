@@ -1,13 +1,32 @@
 security:
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory: { memory: ~ }
+        app_user_provider:
+            entity:
+                class: App\Entity\Security\User
+                property: username
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             anonymous: true
+
+            guard:
+                authenticators:
+                - App\Security\LoginFormAuthenticator
+
+            logout:
+                path: logout
+
+            remember_me:
+                secret:   '%kernel.secret%'
+                lifetime: 2592000 # 30 days in seconds
+
+            switch_user: true
 
             # activate different ways to authenticate
 
@@ -20,5 +39,9 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+        # but, definitely allow /login to be accessible anonymously
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        # if you wanted to force EVERY URL to be protected
+        - { path: ^/, roles: IS_AUTHENTICATED_REMEMBERED }
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
