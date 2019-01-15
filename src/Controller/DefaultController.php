@@ -2,13 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Config\Modulo;
 use CrosierSource\CrosierLibUtilsBundle\DateTimeUtils\DateTimeUtils;
+use CrosierSource\CrosierLibUtilsBundle\RepositoryUtils\WhereBuilder;
 use Psr\Log\LoggerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class DefaultController extends Controller
+class DefaultController extends AbstractController
 {
 
     /**
@@ -22,7 +25,8 @@ class DefaultController extends Controller
      */
     public function index()
     {
-        return $this->render('@CrosierLibBase/index.html.twig');
+        $vParams['modulos'] = $this->getDoctrine()->getRepository(Modulo::class)->findAll(WhereBuilder::buildOrderBy('id DESC'));
+        return $this->render('main.html.twig', $vParams);
     }
 
     /**

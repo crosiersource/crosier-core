@@ -19,8 +19,8 @@ import 'flag-icon-css/css/flag-icon.css';
 import 'simple-line-icons/css/simple-line-icons.css';
 
 
-import '@coreui/coreui';
-import '@coreui/coreui/dist/css/coreui.css';
+// import '@coreui/coreui';
+// import '@coreui/coreui/dist/css/coreui.css';
 
 
 import 'datatables/media/css/jquery.dataTables.css';
@@ -42,7 +42,7 @@ import Moment from 'moment';
 import 'moment/locale/pt-br';
 import Numeral from 'numeral';
 import 'numeral/locales/pt-br.js'
-// import '../../css/crosier/crosier.css';
+import '../../css/crosier/crosier.css';
 
 import CrosierMasks from '../crosier/CrosierMasks';
 
