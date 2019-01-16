@@ -14,7 +14,7 @@ use App\EntityHandler\Config\StoredViewInfoEntityHandler;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Security\Core\Security;
 
-class StoredViewInfoBusiness
+class StoredViewInfoBusiness implements \StoredViewInfoBusinessInterface
 {
 
     private $doctrine;
