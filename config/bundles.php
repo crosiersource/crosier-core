@@ -14,7 +14,7 @@ return [
     Symfony\Bundle\DebugBundle\DebugBundle::class => ['dev' => true, 'test' => true],
     Symfony\Bundle\MakerBundle\MakerBundle::class => ['dev' => true],
     Symfony\Bundle\WebServerBundle\WebServerBundle::class => ['dev' => true],
-    CrosierSource\CrosierLibUtilsBundle\CrosierLibUtilsBundle::class => ['all' => true],
-    CrosierSource\CrosierLibBaseBundle\CrosierLibBaseBundle::class => ['all' => true],
     FOS\JsRoutingBundle\FOSJsRoutingBundle::class => ['all' => true],
+    CrosierSource\CrosierLibBaseBundle\CrosierLibBaseBundle::class => ['all' => true],
+    CrosierSource\CrosierLibUtilsBundle\CrosierLibUtilsBundle::class => ['all' => true],
 ];

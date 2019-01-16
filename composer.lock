@@ -1,18 +1,18 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
     "content-hash": "90d8a8642f9c53aaabd4b242e10b2e86",
     "packages": [
         {
             "name": "crosiersource/crosierlib-base",
-            "version": "dev-master",
+            "version": "9999999-dev",
             "dist": {
                 "type": "path",
                 "url": "../crosierlib-base",
-                "reference": "273174eb22c84dc685992d05ae2080d334c6782e",
+                "reference": "39ffee0dfde305b2f984389941624404038c7445",
                 "shasum": null
             },
             "require": {
@@ -40,11 +40,11 @@
         },
         {
             "name": "crosiersource/crosierlib-utils",
-            "version": "dev-master",
+            "version": "9999999-dev",
             "dist": {
                 "type": "path",
                 "url": "../crosierlib-utils",
-                "reference": "16178a3151bea8e37fc1e2daa6ffc0e55df7efa5",
+                "reference": "7a77b5ded7663f8664be461cf928a5b456f7d7ba",
                 "shasum": null
             },
             "require": {

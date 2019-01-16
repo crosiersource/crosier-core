@@ -11,7 +11,9 @@
     <header>
         <!-- Fixed navbar -->
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-            <a class="navbar-brand" href="#">Fixed navbar</a>
+            <a class="navbar-brand" href="#">
+                <img src="{{ asset('build/static/images/CROSIER_transp_200px.png') }}" />
+            </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -37,22 +39,20 @@
 
     <!-- Begin page content -->
     <main role="main" class="container">
-        <h1 class="mt-5">Sticky footer with fixed navbar</h1>
-        <p class="lead">Pin a fixed-height footer to the bottom of the viewport in desktop browsers with this custom HTML and CSS. A fixed navbar has been added with <code>padding-top: 60px;</code> on the <code>body &gt; .container</code>.</p>
-        <p>Back to <a href="../sticky-footer">the default sticky footer</a> minus the navbar.</p>
+
+        <div class="card">
+            <h5 class="card-header">Apps</h5>
+            <div class="card-body">
+                <div class="list-group">
+                    {% for app in modulos %}
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <i class="fab fa-accusoft"></i> {{ app.nome }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
     </main>
-
-
-
-    <ul class="list-group">
-        {% for app in modulos %}
-            <li class="list-group-item">
-                <i class="fab fa-accusoft"></i>
-                {{ app.nome }}
-            </li>
-        {% endfor %}
-    </ul>
-
 
     <footer class="footerr">
         <div class="container">
