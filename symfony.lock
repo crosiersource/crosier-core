@@ -2,9 +2,6 @@
     "crosiersource/crosierlib-base": {
         "version": "9999999-dev"
     },
-    "crosiersource/crosierlib-utils": {
-        "version": "9999999-dev"
-    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
