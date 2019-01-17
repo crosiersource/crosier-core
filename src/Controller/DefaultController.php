@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Config\Modulo;
-use CrosierSource\CrosierLibUtilsBundle\RepositoryUtils\WhereBuilder;
+use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\WhereBuilder;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
