@@ -3,11 +3,11 @@
 namespace App\Controller\Security;
 
 use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
-use App\Entity\Security\User;
+use CrosierSource\CrosierLibBaseBundle\Entity\Security\User;
 use CrosierSource\CrosierLibBaseBundle\EntityHandler\EntityHandler;
 use App\EntityHandler\Security\UserEntityHandler;
 use App\Form\Security\UserType;
-use App\Utils\Repository\FilterData;
+use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\FilterData;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

@@ -2,7 +2,9 @@
 
 namespace App\Security;
 
-use App\Repository\Security\UserRepository;
+use App\EntityHandler\Security\UserEntityHandler;
+use CrosierSource\CrosierLibBaseBundle\Entity\Security\User;
+use CrosierSource\CrosierLibBaseBundle\Repository\Security\UserRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
@@ -26,12 +28,22 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     private $csrfTokenManager;
     private $passwordEncoder;
 
-    public function __construct(UserRepository $userRepository, RouterInterface $router, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder)
+    /**
+     * @var UserEntityHandler
+     */
+    private $userEntityHandler;
+
+    public function __construct(UserRepository $userRepository,
+                                RouterInterface $router,
+                                CsrfTokenManagerInterface $csrfTokenManager,
+                                UserPasswordEncoderInterface $passwordEncoder,
+                                UserEntityHandler $userEntityHandler)
     {
         $this->userRepository = $userRepository;
         $this->router = $router;
         $this->csrfTokenManager = $csrfTokenManager;
         $this->passwordEncoder = $passwordEncoder;
+        $this->userEntityHandler = $userEntityHandler;
     }
 
     public function supports(Request $request)
@@ -75,6 +87,13 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
+            /** @var User $user */
+            $user = $token->getUser();
+            if (!$user->getApiToken() || $user->getApiTokenExpiresAt() <= new \DateTime()) {
+                $user->setApiToken(bin2hex(random_bytes(60)));
+                $user->setApiTokenExpiresAt(new \DateTime('+48 hour'));
+                $this->userEntityHandler->save($user);
+            }
             return new RedirectResponse($targetPath);
         }
 

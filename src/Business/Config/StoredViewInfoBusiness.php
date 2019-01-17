@@ -14,7 +14,7 @@ use App\EntityHandler\Config\StoredViewInfoEntityHandler;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Security\Core\Security;
 
-class StoredViewInfoBusiness implements \StoredViewInfoBusinessInterface
+class StoredViewInfoBusiness
 {
 
     private $doctrine;
@@ -66,5 +66,6 @@ class StoredViewInfoBusiness implements \StoredViewInfoBusinessInterface
             $this->entityHandler->delete($storedViewInfo);
         }
     }
+
 
 }

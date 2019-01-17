@@ -3,7 +3,7 @@
 
 {% block body %}
 
-<body class="app flex-row align-items-center">
+<body class="flex-row align-items-center">
 
 <div id="preloader"
 	 style="display: none; position: fixed; left: 0; top: 0; z-index: 1999; width: 100%; height: 100%; overflow: visible; background:rgba(255,255,255,0.5);"></div>
@@ -15,7 +15,10 @@
 				<div class="card-group">
 					<div class="card p-4">
 						<div class="card-body">
-							<h1>Login</h1>
+							<div class="mb-4 text-center">
+							<img src="{{ asset('build/static/images/CROSIER_fundotransp_400px.png') }}" style="width: 200px; padding-bottom: 20px" alt="CROSIER" />
+							</div>
+
 							{% if error %}
 							<div>
 								{{ error.messageKey|trans(error.messageData, 'security') }}
@@ -28,7 +31,6 @@
 								<input type="hidden" name="_csrf_token"
 									value="{{ csrf_token('authenticate') }}">
 
-								<p class="text-muted">Informe seus dados</p>
 								<div class="input-group mb-3">
 									<div class="input-group-prepend">
 										<span class="input-group-text"> <i class="icon-user"></i>
@@ -47,18 +49,15 @@
 										class="form-control" placeholder="Senha" id="password"
 										name="password">
 								</div>
-								<div class="input-group mb-4">
+								<div class="mb-4 text-right">
 									<input type="checkbox" id="remember_me" name="remember_me"
-										checked /> <label for="remember_me">Mantenha-me
+										checked /> <label for="remember_me"> Mantenha-me
 										logado</label>
 								</div>
 
 								<div class="row">
-									<div class="col-6">
-										<button type="submit" class="btn btn-primary px-4">Login</button>
-									</div>
-									<div class="col-6 text-right">
-										<button type="button" class="btn btn-link px-0">Esqueceu sua senha?</button>
+									<div class="col-12">
+										<button type="submit" class="btn btn-primary btn-block"><i class="fas fa-sign-in-alt"></i> Login</button>
 									</div>
 								</div>
 							</form>

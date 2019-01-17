@@ -1,12 +1,12 @@
 security:
     encoders:
-        App\Entity\Security\User:
+        CrosierSource\CrosierLibBaseBundle\Entity\Security\User:
             algorithm: bcrypt
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         app_user_provider:
             entity:
-                class: App\Entity\Security\User
+                class: CrosierSource\CrosierLibBaseBundle\Entity\Security\User
                 property: username
     firewalls:
         dev:

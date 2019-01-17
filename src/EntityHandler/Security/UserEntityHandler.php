@@ -2,7 +2,7 @@
 
 namespace App\EntityHandler\Security;
 
-use App\Entity\Security\User;
+use CrosierSource\CrosierLibBaseBundle\Entity\Security\User;
 use CrosierSource\CrosierLibBaseBundle\EntityHandler\EntityHandler;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 

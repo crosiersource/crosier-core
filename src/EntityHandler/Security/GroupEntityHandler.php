@@ -2,7 +2,7 @@
 
 namespace App\EntityHandler\Security;
 
-use App\Entity\Security\Group;
+use CrosierSource\CrosierLibBaseBundle\Entity\Security\Group;
 use CrosierSource\CrosierLibBaseBundle\EntityHandler\EntityHandler;
 
 /**

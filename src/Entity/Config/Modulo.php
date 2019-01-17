@@ -30,9 +30,27 @@ class Modulo extends EntityId
 
     /**
      *
+     * @ORM\Column(name="icon", type="string", nullable=true, length=300)
+     */
+    private $icon;
+
+    /**
+     *
      * @ORM\Column(name="obs", type="string", nullable=true, length=5000)
      */
     private $obs;
+
+    /**
+     *
+     * @ORM\Column(name="ordem", type="integer", nullable=true)
+     */
+    private $ordem;
+
+    /**
+     *
+     * @ORM\Column(name="entrance_url", type="string", nullable=true, length=255)
+     */
+    private $entranceUrl;
 
     /**
      * @return mixed
@@ -69,6 +87,38 @@ class Modulo extends EntityId
     /**
      * @return mixed
      */
+    public function getIcon()
+    {
+        return $this->icon;
+    }
+
+    /**
+     * @param mixed $icon
+     */
+    public function setIcon($icon): void
+    {
+        $this->icon = $icon;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOrdem()
+    {
+        return $this->ordem;
+    }
+
+    /**
+     * @param mixed $ordem
+     */
+    public function setOrdem($ordem): void
+    {
+        $this->ordem = $ordem;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getObs()
     {
         return $this->obs;
@@ -80,6 +130,22 @@ class Modulo extends EntityId
     public function setObs($obs): void
     {
         $this->obs = $obs;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEntranceUrl()
+    {
+        return $this->entranceUrl;
+    }
+
+    /**
+     * @param mixed $entranceUrl
+     */
+    public function setEntranceUrl($entranceUrl): void
+    {
+        $this->entranceUrl = $entranceUrl;
     }
 
 

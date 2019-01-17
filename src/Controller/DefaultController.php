@@ -23,7 +23,7 @@ class DefaultController extends AbstractController
      */
     public function index()
     {
-        $vParams['modulos'] = $this->getDoctrine()->getRepository(Modulo::class)->findAll(WhereBuilder::buildOrderBy('id DESC'));
+        $vParams['modulos'] = $this->getDoctrine()->getRepository(Modulo::class)->findAll(WhereBuilder::buildOrderBy('ordem'));
         return $this->render('main.html.twig', $vParams);
     }
 
