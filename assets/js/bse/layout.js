@@ -42,7 +42,7 @@ import Moment from 'moment';
 import 'moment/locale/pt-br';
 import Numeral from 'numeral';
 import 'numeral/locales/pt-br.js'
-import '../../css/crosier/crosier.css';
+//import '../../static/css/crosier.css';
 
 import CrosierMasks from '../crosier/CrosierMasks';
 

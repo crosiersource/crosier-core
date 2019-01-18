@@ -2,8 +2,11 @@
 
 namespace App\Controller\Security;
 
+use App\Entity\Config\Modulo;
+use App\EntityHandler\Security\UserEntityHandler;
 use CrosierSource\CrosierLibBaseBundle\Entity\Security\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,6 +15,17 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
+
+    /**
+     * @var UserEntityHandler
+     */
+    private $userEntityHandler;
+
+    public function __construct(UserEntityHandler $userEntityHandler)
+    {
+
+        $this->userEntityHandler = $userEntityHandler;
+    }
 
     /**
      *
@@ -38,6 +52,16 @@ class SecurityController extends AbstractController
     public function logout()
     {
         // não precisa
+    }
+
+    /**
+     * @Route("/reauthApps/{app}", name="reauth_apps")
+     */
+    public function reauthApps(Request $request, Modulo $app) {
+        $token = $this->userEntityHandler->renewTokenApi($this->getUser());
+        $url = $app->getEntranceUrl() . '?apiTokenAuthorization=' . $token;
+        return new RedirectResponse($url);
+
     }
 
 

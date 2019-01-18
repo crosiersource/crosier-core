@@ -1,3 +1,7 @@
+/*
+  Este arquivo deve ficar no static (não ser adicionado pelo webpack) para poder ser chamado pelos apps.
+*/
+
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
@@ -16,8 +20,8 @@ body {
 -------------------------------------------------- */
 /* Not required for template or sticky footer method. */
 
-body > .container {
-    padding: 60px 15px 0;
+body > .container-fluid {
+    padding: 10px 15px 0;
 }
 
 .footer-div {

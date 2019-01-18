@@ -40,6 +40,20 @@ class UserEntityHandler extends EntityHandler
         // $user->setPassword($encoded);
     }
 
+    /**
+     * @param User $user
+     * @return mixed
+     * @throws \Exception
+     */
+    public function renewTokenApi(User $user) {
+        if (!$user->getApiToken() || $user->getApiTokenExpiresAt() <= new \DateTime()) {
+            $user->setApiToken(bin2hex(random_bytes(60)));
+            $user->setApiTokenExpiresAt(new \DateTime('+48 hour'));
+            $this->save($user);
+        }
+        return $user->getApiToken();
+    }
+
 
     public function getEntityClass()
     {

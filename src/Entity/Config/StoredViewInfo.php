@@ -40,7 +40,7 @@ class StoredViewInfo extends EntityId
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Security\User", fetch="EAGER", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="CrosierSource\CrosierLibBaseBundle\Entity\Security\User", fetch="EAGER", cascade={"persist"})
      * @ORM\JoinColumn(name="user_id", nullable=false)
      *
      */

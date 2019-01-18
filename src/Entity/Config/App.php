@@ -50,7 +50,7 @@ class App extends EntityId
 
     /**
      *
-     * @ManyToMany(targetEntity="App\Entity\Security\Role")
+     * @ManyToMany(targetEntity="CrosierSource\CrosierLibBaseBundle\Entity\Security\Role")
      * @JoinTable(name="cfg_app_role",
      *      joinColumns={@JoinColumn(name="app_id", referencedColumnName="id")},
      *      inverseJoinColumns={@JoinColumn(name="role_id", referencedColumnName="id")}
