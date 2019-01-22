@@ -2,7 +2,8 @@
 
 namespace App\Security;
 
-use App\Repository\ApiTokenRepository;
+use CrosierSource\CrosierLibBaseBundle\Entity\Security\User;
+use CrosierSource\CrosierLibBaseBundle\Repository\Security\UserRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -15,16 +16,27 @@ use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 class ApiTokenAuthenticator extends AbstractGuardAuthenticator
 {
 
+    /**
+     * @var UserRepository
+     */
+    private $userRepository;
+
+    public function __construct(UserRepository $userRepository)
+    {
+
+        $this->userRepository = $userRepository;
+    }
+
     public function supports(Request $request)
     {
         // look for header "Authorization: Bearer <token>"
-        return $request->headers->has('Authorization')
-            && 0 === strpos($request->headers->get('Authorization'), 'Bearer ');
+        return $request->headers->has('X-Authorization')
+            && 0 === strpos($request->headers->get('X-Authorization'), 'Bearer ');
     }
 
     public function getCredentials(Request $request)
     {
-        $authorizationHeader = $request->headers->get('Authorization');
+        $authorizationHeader = $request->headers->get('X-Authorization');
 
         // skip beyond "Bearer "
         return substr($authorizationHeader, 7);
@@ -32,23 +44,24 @@ class ApiTokenAuthenticator extends AbstractGuardAuthenticator
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        $token = $this->apiTokenRepo->findOneBy([
-            'token' => $credentials
+        /** @var User $user */
+        $user = $this->userRepository->findOneBy([
+            'apiToken' => $credentials
         ]);
 
-        if (!$token) {
+        if (!$user) {
             throw new CustomUserMessageAuthenticationException(
-                'Invalid API Token'
+                'Token inválido.'
             );
         }
 
-        if ($token->isExpired()) {
+        if ($user->getApiTokenExpiresAt() <= new \DateTime()) {
             throw new CustomUserMessageAuthenticationException(
-                'Token expired'
+                'Token expirado.'
             );
         }
 
-        return $token->getUser();
+        return $user;
     }
 
     public function checkCredentials($credentials, UserInterface $user)
