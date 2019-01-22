@@ -3,6 +3,7 @@
 namespace App\Repository\Config;
 
 use App\Entity\Config\EntMenu;
+use App\Entity\Config\Modulo;
 use CrosierSource\CrosierLibBaseBundle\Repository\FilterRepository;
 use Symfony\Component\Security\Core\Security;
 
@@ -47,6 +48,44 @@ class EntMenuRepository extends FilterRepository
     public function getMainMenuSecured()
     {
         $pais = $this->findBy(['pai' => null], ['ordem' => 'ASC']);
+        $ents = [];
+        $i = 0;
+        foreach ($pais as $pai) {
+            if (!$pai->getFilhos() or $pai->getFilhos()->count() < 1) {
+                $ents[$i]['pai'] = $pai;
+                $i++;
+            } else {
+                $addPai = false;
+                foreach ($pai->getFilhos() as $filho) {
+                    if ($filho->getApp() and $filho->getApp()->getRoles()) {
+                        if ($this->getSecurity()->isGranted($filho->getApp()->getRolesArray())) {
+                            $addPai = true;
+                            $ents[$i]['filhos'][] = $filho;
+                        }
+                    }
+                }
+                if ($addPai) {
+                    $ents[$i]['pai'] = $pai;
+                    $i++;
+                }
+            }
+        }
+        return $ents;
+    }
+
+    /**
+     * Retorna
+     *
+     * @param Modulo $modulo
+     * @return array
+     */
+    public function getAppMainMenuSecured(Modulo $modulo)
+    {
+        $dql = "SELECT e.* FROM App\Entity\Config\EntMenu e JOIN App\Entity\Config\App a WHERE e.pai IS NULL AND a.modulo = :modulo ORDER BY e.ordem";
+        $qry = $this->getEntityManager()->createQuery($dql);
+        $qry->setParameter('modulo', $modulo);
+
+        $pais = $qry->getResult();
         $ents = [];
         $i = 0;
         foreach ($pais as $pai) {

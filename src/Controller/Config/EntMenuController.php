@@ -216,6 +216,43 @@ class EntMenuController extends FormListController
 
     /**
      *
+     * @Route("/cfg/entMenu/getAppMainMenu", name="cfg_entMenu_getAppMainMenu")
+     * @param Request $request
+     * @return Response
+     */
+    public function getAppMainMenu(Request $request)
+    {
+        $session = new Session();
+
+        if (!$session->get('mainmenu')) {
+            $mainMenuSecured = $this->getDoctrine()->getRepository(EntMenu::class)->getMainMenuSecured();
+
+            $normalizer = new ObjectNormalizer();
+            $encoder = new JsonEncoder();
+            $serializer = new Serializer([$normalizer], [$encoder]);
+
+            $attrs = ['id',
+                'label',
+                'icon',
+                'tipo',
+                'cssStyle',
+                'app' => ['id', 'route', 'descricao'],
+                'filhos' => ['id', 'label', 'icon', 'tipo', 'cssStyle', 'app' => ['id', 'route', 'descricao']]];
+
+            $jMainMenuSecured = $serializer->normalize($mainMenuSecured, 'json', ['attributes' => $attrs]);
+            $session->set('mainmenu', $jMainMenuSecured);
+        } else {
+            $jMainMenuSecured = $session->get('mainmenu');
+        }
+
+        return $this->render(
+            '/Config/mainmenu.html.twig',
+            array('mainMenu' => $jMainMenuSecured)
+        );
+    }
+
+    /**
+     *
      * @Route("/cfg/entMenu/clear", name="cfg_entMenu_clear")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse

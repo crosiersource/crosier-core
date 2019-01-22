@@ -2,10 +2,11 @@
   Este arquivo deve ficar no static (não ser adicionado pelo webpack) para poder ser chamado pelos apps.
 */
 
-body {
-    /* Margin bottom by footer height */
+body,html {
+    height: 100%;
     margin-bottom: 60px;
 }
+
 .footer {
     position: fixed;
     height: 40px;

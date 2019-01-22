@@ -2,6 +2,9 @@
 
 import $ from 'jquery';
 
+import 'jquery-mask-plugin';
+import 'jquery-maskmoney/dist/jquery.maskMoney.js';
+
 class CrosierMasks {
 
     static maskDateTimes() {
