@@ -34,5 +34,7 @@
         "watch": "encore dev --watch",
         "build": "encore production"
     },
-    "dependencies": {}
+    "dependencies": {
+        "hotkeys-js": "^3.4.3"
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Business\Config;
 
 use App\Entity\Config\EntMenu;
+use App\Entity\Config\Modulo;
 use App\EntityHandler\Config\EntMenuEntityHandler;
 
 class EntMenuBusiness
@@ -23,6 +24,11 @@ class EntMenuBusiness
             $entMenu->setOrdem($i++);
             $this->entityHandler->save($entMenu);
         }
+
+    }
+
+    public function buildAppMainMenuJson(Modulo $app) {
+
 
     }
 

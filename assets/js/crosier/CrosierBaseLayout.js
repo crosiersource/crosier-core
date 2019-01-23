@@ -175,24 +175,50 @@ class CrosierBaseLayout {
             }
         ).done(function (results) {
             let val = null;
+            let data = $.map(results, function (obj) {
+                obj.text = obj.label; // replace name with the property used for the text
+                return obj;
+            });
             // $tipoLancto.empty().trigger("change");
             $appMainMenu.select2({
                     data: results,
                     // width: 'resolve',
                     templateResult: function (data) {
-                        return data.text;
+
+                        var $item = $(
+                            '<span><i class="' + data.icon + ' text-center" style="width: 30px"></i> ' + data.text + '</span>'
+                        );
+                        return $item;
+
+                    },
+                    templateSelection: function (data) {
+
+                        var $item = $(
+                            '<span><i class="' + data.icon + '"></i> ' + data.text + '</span>'
+                        );
+                        return $item;
+
                     },
                     escapeMarkup: function (markup) {
                         return markup;
                     },
                 }
-            );
+            ).keydown(function( event ) {
+
+                event.preventDefault();
+                console.log('agora no keydown');
+                console.dir(event);
+            }).on('select2:select', function (e) {
+                console.dir(e);
+            })
+            ;
             // Se veio o valor...
             if (val) {
                 $tipoLancto.val(val).trigger('change');
             }
         });
         console.log('ok');
+
 
     }
 

@@ -74,20 +74,21 @@ class EntMenuRepository extends FilterRepository
     }
 
     /**
-     * Retorna
+     * Retorna os itens do menu para o $modulo.
      *
      * @param Modulo $modulo
      * @return array
      */
     public function getAppMainMenuSecured(Modulo $modulo)
     {
-        $dql = "SELECT e.* FROM App\Entity\Config\EntMenu e JOIN App\Entity\Config\App a WHERE e.pai IS NULL AND a.modulo = :modulo ORDER BY e.ordem";
+        $dql = "SELECT e FROM App\Entity\Config\EntMenu e JOIN e.app a WHERE e.pai IS NULL AND a.modulo = :modulo ORDER BY e.ordem";
         $qry = $this->getEntityManager()->createQuery($dql);
         $qry->setParameter('modulo', $modulo);
 
         $pais = $qry->getResult();
         $ents = [];
         $i = 0;
+        /** @var EntMenu $pai */
         foreach ($pais as $pai) {
             if (!$pai->getFilhos() or $pai->getFilhos()->count() < 1) {
                 $ents[$i]['pai'] = $pai;

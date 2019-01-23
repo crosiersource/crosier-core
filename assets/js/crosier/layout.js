@@ -14,6 +14,7 @@ import CrosierBaseLayout from './CrosierBaseLayout';
 
 import CrosierMasks from '../crosier/CrosierMasks';
 
+
 // import 'summernote/dist/summernote-bs4.css';
 //
 //
@@ -48,6 +49,7 @@ import CrosierMasks from '../crosier/CrosierMasks';
 //
 // Numeral.locale('pt-br');
 
+import Hotkeys from "hotkeys-js";
 
 $(document).ready(function () {
 
@@ -66,6 +68,13 @@ $(document).ready(function () {
     CrosierBaseLayout.handleTooltip();
 
     CrosierBaseLayout.buildAppMainMenu();
+
+    Hotkeys('ctrl+m', function(event, handler){
+        // Prevent the default refresh event under WINDOWS system
+        event.preventDefault();
+        console.dir(event);
+        $('#appMainMenu').select2('open');
+    });
 
 });
 

@@ -2,6 +2,8 @@
 
 namespace App\Controller\Config;
 
+use App\Entity\Config\EntMenu;
+use App\Entity\Config\MainMenuItem;
 use App\Entity\Config\Modulo;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,7 +18,8 @@ class MainMenuController extends AbstractController
      */
     public function build(Modulo $app)
     {
-        return new JsonResponse(['modulo' => $app->getNome()]);
+        $itens = $this->getDoctrine()->getRepository(MainMenuItem::class)->getAppMainMenuSecured($app);
+        return new JsonResponse($itens);
     }
 
 
