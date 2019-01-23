@@ -19,7 +19,6 @@ import CrosierMasks from '../crosier/CrosierMasks';
 //
 //
 //
-// import '@fortawesome/fontawesome-free/css/all.css';
 //
 // import 'flag-icon-css/css/flag-icon.css';
 //
@@ -27,8 +26,7 @@ import CrosierMasks from '../crosier/CrosierMasks';
 // import 'simple-line-icons/css/simple-line-icons.css';
 //
 //
-// import 'datatables/media/css/jquery.dataTables.css';
-// import 'datatables';
+
 //
 
 //
@@ -67,9 +65,7 @@ $(document).ready(function () {
 
     CrosierBaseLayout.handleTooltip();
 
-    CrosierBaseLayout.buildMainMenuSelect();
-
-
+    CrosierBaseLayout.buildAppMainMenu();
 
 });
 

@@ -151,7 +151,6 @@ class CrosierBaseLayout {
     }
 
 
-
     /**
      * Ativar tooltip.
      */
@@ -161,26 +160,31 @@ class CrosierBaseLayout {
 
 
     /**
-     * Construir o mainMenuSelect.
+     * Construir o mainMenu do app.
      */
-    static buildMainMenuSelect() {
-        let $mainMenuSelect = $('#mainMenuSelect');
+    static buildAppMainMenu() {
+        let $appMainMenu = $('#appMainMenu');
 
         // Construção do mainMenuSelect
         console.log('montando o mainMenuSelect');
         $.ajax({
                 dataType: "json",
                 async: false,
-                url: $mainMenuSelect.data('crosiercoreurl') + '/cfg/entMenu/getAppMainMenu',
-                data: {"app_id": $mainMenuSelect.data('appid')},
+                url: '/getAppMainMenu',
                 type: 'POST'
             }
         ).done(function (results) {
             let val = null;
             // $tipoLancto.empty().trigger("change");
-            $mainMenuSelect.select2({
+            $appMainMenu.select2({
                     data: results,
-                    width: '100%'
+                    // width: 'resolve',
+                    templateResult: function (data) {
+                        return data.text;
+                    },
+                    escapeMarkup: function (markup) {
+                        return markup;
+                    },
                 }
             );
             // Se veio o valor...
