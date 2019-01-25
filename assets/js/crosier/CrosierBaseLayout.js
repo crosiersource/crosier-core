@@ -174,17 +174,14 @@ class CrosierBaseLayout {
                 type: 'POST'
             }
         ).done(function (results) {
-            let val = null;
+            console.dir(results);
             let data = $.map(results, function (obj) {
                 obj.text = obj.label; // replace name with the property used for the text
                 return obj;
             });
-            // $tipoLancto.empty().trigger("change");
             $appMainMenu.select2({
                     data: results,
-                    // width: 'resolve',
                     templateResult: function (data) {
-
                         var $item = $(
                             '<span><i class="' + data.icon + ' text-center" style="width: 30px"></i> ' + data.text + '</span>'
                         );
@@ -192,7 +189,6 @@ class CrosierBaseLayout {
 
                     },
                     templateSelection: function (data) {
-
                         var $item = $(
                             '<span><i class="' + data.icon + '"></i> ' + data.text + '</span>'
                         );
@@ -203,19 +199,20 @@ class CrosierBaseLayout {
                         return markup;
                     },
                 }
-            ).keydown(function( event ) {
+            ).on('select2:select', function (e) {
+                let data = e.params.data;
+                console.dir(data);
+                if (data.programa.url) {
+                    window.location.href = data.programa.url;
+                }
+            });
+            data.forEach(function(e, index, arr){
+                console.log(e);
+                if (window.location.pathname === e.programa.url) {
+                    $appMainMenu.val(e.id).trigger('change');
+                }
+            });
 
-                event.preventDefault();
-                console.log('agora no keydown');
-                console.dir(event);
-            }).on('select2:select', function (e) {
-                console.dir(e);
-            })
-            ;
-            // Se veio o valor...
-            if (val) {
-                $tipoLancto.val(val).trigger('change');
-            }
         });
         console.log('ok');
 

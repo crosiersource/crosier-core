@@ -78,7 +78,7 @@ class MainMenuItemRepository extends FilterRepository
                     $mainMenuItem['programa'] = [
                         'id' => $programa->getId(),
                         'descricao' => $programa->getDescricao(),
-                        'route' => $programa->getRoute()
+                        'url' => $programa->getUrl()
                     ];
                 }
                 $mainMenu[] = $mainMenuItem;

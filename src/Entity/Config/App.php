@@ -35,11 +35,18 @@ class App extends EntityId
     private $descricao;
 
     /**
-     *
+     * FIXME: remover e usar somente a URL.
      * @ORM\Column(name="route", type="string", nullable=true, length=2000)
      * @NotUppercase()
      */
     private $route;
+
+    /**
+     * Sem o domínio.
+     * @ORM\Column(name="url", type="string", nullable=true, length=2000)
+     * @NotUppercase()
+     */
+    private $url;
 
     /**
      *
@@ -114,6 +121,22 @@ class App extends EntityId
     /**
      * @return mixed
      */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
+     * @param mixed $url
+     */
+    public function setUrl($url): void
+    {
+        $this->url = $url;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getModulo(): ?Modulo
     {
         return $this->modulo;
@@ -132,7 +155,8 @@ class App extends EntityId
         return $this->roles;
     }
 
-    public function getRolesArray() {
+    public function getRolesArray()
+    {
         if ($this->roles) {
             $rolesArray = [];
             foreach ($this->roles as $role) {
