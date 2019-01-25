@@ -4,6 +4,7 @@ namespace App\Entity\Config;
 
 use CrosierSource\CrosierLibBaseBundle\Doctrine\Annotations\NotUppercase;
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityId;
+use CrosierSource\CrosierLibBaseBundle\Entity\EntityIdTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,16 +18,10 @@ use Doctrine\ORM\Mapping\ManyToMany;
  * @ORM\Table(name="cfg_app")
  * @author Carlos Eduardo Pauluk
  */
-class App extends EntityId
+class App implements EntityId
 {
 
-    /**
-     *
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="bigint")
-     */
-    private $id;
+    use EntityIdTrait;
 
     /**
      *
@@ -68,22 +63,6 @@ class App extends EntityId
     public function __construct()
     {
         $this->roles = new ArrayCollection();
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id): void
-    {
-        $this->id = $id;
     }
 
     /**

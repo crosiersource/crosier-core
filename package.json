@@ -5,6 +5,7 @@
         "bootstrap": ">=4.1.2",
         "copy-webpack-plugin": "^4.5.2",
         "datatables": "^1.10.18",
+        "datatables.net-bs4": "^1.10.19",
         "flag-icon": "^2.5.0",
         "flag-icon-css": "^3.2.1",
         "jquery": "^3.3.1",

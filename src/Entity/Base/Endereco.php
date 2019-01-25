@@ -3,6 +3,7 @@
 namespace App\Entity\Base;
 
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityId;
+use CrosierSource\CrosierLibBaseBundle\Entity\EntityIdTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -11,22 +12,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="App\Repository\Base\EnderecoRepository")
  * @ORM\Table(name="bon_endereco")
  */
-class Endereco extends EntityId
+class Endereco implements EntityId
 {
 
-    public function __construct()
-    {
-        ORM\Annotation::class;
-        Assert\All::class;
-    }
-
-    /**
-     *
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="bigint")
-     */
-    private $id;
+    use EntityIdTrait;
 
     /**
      *
@@ -78,15 +67,6 @@ class Endereco extends EntityId
      */
     private $tipoEndereco;
 
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
 
     public function getBairro()
     {

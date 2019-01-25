@@ -3,6 +3,7 @@
 namespace App\Entity\Base;
 
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityId;
+use CrosierSource\CrosierLibBaseBundle\Entity\EntityIdTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -12,16 +13,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="App\Repository\Base\DiaUtilRepository")
  * @ORM\Table(name="bon_dia_util")
  */
-class DiaUtil extends EntityId
+class DiaUtil implements EntityId
 {
 
-    /**
-     *
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="bigint")
-     */
-    private $id;
+    use EntityIdTrait;
 
     /**
      *
@@ -50,11 +45,6 @@ class DiaUtil extends EntityId
      * @Assert\NotNull(message = "O campo 'Financeiro' deve ser informado")
      */
     private $financeiro = false;
-
-    public function getId()
-    {
-        return $this->id;
-    }
 
     public function getDia()
     {

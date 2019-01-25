@@ -14,6 +14,10 @@ import CrosierBaseLayout from './CrosierBaseLayout';
 
 import CrosierMasks from '../crosier/CrosierMasks';
 
+import 'datatables.net-bs4/css/dataTables.bootstrap4.css';
+import 'datatables/media/css/jquery.dataTables.css';
+
+
 
 // import 'summernote/dist/summernote-bs4.css';
 //

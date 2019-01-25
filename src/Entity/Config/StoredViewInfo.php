@@ -3,6 +3,7 @@
 namespace App\Entity\Config;
 
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityId;
+use CrosierSource\CrosierLibBaseBundle\Entity\EntityIdTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 
@@ -15,16 +16,10 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @author Carlos Eduardo Pauluk
  */
-class StoredViewInfo extends EntityId
+class StoredViewInfo implements EntityId
 {
 
-    /**
-     *
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="bigint")
-     */
-    private $id;
+    use EntityIdTrait;
 
     /**
      *
@@ -46,21 +41,6 @@ class StoredViewInfo extends EntityId
      */
     public $user;
 
-    /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id): void
-    {
-        $this->id = $id;
-    }
 
     /**
      * @return mixed

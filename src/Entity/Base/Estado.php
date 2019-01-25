@@ -3,6 +3,7 @@
 namespace App\Entity\Base;
 
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityId;
+use CrosierSource\CrosierLibBaseBundle\Entity\EntityIdTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -11,16 +12,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="App\Repository\Base\EstadoRepository")
  * @ORM\Table(name="bs_uf")
  */
-class Estado extends EntityId
+class Estado implements EntityId
 {
 
-    /**
-     *
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="bigint")
-     */
-    private $id;
+    use EntityIdTrait;
 
     /**
      *
@@ -43,22 +38,6 @@ class Estado extends EntityId
      * @Assert\Range(min = 0)
      */
     private $codigoIBGE;
-
-    public function __construct()
-    {
-        ORM\Annotation::class;
-        Assert\All::class;
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
 
     public function getNome()
     {

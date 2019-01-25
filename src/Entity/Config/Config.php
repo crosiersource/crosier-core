@@ -3,6 +3,7 @@
 namespace App\Entity\Config;
 
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityId;
+use CrosierSource\CrosierLibBaseBundle\Entity\EntityIdTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -11,16 +12,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="App\Repository\Config\ConfigRepository")
  * @ORM\Table(name="cfg_config")
  */
-class Config extends EntityId
+class Config implements EntityId
 {
 
-    /**
-     *
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="bigint")
-     */
-    private $id;
+    use EntityIdTrait;
 
     /**
      *
@@ -48,22 +43,6 @@ class Config extends EntityId
      * @Assert\NotNull(message="O campo 'global' deve ser informado")
      */
     private $global;
-
-    public function __construct()
-    {
-        ORM\Annotation::class;
-        Assert\All::class;
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
 
     public function getChave()
     {

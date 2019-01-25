@@ -3,6 +3,7 @@
 namespace App\Entity\Base;
 
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityId;
+use CrosierSource\CrosierLibBaseBundle\Entity\EntityIdTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -11,16 +12,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="App\Repository\Base\MunicipioRepository")
  * @ORM\Table(name="bs_municipio")
  */
-class Municipio extends EntityId
+class Municipio implements EntityId
 {
-
-    /**
-     *
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="bigint")
-     */
-    private $id;
+    use EntityIdTrait;
 
     /**
      *
@@ -47,22 +41,6 @@ class Municipio extends EntityId
      * @ORM\Column(name="uf_sigla", type="string", nullable=true, length=2)
      */
     private $ufSigla;
-
-    public function __construct()
-    {
-        ORM\Annotation::class;
-        Assert\All::class;
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
 
     public function getMunicipioCodigo()
     {

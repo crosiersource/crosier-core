@@ -4,6 +4,7 @@ namespace App\Entity\Config;
 
 use CrosierSource\CrosierLibBaseBundle\Doctrine\Annotations\NotUppercase;
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityId;
+use CrosierSource\CrosierLibBaseBundle\Entity\EntityIdTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,16 +13,10 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="cfg_mainmenuitem")
  * @author Carlos Eduardo Pauluk
  */
-class MainMenuItem extends EntityId
+class MainMenuItem implements EntityId
 {
 
-    /**
-     *
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="bigint")
-     */
-    private $id;
+    use EntityIdTrait;
 
     /**
      *
@@ -64,22 +59,6 @@ class MainMenuItem extends EntityId
      */
     private $programa;
 
-
-    /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id): void
-    {
-        $this->id = $id;
-    }
 
     /**
      * @return mixed

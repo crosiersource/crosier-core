@@ -4,6 +4,7 @@ namespace App\Entity\Base;
 
 use App\Entity\Financeiro\TipoPessoa;
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityId;
+use CrosierSource\CrosierLibBaseBundle\Entity\EntityIdTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -13,16 +14,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="App\Repository\Base\PessoaRepository")
  * @ORM\Table(name="bon_pessoa")
  */
-class Pessoa extends EntityId
+class Pessoa implements EntityId
 {
 
-    /**
-     *
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="bigint")
-     */
-    private $id;
+    use EntityIdTrait;
 
     /**
      *
@@ -73,16 +68,6 @@ class Pessoa extends EntityId
     private $email;
 
     private $inscricaoEstadual;
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
 
     public function getTipoPessoa()
     {
