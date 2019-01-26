@@ -5,7 +5,6 @@ namespace App\Controller\Base;
 use App\Business\Base\PessoaBusiness;
 use App\Entity\Base\Pessoa;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -25,7 +24,34 @@ class PessoaController extends AbstractController
 
     /**
      *
-     * @Route("/bse/pessoa/findByNome/{str}", name="bse_pessoa_findByNome")
+     * @Route("/pessoa/findById/{id}", name="bse_pessoa_findById", requirements={"id"="\d+"})
+     */
+    public function findById(int $id)
+    {
+        try {
+            $pessoa = $this->getDoctrine()->getRepository(Pessoa::class)->find($id);
+            if (!$pessoa) {
+                return new Response(json_encode(['msg' => 'Não encontrado']));
+            } else {
+                // $pessoa = $this->pessoaBusiness->fillTransients($pessoa);
+                $normalizer = new ObjectNormalizer();
+                $encoder = new JsonEncoder();
+                $attributes = ['id', 'nome', 'nomeFantasia', 'documento', 'fone1', 'fone2',
+                    'endereco' => ['id', 'bairro', 'cep', 'cidade', 'estado', 'complemento', 'logradouro', 'numero']
+                ];
+                $serializer = new Serializer(array($normalizer), array($encoder));
+                $json = $serializer->serialize($pessoa, 'json', ['attributes' => $attributes]);
+                return new Response($json);
+            }
+        } catch (\Exception $e) {
+            return new Response(json_encode(['msg' => 'Erro']));
+        }
+    }
+
+
+    /**
+     *
+     * @Route("/pessoa/findByNome/{str}", name="bse_pessoa_findByNome")
      *
      */
     public function findByNome($str = null)
@@ -47,7 +73,7 @@ class PessoaController extends AbstractController
 
     /**
      *
-     * @Route("/bse/pessoa/findByDocumento/{documento}", name="bse_pessoa_findByNome")
+     * @Route("/pessoa/findByDocumento/{documento}", name="bse_pessoa_findByNome")
      *
      */
     public function findByDocumento($documento = null)
@@ -64,8 +90,8 @@ class PessoaController extends AbstractController
         $encoder = new JsonEncoder();
 
         $attributes = ['id', 'nome', 'nomeFantasia', 'documento', 'fone1', 'fone2',
-                'endereco' => ['id', 'bairro', 'cep', 'cidade', 'estado', 'complemento', 'logradouro', 'numero']
-            ];
+            'endereco' => ['id', 'bairro', 'cep', 'cidade', 'estado', 'complemento', 'logradouro', 'numero']
+        ];
 
         $serializer = new Serializer(array($normalizer), array($encoder));
         $json = $serializer->serialize($pessoa, 'json', ['attributes' => $attributes]);

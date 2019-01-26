@@ -17,7 +17,7 @@ class DiaUtilController extends AbstractController
 
     /**
      * FIXME: passar isso para testes.
-     * @Route("/bse/diaUtil/periodos", name="bse_diautil_periodos")
+     * @Route("/diaUtil/periodos", name="bse_diautil_periodos")
      *
      */
     public function testPeriodos()
@@ -136,7 +136,7 @@ class DiaUtilController extends AbstractController
 
     /**
      *
-     * @Route("/bse/diaUtil/incPeriodo/{proFuturo}/{ini}/{fim}", name="bse_diaUtil_incPeriodo")
+     * @Route("/diaUtil/incPeriodo/{proFuturo}/{ini}/{fim}", name="bse_diaUtil_incPeriodo")
      *
      */
     public function incPeriodo($proFuturo, $ini, $fim)
