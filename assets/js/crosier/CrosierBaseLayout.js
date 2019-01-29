@@ -5,6 +5,8 @@ import $ from 'jquery';
 import 'toastr/build/toastr.css'
 import toastrr from "toastr";
 
+import sprintf from "sprintf-js";
+
 class CrosierBaseLayout {
 
     /**
@@ -123,28 +125,49 @@ class CrosierBaseLayout {
          */
         $('.autoSelect2').each(function () {
             let elem = $(this);
-            if ($(this).data('route')) {
-                $.getJSON(
-                    Routing.generate($(this).data('route')),
-                    function (results) {
-                        elem.select2({
-                            data: results,
-                            sorter: function (data) {
-                                return data.sort(function (a, b) {
-                                    a = a.text.toLowerCase();
-                                    b = b.text.toLowerCase();
-                                    if (a > b) {
-                                        return 1;
-                                    } else if (a < b) {
-                                        return -1;
-                                    }
-                                    return 0;
-                                });
-                            }
-                        });
-                        elem.val(elem.val()).trigger('change').trigger('select2:select');
+            if (elem.data('route-id')) {
+                $.ajax({
+                        type: 'GET',
+                        url: elem.data('route-id'),
+                        async: true,
+                        crossDomain: true,
+                        contentType: "application/json",
+                        dataType: 'json',
+                        xhrFields: {
+                            withCredentials: true
+                        },
                     }
-                );
+                ).done(function (results) {
+                    console.dir(results);
+
+                    if (elem.data('text-format')) {
+                        results = $.map(results, function (obj) {
+                            console.dir(obj);
+                            console.log(elem.data('text-format'));
+                            obj.text = sprintf.sprintf(elem.data('text-format'), obj);
+                            return obj;
+                        });
+                    }
+
+                    let $s2 = elem.select2({
+                        data: results,
+                        sorter: function (data) {
+                            return data.sort(function (a, b) {
+                                a = a.text.toLowerCase();
+                                b = b.text.toLowerCase();
+                                if (a > b) {
+                                    return 1;
+                                } else if (a < b) {
+                                    return -1;
+                                }
+                                return 0;
+                            });
+                        }
+                    });
+
+                    $s2.val(elem.data('val')).trigger('change');
+                });
+
             }
         });
         $.fn.select2.defaults.set("theme", "bootstrap");
@@ -166,7 +189,6 @@ class CrosierBaseLayout {
         let $appMainMenu = $('#appMainMenu');
 
         // Construção do mainMenuSelect
-        console.log('montando o mainMenuSelect');
         $.ajax({
                 dataType: "json",
                 async: false,
@@ -174,7 +196,6 @@ class CrosierBaseLayout {
                 type: 'POST'
             }
         ).done(function (results) {
-            console.dir(results);
             let data = $.map(results, function (obj) {
                 obj.text = obj.label; // replace name with the property used for the text
                 return obj;
@@ -201,20 +222,17 @@ class CrosierBaseLayout {
                 }
             ).on('select2:select', function (e) {
                 let data = e.params.data;
-                console.dir(data);
                 if (data.programa.url) {
                     window.location.href = data.programa.url;
                 }
             });
-            data.forEach(function(e, index, arr){
-                console.log(e);
+            data.forEach(function (e, index, arr) {
                 if (window.location.pathname === e.programa.url) {
                     $appMainMenu.val(e.id).trigger('change');
                 }
             });
 
         });
-        console.log('ok');
 
 
     }

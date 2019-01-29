@@ -35,7 +35,12 @@ class DefaultController extends AbstractController
         return new Response('Errou!');
     }
 
+    /**
+     * @Route("/doSomething", name="doSomething")
+     */
+    public function doSomething() {
 
+    }
 
     /**
      * @required

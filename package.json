@@ -23,6 +23,7 @@
         "select2-bootstrap-theme": "^0.1.0-beta.10",
         "simple-line-icons": "^2.4.1",
         "sortablejs": "^1.8.1",
+        "sprintf-js": "^1.1.2",
         "summernote": "^0.8.11",
         "toastr": "^2.1.4",
         "webpack-notifier": "^1.7.0"

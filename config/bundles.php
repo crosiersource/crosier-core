@@ -16,4 +16,5 @@ return [
     Symfony\Bundle\WebServerBundle\WebServerBundle::class => ['dev' => true],
     FOS\JsRoutingBundle\FOSJsRoutingBundle::class => ['all' => true],
     CrosierSource\CrosierLibBaseBundle\CrosierLibBaseBundle::class => ['all' => true],
+    Nelmio\CorsBundle\NelmioCorsBundle::class => ['all' => true],
 ];
