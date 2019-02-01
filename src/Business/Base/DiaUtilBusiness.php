@@ -3,7 +3,7 @@
 namespace App\Business\Base;
 
 use App\Entity\Base\DiaUtil;
-use App\Utils\DateTimeUtils;
+use CrosierSource\CrosierLibBaseBundle\Utils\DateTimeUtils\DateTimeUtils;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class DiaUtilBusiness

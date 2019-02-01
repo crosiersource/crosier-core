@@ -13,6 +13,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 
+/**
+ * Autenticação por API Token.
+ *
+ * @package App\Security
+ */
 class ApiTokenAuthenticator extends AbstractGuardAuthenticator
 {
 

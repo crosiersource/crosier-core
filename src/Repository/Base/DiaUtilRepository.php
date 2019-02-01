@@ -22,6 +22,13 @@ class  DiaUtilRepository extends FilterRepository
         return DiaUtil::class;
     }
 
+    /**
+     * @param \DateTime $ini
+     * @param \DateTime $fim
+     * @param null $comercial
+     * @param null $financeiro
+     * @return mixed
+     */
     public function findDiasUteisBy(\DateTime $ini, \DateTime $fim, $comercial = null, $financeiro = null)
     {
         $ini->setTime(0, 0, 0, 0);
@@ -55,6 +62,10 @@ class  DiaUtilRepository extends FilterRepository
         return $results;
     }
 
+    /**
+     * @param \DateTime $mesAno
+     * @return mixed
+     */
     public function findDiasUteisByMesAno(\DateTime $mesAno)
     {
         $ini = $mesAno->modify('first day of this month');
@@ -63,11 +74,20 @@ class  DiaUtilRepository extends FilterRepository
         return $this->findDiasUteisBy($ini, $fim);
     }
 
+    /**
+     * @param \DateTime $ini
+     * @param \DateTime $fim
+     * @return mixed
+     */
     public function findDiasUteisFinanceirosBy(\DateTime $ini, \DateTime $fim)
     {
         return $this->findDiasUteisBy($ini, $fim, null, true);
     }
 
+    /**
+     * @param \DateTime $mesAno
+     * @return mixed
+     */
     public function findDiasUteisFinanceirosByMesAno(\DateTime $mesAno)
     {
         $ini = $mesAno->modify('first day of this month');
@@ -76,11 +96,20 @@ class  DiaUtilRepository extends FilterRepository
         return $this->findDiasUteisFinanceirosBy($ini, $fim);
     }
 
+    /**
+     * @param \DateTime $ini
+     * @param \DateTime $fim
+     * @return mixed
+     */
     public function findDiasUteisComerciaisBy(\DateTime $ini, \DateTime $fim)
     {
         return $this->findDiasUteisBy($ini, $fim, true, null);
     }
 
+    /**
+     * @param \DateTime $mesAno
+     * @return mixed
+     */
     public function findDiasUteisComerciaisByMesAno(\DateTime $mesAno)
     {
         $ini = $mesAno->modify('first day of this month');
@@ -89,6 +118,10 @@ class  DiaUtilRepository extends FilterRepository
         return $this->findDiasUteisComerciaisBy($ini, $fim);
     }
 
+    /**
+     * @param \DateTime $dia
+     * @return DiaUtil|null
+     */
     public function doFindBy(\DateTime $dia): ?DiaUtil
     {
         $dql = "SELECT d FROM DiaUtil d WHERE d.dia = :dia";
@@ -183,7 +216,7 @@ class  DiaUtilRepository extends FilterRepository
      */
     public function findEnesimoDiaUtilFinanceiroNoMesAno(\DateTime $mesAno, $ordinal): ?DiaUtil
     {
-        $diasUteisNoMesAno = $this->findDiasUteisFinanceiroBy($mesAno);
+        $diasUteisNoMesAno = $this->findDiasUteisFinanceirosByMesAno($mesAno);
         return isset($diasUteisNoMesAno[$ordinal]) ? $diasUteisNoMesAno[$ordinal] : null;
     }
 
