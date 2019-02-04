@@ -98,4 +98,45 @@ class DiaUtilController extends AbstractController
             ))->toJsonResponse();
         }
     }
+
+    /**
+     *
+     * @Route("/api/bse/diaUtil/findDiasUteisFinanceirosByMesAno/", name="api_bse_diaUtil_findDiasUteisFinanceirosByMesAno")
+     *
+     */
+    public function findDiasUteisFinanceirosByMesAno(Request $request)
+    {
+        try {
+            $json = json_decode($request->getContent(), true);
+            $mesano = $json[0]['mesano'];
+            $mesano = DateTimeUtils::parseDateStr($mesano);
+        } catch (\Exception $e) {
+            return (new APIProblem(
+                400,
+                ApiProblem::TYPE_INVALID_REQUEST_BODY_FORMAT
+            ))->toJsonResponse();
+        }
+
+        try {
+            $repo = $this->getDoctrine()->getRepository(DiaUtil::class);
+            $r = $repo->findDiasUteisFinanceirosByMesAno($mesano);
+            $diasUteisFinanceiros = [];
+            /** @var DiaUtil $diaUtil */
+            foreach ($r as $diaUtil) {
+                $diasUteisFinanceiros[] = $diaUtil->getDia();
+            }
+
+            $response = new JsonResponse(
+                [
+                    'diasUteisFinanceiros' => $diasUteisFinanceiros
+                ]
+            );
+            return $response;
+        } catch (\Exception $e) {
+            return (new APIProblem(
+                400,
+                ApiProblem::TYPE_INTERNAL_ERROR
+            ))->toJsonResponse();
+        }
+    }
 }

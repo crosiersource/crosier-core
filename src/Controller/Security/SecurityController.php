@@ -55,7 +55,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/reauthApps/{app}", name="reauth_apps")
+     * @Route("/api/reauthApps/{app}", name="reauth_apps")
      */
     public function reauthApps(Request $request, Modulo $app)
     {
