@@ -6,6 +6,7 @@ use App\Business\Base\DiaUtilBusiness;
 use App\Entity\Base\DiaUtil;
 use CrosierSource\CrosierLibBaseBundle\Utils\APIUtils\APIProblem;
 use CrosierSource\CrosierLibBaseBundle\Utils\DateTimeUtils\DateTimeUtils;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,6 +18,9 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class DiaUtilController extends AbstractController
 {
+
+    /** @var LoggerInterface */
+    private $logger;
 
     /**
      * @var DiaUtilBusiness
@@ -30,18 +34,23 @@ class DiaUtilController extends AbstractController
 
     /**
      *
-     * @Route("/api/bse/diautil/findProximoDiaUtilFinanceiro/", name="api_bse_diaUtil_findProximoDiaUtilFinanceiro")
-     *
+     * @Route("/api/bse/diaUtil/findDiaUtil/", name="api_bse_diaUtil_findDiaUtil")
+     *
      * @param Request $request
      * @return JsonResponse
      * @throws \Exception
      */
-    public function findProximoDiaUtilFinanceiro(Request $request)
+    public function findDiaUtil(Request $request)
     {
         try {
+            $this->logger->info($request->getContent());
             $json = json_decode($request->getContent(), true);
             $dia = $json[0]['dt'];
             $dateTimeDia = DateTimeUtils::parseDateStr($dia);
+
+            $prox = boolval($json[0]['prox']);
+            $financeiro = boolval($json[0]['financeiro']);
+            $comercial = boolval($json[0]['comercial']);
         } catch (\Exception $e) {
             return (new APIProblem(
                 400,
@@ -51,10 +60,10 @@ class DiaUtilController extends AbstractController
 
         try {
             $repo = $this->getDoctrine()->getRepository(DiaUtil::class);
-            $diaUtil = $repo->findProximoDiaUtilFinanceiro($dateTimeDia);
+            $diaUtil = $repo->findDiaUtil($dateTimeDia, $prox, $financeiro, $comercial);
             $response = new JsonResponse(
                 [
-                    'proxDiaUtilFinanceiro' => $diaUtil//->format('Y-m-d')
+                    'diaUtil' => $diaUtil//->format('Y-m-d')
                 ]
             );
             return $response;
@@ -139,4 +148,14 @@ class DiaUtilController extends AbstractController
             ))->toJsonResponse();
         }
     }
+
+    /**
+     * @required
+     * @param LoggerInterface $logger
+     */
+    public function setLogger(LoggerInterface $logger): void
+    {
+        $this->logger = $logger;
+    }
+
 }

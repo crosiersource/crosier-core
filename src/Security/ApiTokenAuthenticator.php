@@ -34,9 +34,10 @@ class ApiTokenAuthenticator extends AbstractGuardAuthenticator
 
     public function supports(Request $request)
     {
-        // look for header "Authorization: Bearer <token>"
-        return $request->headers->has('X-Authorization')
-            && 0 === strpos($request->headers->get('X-Authorization'), 'Bearer ');
+//        // look for header "Authorization: Bearer <token>"
+//        headers->has('X-Authorization')
+//    && 0 === strpos($request->headers->get('X-Authorization'), 'Bearer ')
+        return strpos($request->getPathInfo(), '/api/') !== FALSE;
     }
 
     public function getCredentials(Request $request)
@@ -44,7 +45,8 @@ class ApiTokenAuthenticator extends AbstractGuardAuthenticator
         $authorizationHeader = $request->headers->get('X-Authorization');
 
         // skip beyond "Bearer "
-        return substr($authorizationHeader, 7);
+
+        return $authorizationHeader ? substr($authorizationHeader, 7) : '';
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider)

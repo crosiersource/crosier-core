@@ -4,9 +4,6 @@ namespace App\Repository\Base;
 
 use App\Entity\Base\DiaUtil;
 use CrosierSource\CrosierLibBaseBundle\Repository\FilterRepository;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Psr\Log\LoggerInterface;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * Repository para a entidade DiaUtil.
@@ -140,70 +137,33 @@ class  DiaUtilRepository extends FilterRepository
     /**
      * Retorna o próximo dia útil financeiro (incluindo o dia passado).
      */
-    public function findProximoDiaUtilFinanceiro(\DateTime $dia): ?\DateTime
-    {
-        $fim = clone $dia;
-        $fim->add(new \DateInterval('P20D'));
-
-        $lista = $this->findDiasUteisFinanceirosBy($dia, $fim);
-
-        if (isset($lista[0])) {
-            $proxDia = $lista[0];
-            return $proxDia->getDia();
-        }
-        return null;
-    }
-
-    /**
-     * Retorna o dia útil financeiro anterior ao dia passado (incluindo o dia passado).
-     */
-    public function findAnteriorDiaUtilFinanceiro(\DateTime $dia): ?\DateTime
+    public function findDiaUtil(\DateTime $dia, bool $prox = true, ?bool $financeiro = null, ?bool $comercial = null): ?\DateTime
     {
         $ini = clone $dia;
-        $ini->sub(new \DateInterval('P20D'));
-
-        $lista = $this->findDiasUteisFinanceirosBy($ini, $dia);
-
-        if (isset($lista[count($lista) - 1])) {
-            $diaAnt = $lista[count($lista) - 1];
-            return $diaAnt->getDia();
-        }
-        return null;
-    }
-
-    /**
-     * Retorna o próximo dia útil comercial (incluindo o dia passado).
-     */
-    public function findProximoDiaUtilComercial(\DateTime $dia): ?\DateTime
-    {
-        $dia->setTime(0, 0, 0, 0);
         $fim = clone $dia;
-        $fim->add(new \DateInterval('P20D'));
-
-        $lista = $this->findDiasUteisComerciaisBy($dia, $fim);
-
-        if (isset($lista[0])) {
-            $proxDia = $lista[0];
-            return $proxDia->getDia();
+        if ($prox) {
+            $fim->add(new \DateInterval('P20D'));
+        } else {
+            $ini->sub(new \DateInterval('P20D'));
+            $fim->sub(new \DateInterval('P1D'));
         }
-        return null;
-    }
 
-    /**
-     * Retorna o dia útil comercial anterior ao dia passado (incluindo o dia passado).
-     */
-    public function findAnteriorDiaUtilComercial(\DateTime $dia): ?\DateTime
-    {
-        $ini = clone $dia;
-        $ini->setTime(23, 59, 59, 999999);
-        $ini->sub(new \DateInterval('P20D'));
+        $lista = $this->findDiasUteisBy($ini, $fim, $comercial, $financeiro);
 
-        $lista = $this->findDiasUteisComerciaisBy($ini, $dia);
-
-        if (isset($lista[count($lista) - 1])) {
-            $diaAnt = $lista[count($lista) - 1];
-            return $diaAnt->getDia();
+        if ($prox) {
+            if (isset($lista[0])) {
+                /** @var DiaUtil $proxDia */
+                $proxDia = $lista[0];
+                return $proxDia->getDia();
+            }
+        } else {
+            if (isset($lista[count($lista) - 1])) {
+                /** @var DiaUtil $diaAnt */
+                $diaAnt = $lista[count($lista) - 1];
+                return $diaAnt->getDia();
+            }
         }
+
         return null;
     }
 

@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Controller\Config;
+namespace App\Controller\Config\API;
 
-use App\Entity\Config\EntMenu;
 use App\Entity\Config\MainMenuItem;
 use App\Entity\Config\Modulo;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,7 +13,7 @@ class MainMenuController extends AbstractController
 
     /**
      *
-     * @Route("/cfg/mainMenu/build/{app}", name="cfg_mainMenu_build", defaults={"app"=null}, requirements={"app"="\d+"})
+     * @Route("/api/cfg/mainMenu/build/{app}", name="cfg_mainMenu_build", defaults={"app"=null}, requirements={"app"="\d+"})
      */
     public function build(Modulo $app)
     {
