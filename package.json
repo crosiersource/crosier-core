@@ -37,6 +37,7 @@
         "build": "encore production"
     },
     "dependencies": {
+        "bootstrap-datepicker": "^1.8.0",
         "hotkeys-js": "^3.4.3"
     }
 }

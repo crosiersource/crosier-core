@@ -7,6 +7,9 @@ import toastrr from "toastr";
 
 import sprintf from "sprintf-js";
 
+import 'bootstrap-datepicker';
+import 'bootstrap-datepicker/js/locales/bootstrap-datepicker.pt-BR';
+
 class CrosierBaseLayout {
 
     /**
@@ -235,6 +238,13 @@ class CrosierBaseLayout {
         });
 
 
+    }
+
+
+    static handleBootstrapDatepicker() {
+        $('.bootstrap-datepicker').datepicker({
+            language: 'pt-BR'
+        });
     }
 
 

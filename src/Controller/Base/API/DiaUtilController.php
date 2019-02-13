@@ -4,6 +4,7 @@ namespace App\Controller\Base\API;
 
 use App\Business\Base\DiaUtilBusiness;
 use App\Entity\Base\DiaUtil;
+use App\Repository\Base\DiaUtilRepository;
 use CrosierSource\CrosierLibBaseBundle\Utils\APIUtils\APIProblem;
 use CrosierSource\CrosierLibBaseBundle\Utils\DateTimeUtils\DateTimeUtils;
 use Psr\Log\LoggerInterface;
@@ -48,9 +49,9 @@ class DiaUtilController extends AbstractController
             $dia = $json[0]['dt'];
             $dateTimeDia = DateTimeUtils::parseDateStr($dia);
 
-            $prox = boolval($json[0]['prox']);
-            $financeiro = boolval($json[0]['financeiro']);
-            $comercial = boolval($json[0]['comercial']);
+            $prox = (bool)$json[0]['prox'];
+            $financeiro = $json[0]['financeiro'];
+            $comercial = $json[0]['comercial'];
         } catch (\Exception $e) {
             return (new APIProblem(
                 400,
@@ -59,6 +60,7 @@ class DiaUtilController extends AbstractController
         }
 
         try {
+            /** @var DiaUtilRepository $repo */
             $repo = $this->getDoctrine()->getRepository(DiaUtil::class);
             $diaUtil = $repo->findDiaUtil($dateTimeDia, $prox, $financeiro, $comercial);
             $response = new JsonResponse(

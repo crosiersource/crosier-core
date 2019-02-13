@@ -52,8 +52,6 @@ class  DiaUtilRepository extends FilterRepository
         $query = $em->createQuery($dql);
         $query->setParameters($params);
 
-        // qry.setParameter("ini", CalendarUtil.zeroDate(ini));
-        // qry.setParameter("fim", CalendarUtil.to235959(fim));
         $results = $query->getResult();
 
         return $results;
@@ -151,9 +149,9 @@ class  DiaUtilRepository extends FilterRepository
         $lista = $this->findDiasUteisBy($ini, $fim, $comercial, $financeiro);
 
         if ($prox) {
-            if (isset($lista[0])) {
+            if (isset($lista[1])) {
                 /** @var DiaUtil $proxDia */
-                $proxDia = $lista[0];
+                $proxDia = $lista[1];
                 return $proxDia->getDia();
             }
         } else {

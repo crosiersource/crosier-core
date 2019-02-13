@@ -18,6 +18,8 @@ import 'datatables.net-bs4/css/dataTables.bootstrap4.css';
 import 'datatables/media/css/jquery.dataTables.css';
 
 
+import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css';
+
 
 // import 'summernote/dist/summernote-bs4.css';
 //
@@ -72,6 +74,8 @@ $(document).ready(function () {
     CrosierBaseLayout.handleTooltip();
 
     CrosierBaseLayout.buildAppMainMenu();
+
+    CrosierBaseLayout.handleBootstrapDatepicker();
 
     Hotkeys('ctrl+m', function(event, handler){
         // Prevent the default refresh event under WINDOWS system
