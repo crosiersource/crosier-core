@@ -140,6 +140,7 @@ class  DiaUtilRepository extends FilterRepository
         $ini = clone $dia;
         $fim = clone $dia;
         if ($prox) {
+            $ini->add(new \DateInterval('P1D'));
             $fim->add(new \DateInterval('P20D'));
         } else {
             $ini->sub(new \DateInterval('P20D'));
@@ -149,9 +150,9 @@ class  DiaUtilRepository extends FilterRepository
         $lista = $this->findDiasUteisBy($ini, $fim, $comercial, $financeiro);
 
         if ($prox) {
-            if (isset($lista[1])) {
+            if (isset($lista[0])) {
                 /** @var DiaUtil $proxDia */
-                $proxDia = $lista[1];
+                $proxDia = $lista[0];
                 return $proxDia->getDia();
             }
         } else {
