@@ -25,8 +25,8 @@ class DefaultController extends AbstractController
      */
     public function index()
     {
-        $vParams['modulos'] = $this->getDoctrine()->getRepository(Modulo::class)->findAll(WhereBuilder::buildOrderBy('ordem'));
-        return $this->render('dashboard.html.twig', $vParams);
+        // $vParams['modulos'] = $this->getDoctrine()->getRepository(Modulo::class)->findAll(WhereBuilder::buildOrderBy('ordem'));
+        return $this->render('dashboard.html.twig');
     }
 
     /**
@@ -43,7 +43,7 @@ class DefaultController extends AbstractController
      */
     public function doSomething()
     {
-        return $this->render('coreui.html.twig');
+
     }
 
     /**
