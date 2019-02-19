@@ -3,77 +3,78 @@
 
 {% block body %}
 
-<body class="container h-100">
-
-<div id="preloader"
-	 style="display: none; position: fixed; left: 0; top: 0; z-index: 1999; width: 100%; height: 100%; overflow: visible; background:rgba(255,255,255,0.5);"></div>
+    <body class="container h-100">
 
 
-	<div class="container h-100">
-
-		<div class="row align-items-center h-100">
-			<div class="col-4 mx-auto">
-				<div class="card-group">
-					<div class="card p-4">
-						<div class="card-body">
-							<div class="mb-4 text-center">
-							<img src="{{ asset('build/static/images/CROSIER_fundotransp_400px.png') }}" style="width: 200px; padding-bottom: 20px" alt="CROSIER" />
-							</div>
-
-							{% if error %}
-							<div>
-								{{ error.messageKey|trans(error.messageData, 'security') }}
-							</div>
-							{% endif %}
+    <div id="preloader"
+         style="display: none; position: fixed; left: 0; top: 0; z-index: 1999; width: 100%; height: 100%; overflow: visible; background:rgba(255,255,255,0.5);"></div>
 
 
+    <div class="container">
 
-							<form action="{{ path('login') }}" method="post">
-								<input type="hidden" name="_csrf_token"
-									value="{{ csrf_token('authenticate') }}">
+        <div class="row">
+            <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                <div class="card card-signin my-5">
+                    <div class="card-body">
 
-								<div class="input-group mb-3">
-									<div class="input-group-prepend">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4">
+                                <div class="mb-4 text-center">
+                                    <img src="{{ asset('build/static/images/CROSIER_fundotransp_400px.png') }}"
+                                         style="width: 200px; padding-bottom: 20px" alt="CROSIER"/>
+                                </div>
+                            </h1>
+                        </div>
+                        <form action="{{ path('login') }}" method="post">
+                            <input type="hidden" name="_csrf_token"
+                                   value="{{ csrf_token('authenticate') }}">
+                            {% if error %}
+                                <div>
+                                    {{ error.messageKey|trans(error.messageData, 'security') }}
+                                </div>
+                            {% endif %}
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
 										<span class="input-group-text"> <i class="fas fa-user"></i>
 										</span>
-									</div>
-									<input type="text" style="text-transform: none;"
-										class="form-control" placeholder="Usuário" id="username"
-										name="username" value="{{ last_username }}">
-								</div>
-								<div class="input-group mb-4">
-									<div class="input-group-prepend">
+                                </div>
+                                <input type="text" style="text-transform: none;"
+                                       class="form-control" placeholder="Usuário" id="username"
+                                       name="username" value="{{ last_username }}">
+                            </div>
+                            <div class="input-group mb-4">
+                                <div class="input-group-prepend">
 										<span class="input-group-text"> <i class="fas fa-key"></i>
 										</span>
-									</div>
-									<input type="password" style="text-transform: none;"
-										class="form-control" placeholder="Senha" id="password"
-										name="password">
-								</div>
-								<div class="mb-4 text-right">
-									<input type="checkbox" id="_remember_me" name="_remember_me"
-										checked /> <label for="_remember_me"> Mantenha-me
-										logado</label>
-								</div>
+                                </div>
+                                <input type="password" style="text-transform: none;"
+                                       class="form-control" placeholder="Senha" id="password"
+                                       name="password">
+                            </div>
+                            <div class="mb-4 text-right">
+                                <input type="checkbox" id="_remember_me" name="_remember_me"
+                                       checked/> <label for="_remember_me"> Mantenha-me
+                                    logado</label>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary btn-block"><i
+                                                class="fas fa-sign-in-alt"></i> Login
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        <hr>
+                        <div class="text-center">
+                            <a class="small" href="forgot-password.html">Esqueci minha senha</a>
+                        </div>
 
-								<div class="row">
-									<div class="col-12">
-										<button type="submit" class="btn btn-primary btn-block"><i class="fas fa-sign-in-alt"></i> Login</button>
-									</div>
-								</div>
-							</form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+    </div>
 
-
-						</div>
-
-					</div>
-
-				</div>
-			</div>
-		</div>
-	</div>
-
-</body>
-
+    </body>
 {% endblock %}

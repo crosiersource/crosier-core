@@ -45,13 +45,24 @@ class UserEntityHandler extends EntityHandler
      * @return mixed
      * @throws \Exception
      */
-    public function renewTokenApi(User $user) {
-        if (!$user->getApiToken() || $user->getApiTokenExpiresAt() <= new \DateTime()) {
-            $user->setApiToken(bin2hex(random_bytes(60)));
-            $user->setApiTokenExpiresAt(new \DateTime('+48 hour'));
-            $this->save($user);
-        }
+    public function renewTokenApi(User $user)
+    {
+
+        $user->setApiToken(bin2hex(random_bytes(60)));
+        $user->setApiTokenExpiresAt(new \DateTime('+48 hour'));
+        $this->save($user);
+
         return $user->getApiToken();
+    }
+
+    /**
+     * @param User $user
+     * @throws \CrosierSource\CrosierLibBaseBundle\Exception\ViewException
+     */
+    public function revogarApiToken(User $user): void
+    {
+        $user->setApiToken(null);
+        $this->save($user);
     }
 
 

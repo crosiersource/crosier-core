@@ -1,5 +1,6 @@
 {
     "devDependencies": {
+        "@coreui/coreui": "^2.1.6",
         "@fortawesome/fontawesome-free": "^5.2.0",
         "@symfony/webpack-encore": "^0.22.4",
         "bootstrap": ">=4.1.2",
@@ -37,7 +38,10 @@
         "build": "encore production"
     },
     "dependencies": {
+        "@coreui/coreui-plugin-chartjs-custom-tooltips": "^1.2.0",
+        "@coreui/icons": "^0.3.0",
         "bootstrap-datepicker": "^1.8.0",
+        "chart.js": "^2.7.3",
         "hotkeys-js": "^3.4.3"
     }
 }

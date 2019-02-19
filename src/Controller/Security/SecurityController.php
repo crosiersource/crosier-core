@@ -55,9 +55,9 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/reauthApps/{app}", name="reauth_apps")
+     * @Route("/reauthApp/{app}", name="reauth_app")
      */
-    public function reauthApps(Request $request, Modulo $app)
+    public function reauthApp(Request $request, Modulo $app)
     {
         $token = $this->userEntityHandler->renewTokenApi($this->getUser());
         $url = $app->getEntranceUrl() . '?apiTokenAuthorization=' . $token;

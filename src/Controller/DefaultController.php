@@ -43,7 +43,7 @@ class DefaultController extends AbstractController
      */
     public function doSomething()
     {
-
+        return $this->render('coreui.html.twig');
     }
 
     /**

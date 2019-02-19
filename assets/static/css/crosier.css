@@ -2,6 +2,7 @@
   Este arquivo deve ficar no static (não ser adicionado pelo webpack) para poder ser chamado pelos apps.
 */
 
+
 body,html {
     height: 100%;
     margin-bottom: 60px;

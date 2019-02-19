@@ -22,7 +22,11 @@ class GroupController extends FormListController
 
     private $entityHandler;
 
-    public function __construct(GroupEntityHandler $entityHandler)
+    /**
+     * @required
+     * @param GroupEntityHandler $entityHandler
+     */
+    public function setEntityHandler(GroupEntityHandler $entityHandler): void
     {
         $this->entityHandler = $entityHandler;
     }

@@ -30,6 +30,8 @@ security:
             logout:
                 path: logout
 
+                success_handler: App\Security\LogoutHandler
+
             switch_user: true
 
             # activate different ways to authenticate
