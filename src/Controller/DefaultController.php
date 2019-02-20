@@ -2,12 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Config\Modulo;
-use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\WhereBuilder;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -25,7 +21,6 @@ class DefaultController extends AbstractController
      */
     public function index()
     {
-        // $vParams['modulos'] = $this->getDoctrine()->getRepository(Modulo::class)->findAll(WhereBuilder::buildOrderBy('ordem'));
         return $this->render('dashboard.html.twig');
     }
 

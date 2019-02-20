@@ -31,6 +31,7 @@ import 'simple-line-icons/css/simple-line-icons.css';
 import CustomTooltips from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import '../main.js';
 
+import 'toastr/build/toastr.css'
 
 // import 'summernote/dist/summernote-bs4.css';
 //
@@ -64,7 +65,7 @@ $(document).ready(function () {
 
     CrosierBaseLayout.handleTooltip();
 
-    CrosierBaseLayout.buildAppMainMenu();
+    // CrosierBaseLayout.buildAppMainMenu();
 
     CrosierBaseLayout.handleBootstrapDatepicker();
 

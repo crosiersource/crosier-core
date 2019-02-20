@@ -44,21 +44,6 @@ class Program implements EntityId
     private $app;
 
     /**
-     *
-     * @ManyToMany(targetEntity="CrosierSource\CrosierLibBaseBundle\Entity\Security\Role")
-     * @JoinTable(name="cfg_app_role",
-     *      joinColumns={@JoinColumn(name="app_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@JoinColumn(name="role_id", referencedColumnName="id")}
-     *      )
-     */
-    private $roles;
-
-    public function __construct()
-    {
-        $this->roles = new ArrayCollection();
-    }
-
-    /**
      * @return mixed
      */
     public function getDescricao()
@@ -106,22 +91,6 @@ class Program implements EntityId
         $this->app = $app;
     }
 
-    public function getRoles(): Collection
-    {
-        return $this->roles;
-    }
-
-    public function getRolesArray()
-    {
-        if ($this->roles) {
-            $rolesArray = [];
-            foreach ($this->roles as $role) {
-                $rolesArray[] = $role->getRole();
-            }
-            return $rolesArray;
-        }
-        return null;
-    }
 
 
 }

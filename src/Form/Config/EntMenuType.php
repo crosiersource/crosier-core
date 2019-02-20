@@ -4,6 +4,7 @@ namespace App\Form\Config;
 
 use App\Entity\Config\App;
 use App\Entity\Config\EntMenu;
+use App\Entity\Config\Program;
 use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\WhereBuilder;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -51,12 +52,12 @@ class EntMenuType extends AbstractType
             ),
         ));
 
-        $builder->add('app', EntityType::class, array(
-            'label' => 'App',
-            'class' => App::class,
-            'choices' => $this->doctrine->getRepository(App::class)->findAll(WhereBuilder::buildOrderBy(['modulo', 'descricao'])),
-            'choice_label' => function (App $app) {
-                return $app->getModulo()->getNome() . " - " . $app->getDescricao();
+        $builder->add('program', EntityType::class, array(
+            'label' => 'Programa',
+            'class' => Program::class,
+            'choices' => $this->doctrine->getRepository(Program::class)->findAll(WhereBuilder::buildOrderBy(['descricao'])),
+            'choice_label' => function (Program $program) {
+                return '[' . $program->getApp()->getNome() . "] " . $program->getDescricao();
             },
             'required' => false
         ));
@@ -64,7 +65,7 @@ class EntMenuType extends AbstractType
         $builder->add('pai', EntityType::class, array(
             'label' => 'Pai',
             'class' => EntMenu::class,
-            'choices' => $this->doctrine->getRepository(EntMenu::class)->findBy(['pai' => null], ['label' => 'ASC']),
+            'choices' => $this->doctrine->getRepository(EntMenu::class)->getMenusPaisOuDropdowns(),
             'choice_label' => 'label',
             'required' => false
         ));

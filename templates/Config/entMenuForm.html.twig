@@ -1,4 +1,4 @@
-{% extends 'index.html.twig' %}
+{% extends '@CrosierLibBase/index.html.twig' %}
 
 
 {% block title %}Entrada de Menu{% endblock %}
@@ -16,7 +16,7 @@
 			</div>
 			<div class="col-4 text-right">
 				<button type="button" class="btn btn-secondary"
-					onclick="window.location.href='{{ url('cfg_entMenu_list') }}'">
+					onclick="window.location.href='{{ url('cfg_entMenu_list', {entMenu: paiId}) }}'">
 					<i class="fas fa-sync" aria-hidden="true"></i> Listar
 				</button>
 			</div>

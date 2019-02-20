@@ -1,7 +1,4 @@
-{% extends 'index.html.twig' %}
-
-
-{% block title %}Apps{% endblock %}
+{% extends '@CrosierLibBase/index.html.twig' %}
 
 
 {% block page_content %}
@@ -12,11 +9,11 @@
 
 		<div class="row">
 			<div class="col-8">
-				<h3>App</h3>
+				<h3>{{ formPageTitle }}</h3>
 			</div>
 			<div class="col-4 text-right">
 				<button type="button" class="btn btn-secondary"
-					onclick="window.location.href='{{ url('cfg_app_list') }}'">
+					onclick="window.location.href='{{ url(listRoute) }}'">
 					<i class="fas fa-sync" aria-hidden="true"></i> Listar
 				</button>
 			</div>
@@ -38,7 +35,7 @@
 				</button>
 
 				<button type="button" value="Resetar" class="btn btn-secondary"
-					data-url="{{ url('cfg_app_form') }}"
+					data-url="{{ url(formRoute) }}"
 					data-target="#confirmationModal" data-toggle="modal">
 					<i class="fas fa-undo" aria-hidden="true"></i> Recarregar
 				</button>

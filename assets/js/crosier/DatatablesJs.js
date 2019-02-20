@@ -4,6 +4,8 @@ import $ from "jquery";
 
 import CrosierMasks from './CrosierMasks';
 
+import 'datatables';
+
 class DatatablesJs {
 
     static makeDatatableJs(listId, columns, params) {
@@ -28,14 +30,20 @@ class DatatablesJs {
                 }
             };
 
+            console.dir(defaultParams);
+
             $.extend(defaultParams, params);
 
             let datatable = $(listId).DataTable(defaultParams);
+
+            console.log('fiz');
 
             datatable.on('draw', function () {
                 $('[data-toggle="tooltip"]').tooltip();
                 CrosierMasks.maskAll();
             });
+
+            console.log('mascarei');
 
 
         });

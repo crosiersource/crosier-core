@@ -2,27 +2,33 @@
 
 namespace App\Controller\Config;
 
-use App\Entity\Config\App;
+use App\Entity\Config\Program;
 use App\EntityHandler\Config\ProgramEntityHandler;
-use CrosierSource\CrosierLibBaseBundle\EntityHandler\EntityHandler;
 use App\Form\Config\ProgramType;
-use App\Utils\Repository\FilterData;
 use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
+use CrosierSource\CrosierLibBaseBundle\EntityHandler\EntityHandler;
+use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\FilterData;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class AppController.
+ * Class ProgramController.
+ *
  * @package App\Controller\Config
  * @author Carlos Eduardo Pauluk
  */
-class AppController extends FormListController
+class ProgramController extends FormListController
 {
 
+    /** @var ProgramEntityHandler */
     private $entityHandler;
 
-    public function __construct(ProgramEntityHandler $entityHandler)
+    /**
+     * @required
+     * @param ProgramEntityHandler $entityHandler
+     */
+    public function setEntityHandler(ProgramEntityHandler $entityHandler): void
     {
         $this->entityHandler = $entityHandler;
     }
@@ -34,30 +40,35 @@ class AppController extends FormListController
 
     public function getFormRoute()
     {
-        return 'cfg_app_form';
+        return 'cfg_program_form';
     }
 
     public function getFormView()
     {
-        return 'Config/appForm.html.twig';
+        return 'Config/programForm.html.twig';
     }
 
     public function getFilterDatas($params)
     {
         return array(
-            new FilterData(['route', 'descricao'], 'LIKE', $params['filter']['descricao']),
-            new FilterData('m.nome', 'LIKE', $params['filter']['modulo'])
+            new FilterData('descricao', 'LIKE', isset($params['filter']['descricao']) ? $params['filter']['descricao'] : null),
+            new FilterData('a.nome', 'LIKE', isset($params['filter']['app']) ? $params['filter']['app'] :  null)
         );
     }
 
     public function getListView()
     {
-        return 'Config/appList.html.twig';
+        return 'Config/programList.html.twig';
     }
 
     public function getListRoute()
     {
-        return 'cfg_app_list';
+        return 'cfg_program_list';
+    }
+
+    public function getListRouteAjax()
+    {
+        return 'cfg_program_datatablesJsList';
     }
 
 
@@ -68,23 +79,23 @@ class AppController extends FormListController
 
     /**
      *
-     * @Route("/cfg/app/form/{id}", name="cfg_app_form", defaults={"id"=null}, requirements={"id"="\d+"})
+     * @Route("/cfg/program/form/{id}", name="cfg_program_form", defaults={"id"=null}, requirements={"id"="\d+"})
      * @param Request $request
-     * @param App|null $app
+     * @param Program|null $program
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @throws \ReflectionException
+     * @throws \Exception
      */
-    public function form(Request $request, App $app = null)
+    public function form(Request $request, Program $program = null)
     {
-        return $this->doForm($request, $app);
+        return $this->doForm($request, $program);
     }
 
     /**
      *
-     * @Route("/cfg/app/list/", name="cfg_app_list")
+     * @Route("/cfg/program/list/", name="cfg_program_list")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
-     * @throws \ReflectionException
+     * @throws \Exception
      */
     public function list(Request $request)
     {
@@ -100,17 +111,18 @@ class AppController extends FormListController
             'attributes' => array(
                 'id',
                 'descricao',
-                'route',
-                'modulo' => ['nome']
+                'url',
+                'app' => ['nome']
             )
         );
     }
 
     /**
      *
-     * @Route("/cfg/app/datatablesJsList/", name="cfg_app_datatablesJsList")
+     * @Route("/cfg/program/datatablesJsList/", name="cfg_program_datatablesJsList")
      * @param Request $request
      * @return Response
+     * @throws \CrosierSource\CrosierLibBaseBundle\Exception\ViewException
      */
     public function datatablesJsList(Request $request)
     {
@@ -120,14 +132,24 @@ class AppController extends FormListController
 
     /**
      *
-     * @Route("/cfg/app/delete/{id}/", name="cfg_app_delete", requirements={"id"="\d+"})
+     * @Route("/cfg/program/delete/{id}/", name="cfg_program_delete", requirements={"id"="\d+"})
      * @param Request $request
-     * @param App $app
+     * @param Program $program
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function delete(Request $request, App $app)
+    public function delete(Request $request, Program $id)
     {
-        return $this->doDelete($request, $app);
+        return $this->doDelete($request, $id);
+    }
+
+    public function getListPageTitle()
+    {
+        return 'Programas'; // TODO: Change the autogenerated stub
+    }
+
+    public function getFormPageTitle()
+    {
+        return 'Programa'; // TODO: Change the autogenerated stub
     }
 
 

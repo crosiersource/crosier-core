@@ -2,27 +2,32 @@
 
 namespace App\Controller\Config;
 
-use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
-use App\Entity\Config\Modulo;
+use App\Entity\Config\App;
 use App\EntityHandler\Config\AppEntityHandler;
-use CrosierSource\CrosierLibBaseBundle\EntityHandler\EntityHandler;
 use App\Form\Config\AppType;
-use App\Utils\Repository\FilterData;
+use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
+use CrosierSource\CrosierLibBaseBundle\EntityHandler\EntityHandler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class ModuloController.
+ * Class AppController.
+ *
  * @package App\Controller\Config
  * @author Carlos Eduardo Pauluk
  */
 class AppController extends FormListController
 {
 
+    /** @var AppEntityHandler */
     private $entityHandler;
 
-    public function __construct(AppEntityHandler $entityHandler)
+    /**
+     * @required
+     * @param mixed $entityHandler
+     */
+    public function setEntityHandler(AppEntityHandler $entityHandler): void
     {
         $this->entityHandler = $entityHandler;
     }
@@ -34,12 +39,12 @@ class AppController extends FormListController
 
     public function getFormRoute()
     {
-        return 'cfg_modulo_form';
+        return 'cfg_app_form';
     }
 
     public function getFormView()
     {
-        return 'Config/moduloForm.html.twig';
+        return 'Config/appForm.html.twig';
     }
 
     public function getFilterDatas($params)
@@ -51,12 +56,12 @@ class AppController extends FormListController
 
     public function getListView()
     {
-        return 'Config/moduloList.html.twig';
+        return 'Config/appList.html.twig';
     }
 
     public function getListRoute()
     {
-        return 'cfg_modulo_list';
+        return 'cfg_app_list';
     }
 
 
@@ -67,21 +72,23 @@ class AppController extends FormListController
 
     /**
      *
-     * @Route("/cfg/modulo/form/{id}", name="cfg_modulo_form", defaults={"id"=null}, requirements={"id"="\d+"})
+     * @Route("/cfg/app/form/{id}", name="cfg_app_form", defaults={"id"=null}, requirements={"id"="\d+"})
      * @param Request $request
-     * @param modulo|null $modulo
+     * @param app|null $app
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
      */
-    public function form(Request $request, Modulo $modulo = null)
+    public function form(Request $request, app $app = null)
     {
-        return $this->doForm($request, $modulo);
+        return $this->doForm($request, $app);
     }
 
     /**
      *
-     * @Route("/cfg/modulo/list/", name="cfg_modulo_list")
+     * @Route("/cfg/app/list/", name="cfg_app_list")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
      */
     public function list(Request $request)
     {
@@ -98,16 +105,17 @@ class AppController extends FormListController
                 'id',
                 'descricao',
                 'route',
-                'modulo' => ['nome']
+                'app' => ['nome']
             )
         );
     }
 
     /**
      *
-     * @Route("/cfg/modulo/datatablesJsList/", name="cfg_modulo_datatablesJsList")
+     * @Route("/cfg/app/datatablesJsList/", name="cfg_app_datatablesJsList")
      * @param Request $request
      * @return Response
+     * @throws \CrosierSource\CrosierLibBaseBundle\Exception\ViewException
      */
     public function datatablesJsList(Request $request)
     {
@@ -117,14 +125,14 @@ class AppController extends FormListController
 
     /**
      *
-     * @Route("/cfg/modulo/delete/{id}/", name="cfg_modulo_delete", requirements={"id"="\d+"})
+     * @Route("/cfg/app/delete/{app}/", name="cfg_app_delete", requirements={"app"="\d+"})
      * @param Request $request
-     * @param Modulo $modulo
+     * @param App $app
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function delete(Request $request, Modulo $modulo)
+    public function delete(Request $request, App $app)
     {
-        return $this->doDelete($request, $modulo);
+        return $this->doDelete($request, $app);
     }
 
 

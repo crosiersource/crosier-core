@@ -18,7 +18,7 @@ class ProgramRepository extends FilterRepository
     public function handleFrombyFilters(QueryBuilder $qb)
     {
         return $qb->from($this->getEntityClass(), 'e')
-            ->leftJoin('App\Entity\Config\App', 'a', 'WITH', 'e.modulo = a');
+            ->leftJoin('App\Entity\Config\App', 'a', 'WITH', 'e.app = a');
     }
 
     public function getEntityClass()

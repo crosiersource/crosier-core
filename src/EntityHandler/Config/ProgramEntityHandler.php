@@ -2,15 +2,20 @@
 
 namespace App\EntityHandler\Config;
 
+use App\Entity\Config\Program;
 use CrosierSource\CrosierLibBaseBundle\EntityHandler\EntityHandler;
-use App\Entity\Config\App;
 
+/**
+ * Class ProgramEntityHandler
+ * @package App\EntityHandler\Config
+ *
+ * @author Carlos Eduardo Pauluk
+ */
 class ProgramEntityHandler extends EntityHandler
 {
 
-
     public function getEntityClass()
     {
-        return App::class;
+        return Program::class;
     }
 }

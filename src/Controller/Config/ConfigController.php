@@ -2,12 +2,11 @@
 
 namespace App\Controller\Config;
 
-use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
 use App\Entity\Config\Config;
 use App\EntityHandler\Config\ConfigEntityHandler;
-use CrosierSource\CrosierLibBaseBundle\EntityHandler\EntityHandler;
 use App\Form\Config\ConfigType;
-use App\Utils\Repository\FilterData;
+use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
+use CrosierSource\CrosierLibBaseBundle\EntityHandler\EntityHandler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,16 +22,20 @@ use Symfony\Component\Serializer\Serializer;
 class ConfigController extends FormListController
 {
 
+    /** @var ConfigEntityHandler */
     private $entityHandler;
-
-    public function __construct(ConfigEntityHandler $entityHandler)
-    {
-        $this->entityHandler = $entityHandler;
-    }
 
     public function getEntityHandler(): ?EntityHandler
     {
         return $this->entityHandler;
+    }
+
+    /**
+     * @param ConfigEntityHandler $entityHandler
+     */
+    public function setEntityHandler(ConfigEntityHandler $entityHandler): void
+    {
+        $this->entityHandler = $entityHandler;
     }
 
     public function getFormRoute()
@@ -48,7 +51,7 @@ class ConfigController extends FormListController
     public function getFilterDatas($params)
     {
         return array(
-            new FilterData(['chave','valor'], 'LIKE', $params['filter']['descricao'])
+            new FilterData(['chave', 'valor'], 'LIKE', $params['filter']['descricao'])
         );
     }
 
@@ -74,6 +77,7 @@ class ConfigController extends FormListController
      * @param Request $request
      * @param Config|null $config
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
      */
     public function form(Request $request, Config $config = null)
     {
@@ -85,6 +89,7 @@ class ConfigController extends FormListController
      * @Route("/cfg/config/list/", name="cfg_config_list")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
      */
     public function list(Request $request)
     {
@@ -111,6 +116,7 @@ class ConfigController extends FormListController
      * @Route("/cfg/config/datatablesJsList/", name="cfg_config_datatablesJsList")
      * @param Request $request
      * @return Response
+     * @throws \CrosierSource\CrosierLibBaseBundle\Exception\ViewException
      */
     public function datatablesJsList(Request $request)
     {
@@ -133,17 +139,17 @@ class ConfigController extends FormListController
     /**
      *
      * @Route("/cfg/config/select2json", name="cfg_config_select2json")
-     * @param Request $request
      * @return Response
      */
-    public function configSelect2json(Request $request)
+    public function configSelect2json()
     {
         $itens = $this->getDoctrine()->getRepository(Config::class)->findBy(['concreta' => true], ['codigo' => 'ASC']);
 
         $rs = array();
+        /** @var Config $item */
         foreach ($itens as $item) {
             $r['id'] = $item->getId();
-            $r['text'] = $item->getDescricaoMontada();
+            $r['text'] = $item->getChave();
             $rs[] = $r;
         }
 

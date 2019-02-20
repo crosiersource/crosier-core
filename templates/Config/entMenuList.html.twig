@@ -38,7 +38,7 @@
 
                         <div class="text-left" style="float:left; {{ item.pai != null ? 'padding: 20px' : '' }}">
                             <i class="{{ item.icon }}"></i>
-                            {{ item.label }} {{ item.tipo == 'DROPDOWN' or item.tipo == 'PAI' ? '<i class="fas fa-caret-left"></i>'|raw : '' }}
+                            {{ item.label }} {{ (item.tipo == 'DROPDOWN' or item.tipo == 'PAI') ? '<i class="fas fa-caret-left"></i>'|raw : '' }}
                             {% if item.app %}
                                 <span style="color: grey">({{ item.app.modulo.nome }} - {{ item.app.descricao }}
                                     - {{ item.app.route }})</span>
@@ -48,7 +48,7 @@
 
                         <div class="text-right">
 
-                            {% if (item.tipo == 'DROPDOWN' and item.pai == NULL) or item.tipo == 'PAI' %}
+                            {% if (item.tipo == 'DROPDOWN' or item.tipo == 'PAI') %}
                             <button type="button" class="btn btn-primary"
                                     onclick="window.location.href='{{ url('cfg_entMenu_form', {'pai' : item.id}) }}'">
                                 <i class="fas fa-file" aria-hidden="true"></i> Novo

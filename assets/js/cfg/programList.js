@@ -1,6 +1,6 @@
 'use strict';
 
-let listId = "#appList";
+let listId = "#programList";
 
 import DatatablesJs from '../crosier/DatatablesJs';
 
@@ -17,14 +17,14 @@ function getDatatablesColumns() {
             title: 'Descrição'
         },
         {
-            name: 'e.route',
-            data: 'e.route',
-            title: 'Route'
+            name: 'e.url',
+            data: 'e.url',
+            title: 'URL'
         },
         {
-            name: 'e.modulo',
-            data: 'e.modulo',
-            title: 'Módulo',
+            name: 'e.app',
+            data: 'e.app',
+            title: 'App',
             render: function (data, type, row) {
                 return data.nome;
             },
@@ -34,9 +34,10 @@ function getDatatablesColumns() {
             data: 'e',
             title: '',
             render: function (data, type, row) {
+                console.dir(data);
                 let routeedit = $(listId).data('routeedit');
                 let url = routeedit + '/' + data.id;
-                let deleteUrl = Routing.generate('cfg_app_delete', {id: data.id} );
+                let deleteUrl = Routing.generate('cfg_program_delete', {id: data.id} );
                 let csrfTokenDelete = $(listId).data('crsf-token-delete');
                 return "<button type=\"button\" class=\"btn btn-primary\" onclick=\"window.location.href='" + url + "'\">" +
                     "<i class=\"fas fa-wrench\" aria-hidden=\"true\"></i></button>" +
@@ -49,5 +50,7 @@ function getDatatablesColumns() {
         }
     ];
 }
+
+console.log('oi');
 
 DatatablesJs.makeDatatableJs(listId, getDatatablesColumns());

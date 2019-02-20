@@ -3,7 +3,6 @@
 namespace App\Repository\Config;
 
 use App\Entity\Config\EntMenu;
-use App\Entity\Config\Modulo;
 use CrosierSource\CrosierLibBaseBundle\Repository\FilterRepository;
 use Symfony\Component\Security\Core\Security;
 
@@ -48,6 +47,18 @@ class EntMenuRepository extends FilterRepository
         return $this->findBy(['pai' => null], ['ordem' => 'ASC']);
     }
 
+
+    /**
+     * @return array
+     */
+    public function getMenusPaisOuDropdowns(): array
+    {
+        $dql = "SELECT e FROM App\Entity\Config\EntMenu e WHERE e.pai IS NULL OR e.tipo = :tipo ORDER BY e.label";
+        $qry = $this->getEntityManager()->createQuery($dql);
+        $qry->setParameter('tipo', 'DROPDOWN');
+        return $qry->getResult();
+    }
+
     /**
      * Monta o menu com somente aplicativos permitidos ao usuário logado.
      *
@@ -82,44 +93,44 @@ class EntMenuRepository extends FilterRepository
         return $ents;
     }
 
-    /**
-     * Retorna os itens do menu para o $modulo.
-     *
-     * @param Modulo $modulo
-     * @return array
-     */
-    public function getAppMainMenuSecured(Modulo $modulo)
-    {
-        $dql = "SELECT e FROM App\Entity\Config\EntMenu e JOIN e.app a WHERE e.pai IS NULL AND a.modulo = :modulo ORDER BY e.ordem";
-        $qry = $this->getEntityManager()->createQuery($dql);
-        $qry->setParameter('modulo', $modulo);
-
-        $pais = $qry->getResult();
-        $ents = [];
-        $i = 0;
-        /** @var EntMenu $pai */
-        foreach ($pais as $pai) {
-            if (!$pai->getFilhos() or $pai->getFilhos()->count() < 1) {
-                $ents[$i]['pai'] = $pai;
-                $i++;
-            } else {
-                $addPai = false;
-                foreach ($pai->getFilhos() as $filho) {
-                    if ($filho->getApp() and $filho->getApp()->getRoles()) {
-                        if ($this->getSecurity()->isGranted($filho->getApp()->getRolesArray())) {
-                            $addPai = true;
-                            $ents[$i]['filhos'][] = $filho;
-                        }
-                    }
-                }
-                if ($addPai) {
-                    $ents[$i]['pai'] = $pai;
-                    $i++;
-                }
-            }
-        }
-        return $ents;
-    }
+//    /**
+//     * Retorna os itens do menu para o $app.
+//     *
+//     * @param app $app
+//     * @return array
+//     */
+//    public function getAppMainMenuSecured(app $app)
+//    {
+//        $dql = "SELECT e FROM App\Entity\Config\EntMenu e JOIN e.app a WHERE e.pai IS NULL AND a.app = :app ORDER BY e.ordem";
+//        $qry = $this->getEntityManager()->createQuery($dql);
+//        $qry->setParameter('app', $app);
+//
+//        $pais = $qry->getResult();
+//        $ents = [];
+//        $i = 0;
+//        /** @var EntMenu $pai */
+//        foreach ($pais as $pai) {
+//            if (!$pai->getFilhos() or $pai->getFilhos()->count() < 1) {
+//                $ents[$i]['pai'] = $pai;
+//                $i++;
+//            } else {
+//                $addPai = false;
+//                foreach ($pai->getFilhos() as $filho) {
+//                    if ($filho->getApp() and $filho->getApp()->3getRoles()) {
+//                        if ($this->getSecurity()->isGranted($filho->getApp()->getRolesArray())) {
+//                            $addPai = true;
+//                            $ents[$i]['filhos'][] = $filho;
+//                        }
+//                    }
+//                }
+//                if ($addPai) {
+//                    $ents[$i]['pai'] = $pai;
+//                    $i++;
+//                }
+//            }
+//        }
+//        return $ents;
+//    }
 
     public function makeTree()
     {

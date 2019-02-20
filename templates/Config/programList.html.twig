@@ -1,11 +1,4 @@
-{% extends 'list.html.twig' %}
-
-
-{% set titulo = 'Apps' %}
-{% set route_form = 'cfg_app_form' %}
-{% set route_list = 'cfg_app_list' %}
-{% set route_list_ajax = 'cfg_app_datatablesJsList' %}
-{% set list_id = 'appList' %}
+{% extends '@CrosierLibBase/list.html.twig' %}
 
 {% set campos_pesquisar %}
 
@@ -28,5 +21,5 @@
 
 
 {% block down_scripts %}
-    <script src="{{ asset('build/cfg/appList.js') }}"></script>
+    <script src="{{ asset('build/cfg/programList.js') }}"></script>
 {% endblock %}

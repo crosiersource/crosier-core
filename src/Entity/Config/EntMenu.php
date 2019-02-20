@@ -61,6 +61,13 @@ class EntMenu implements EntityId
 
     /**
      *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Config\Program")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $program;
+
+    /**
+     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Config\EntMenu", inversedBy="filhos")
      * @ORM\JoinColumn(nullable=true)
      */
@@ -83,7 +90,6 @@ class EntMenu implements EntityId
     {
         $this->filhos = new ArrayCollection();
     }
-
 
     /**
      * @return mixed
@@ -179,6 +185,22 @@ class EntMenu implements EntityId
     public function setApp($app): void
     {
         $this->app = $app;
+    }
+
+    /**
+     * @return Program|null
+     */
+    public function getProgram(): ?Program
+    {
+        return $this->program;
+    }
+
+    /**
+     * @param Program|null $program
+     */
+    public function setProgram(?Program $program): void
+    {
+        $this->program = $program;
     }
 
     /**

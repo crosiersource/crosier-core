@@ -2,7 +2,6 @@
 
 import $ from 'jquery';
 
-import 'toastr/build/toastr.css'
 import toastrr from "toastr";
 
 import sprintf from "sprintf-js";
@@ -185,60 +184,60 @@ class CrosierBaseLayout {
     }
 
 
-    /**
-     * Construir o mainMenu do app.
-     */
-    static buildAppMainMenu() {
-        let $appMainMenu = $('#appMainMenu');
-
-        // Construção do mainMenuSelect
-        $.ajax({
-                dataType: "json",
-                async: false,
-                url: '/getAppMainMenu',
-                type: 'POST'
-            }
-        ).done(function (results) {
-            let data = $.map(results, function (obj) {
-                obj.text = obj.label; // replace name with the property used for the text
-                return obj;
-            });
-            $appMainMenu.select2({
-                    data: results,
-                    templateResult: function (data) {
-                        var $item = $(
-                            '<span><i class="' + data.icon + ' text-center" style="width: 30px"></i> ' + data.text + '</span>'
-                        );
-                        return $item;
-
-                    },
-                    templateSelection: function (data) {
-                        var $item = $(
-                            '<span><i class="' + data.icon + '"></i> ' + data.text + '</span>'
-                        );
-                        return $item;
-
-                    },
-                    escapeMarkup: function (markup) {
-                        return markup;
-                    },
-                }
-            ).on('select2:select', function (e) {
-                let data = e.params.data;
-                if (data.programa.url) {
-                    window.location.href = data.programa.url;
-                }
-            });
-            data.forEach(function (e, index, arr) {
-                if (window.location.pathname === e.programa.url) {
-                    $appMainMenu.val(e.id).trigger('change');
-                }
-            });
-
-        });
-
-
-    }
+    // /**
+    //  * Construir o mainMenu do app.
+    //  */
+    // static buildAppMainMenu() {
+    //     let $appMainMenu = $('#appMainMenu');
+    //
+    //     // Construção do mainMenuSelect
+    //     $.ajax({
+    //             dataType: "json",
+    //             async: false,
+    //             url: '/getAppMainMenu',
+    //             type: 'POST'
+    //         }
+    //     ).done(function (results) {
+    //         let data = $.map(results, function (obj) {
+    //             obj.text = obj.label; // replace name with the property used for the text
+    //             return obj;
+    //         });
+    //         $appMainMenu.select2({
+    //                 data: results,
+    //                 templateResult: function (data) {
+    //                     var $item = $(
+    //                         '<span><i class="' + data.icon + ' text-center" style="width: 30px"></i> ' + data.text + '</span>'
+    //                     );
+    //                     return $item;
+    //
+    //                 },
+    //                 templateSelection: function (data) {
+    //                     var $item = $(
+    //                         '<span><i class="' + data.icon + '"></i> ' + data.text + '</span>'
+    //                     );
+    //                     return $item;
+    //
+    //                 },
+    //                 escapeMarkup: function (markup) {
+    //                     return markup;
+    //                 },
+    //             }
+    //         ).on('select2:select', function (e) {
+    //             let data = e.params.data;
+    //             if (data.programa.url) {
+    //                 window.location.href = data.programa.url;
+    //             }
+    //         });
+    //         data.forEach(function (e, index, arr) {
+    //             if (window.location.pathname === e.programa.url) {
+    //                 $appMainMenu.val(e.id).trigger('change');
+    //             }
+    //         });
+    //
+    //     });
+    //
+    //
+    // }
 
 
     static handleBootstrapDatepicker() {

@@ -111,7 +111,7 @@ class EntMenuController extends FormListController
 
         // Pode ou não ter vindo algo no $parameters. Independentemente disto, só adiciono form e foi-se.
         $parameters['form'] = $form->createView();
-        $parameters['menu'] = 'outro';
+        $parameters['paiId'] = $paiId;
         return $this->render($this->getFormView(), $parameters);
     }
 
@@ -125,9 +125,11 @@ class EntMenuController extends FormListController
     public function list(Request $request, EntMenu $entMenu)
     {
         $dados = null;
+        /** @var EntMenuRepository $repo */
         $repo = $this->getDoctrine()->getRepository(EntMenu::class);
-        $dados = $repo->findBy(['pai' => $entMenu], ['ordem' => 'ASC', 'id' => 'DESC']);
-        $dados = array_merge($dados, [$entMenu]);
+//        $dados = $repo->findBy(['pai' => $entMenu], ['ordem' => 'ASC', 'id' => 'ASC']);
+//        $dados = array_merge([$entMenu], $dados);
+        $dados = $repo->makeTree();
         $vParams['dados'] = $dados;
         return $this->render($this->getListView(), $vParams);
     }

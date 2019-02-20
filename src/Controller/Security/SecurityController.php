@@ -2,7 +2,7 @@
 
 namespace App\Controller\Security;
 
-use App\Entity\Config\Modulo;
+use App\Entity\Config\App;
 use App\EntityHandler\Security\UserEntityHandler;
 use CrosierSource\CrosierLibBaseBundle\Entity\Security\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,8 +30,10 @@ class SecurityController extends AbstractController
     /**
      *
      * @Route("/login", name="login")
+     * @param AuthenticationUtils $authenticationUtils
+     * @return Response
      */
-    public function login(Request $request, AuthenticationUtils $authenticationUtils)
+    public function login(AuthenticationUtils $authenticationUtils)
     {
 
         // get the login error if there is one
@@ -56,8 +58,11 @@ class SecurityController extends AbstractController
 
     /**
      * @Route("/reauthApp/{app}", name="reauth_app")
+     * @param App $app
+     * @return RedirectResponse
+     * @throws \Exception
      */
-    public function reauthApp(Request $request, Modulo $app)
+    public function reauthApp(App $app)
     {
         $token = $this->userEntityHandler->renewTokenApi($this->getUser());
         $url = $app->getEntranceUrl() . '?apiTokenAuthorization=' . $token;
@@ -68,6 +73,9 @@ class SecurityController extends AbstractController
     /**
      *
      * @Route("/sec/hash", name="hash")
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $encoder
+     * @return Response
      */
     public function hash(Request $request, UserPasswordEncoderInterface $encoder)
     {
