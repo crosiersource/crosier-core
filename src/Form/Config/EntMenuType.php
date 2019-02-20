@@ -4,17 +4,21 @@ namespace App\Form\Config;
 
 use App\Entity\Config\App;
 use App\Entity\Config\EntMenu;
-use App\Utils\Repository\WhereBuilder;
+use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\WhereBuilder;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Choice;
 
+/**
+ * Class EntMenuType
+ *
+ * @package App\Form\Config
+ * @author Carlos Eduardo Pauluk
+ */
 class EntMenuType extends AbstractType
 {
 
@@ -50,7 +54,7 @@ class EntMenuType extends AbstractType
         $builder->add('app', EntityType::class, array(
             'label' => 'App',
             'class' => App::class,
-            'choices' => $this->doctrine->getRepository(App::class)->findAll(WhereBuilder::buildOrderBy(['modulo','descricao'])),
+            'choices' => $this->doctrine->getRepository(App::class)->findAll(WhereBuilder::buildOrderBy(['modulo', 'descricao'])),
             'choice_label' => function (App $app) {
                 return $app->getModulo()->getNome() . " - " . $app->getDescricao();
             },
@@ -60,7 +64,7 @@ class EntMenuType extends AbstractType
         $builder->add('pai', EntityType::class, array(
             'label' => 'Pai',
             'class' => EntMenu::class,
-            'choices' => $this->doctrine->getRepository(EntMenu::class)->findBy(['pai'=>null],['label'=>'ASC']),
+            'choices' => $this->doctrine->getRepository(EntMenu::class)->findBy(['pai' => null], ['label' => 'ASC']),
             'choice_label' => 'label',
             'required' => false
         ));

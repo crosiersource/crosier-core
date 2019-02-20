@@ -2,20 +2,15 @@
 
 namespace App\Entity\Config;
 
-use CrosierSource\CrosierLibBaseBundle\Doctrine\Annotations\NotUppercase;
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityId;
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityIdTrait;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\JoinColumn;
-use Doctrine\ORM\Mapping\JoinTable;
-use Doctrine\ORM\Mapping\ManyToMany;
 
 /**
  *
  * @ORM\Entity(repositoryClass="App\Repository\Config\AppRepository")
- * @ORM\Table(name="cfg_app")
+ * @ORM\Table(name="cfg_modulo")
+ *
  * @author Carlos Eduardo Pauluk
  */
 class App implements EntityId
@@ -25,126 +20,114 @@ class App implements EntityId
 
     /**
      *
-     * @ORM\Column(name="descricao", type="string", nullable=false, length=255)
+     * @ORM\Column(name="nome", type="string", nullable=true, length=300)
      */
-    private $descricao;
-
-    /**
-     * FIXME: remover e usar somente a URL.
-     * @ORM\Column(name="route", type="string", nullable=true, length=2000)
-     * @NotUppercase()
-     */
-    private $route;
-
-    /**
-     * Sem o domínio.
-     * @ORM\Column(name="url", type="string", nullable=true, length=2000)
-     * @NotUppercase()
-     */
-    private $url;
+    private $nome;
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Config\Modulo")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(name="icon", type="string", nullable=true, length=300)
      */
-    private $modulo;
+    private $icon;
 
     /**
      *
-     * @ManyToMany(targetEntity="CrosierSource\CrosierLibBaseBundle\Entity\Security\Role")
-     * @JoinTable(name="cfg_app_role",
-     *      joinColumns={@JoinColumn(name="app_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@JoinColumn(name="role_id", referencedColumnName="id")}
-     *      )
+     * @ORM\Column(name="obs", type="string", nullable=true, length=5000)
      */
-    private $roles;
+    private $obs;
 
-    public function __construct()
+    /**
+     *
+     * @ORM\Column(name="ordem", type="integer", nullable=true)
+     */
+    private $ordem;
+
+    /**
+     *
+     * @ORM\Column(name="entrance_url", type="string", nullable=true, length=255)
+     */
+    private $entranceUrl;
+
+
+    /**
+     * @return mixed
+     */
+    public function getNome()
     {
-        $this->roles = new ArrayCollection();
+        return $this->nome;
+    }
+
+    /**
+     * @param mixed $nome
+     */
+    public function setNome($nome): void
+    {
+        $this->nome = $nome;
     }
 
     /**
      * @return mixed
      */
-    public function getDescricao()
+    public function getIcon()
     {
-        return $this->descricao;
+        return $this->icon;
     }
 
     /**
-     * @param mixed $descricao
+     * @param mixed $icon
      */
-    public function setDescricao($descricao): void
+    public function setIcon($icon): void
     {
-        $this->descricao = $descricao;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getRoute()
-    {
-        return $this->route;
-    }
-
-    /**
-     * @param mixed $route
-     */
-    public function setRoute($route): void
-    {
-        $this->route = $route;
+        $this->icon = $icon;
     }
 
     /**
      * @return mixed
      */
-    public function getUrl()
+    public function getOrdem()
     {
-        return $this->url;
+        return $this->ordem;
     }
 
     /**
-     * @param mixed $url
+     * @param mixed $ordem
      */
-    public function setUrl($url): void
+    public function setOrdem($ordem): void
     {
-        $this->url = $url;
+        $this->ordem = $ordem;
     }
 
     /**
      * @return mixed
      */
-    public function getModulo(): ?Modulo
+    public function getObs()
     {
-        return $this->modulo;
+        return $this->obs;
     }
 
     /**
-     * @param mixed $modulo
+     * @param mixed $obs
      */
-    public function setModulo(?Modulo $modulo): void
+    public function setObs($obs): void
     {
-        $this->modulo = $modulo;
+        $this->obs = $obs;
     }
 
-    public function getRoles(): Collection
+    /**
+     * @return mixed
+     */
+    public function getEntranceUrl()
     {
-        return $this->roles;
+        return $this->entranceUrl;
     }
 
-    public function getRolesArray()
+    /**
+     * @param mixed $entranceUrl
+     */
+    public function setEntranceUrl($entranceUrl): void
     {
-        if ($this->roles) {
-            $rolesArray = [];
-            foreach ($this->roles as $role) {
-                $rolesArray[] = $role->getRole();
-            }
-            return $rolesArray;
-        }
+        $this->entranceUrl = $entranceUrl;
     }
 
 
 }
-

@@ -1,0 +1,73 @@
+{% extends '@CrosierLibBase/index.html.twig' %}
+
+
+
+
+{% block page_content %}
+
+
+    <div class="card">
+        <div class="card-header">
+
+            <div class="row">
+                <div class="col-8">
+                    <h3>Entradas de Menu</h3>
+                </div>
+                <div class="col-4 text-right">
+                    <button type="button" class="btn btn-primary" id="saveOrdem"
+                            data-target="#confirmationModal" data-toggle="modal">
+                        <i class="fas fa-save" aria-hidden="true"></i> Salvar
+                    </button>
+
+                    <button type="button" class="btn btn-primary" id="Recarregar menu"
+                            onclick="window.location.href='{{ url('cfg_entMenu_clear') }}'">
+                        <i class="fas fa-retweet" aria-hidden="true"></i> Recarregar Menu
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="card-body">
+
+
+            <div id="simpleList" class="list-group">
+
+                <table class="table table-striped table-hover display compact">
+                    <thead>
+                    <tr>
+                        <th scope="col">Menu</th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for item in dados %}
+                        <tr>
+                            <td>{{ item.label }}</td>
+                            <td class="text-right">
+                                <button type="button" class="btn btn-primary"
+                                        onclick="window.location.href='{{ url('cfg_entMenu_list', {entMenu: item.id}) }}'">
+                                    <i class="fas fa-wrench" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+
+
+{% endblock %}
+
+
+{% block down_scripts %}
+    <script src="{{ asset('build/cfg/entMenuList.js') }}"></script>
+{% endblock %}

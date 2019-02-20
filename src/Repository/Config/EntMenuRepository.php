@@ -41,6 +41,14 @@ class EntMenuRepository extends FilterRepository
     }
 
     /**
+     * @return array
+     */
+    public function getMenusPais(): array
+    {
+        return $this->findBy(['pai' => null], ['ordem' => 'ASC']);
+    }
+
+    /**
      * Monta o menu com somente aplicativos permitidos ao usuário logado.
      *
      * @return array
@@ -50,6 +58,7 @@ class EntMenuRepository extends FilterRepository
         $pais = $this->findBy(['pai' => null], ['ordem' => 'ASC']);
         $ents = [];
         $i = 0;
+        /** @var EntMenu $pai */
         foreach ($pais as $pai) {
             if (!$pai->getFilhos() or $pai->getFilhos()->count() < 1) {
                 $ents[$i]['pai'] = $pai;

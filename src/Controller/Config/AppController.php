@@ -2,18 +2,18 @@
 
 namespace App\Controller\Config;
 
-use App\Entity\Config\App;
+use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
+use App\Entity\Config\Modulo;
 use App\EntityHandler\Config\AppEntityHandler;
 use CrosierSource\CrosierLibBaseBundle\EntityHandler\EntityHandler;
 use App\Form\Config\AppType;
 use App\Utils\Repository\FilterData;
-use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class AppController.
+ * Class ModuloController.
  * @package App\Controller\Config
  * @author Carlos Eduardo Pauluk
  */
@@ -34,30 +34,29 @@ class AppController extends FormListController
 
     public function getFormRoute()
     {
-        return 'cfg_app_form';
+        return 'cfg_modulo_form';
     }
 
     public function getFormView()
     {
-        return 'Config/appForm.html.twig';
+        return 'Config/moduloForm.html.twig';
     }
 
     public function getFilterDatas($params)
     {
         return array(
-            new FilterData(['route', 'descricao'], 'LIKE', $params['filter']['descricao']),
-            new FilterData('m.nome', 'LIKE', $params['filter']['modulo'])
+            new FilterData(['chave', 'valor'], 'LIKE', $params['filter']['descricao'])
         );
     }
 
     public function getListView()
     {
-        return 'Config/appList.html.twig';
+        return 'Config/moduloList.html.twig';
     }
 
     public function getListRoute()
     {
-        return 'cfg_app_list';
+        return 'cfg_modulo_list';
     }
 
 
@@ -68,23 +67,21 @@ class AppController extends FormListController
 
     /**
      *
-     * @Route("/cfg/app/form/{id}", name="cfg_app_form", defaults={"id"=null}, requirements={"id"="\d+"})
+     * @Route("/cfg/modulo/form/{id}", name="cfg_modulo_form", defaults={"id"=null}, requirements={"id"="\d+"})
      * @param Request $request
-     * @param App|null $app
+     * @param modulo|null $modulo
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @throws \ReflectionException
      */
-    public function form(Request $request, App $app = null)
+    public function form(Request $request, Modulo $modulo = null)
     {
-        return $this->doForm($request, $app);
+        return $this->doForm($request, $modulo);
     }
 
     /**
      *
-     * @Route("/cfg/app/list/", name="cfg_app_list")
+     * @Route("/cfg/modulo/list/", name="cfg_modulo_list")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
-     * @throws \ReflectionException
      */
     public function list(Request $request)
     {
@@ -108,7 +105,7 @@ class AppController extends FormListController
 
     /**
      *
-     * @Route("/cfg/app/datatablesJsList/", name="cfg_app_datatablesJsList")
+     * @Route("/cfg/modulo/datatablesJsList/", name="cfg_modulo_datatablesJsList")
      * @param Request $request
      * @return Response
      */
@@ -120,14 +117,14 @@ class AppController extends FormListController
 
     /**
      *
-     * @Route("/cfg/app/delete/{id}/", name="cfg_app_delete", requirements={"id"="\d+"})
+     * @Route("/cfg/modulo/delete/{id}/", name="cfg_modulo_delete", requirements={"id"="\d+"})
      * @param Request $request
-     * @param App $app
+     * @param Modulo $modulo
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function delete(Request $request, App $app)
+    public function delete(Request $request, Modulo $modulo)
     {
-        return $this->doDelete($request, $app);
+        return $this->doDelete($request, $modulo);
     }
 
 

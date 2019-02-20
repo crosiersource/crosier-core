@@ -3,12 +3,13 @@
 namespace App\Controller\Config;
 
 use App\Business\Config\EntMenuBusiness;
-use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
 use App\Entity\Config\EntMenu;
 use App\EntityHandler\Config\EntMenuEntityHandler;
-use CrosierSource\CrosierLibBaseBundle\EntityHandler\EntityHandler;
 use App\Form\Config\EntMenuType;
-use App\Utils\Repository\FilterData;
+use App\Repository\Config\EntMenuRepository;
+use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
+use CrosierSource\CrosierLibBaseBundle\EntityHandler\EntityHandler;
+use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\FilterData;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -81,6 +82,7 @@ class EntMenuController extends FormListController
      * @param EntMenu|null $entMenu
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @Security("has_role('ROLE_ADMIN')")
+     * @throws \CrosierSource\CrosierLibBaseBundle\Exception\ViewException
      */
     public function form(Request $request, EntMenu $entMenu = null)
     {
@@ -115,37 +117,36 @@ class EntMenuController extends FormListController
 
     /**
      *
-     * @Route("/cfg/entMenu/list/", name="cfg_entMenu_list")
+     * @Route("/cfg/entMenu/list/{entMenu}", name="cfg_entMenu_list", requirements={"entMenu"="\d+"})
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      * @Security("has_role('ROLE_ADMIN')")
      */
-    public function list(Request $request)
+    public function list(Request $request, EntMenu $entMenu)
     {
         $dados = null;
-//        $params = $request->query->all();
-//
-//        if (!array_key_exists('filter', $params)) {
-//            $params['filter'] = array();
-//        }
-//
-//        try {
-//            $repo = $this->getDoctrine()->getRepository(EntMenu::class);
-//
-//            $filterDatas = $this->getFilterDatas($params);
-//            $dados = $repo->findByFilters($filterDatas);
-//
-//        } catch (\Exception $e) {
-//            $this->addFlash('error', 'Erro ao listar (' . $e->getMessage() . ')');
-//        }
-
         $repo = $this->getDoctrine()->getRepository(EntMenu::class);
-        $dados = $repo->findBy([],['ordem'=>'ASC','id'=>'DESC']);
-
+        $dados = $repo->findBy(['pai' => $entMenu], ['ordem' => 'ASC', 'id' => 'DESC']);
+        $dados = array_merge($dados, [$entMenu]);
         $vParams['dados'] = $dados;
-//        $vParams['filter'] = $params['filter'];
-
         return $this->render($this->getListView(), $vParams);
+    }
+
+    /**
+     *
+     * @Route("/cfg/entMenu/listPais/", name="cfg_entMenu_listPais")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Security("has_role('ROLE_ADMIN')")
+     */
+    public function listPais(Request $request): Response
+    {
+        $dados = null;
+        /** @var EntMenuRepository $repo */
+        $repo = $this->getDoctrine()->getRepository(EntMenu::class);
+        $dados = $repo->getMenusPais();
+        $vParams['dados'] = $dados;
+        return $this->render('Config/entMenuList_pais.html.twig', $vParams);
     }
 
     /**

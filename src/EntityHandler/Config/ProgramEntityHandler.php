@@ -2,15 +2,15 @@
 
 namespace App\EntityHandler\Config;
 
-use App\Entity\Config\Modulo;
 use CrosierSource\CrosierLibBaseBundle\EntityHandler\EntityHandler;
+use App\Entity\Config\App;
 
-class ModuloEntityHandler extends EntityHandler
+class ProgramEntityHandler extends EntityHandler
 {
 
 
     public function getEntityClass()
     {
-        return Modulo::class;
+        return App::class;
     }
 }
