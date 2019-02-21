@@ -2,17 +2,17 @@
     <nav class="sidebar-nav">
         <ul class="nav">
 
-            {% for ent in mainMenu %}
+            {% for ent in menu %}
 
-                {% if ent.pai.tipo == 'ENT' %}
+                {% if ent.tipo == 'ENT' %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ ent.pai.app.route is defined ? url(ent.pai.app.route) : '' }}">
-                            <i class="nav-icon {{ ent.pai.icon }}"></i>{{ ent.pai.label }}</a></li>
+                        <a class="nav-link" href="{{ ent.app.route is defined ? url(ent.app.route) : '' }}">
+                            <i class="nav-icon {{ ent.icon }}"></i>{{ ent.label }}</a></li>
                 {% elseif ent.filhos is defined %}
                     <li class="nav-item nav-dropdown">
                         <a class="nav-link nav-dropdown-toggle" href="#">
-                            <i class="nav-icon {{ ent.pai.icon }}"></i>
-                            {{ ent.pai.label }}
+                            <i class="nav-icon {{ ent.icon }}"></i>
+                            {{ ent.label }}
                         </a>
 
 
@@ -20,7 +20,7 @@
                             {% for filho in ent.filhos %}
                                 {% if filho.tipo == 'ENT' %}
                                     <li class="nav-item" style="{{ filho.cssStyle != null ? filho.cssStyle : '' }};">
-                                        <a class="nav-link" href="{{ filho.app.route and routeExists(filho.app.route) ? url(filho.app.route) : '' }}">
+                                        <a class="nav-link" href="{{ filho.program.url is defined ? filho.program.url : '' }}">
                                             <i class="nav-icon {{ filho.icon }}"></i>{{ filho.label }}</a></li>
                                 {% else %}
                                     <li class="nav-title">{{ filho.label }}</li>
@@ -29,7 +29,6 @@
                             <li class="nav-item" style="background-color: white; height: 1px"></li>
 
                         </ul>
-
 
                     </li>
 

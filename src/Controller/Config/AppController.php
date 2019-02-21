@@ -6,7 +6,6 @@ use App\Entity\Config\App;
 use App\EntityHandler\Config\AppEntityHandler;
 use App\Form\Config\AppType;
 use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
-use CrosierSource\CrosierLibBaseBundle\EntityHandler\EntityHandler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,8 +19,25 @@ use Symfony\Component\Routing\Annotation\Route;
 class AppController extends FormListController
 {
 
-    /** @var AppEntityHandler */
-    private $entityHandler;
+    protected $crudParams =
+        [
+            'typeClass' => AppType::class,
+            'formView' => 'Config/appForm.html.twig',
+            'formRoute' => 'cfg_app_form',
+            'formPageTitle' => 'App',
+            'listView' => 'Config/appList.html.twig',
+            'listRoute' => 'cfg_app_list',
+            'listRouteAjax' => 'cfg_app_datatablesJsList',
+            'listPageTitle' => 'Apps',
+            'listId' => 'appList',
+            'normalizedAttrib' => [
+                'id',
+                'nome',
+                'obs',
+                'entranceUrl',
+            ],
+
+        ];
 
     /**
      * @required
@@ -32,42 +48,11 @@ class AppController extends FormListController
         $this->entityHandler = $entityHandler;
     }
 
-    public function getEntityHandler(): ?EntityHandler
+    public function getFilterDatas(array $params): array
     {
-        return $this->entityHandler;
-    }
-
-    public function getFormRoute()
-    {
-        return 'cfg_app_form';
-    }
-
-    public function getFormView()
-    {
-        return 'Config/appForm.html.twig';
-    }
-
-    public function getFilterDatas($params)
-    {
-        return array(
-            new FilterData(['chave', 'valor'], 'LIKE', $params['filter']['descricao'])
-        );
-    }
-
-    public function getListView()
-    {
-        return 'Config/appList.html.twig';
-    }
-
-    public function getListRoute()
-    {
-        return 'cfg_app_list';
-    }
-
-
-    public function getTypeClass()
-    {
-        return AppType::class;
+        return [
+            new FilterData(['chave', 'valor'], 'LIKE', 'descricao', 'string', $params)
+        ];
     }
 
     /**
@@ -78,7 +63,7 @@ class AppController extends FormListController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function form(Request $request, app $app = null)
+    public function form(Request $request, App $app = null)
     {
         return $this->doForm($request, $app);
     }
@@ -90,24 +75,9 @@ class AppController extends FormListController
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function list(Request $request)
+    public function list(Request $request): Response
     {
         return $this->doList($request);
-    }
-
-    /**
-     * @return array|mixed
-     */
-    public function getNormalizeAttributes()
-    {
-        return array(
-            'attributes' => array(
-                'id',
-                'descricao',
-                'route',
-                'app' => ['nome']
-            )
-        );
     }
 
     /**
@@ -117,10 +87,9 @@ class AppController extends FormListController
      * @return Response
      * @throws \CrosierSource\CrosierLibBaseBundle\Exception\ViewException
      */
-    public function datatablesJsList(Request $request)
+    public function datatablesJsList(Request $request): Response
     {
-        $jsonResponse = $this->doDatatablesJsList($request);
-        return $jsonResponse;
+        return $this->doDatatablesJsList($request);
     }
 
     /**
@@ -130,7 +99,7 @@ class AppController extends FormListController
      * @param App $app
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function delete(Request $request, App $app)
+    public function delete(Request $request, App $app): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         return $this->doDelete($request, $app);
     }

@@ -22,6 +22,11 @@ function getDatatablesColumns() {
             title: 'URL'
         },
         {
+            name: 'e.uuid',
+            data: 'e.uuid',
+            title: 'UUID'
+        },
+        {
             name: 'e.app',
             data: 'e.app',
             title: 'App',

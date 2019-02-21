@@ -2,12 +2,13 @@
 
 namespace App\Controller;
 
+use CrosierSource\CrosierLibBaseBundle\Controller\BaseController;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class DefaultController extends AbstractController
+class DefaultController extends BaseController
 {
 
     /**
@@ -21,7 +22,8 @@ class DefaultController extends AbstractController
      */
     public function index()
     {
-        return $this->render('dashboard.html.twig');
+        $params['PROGRAM_UUID'] = '72a9aa1dc9024905b60ea8009a9bf50e';
+        return $this->render('dashboard.html.twig', $params);
     }
 
     /**

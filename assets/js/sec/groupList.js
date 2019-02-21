@@ -21,16 +21,18 @@ function getDatatablesColumns() {
             data: 'e',
             title: '',
             render: function (data, type, row) {
-                let routeedit = $(listId).data('routeedit');
-                let url = routeedit + '/' + data.id;
-                let deleteUrl = Routing.generate('cfg_app_delete', {id: data.id} );
-                let csrfTokenDelete = $(listId).data('crsf-token-delete');
-                return "<button type=\"button\" class=\"btn btn-primary\" onclick=\"window.location.href='" + url + "'\">" +
-                    "<i class=\"fas fa-wrench\" aria-hidden=\"true\"></i></button>" +
-                    " <button type=\"button\" class=\"btn btn-danger\" data-url=\"" + deleteUrl + "\" " +
-                    "data-token=\"" + csrfTokenDelete + "\" data-target=\"#confirmationModal\" data-toggle=\"modal\">" +
-                    "<i class=\"fa fa-trash\" aria-hidden=\"true\"></i>" +
-                    "</button>";
+                let colHtml = "";
+                if ($(listId).data('routeedit')) {
+                    let routeedit = $(listId).data('routeedit');
+                    let editUrl = routeedit + '/' + data.id;
+                    colHtml += DatatablesJs.makeEditButton(editUrl);
+                }
+                if ($(listId).data('routedelete')) {
+                    let deleteUrl = Routing.generate($(listId).data('routedelete'), {id: data.id});
+                    let csrfTokenDelete = $(listId).data('crsf-token-delete');
+                    colHtml += DatatablesJs.makeDeleteButton(deleteUrl, csrfTokenDelete);
+                }
+                return colHtml;
             },
             className: 'text-right'
         }

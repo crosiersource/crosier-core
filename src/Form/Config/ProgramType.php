@@ -28,6 +28,10 @@ class ProgramType extends AbstractType
             'label' => 'Descrição'
         ));
 
+        $builder->add('uuid', TextType::class, array(
+            'label' => 'UUID'
+        ));
+
         $builder->add('url', TextType::class, array(
             'label' => 'URL',
             'attr' => ['style' => 'text-transform: none;'],

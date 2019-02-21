@@ -2,11 +2,10 @@
 
 namespace App\Controller\Security;
 
-use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
-use CrosierSource\CrosierLibBaseBundle\Entity\Security\Role;
-use CrosierSource\CrosierLibBaseBundle\EntityHandler\EntityHandler;
 use App\EntityHandler\Security\RoleEntityHandler;
 use App\Form\Security\RoleType;
+use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
+use CrosierSource\CrosierLibBaseBundle\Entity\Security\Role;
 use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\FilterData;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,49 +19,39 @@ use Symfony\Component\Routing\Annotation\Route;
 class RoleController extends FormListController
 {
 
-    private $entityHandler;
+    protected $crudParams =
+        [
+            'typeClass' => RoleType::class,
+            'formView' => 'Security/roleForm.html.twig',
+            'formRoute' => 'sec_role_form',
+            'formPageTitle' => 'Roles',
+            'listView' => 'Security/roleList.html.twig',
+            'listRoute' => 'sec_role_list',
+            'listRouteAjax' => 'sec_role_datatablesJsList',
+            'listPageTitle' => 'Roles',
+            'listId' => 'roleList',
+            'normalizedAttrib' => [
+                'id',
+                'role',
+                'descricao'
+            ],
 
-    public function __construct(RoleEntityHandler $entityHandler)
+        ];
+
+    /**
+     * @required
+     * @param RoleEntityHandler $entityHandler
+     */
+    public function setEntityHandler(RoleEntityHandler $entityHandler): void
     {
         $this->entityHandler = $entityHandler;
     }
 
-    public function getEntityHandler(): ?EntityHandler
+    public function getFilterDatas(array $params): array
     {
-        return $this->entityHandler;
-    }
-
-    public function getFormRoute()
-    {
-        return 'sec_role_form';
-    }
-
-    public function getFormView()
-    {
-        return 'Security/roleForm.html.twig';
-    }
-
-    public function getFilterDatas($params)
-    {
-        return array(
-            new FilterData(['role'], 'LIKE', $params['filter']['role'])
-        );
-    }
-
-    public function getListView()
-    {
-        return 'Security/roleList.html.twig';
-    }
-
-    public function getListRoute()
-    {
-        return 'sec_role_list';
-    }
-
-
-    public function getTypeClass()
-    {
-        return RoleType::class;
+        return [
+            new FilterData(['role'], 'LIKE', 'role', 'string', $params)
+        ];
     }
 
     /**
@@ -71,7 +60,7 @@ class RoleController extends FormListController
      * @param Request $request
      * @param Role|null $role
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @throws \ReflectionException
+     * @throws \Exception
      */
     public function form(Request $request, Role $role = null)
     {
@@ -83,25 +72,11 @@ class RoleController extends FormListController
      * @Route("/sec/role/list/", name="sec_role_list")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
-     * @throws \ReflectionException
+     * @throws \Exception
      */
-    public function list(Request $request)
+    public function list(Request $request): Response
     {
         return $this->doList($request);
-    }
-
-    /**
-     * @return array|mixed
-     */
-    public function getNormalizeAttributes()
-    {
-        return array(
-            'attributes' => array(
-                'id',
-                'role',
-                'descricao'
-            )
-        );
     }
 
     /**
@@ -109,11 +84,11 @@ class RoleController extends FormListController
      * @Route("/sec/role/datatablesJsList/", name="sec_role_datatablesJsList")
      * @param Request $request
      * @return Response
+     * @throws \CrosierSource\CrosierLibBaseBundle\Exception\ViewException
      */
-    public function datatablesJsList(Request $request)
+    public function datatablesJsList(Request $request): Response
     {
-        $jsonResponse = $this->doDatatablesJsList($request);
-        return $jsonResponse;
+        return $this->doDatatablesJsList($request);
     }
 
     /**
@@ -123,7 +98,7 @@ class RoleController extends FormListController
      * @param Role $role
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function delete(Request $request, Role $role)
+    public function delete(Request $request, Role $role): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         return $this->doDelete($request, $role);
     }

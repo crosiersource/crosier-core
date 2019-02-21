@@ -14,16 +14,6 @@ class EnderecoController extends AbstractController
 
     private $routeToRedirect;
 
-    private $entityHandler;
-
-    /**
-     * @return EnderecoEntityHandler
-     */
-    public function getEntityHandler(): EnderecoEntityHandler
-    {
-        return $this->entityHandler;
-    }
-
     /**
      * @required
      * @param EnderecoEntityHandler $entityHandler

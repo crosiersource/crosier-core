@@ -174,14 +174,17 @@ CREATE TABLE `cfg_app` (
   `icon` varchar(300) COLLATE utf8_swedish_ci DEFAULT NULL,
   `ordem` int(11) DEFAULT NULL,
   `entrance_url` varchar(255) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `default_entmenu_id` bigint(20) NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `cfg_app_chave_idx` (`nome`),
   KEY `K_cfg_app_estabelecimento` (`estabelecimento_id`),
   KEY `K_cfg_app_user_inserted` (`user_inserted_id`),
   KEY `K_cfg_app_user_updated` (`user_updated_id`),
+  KEU `K_cfg_app_entmenu` (`default_entmenu_id`),
   CONSTRAINT `FK_cfg_app_estabelecimento` FOREIGN KEY (`estabelecimento_id`) REFERENCES `cfg_estabelecimento` (`id`),
   CONSTRAINT `FK_cfg_app_user_inserted` FOREIGN KEY (`user_updated_id`) REFERENCES `sec_user` (`id`),
-  CONSTRAINT `FK_cfg_app_user_updated` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`)
+  CONSTRAINT `FK_cfg_app_user_updated` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`),
+  CONSTRAINT `FK_cfg_app_entmenu` FOREIGN KEY (`default_entmenu_id`) REFERENCES `cfg_entmenu` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 
 
@@ -215,6 +218,7 @@ CREATE TABLE `cfg_program` (
   `descricao` varchar(255) COLLATE utf8_swedish_ci NOT NULL,
   `url` varchar(2000) COLLATE utf8_swedish_ci DEFAULT NULL,
   `app_id` bigint(20) NOT NULL,
+  `entmenu_id` bigint(20) NULL,
   `inserted` datetime NOT NULL,
   `updated` datetime NOT NULL,
   `estabelecimento_id` bigint(20) NOT NULL,
@@ -226,10 +230,12 @@ CREATE TABLE `cfg_program` (
   KEY `K_cfg_program_user_inserted` (`user_inserted_id`),
   KEY `K_cfg_program_user_updated` (`user_updated_id`),
   KEY `K_cfg_program_app` (`app_id`),
+  KEY `K_cfg_program_entmenu` (`entmenu_id`),
   CONSTRAINT `FK_cfg_program_estabelecimento` FOREIGN KEY (`estabelecimento_id`) REFERENCES `cfg_estabelecimento` (`id`),
   CONSTRAINT `FK_cfg_program_app` FOREIGN KEY (`app_id`) REFERENCES `cfg_app` (`id`),
   CONSTRAINT `FK_cfg_program_user_inserted` FOREIGN KEY (`user_updated_id`) REFERENCES `sec_user` (`id`),
-  CONSTRAINT `FK_cfg_program_user_updated` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`)
+  CONSTRAINT `FK_cfg_program_user_updated` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`),
+  CONSTRAINT `FK_cfg_program_entmenu` FOREIGN KEY (`entmenu_id`) REFERENCES `cfg_entmenu` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 
 

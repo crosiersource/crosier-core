@@ -5,12 +5,7 @@ namespace App\Entity\Config;
 use CrosierSource\CrosierLibBaseBundle\Doctrine\Annotations\NotUppercase;
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityId;
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityIdTrait;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\JoinColumn;
-use Doctrine\ORM\Mapping\JoinTable;
-use Doctrine\ORM\Mapping\ManyToMany;
 
 /**
  *
@@ -42,6 +37,19 @@ class Program implements EntityId
      * @ORM\JoinColumn(nullable=false)
      */
     private $app;
+
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Config\EntMenu")
+     * @ORM\JoinColumn(name="entmenu_id", nullable=true)
+     */
+    private $entMenu;
+
+    /**
+     * @ORM\Column(name="uuid", type="string", nullable=false, length=32)
+     * @NotUppercase()
+     */
+    private $uuid;
 
     /**
      * @return mixed
@@ -91,6 +99,37 @@ class Program implements EntityId
         $this->app = $app;
     }
 
+    /**
+     * @return string
+     */
+    public function getUuid(): ?string
+    {
+        return $this->uuid;
+    }
+
+    /**
+     * @param string $uuid
+     */
+    public function setUuid(?string $uuid): void
+    {
+        $this->uuid = $uuid;
+    }
+
+    /**
+     * @return EntMenu|null
+     */
+    public function getEntMenu(): ?EntMenu
+    {
+        return $this->entMenu;
+    }
+
+    /**
+     * @param EntMenu|null $entMenu
+     */
+    public function setEntMenu(?EntMenu $entMenu): void
+    {
+        $this->entMenu = $entMenu;
+    }
 
 
 }

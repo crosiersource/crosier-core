@@ -57,9 +57,12 @@ class EntMenuType extends AbstractType
             'class' => Program::class,
             'choices' => $this->doctrine->getRepository(Program::class)->findAll(WhereBuilder::buildOrderBy(['descricao'])),
             'choice_label' => function (Program $program) {
-                return '[' . $program->getApp()->getNome() . "] " . $program->getDescricao();
+                return '[' . $program->getApp()->getNome() . '] ' . $program->getDescricao();
             },
-            'required' => false
+            'required' => false,
+            'attr' => [
+                'class' => 'autoSelect2'
+            ]
         ));
 
         $builder->add('pai', EntityType::class, array(

@@ -13,3 +13,5 @@ INSERT INTO sec_user(id,username,nome,email,password,ativo,group_id,estabelecime
 INSERT INTO cfg_entmenu(id,label,icon,tipo,app_id,program_id,pai_id,ordem,css_style,inserted,updated,user_inserted_id,user_updated_id,estabelecimento_id) VALUES(1,'CrosierCore Menu','','PAI',null,null,null,0,'','1900-01-01','1900-01-01',1,1,1);
 
 INSERT INTO cfg_app(id,nome,obs,icon,ordem,entrance_url,inserted,updated,user_inserted_id,user_updated_id,estabelecimento_id) VALUES(1,'CrosierCore','','',0,'','1900-01-01','1900-01-01',1,1,1);
+
+

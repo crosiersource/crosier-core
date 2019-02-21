@@ -174,7 +174,7 @@ class EntMenu implements EntityId
     /**
      * @return mixed
      */
-    public function getApp()
+    public function getApp(): ?App
     {
         return $this->app;
     }
@@ -182,7 +182,7 @@ class EntMenu implements EntityId
     /**
      * @param mixed $app
      */
-    public function setApp($app): void
+    public function setApp(?App $app): void
     {
         $this->app = $app;
     }

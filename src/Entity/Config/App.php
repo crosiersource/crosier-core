@@ -48,6 +48,13 @@ class App implements EntityId
      */
     private $entranceUrl;
 
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Config\EntMenu")
+     * @ORM\JoinColumn(name="default_entmenu_id", nullable=true)
+     */
+    private $defaultEntMenu;
+
 
     /**
      * @return mixed
@@ -127,6 +134,22 @@ class App implements EntityId
     public function setEntranceUrl($entranceUrl): void
     {
         $this->entranceUrl = $entranceUrl;
+    }
+
+    /**
+     * @return EntMenu|null
+     */
+    public function getDefaultEntMenu(): ?EntMenu
+    {
+        return $this->defaultEntMenu;
+    }
+
+    /**
+     * @param EntMenu|null $defaultEntMenu
+     */
+    public function setDefaultEntMenu(?EntMenu $defaultEntMenu): void
+    {
+        $this->defaultEntMenu = $defaultEntMenu;
     }
 
 

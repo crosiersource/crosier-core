@@ -6,7 +6,7 @@ use App\Entity\Config\Config;
 use App\EntityHandler\Config\ConfigEntityHandler;
 use App\Form\Config\ConfigType;
 use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
-use CrosierSource\CrosierLibBaseBundle\EntityHandler\EntityHandler;
+use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\FilterData;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,15 +22,28 @@ use Symfony\Component\Serializer\Serializer;
 class ConfigController extends FormListController
 {
 
-    /** @var ConfigEntityHandler */
-    private $entityHandler;
+    protected $crudParams =
+        [
+            'typeClass' => ConfigType::class,
+            'formView' => 'Config/configForm.html.twig',
+            'formRoute' => 'cfg_config_form',
+            'formPageTitle' => 'Parâmetro de Configuração',
+            'listView' => 'Config/configList.html.twig',
+            'listRoute' => 'cfg_config_list',
+            'listRouteAjax' => 'cfg_config_datatablesJsList',
+            'listPageTitle' => 'Parâmetros de Configuração',
+            'listId' => 'configList',
+            'normalizedAttrib' => [
+                'id',
+                'chave',
+                'valor',
+                'global'
+            ],
 
-    public function getEntityHandler(): ?EntityHandler
-    {
-        return $this->entityHandler;
-    }
+        ];
 
     /**
+     * @required
      * @param ConfigEntityHandler $entityHandler
      */
     public function setEntityHandler(ConfigEntityHandler $entityHandler): void
@@ -38,37 +51,11 @@ class ConfigController extends FormListController
         $this->entityHandler = $entityHandler;
     }
 
-    public function getFormRoute()
+    public function getFilterDatas(array $params): array
     {
-        return 'cfg_config_form';
-    }
-
-    public function getFormView()
-    {
-        return 'Config/configForm.html.twig';
-    }
-
-    public function getFilterDatas($params)
-    {
-        return array(
-            new FilterData(['chave', 'valor'], 'LIKE', $params['filter']['descricao'])
-        );
-    }
-
-    public function getListView()
-    {
-        return 'Config/configList.html.twig';
-    }
-
-    public function getListRoute()
-    {
-        return 'cfg_config_list';
-    }
-
-
-    public function getTypeClass()
-    {
-        return ConfigType::class;
+        return [
+            new FilterData(['chave', 'valor'], 'LIKE', 'descricao', 'string', $params)
+        ];
     }
 
     /**
@@ -91,24 +78,9 @@ class ConfigController extends FormListController
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function list(Request $request)
+    public function list(Request $request): Response
     {
         return $this->doList($request);
-    }
-
-    /**
-     * @return array|mixed
-     */
-    public function getNormalizeAttributes()
-    {
-        return array(
-            'attributes' => array(
-                'id',
-                'chave',
-                'valor',
-                'global'
-            )
-        );
     }
 
     /**
@@ -118,10 +90,9 @@ class ConfigController extends FormListController
      * @return Response
      * @throws \CrosierSource\CrosierLibBaseBundle\Exception\ViewException
      */
-    public function datatablesJsList(Request $request)
+    public function datatablesJsList(Request $request): Response
     {
-        $jsonResponse = $this->doDatatablesJsList($request);
-        return $jsonResponse;
+        return $this->doDatatablesJsList($request);
     }
 
     /**
@@ -131,7 +102,7 @@ class ConfigController extends FormListController
      * @param Config $config
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function delete(Request $request, Config $config)
+    public function delete(Request $request, Config $config): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         return $this->doDelete($request, $config);
     }
@@ -141,7 +112,7 @@ class ConfigController extends FormListController
      * @Route("/cfg/config/select2json", name="cfg_config_select2json")
      * @return Response
      */
-    public function configSelect2json()
+    public function configSelect2json(): Response
     {
         $itens = $this->getDoctrine()->getRepository(Config::class)->findBy(['concreta' => true], ['codigo' => 'ASC']);
 

@@ -49,6 +49,17 @@ class DatatablesJs {
         });
     }
 
+    static makeEditButton(editUrl) {
+        return '<button type="button" class="btn btn-primary" onclick="window.location.href=\'' + editUrl + '\'">' +
+            '<i class="fas fa-wrench" aria-hidden="true"></i></button>';
+    }
+
+    static makeDeleteButton(deleteUrl, csrfTokenDelete) {
+        return '<button type="button" class="btn btn-danger" data-url="' + deleteUrl + '" ' +
+            'data-token="' + csrfTokenDelete + '" data-target="#confirmationModal" data-toggle="modal">' +
+            '<i class="fa fa-trash" aria-hidden="true"></i></button>';
+    }
+
 }
 
 export default DatatablesJs;

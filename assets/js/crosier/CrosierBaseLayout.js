@@ -125,8 +125,10 @@ class CrosierBaseLayout {
         /**
          * Montagem dos select2 automáticos.
          */
+        $.fn.select2.defaults.set("theme", "bootstrap");
         $('.autoSelect2').each(function () {
             let elem = $(this);
+            // Se foi passado um route, então busca os dados lá
             if (elem.data('route-id')) {
                 $.ajax({
                         type: 'GET',
@@ -170,9 +172,11 @@ class CrosierBaseLayout {
                     $s2.val(elem.data('val')).trigger('change');
                 });
 
+            } else {
+                let $s2 = elem.select2();
             }
         });
-        $.fn.select2.defaults.set("theme", "bootstrap");
+
     }
 
 

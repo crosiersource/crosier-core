@@ -2,10 +2,9 @@
 
 namespace App\Form\Security;
 
-use App\Entity\Security\Group;
-use App\Entity\Security\Role;
-use App\Entity\Security\User;
-use App\Utils\Repository\WhereBuilder;
+use CrosierSource\CrosierLibBaseBundle\Entity\Security\Group;
+use CrosierSource\CrosierLibBaseBundle\Entity\Security\Role;
+use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\WhereBuilder;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Form\AbstractType;
@@ -13,6 +12,12 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class GroupType.
+ *
+ * @package App\Form\Security
+ * @author Carlos Eduardo Pauluk
+ */
 class GroupType extends AbstractType
 {
 

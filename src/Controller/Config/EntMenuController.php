@@ -8,8 +8,6 @@ use App\EntityHandler\Config\EntMenuEntityHandler;
 use App\Form\Config\EntMenuType;
 use App\Repository\Config\EntMenuRepository;
 use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
-use CrosierSource\CrosierLibBaseBundle\EntityHandler\EntityHandler;
-use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\FilterData;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,52 +25,40 @@ use Symfony\Component\Serializer\Serializer;
 class EntMenuController extends FormListController
 {
 
-    private $entityHandler;
-
+    /** @var EntMenuBusiness */
     private $entMenuBusiness;
 
-    public function __construct(EntMenuEntityHandler $entityHandler, EntMenuBusiness $entMenuBusiness)
+    protected $crudParams =
+        [
+            'typeClass' => EntMenuType::class,
+            'formView' => 'Config/entMenuForm.html.twig',
+            'formRoute' => 'cfg_entMenu_form',
+            'formPageTitle' => 'Entrada de Menu',
+            'listView' => 'Config/entMenuList.html.twig',
+            'listRoute' => 'cfg_entMenu_list',
+            'listRouteAjax' => null,
+            'listPageTitle' => 'Entradas de Menu',
+            'listId' => null,
+            'normalizedAttrib' => null,
+
+        ];
+
+    /**
+     * @required
+     * @param EntMenuEntityHandler $entityHandler
+     */
+    public function setEntityHandler(EntMenuEntityHandler $entityHandler): void
     {
         $this->entityHandler = $entityHandler;
+    }
+
+    /**
+     * @required
+     * @param EntMenuBusiness $entMenuBusiness
+     */
+    public function setEntMenuBusiness(EntMenuBusiness $entMenuBusiness): void
+    {
         $this->entMenuBusiness = $entMenuBusiness;
-    }
-
-    public function getEntityHandler(): ?EntityHandler
-    {
-        return $this->entityHandler;
-    }
-
-    public function getFormRoute()
-    {
-        return 'cfg_entMenu_form';
-    }
-
-    public function getFormView()
-    {
-        return 'Config/entMenuForm.html.twig';
-    }
-
-    public function getFilterDatas($params)
-    {
-        return array(
-            new FilterData(['label'], 'LIKE', isset($params['filter']['label']) ? $params['filter']['label'] : null)
-        );
-    }
-
-    public function getListView()
-    {
-        return 'Config/entMenuList.html.twig';
-    }
-
-    public function getListRoute()
-    {
-        return 'cfg_entMenu_list';
-    }
-
-
-    public function getTypeClass()
-    {
-        return EntMenuType::class;
     }
 
     /**
@@ -82,37 +68,18 @@ class EntMenuController extends FormListController
      * @param EntMenu|null $entMenu
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @Security("has_role('ROLE_ADMIN')")
-     * @throws \CrosierSource\CrosierLibBaseBundle\Exception\ViewException
+     * @throws \Exception
      */
     public function form(Request $request, EntMenu $entMenu = null)
     {
         if (!$entMenu) {
             $entMenu = new EntMenu();
         }
-
-        $paiId = $request->query->get('pai');
-        $pai = $this->getDoctrine()->getRepository(EntMenu::class)->find($paiId);
+        $pai = $request->query->get('pai');
+        $pai = $this->getDoctrine()->getRepository(EntMenu::class)->find($pai);
         $entMenu->setPai($pai);
-
-        $form = $this->createForm(EntMenuType::class, $entMenu, ['action' => $this->generateUrl('cfg_entMenu_form', ['id' => $entMenu->getId(), 'pai' => $paiId])]);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted()) {
-            if ($form->isValid()) {
-                $entity = $form->getData();
-                $this->getEntityHandler()->save($entity);
-                $this->addFlash('success', 'Registro salvo com sucesso!');
-                return $this->redirectToRoute($this->getFormRoute(), array('id' => $entMenu->getId(), 'pai' => $paiId));
-            } else {
-                $form->getErrors(true, false);
-            }
-        }
-
-        // Pode ou não ter vindo algo no $parameters. Independentemente disto, só adiciono form e foi-se.
-        $parameters['form'] = $form->createView();
-        $parameters['paiId'] = $paiId;
-        return $this->render($this->getFormView(), $parameters);
+        $parameters['pai'] = $request->get('pai');
+        return $this->doForm($request, $entMenu, $parameters);
     }
 
     /**
@@ -121,17 +88,16 @@ class EntMenuController extends FormListController
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      * @Security("has_role('ROLE_ADMIN')")
+     * @throws \Exception
      */
-    public function list(Request $request, EntMenu $entMenu)
+    public function list(Request $request, EntMenu $entMenu): Response
     {
         $dados = null;
         /** @var EntMenuRepository $repo */
         $repo = $this->getDoctrine()->getRepository(EntMenu::class);
-//        $dados = $repo->findBy(['pai' => $entMenu], ['ordem' => 'ASC', 'id' => 'ASC']);
-//        $dados = array_merge([$entMenu], $dados);
         $dados = $repo->makeTree();
         $vParams['dados'] = $dados;
-        return $this->render($this->getListView(), $vParams);
+        return $this->render($this->crudParams['listView'], $vParams);
     }
 
     /**
@@ -140,6 +106,7 @@ class EntMenuController extends FormListController
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      * @Security("has_role('ROLE_ADMIN')")
+     * @throws \Exception
      */
     public function listPais(Request $request): Response
     {
@@ -158,7 +125,7 @@ class EntMenuController extends FormListController
      * @param EntMenu $entMenu
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function delete(Request $request, EntMenu $entMenu)
+    public function delete(Request $request, EntMenu $entMenu): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         return $this->doDelete($request, $entMenu);
     }
@@ -168,7 +135,6 @@ class EntMenuController extends FormListController
      *
      * @Route("/cfg/entMenu/saveOrdem/", name="cfg_entMenu_saveOrdem")
      * @param Request $request
-     * @param EntMenu $entMenu
      * @return Response|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function save(Request $request)
@@ -185,8 +151,9 @@ class EntMenuController extends FormListController
      * @Route("/cfg/entMenu/getMainMenu", name="cfg_entMenu_getMainMenu")
      * @param Request $request
      * @return Response
+     * @throws \Exception
      */
-    public function getMainMenu(Request $request)
+    public function getMainMenu(Request $request): Response
     {
         $session = new Session();
 
@@ -222,8 +189,9 @@ class EntMenuController extends FormListController
      * @Route("/cfg/entMenu/getAppMainMenu", name="cfg_entMenu_getAppMainMenu")
      * @param Request $request
      * @return Response
+     * @throws \Exception
      */
-    public function getAppMainMenu(Request $request)
+    public function getAppMainMenu(Request $request): Response
     {
         $session = new Session();
 
@@ -260,7 +228,7 @@ class EntMenuController extends FormListController
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function clear(Request $request)
+    public function clear(Request $request): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $session = new Session();
         $session->remove('mainmenu');
