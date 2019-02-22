@@ -61,12 +61,10 @@ class EntMenuRepository extends FilterRepository
     }
 
     /**
-     * Monta o menu com somente aplicativos permitidos ao usuário logado.
-     *
-     * @return array
+     * @param string $programUUID
+     * @return EntMenu|null|object
      */
-    public function buildMenuByProgram(string $programUUID)
-    {
+    public function getEntMenuByProgramUUID(string $programUUID) {
         /** @var Program $program */
         $program = $this->_em->getRepository(Program::class)->findOneBy(['uuid' => $programUUID]);
 
@@ -78,6 +76,25 @@ class EntMenuRepository extends FilterRepository
         } else {
             $entMenuPai = $this->find(1);
         }
+        return $entMenuPai;
+    }
+
+    /**
+     * Monta o menu com somente aplicativos permitidos ao usuário logado.
+     *
+     * @return array
+     */
+    public function buildMenuByProgram(string $programUUID)
+    {
+        $entMenuPai = $this->getEntMenuByProgramUUID($programUUID);
+        return $this->buildMenuByEntMenuPai($entMenuPai);
+    }
+
+    /**
+     * @param EntMenu $entMenuPai
+     * @return array
+     */
+    public function buildMenuByEntMenuPai(EntMenu $entMenuPai) {
 
         $entsMenu = $this->findBy(['pai' => $entMenuPai], ['ordem' => 'ASC']);
 
@@ -87,10 +104,7 @@ class EntMenuRepository extends FilterRepository
             $this->addFilhosInJson($entMenu, $entMenuInJson);
             $rs[] = $entMenuInJson;
         }
-
-
         return $rs;
-
     }
 
     /**
@@ -99,7 +113,7 @@ class EntMenuRepository extends FilterRepository
      * @param EntMenu $pai
      * @param $tree
      */
-    private function getFilhos(EntMenu $pai, &$tree)
+    private function getFilhos2(EntMenu $pai, &$tree)
     {
         if ($pai)
 
@@ -152,6 +166,12 @@ class EntMenuRepository extends FilterRepository
                 'descricao' => $entMenu->getProgram() ? $entMenu->getProgram()->getDescricao() : null,
                 'url' => $entMenu->getProgram() ? $entMenu->getProgram()->getUrl() : null,
                 'uuid' => $entMenu->getProgram() ? $entMenu->getProgram()->getUuid() : null,
+                'app' => [
+                    'id' => $entMenu->getApp() ? $entMenu->getApp()->getId() : null,
+                    'nome' => $entMenu->getApp() ? $entMenu->getApp()->getNome() : null,
+                    'obs' => $entMenu->getApp() ? $entMenu->getApp()->getObs() : null,
+                    'entranceUrl' => $entMenu->getApp() ? $entMenu->getApp()->getEntranceUrl() : null
+                ],
             ]
         ];
     }
@@ -171,5 +191,39 @@ class EntMenuRepository extends FilterRepository
             }
         }
         return $json;
+    }
+
+
+    public function makeTree(EntMenu $entMenuPai)
+    {
+        $ql = "SELECT e FROM App\Entity\Config\EntMenu e WHERE e.pai = :entMenuPai ORDER BY e.ordem";
+        $qry = $this->getEntityManager()->createQuery($ql);
+        $qry->setParameter('entMenuPai', $entMenuPai);
+
+        $pais = $qry->getResult();
+
+        $tree = array();
+
+        foreach ($pais as $pai) {
+            $tree[] = $pai;
+            $this->getFilhos($pai, $tree);
+        }
+        return $tree;
+    }
+
+    private function getFilhos(EntMenu $pai, &$tree)
+    {
+        $ql = "SELECT e FROM App\Entity\Config\EntMenu e WHERE e.pai = :pai ORDER BY e.ordem";
+        $qry = $this->getEntityManager()->createQuery($ql);
+        $qry->setParameter('pai', $pai);
+        $rs = $qry->getResult();
+        if (count($rs) > 0) {
+            foreach ($rs as $r) {
+                $tree[] = $r;
+                $this->getFilhos($r, $tree);
+            }
+        } else {
+            return;
+        }
     }
 }

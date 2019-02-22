@@ -13,9 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
 
 /**
  * Class EntMenuController.
@@ -95,8 +92,9 @@ class EntMenuController extends FormListController
         $dados = null;
         /** @var EntMenuRepository $repo */
         $repo = $this->getDoctrine()->getRepository(EntMenu::class);
-        $dados = $repo->makeTree();
+        $dados = $repo->makeTree($entMenu);
         $vParams['dados'] = $dados;
+        $vParams['entMenu'] = $entMenu;
         return $this->render($this->crudParams['listView'], $vParams);
     }
 
@@ -130,7 +128,6 @@ class EntMenuController extends FormListController
         return $this->doDelete($request, $entMenu);
     }
 
-
     /**
      *
      * @Route("/cfg/entMenu/saveOrdem/", name="cfg_entMenu_saveOrdem")
@@ -145,94 +142,26 @@ class EntMenuController extends FormListController
 
     }
 
-
     /**
      *
-     * @Route("/cfg/entMenu/getMainMenu", name="cfg_entMenu_getMainMenu")
-     * @param Request $request
-     * @return Response
-     * @throws \Exception
-     */
-    public function getMainMenu(Request $request): Response
-    {
-        $session = new Session();
-
-        $normalizer = new ObjectNormalizer();
-        $encoder = new JsonEncoder();
-        $serializer = new Serializer([$normalizer], [$encoder]);
-
-        if (!$session->get('mainmenu')) {
-            $mainMenuSecured = $this->getDoctrine()->getRepository(EntMenu::class)->getMainMenuSecured();
-
-            $attrs = ['id',
-                'label',
-                'icon',
-                'tipo',
-                'cssStyle',
-                'app' => ['id', 'route', 'descricao'],
-                'filhos' => ['id', 'label', 'icon', 'tipo', 'cssStyle', 'app' => ['id', 'route', 'descricao']]];
-
-            $jMainMenuSecured = $serializer->normalize($mainMenuSecured, 'json', ['attributes' => $attrs]);
-            $session->set('mainmenu', $jMainMenuSecured);
-        } else {
-            $jMainMenuSecured = $session->get('mainmenu');
-        }
-
-        return $this->render(
-            '/Config/mainmenu.html.twig',
-            array('mainMenu' => $jMainMenuSecured)
-        );
-    }
-
-    /**
-     *
-     * @Route("/cfg/entMenu/getAppMainMenu", name="cfg_entMenu_getAppMainMenu")
-     * @param Request $request
-     * @return Response
-     * @throws \Exception
-     */
-    public function getAppMainMenu(Request $request): Response
-    {
-        $session = new Session();
-
-        if (!$session->get('mainmenu')) {
-            $mainMenuSecured = $this->getDoctrine()->getRepository(EntMenu::class)->getMainMenuSecured();
-
-            $normalizer = new ObjectNormalizer();
-            $encoder = new JsonEncoder();
-            $serializer = new Serializer([$normalizer], [$encoder]);
-
-            $attrs = ['id',
-                'label',
-                'icon',
-                'tipo',
-                'cssStyle',
-                'app' => ['id', 'route', 'descricao'],
-                'filhos' => ['id', 'label', 'icon', 'tipo', 'cssStyle', 'app' => ['id', 'route', 'descricao']]];
-
-            $jMainMenuSecured = $serializer->normalize($mainMenuSecured, 'json', ['attributes' => $attrs]);
-            $session->set('mainmenu', $jMainMenuSecured);
-        } else {
-            $jMainMenuSecured = $session->get('mainmenu');
-        }
-
-        return $this->render(
-            '/Config/mainmenu.html.twig',
-            array('mainMenu' => $jMainMenuSecured)
-        );
-    }
-
-    /**
-     *
-     * @Route("/cfg/entMenu/clear", name="cfg_entMenu_clear")
+     * @Route("/cfg/entMenu/clear/{entMenu}", name="cfg_entMenu_clear", defaults={"entMenu"=null}, requirements={"entMenu"="\d+"})
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function clear(Request $request): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function clear(Request $request, EntMenu $entMenu = null): \Symfony\Component\HttpFoundation\RedirectResponse
     {
+        // Remove da sessão os menus cacheados pelo BaseController
         $session = new Session();
-        $session->remove('mainmenu');
-        return $this->redirectToRoute('cfg_entMenu_list');
+        $session->set('programs_menus', null);
+        if ($entMenu) {
+            $crosierMenus = $session->get('crosier_menus');
+            $crosierMenus[$entMenu->getId()] = null;
+            $session->set('crosier_menus', $crosierMenus);
+            return $this->redirectToRoute('cfg_entMenu_list', ['entMenu' => $entMenu]);
+        } else {
+            $session->set('crosier_menus', null);
+            return $this->redirectToRoute('cfg_entMenu_listPais');
+        }
     }
 
 

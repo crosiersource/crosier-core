@@ -15,10 +15,15 @@
 				<h3>Entrada de Menu</h3>
 			</div>
 			<div class="col-4 text-right">
-				<button type="button" class="btn btn-secondary"
-					onclick="window.location.href='{{ url('cfg_entMenu_list', {entMenu: pai}) }}'">
-					<i class="fas fa-sync" aria-hidden="true"></i> Listar
+				<button type="button" class="btn btn-primary"
+						onclick="window.location.href='{{ url('cfg_entMenu_form', {'pai' : pai}) }}'">
+					<i class="fas fa-file" aria-hidden="true"></i> Novo
 				</button>
+
+				<a class="btn btn-secondary"
+					href="{{ url('cfg_entMenu_list', {entMenu: pai}) }}">
+					<i class="fas fa-sync" aria-hidden="true"></i> Listar
+				</a>
 			</div>
 		</div>
 
