@@ -2,6 +2,16 @@ SET FOREIGN_KEY_CHECKS=0;
 
 DROP TABLE IF EXISTS `cfg_estabelecimento`;
 
+DROP TABLE IF EXISTS `sec_group`;
+DROP TABLE IF EXISTS `sec_role`;
+DROP TABLE IF EXISTS `sec_group_role`;
+DROP TABLE IF EXISTS `sec_user`;
+DROP TABLE IF EXISTS `sec_user_role`;
+
+
+
+
+
 DROP TABLE IF EXISTS `cfg_config`;
 DROP TABLE IF EXISTS `cfg_app`;
 DROP TABLE IF EXISTS `cfg_app_config`;
@@ -9,11 +19,7 @@ DROP TABLE IF EXISTS `cfg_program`;
 DROP TABLE IF EXISTS `cfg_program_config`;
 DROP TABLE IF EXISTS `cfg_entmenu`;
 
-DROP TABLE IF EXISTS `sec_group`;
-DROP TABLE IF EXISTS `sec_role`;
-DROP TABLE IF EXISTS `sec_user`;
-DROP TABLE IF EXISTS `sec_group_role`;
-DROP TABLE IF EXISTS `sec_user_role`;
+
 
 
 
@@ -302,8 +308,84 @@ CREATE TABLE `cfg_entmenu` (
 
 
 
+-- Tabela mais genérica sobre relacionamentos pessoais
+CREATE TABLE `ger_pessoa` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `uuid` char(32) COLLATE utf8_swedish_ci NOT NULL,
+  `nome` VARCHAR(255) COLLATE utf8_swedish_ci NOT NULL,
+
+  `inserted` datetime NOT NULL,
+  `updated` datetime NOT NULL,
+  `estabelecimento_id` bigint(20) NOT NULL,
+  `user_inserted_id` bigint(20) NOT NULL,
+  `user_updated_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_ger_pessoa_uuid` (`uuid`),
+  KEY `K_ger_pessoa_estabelecimento` (`estabelecimento_id`),
+  KEY `K_ger_pessoa_user_inserted` (`user_inserted_id`),
+  KEY `K_ger_pessoa_user_updated` (`user_updated_id`),
+  CONSTRAINT `FK_ger_pessoa_estabelecimento` FOREIGN KEY (`estabelecimento_id`) REFERENCES `cfg_estabelecimento` (`id`),
+  CONSTRAINT `FK_ger_pessoa_user_inserted` FOREIGN KEY (`user_updated_id`) REFERENCES `sec_user` (`id`),
+  CONSTRAINT `FK_ger_pessoa_user_updated` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 
 
+
+-- Categorização para os tipos de 'infocad' (CLIENTE, FORNECEDOR, etc)
+CREATE TABLE `ger_infocad_categ` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `descricao` VARCHAR(255) COLLATE utf8_swedish_ci NOT NULL,
+
+  `inserted` datetime NOT NULL,
+  `updated` datetime NOT NULL,
+  `estabelecimento_id` bigint(20) NOT NULL,
+  `user_inserted_id` bigint(20) NOT NULL,
+  `user_updated_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `K_ger_infocad_categ_estabelecimento` (`estabelecimento_id`),
+  KEY `K_ger_infocad_categ_user_inserted` (`user_inserted_id`),
+  KEY `K_ger_infocad_categ_user_updated` (`user_updated_id`),
+  CONSTRAINT `FK_ger_infocad_categ_estabelecimento` FOREIGN KEY (`estabelecimento_id`) REFERENCES `cfg_estabelecimento` (`id`),
+  CONSTRAINT `FK_ger_infocad_categ_user_inserted` FOREIGN KEY (`user_updated_id`) REFERENCES `sec_user` (`id`),
+  CONSTRAINT `FK_ger_infocad_categ_user_updated` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+
+
+
+
+-- Informações cadastrais
+CREATE TABLE `ger_infocad` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `pessoa_id` bigint(20) NOT NULL,
+  `infocad_categ_id` bigint(20) NOT NULL,    
+  `tipo` ENUM('Pessoa Física', 'Pessoa Jurídica'),
+  `nome_fantasia` VARCHAR(255) COLLATE utf8_swedish_ci NOT NULL,
+  `cpf_cnpj` varchar(20) DEFAULT NULL,
+  `rg_ie` varchar(20) DEFAULT NULL,
+
+  `enderecos` json DEFAULT NULL,
+  `municipio_id` bigint(20) DEFAULT NULL,
+  `cep` char(8) NOT NULL,  
+  `fones` json DEFAULT NULL,
+  `observacao` varchar(3000) DEFAULT NULL,
+
+  `inserted` datetime NOT NULL,
+  `updated` datetime NOT NULL,
+  `estabelecimento_id` bigint(20) NOT NULL,
+  `user_inserted_id` bigint(20) NOT NULL,
+  `user_updated_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_ger_infocad_pessoa_id` (`pessoa_id`),
+  KEY `K_ger_infocad_categ` (`infocad_categ_id`),
+  KEY `K_ger_infocad_estabelecimento` (`estabelecimento_id`),
+  KEY `K_ger_infocad_user_inserted` (`user_inserted_id`),
+  KEY `K_ger_infocad_user_updated` (`user_updated_id`),
+  CONSTRAINT `FK_ger_infocad_categ` FOREIGN KEY (`infocad_categ_id`) REFERENCES `ger_infocad` (`id`),
+  CONSTRAINT `FK_ger_infocad_pessoa` FOREIGN KEY (`pessoa_id`) REFERENCES `ger_pessoa` (`id`),
+  CONSTRAINT `FK_ger_infocad_estabelecimento` FOREIGN KEY (`estabelecimento_id`) REFERENCES `cfg_estabelecimento` (`id`),
+  CONSTRAINT `FK_ger_infocad_user_inserted` FOREIGN KEY (`user_updated_id`) REFERENCES `sec_user` (`id`),
+  CONSTRAINT `FK_ger_infocad_user_updated` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 
 
 
