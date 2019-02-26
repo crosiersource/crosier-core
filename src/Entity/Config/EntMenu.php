@@ -54,13 +54,6 @@ class EntMenu implements EntityId
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Config\App")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $app;
-
-    /**
-     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Config\Program")
      * @ORM\JoinColumn(nullable=true)
      */
@@ -169,22 +162,6 @@ class EntMenu implements EntityId
     public function setCssStyle($cssStyle): void
     {
         $this->cssStyle = $cssStyle;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getApp(): ?App
-    {
-        return $this->app;
-    }
-
-    /**
-     * @param mixed $app
-     */
-    public function setApp(?App $app): void
-    {
-        $this->app = $app;
     }
 
     /**

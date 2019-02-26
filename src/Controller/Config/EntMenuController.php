@@ -157,7 +157,7 @@ class EntMenuController extends FormListController
             $crosierMenus = $session->get('crosier_menus');
             $crosierMenus[$entMenu->getId()] = null;
             $session->set('crosier_menus', $crosierMenus);
-            return $this->redirectToRoute('cfg_entMenu_list', ['entMenu' => $entMenu]);
+            return $this->redirectToRoute('cfg_entMenu_list', ['entMenu' => $entMenu->getId()]);
         } else {
             $session->set('crosier_menus', null);
             return $this->redirectToRoute('cfg_entMenu_listPais');
