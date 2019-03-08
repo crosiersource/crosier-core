@@ -28,14 +28,19 @@ class EntMenuController extends FormListController
     protected $crudParams =
         [
             'typeClass' => EntMenuType::class,
+
             'formView' => 'Config/entMenuForm.html.twig',
             'formRoute' => 'cfg_entMenu_form',
             'formPageTitle' => 'Entrada de Menu',
+            'form_PROGRAM_UUID' => '',
+
             'listView' => 'Config/entMenuList.html.twig',
             'listRoute' => 'cfg_entMenu_list',
             'listRouteAjax' => null,
             'listPageTitle' => 'Entradas de Menu',
             'listId' => null,
+            'list_PROGRAM_UUID' => '',
+
             'normalizedAttrib' => null,
 
         ];

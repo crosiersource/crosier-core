@@ -25,14 +25,19 @@ class ConfigController extends FormListController
     protected $crudParams =
         [
             'typeClass' => ConfigType::class,
+
             'formView' => 'Config/configForm.html.twig',
             'formRoute' => 'cfg_config_form',
             'formPageTitle' => 'Parâmetro de Configuração',
+            'form_PROGRAM_UUID' => 'd54092da-1cf1-4a67-8597-2d9a571221aa',
+
             'listView' => 'Config/configList.html.twig',
             'listRoute' => 'cfg_config_list',
             'listRouteAjax' => 'cfg_config_datatablesJsList',
             'listPageTitle' => 'Parâmetros de Configuração',
             'listId' => 'configList',
+            'list_PROGRAM_UUID' => '93d6c377-6070-46fc-81fc-cdd1c67ccfab',
+
             'normalizedAttrib' => [
                 'id',
                 'chave',
