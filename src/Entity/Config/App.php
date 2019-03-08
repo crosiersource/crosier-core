@@ -2,8 +2,11 @@
 
 namespace App\Entity\Config;
 
+use CrosierSource\CrosierLibBaseBundle\Doctrine\Annotations\NotUppercase;
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityId;
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityIdTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -18,6 +21,14 @@ class App implements EntityId
 
     use EntityIdTrait;
 
+
+    /**
+     * @var string
+     * @ORM\Column(name="uuid", type="string", nullable=false, length=36)
+     * @NotUppercase()
+     */
+    private $UUID;
+
     /**
      *
      * @ORM\Column(name="nome", type="string", nullable=true, length=300)
@@ -26,35 +37,49 @@ class App implements EntityId
 
     /**
      *
-     * @ORM\Column(name="icon", type="string", nullable=true, length=300)
-     */
-    private $icon;
-
-    /**
-     *
      * @ORM\Column(name="obs", type="string", nullable=true, length=5000)
      */
     private $obs;
 
     /**
-     *
-     * @ORM\Column(name="ordem", type="integer", nullable=true)
+     * @var string
+     * @ORM\Column(name="default_entmenu_uuid", type="string", nullable=true, length=36)
      */
-    private $ordem;
+    private $defaultEntMenuUUID;
 
     /**
      *
-     * @ORM\Column(name="entrance_url", type="string", nullable=true, length=255)
+     * @var EntMenu[]|ArrayCollection
+     *
+     * @ORM\OneToMany(
+     *      targetEntity="AppConfig",
+     *      mappedBy="app",
+     *      orphanRemoval=true
+     * )
      */
-    private $entranceUrl;
+    private $configs;
+
+
+    public function __construct()
+    {
+        $this->configs = new ArrayCollection();
+    }
 
     /**
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Config\EntMenu")
-     * @ORM\JoinColumn(name="default_entmenu_id", nullable=true)
+     * @return string
      */
-    private $defaultEntMenu;
+    public function getUUID(): string
+    {
+        return $this->UUID;
+    }
 
+    /**
+     * @param string $UUID
+     */
+    public function setUUID(string $UUID): void
+    {
+        $this->UUID = $UUID;
+    }
 
     /**
      * @return mixed
@@ -75,38 +100,6 @@ class App implements EntityId
     /**
      * @return mixed
      */
-    public function getIcon()
-    {
-        return $this->icon;
-    }
-
-    /**
-     * @param mixed $icon
-     */
-    public function setIcon($icon): void
-    {
-        $this->icon = $icon;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getOrdem()
-    {
-        return $this->ordem;
-    }
-
-    /**
-     * @param mixed $ordem
-     */
-    public function setOrdem($ordem): void
-    {
-        $this->ordem = $ordem;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getObs()
     {
         return $this->obs;
@@ -121,35 +114,35 @@ class App implements EntityId
     }
 
     /**
-     * @return mixed
+     * @return null|string
      */
-    public function getEntranceUrl()
+    public function getDefaultEntMenuUUID(): ?string
     {
-        return $this->entranceUrl;
+        return $this->defaultEntMenuUUID;
     }
 
     /**
-     * @param mixed $entranceUrl
+     * @param null|string $defaultEntMenuUUID
      */
-    public function setEntranceUrl($entranceUrl): void
+    public function setDefaultEntMenuUUID(?string $defaultEntMenuUUID): void
     {
-        $this->entranceUrl = $entranceUrl;
+        $this->defaultEntMenuUUID = $defaultEntMenuUUID;
     }
 
     /**
-     * @return EntMenu|null
+     * @return Collection|null
      */
-    public function getDefaultEntMenu(): ?EntMenu
+    public function getConfigs(): ?Collection
     {
-        return $this->defaultEntMenu;
+        return $this->configs;
     }
 
     /**
-     * @param EntMenu|null $defaultEntMenu
+     * @param Collection|null $configs
      */
-    public function setDefaultEntMenu(?EntMenu $defaultEntMenu): void
+    public function setConfigs(?Collection $configs): void
     {
-        $this->defaultEntMenu = $defaultEntMenu;
+        $this->configs = $configs;
     }
 
 

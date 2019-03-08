@@ -19,6 +19,13 @@ class Program implements EntityId
     use EntityIdTrait;
 
     /**
+     * @var string
+     * @ORM\Column(name="uuid", type="string", nullable=false, length=36)
+     * @NotUppercase()
+     */
+    private $UUID;
+
+    /**
      *
      * @ORM\Column(name="descricao", type="string", nullable=false, length=255)
      */
@@ -32,24 +39,37 @@ class Program implements EntityId
     private $url;
 
     /**
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Config\App")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $app;
-
-    /**
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Config\EntMenu")
-     * @ORM\JoinColumn(name="entmenu_id", nullable=true)
-     */
-    private $entMenu;
-
-    /**
-     * @ORM\Column(name="uuid", type="string", nullable=false, length=32)
+     * @var string
+     * @ORM\Column(name="app_uuid", type="string", nullable=false, length=36)
      * @NotUppercase()
      */
-    private $uuid;
+    private $appUUID;
+
+    /**
+     * @var string
+     * @ORM\Column(name="entmenu_uuid", type="string", nullable=true, length=36)
+     * @NotUppercase()
+     */
+    private $entMenuUUID;
+
+
+
+
+    /**
+     * @return string
+     */
+    public function getUUID(): string
+    {
+        return $this->UUID;
+    }
+
+    /**
+     * @param string $UUID
+     */
+    public function setUUID(string $UUID): void
+    {
+        $this->UUID = $UUID;
+    }
 
     /**
      * @return mixed
@@ -84,51 +104,35 @@ class Program implements EntityId
     }
 
     /**
-     * @return App|null
-     */
-    public function getApp(): ?App
-    {
-        return $this->app;
-    }
-
-    /**
-     * @param mixed $app
-     */
-    public function setApp(?App $app): void
-    {
-        $this->app = $app;
-    }
-
-    /**
      * @return string
      */
-    public function getUuid(): ?string
+    public function getAppUUID(): string
     {
-        return $this->uuid;
+        return $this->appUUID;
     }
 
     /**
-     * @param string $uuid
+     * @param string $appUUID
      */
-    public function setUuid(?string $uuid): void
+    public function setAppUUID(string $appUUID): void
     {
-        $this->uuid = $uuid;
+        $this->appUUID = $appUUID;
     }
 
     /**
-     * @return EntMenu|null
+     * @return null|string
      */
-    public function getEntMenu(): ?EntMenu
+    public function getEntMenuUUID(): ?string
     {
-        return $this->entMenu;
+        return $this->entMenuUUID;
     }
 
     /**
-     * @param EntMenu|null $entMenu
+     * @param null|string $entMenuUUID
      */
-    public function setEntMenu(?EntMenu $entMenu): void
+    public function setEntMenuUUID(?string $entMenuUUID): void
     {
-        $this->entMenu = $entMenu;
+        $this->entMenuUUID = $entMenuUUID;
     }
 
 

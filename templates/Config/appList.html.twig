@@ -1,0 +1,18 @@
+{% extends '@CrosierLibBase/list.html.twig' %}
+
+{% set campos_pesquisar %}
+
+    <div class="form-group">
+        <label for="p_nome">Nome</label>
+        <input type="text"
+               class="form-control" id="filter[nome]"
+               name="filter[nome]"
+               value="{{ filter.nome|default('') }}">
+    </div>
+
+{% endset %}
+
+
+{% block down_scripts %}
+    <script src="{{ asset('build/cfg/appList.js') }}"></script>
+{% endblock %}

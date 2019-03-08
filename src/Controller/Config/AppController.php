@@ -3,9 +3,12 @@
 namespace App\Controller\Config;
 
 use App\Entity\Config\App;
+use App\Entity\Config\AppConfig;
+use App\EntityHandler\Config\AppConfigEntityHandler;
 use App\EntityHandler\Config\AppEntityHandler;
 use App\Form\Config\AppType;
 use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
+use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\FilterData;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,6 +21,11 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AppController extends FormListController
 {
+
+    /**
+     * @var AppConfigEntityHandler
+     */
+    private $appConfigEntityHandler;
 
     protected $crudParams =
         [
@@ -48,6 +56,15 @@ class AppController extends FormListController
         $this->entityHandler = $entityHandler;
     }
 
+    /**
+     * @required
+     * @param AppConfigEntityHandler $appConfigEntityHandler
+     */
+    public function setAppConfigEntityHandler(AppConfigEntityHandler $appConfigEntityHandler): void
+    {
+        $this->appConfigEntityHandler = $appConfigEntityHandler;
+    }
+
     public function getFilterDatas(array $params): array
     {
         return [
@@ -65,6 +82,31 @@ class AppController extends FormListController
      */
     public function form(Request $request, App $app = null)
     {
+        if ($app) {
+            if ($request->get('appConfig')) {
+                $appConfigArr = $request->get('appConfig');
+                if (isset($appConfigArr['chave']) && $appConfigArr['chave']) {
+                    $appConfig = new AppConfig();
+                    $appConfig->setApp($app);
+                    $appConfig->setChave($request->get('appConfig')['chave']);
+                    $appConfig->setValor($request->get('appConfig')['valor']);
+                    $this->appConfigEntityHandler->save($appConfig);
+                }
+            }
+
+            if ($request->get('appConfigs')) {
+                $appConfigs = $request->get('appConfigs');
+                foreach ($appConfigs as $id => $appConfigArr) {
+                    $appConfig = $this->appConfigEntityHandler->getDoctrine()->getRepository(AppConfig::class)->find($id);
+                    $appConfig->setChave($appConfigArr['chave']);
+                    $appConfig->setValor($appConfigArr['valor']);
+                    $this->appConfigEntityHandler->save($appConfig);
+                }
+            }
+
+
+        }
+
         return $this->doForm($request, $app);
     }
 
@@ -102,6 +144,34 @@ class AppController extends FormListController
     public function delete(Request $request, App $app): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         return $this->doDelete($request, $app);
+    }
+
+    /**
+     *
+     * @Route("/cfg/appConfig/delete/{appConfig}/", name="cfg_appConfig_delete", requirements={"appConfig"="\d+"})
+     * @param Request $request
+     * @param AppConfig $appConfig
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteAppConfig(Request $request, AppConfig $appConfig): \Symfony\Component\HttpFoundation\RedirectResponse
+    {
+        // $this->checkAccess($this->crudParams['deleteRoute']);
+        if (!$this->isCsrfTokenValid('delete', $request->request->get('token'))) {
+            $this->addFlash('error', 'Erro interno do sistema.');
+        } else {
+            try {
+                $this->appConfigEntityHandler->delete($appConfig);
+                $this->addFlash('success', 'Registro deletado com sucesso.');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Erro ao deletar registro.');
+            }
+        }
+        if ($request->server->get('HTTP_REFERER')) {
+            return $this->redirect($request->server->get('HTTP_REFERER'));
+        } else {
+
+            return $this->redirectToRoute($this->crudParams['listRoute']);
+        }
     }
 
 

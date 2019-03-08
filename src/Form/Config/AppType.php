@@ -18,7 +18,8 @@ class AppType extends AbstractType
         ));
 
         $builder->add('obs', TextType::class, array(
-            'label' => 'Obs'
+            'label' => 'Obs',
+            'required' => false
         ));
 
 

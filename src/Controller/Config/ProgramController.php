@@ -34,7 +34,7 @@ class ProgramController extends FormListController
             'normalizedAttrib' => [
                 'id',
                 'descricao',
-                'uuid',
+                'UUID',
                 'url',
                 'app' => ['nome']
             ],

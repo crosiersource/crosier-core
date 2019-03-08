@@ -64,30 +64,37 @@ class EntMenuRepository extends FilterRepository
 
     /**
      * @param string $programUUID
-     * @return EntMenu|null|object
+     * @return array|null
      */
     public function getEntMenuByProgramUUID(string $programUUID)
     {
         /** @var Program $program */
-        $program = $this->getEntityManager()->getRepository(Program::class)->findOneBy(['uuid' => $programUUID]);
+        $program = $this->getEntityManager()->getRepository(Program::class)->findOneBy(['UUID' => $programUUID]);
+        if ($program) {
+            /** @var EntMenu $entMenuPai */
+            $entMenuPai = null;
+            if ($program->getEntMenuUUID()) {
+                $entMenuPai = $this->findOneBy(['UUID' => $program->getEntMenuUUID()]);
+            } else if ($program->getAppUUID()) {
+                /** @var App $app */
+                $app = $this->getEntityManager()->getRepository(App::class)->findOneBy(['UUID' => $program->getAppUUID()]);
+                $entMenuPai = $this->findOneBy(['UUID' => $app->getDefaultEntMenuUUID()]);
+            } else {
+                $entMenuPai = $this->find(1);
+            }
+            $rEntMenu = [
+                'id' => $entMenuPai->getId(),
+                'UUID' => $entMenuPai->getUUID(),
+                'label' => $entMenuPai->getLabel(),
+                'icon' => $entMenuPai->getIcon(),
+                'tipo' => $entMenuPai->getTipo(),
+                'ordem' => $entMenuPai->getOrdem()
+            ];
 
-        $entMenuPai = null;
-        if ($program->getEntMenu()) {
-            $entMenuPai = $program->getEntMenu();
-        } else if ($program->getApp()->getDefaultEntMenu()) {
-            $entMenuPai = $program->getApp()->getDefaultEntMenu();
-        } else {
-            $entMenuPai = $this->find(1);
+            return $rEntMenu;
         }
-        $rEntMenu = [
-            'id' => $entMenuPai->getId(),
-            'label' => $entMenuPai->getLabel(),
-            'icon' => $entMenuPai->getIcon(),
-            'tipo' => $entMenuPai->getTipo(),
-            'ordem' => $entMenuPai->getOrdem()
-        ];
+        return null;
 
-        return $rEntMenu;
     }
 
     /**
@@ -98,8 +105,13 @@ class EntMenuRepository extends FilterRepository
     public function buildMenuByProgram(string $programUUID)
     {
         $entMenuPaiJson = $this->getEntMenuByProgramUUID($programUUID);
-        $entMenuPai = $this->find($entMenuPaiJson['id']);
-        return $this->buildMenuByEntMenuPai($entMenuPai);
+        if ($entMenuPaiJson) {
+            $entMenuPai = $this->find($entMenuPaiJson['id']);
+            if ($entMenuPai) {
+                return $this->buildMenuByEntMenuPai($entMenuPai);
+            }
+        }
+        return null;
     }
 
     /**
@@ -144,6 +156,7 @@ class EntMenuRepository extends FilterRepository
      */
     private function entMenuInJson(EntMenu $entMenu)
     {
+        $program = $this->getEntityManager()->getRepository(Program::class)->findOneBy(['UUID' => $entMenu->getProgramUUID()]);
         return [
             'id' => $entMenu->getId(),
             'label' => $entMenu->getLabel(),
@@ -158,10 +171,10 @@ class EntMenuRepository extends FilterRepository
                 'label' => $entMenu->getPai() ? $entMenu->getPai()->getLabel() : null
             ],
             'program' => [
-                'id' => $entMenu->getProgram() ? $entMenu->getProgram()->getId() : null,
-                'descricao' => $entMenu->getProgram() ? $entMenu->getProgram()->getDescricao() : null,
-                'url' => $entMenu->getProgram() ? $entMenu->getProgram()->getUrl() : null,
-                'uuid' => $entMenu->getProgram() ? $entMenu->getProgram()->getUuid() : null
+                'id' => $program ? $program->getId() : null,
+                'descricao' => $program ? $program->getDescricao() : null,
+                'url' => $program ? $program->getUrl() : null,
+                'UUID' => $program ? $program->getUuid() : null
             ]
         ];
     }

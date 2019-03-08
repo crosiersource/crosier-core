@@ -22,7 +22,7 @@ class DefaultController extends BaseController
      */
     public function index()
     {
-        $params['PROGRAM_UUID'] = '72a9aa1dc9024905b60ea8009a9bf50e';
+        $params['PROGRAM_UUID'] = '4f4df268-09ef-4e9c-bbc9-82eaf85de43f';
         return $this->render('dashboard.html.twig', $params);
     }
 

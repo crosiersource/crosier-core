@@ -3,6 +3,7 @@
 namespace App\Form\Config;
 
 use App\Entity\Config\App;
+use App\Entity\Config\EntMenu;
 use App\Entity\Config\Modulo;
 use App\Entity\Config\Program;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -40,7 +41,22 @@ class ProgramType extends AbstractType
 
         $builder->add('app', EntityType::class, array(
             'class' => App::class,
-            'choice_label' => 'nome'
+            'choice_label' => 'nome',
+            'attr' => [
+                'class' => 'autoSelect2'
+            ]
+        ));
+
+        $builder->add('entMenu', EntityType::class, array(
+            'class' => EntMenu::class,
+            'label' => 'Menu',
+            'choices' => array_merge([null], $this->doctrine->getRepository(EntMenu::class)->getMenusPais()),
+            'choice_label' => function (?EntMenu $entMenu) {
+                return $entMenu ? $entMenu->getLabel() : null;
+            },
+            'attr' => [
+                'class' => 'autoSelect2'
+            ]
         ));
 
     }

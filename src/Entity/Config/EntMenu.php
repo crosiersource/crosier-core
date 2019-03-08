@@ -20,6 +20,13 @@ class EntMenu implements EntityId
     use EntityIdTrait;
 
     /**
+     * @var string
+     * @ORM\Column(name="uuid", type="string", nullable=false, length=36)
+     * @NotUppercase()
+     */
+    private $UUID;
+
+    /**
      *
      * @ORM\Column(name="label", type="string", nullable=false, length=255)
      * @NotUppercase()
@@ -53,11 +60,10 @@ class EntMenu implements EntityId
     private $cssStyle;
 
     /**
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Config\Program")
-     * @ORM\JoinColumn(nullable=true)
+     * @var string
+     * @ORM\Column(name="program_uuid", type="string", nullable=true, length=36)
      */
-    private $program;
+    private $programUUID;
 
     /**
      *
@@ -82,6 +88,22 @@ class EntMenu implements EntityId
     public function __construct()
     {
         $this->filhos = new ArrayCollection();
+    }
+
+    /**
+     * @return string
+     */
+    public function getUUID(): string
+    {
+        return $this->UUID;
+    }
+
+    /**
+     * @param string $UUID
+     */
+    public function setUUID(string $UUID): void
+    {
+        $this->UUID = $UUID;
     }
 
     /**
@@ -165,19 +187,19 @@ class EntMenu implements EntityId
     }
 
     /**
-     * @return Program|null
+     * @return string|null
      */
-    public function getProgram(): ?Program
+    public function getProgramUUID(): ?string
     {
-        return $this->program;
+        return $this->programUUID;
     }
 
     /**
-     * @param Program|null $program
+     * @param string|null $programUUID
      */
-    public function setProgram(?Program $program): void
+    public function setProgramUUID(?string $programUUID): void
     {
-        $this->program = $program;
+        $this->programUUID = $programUUID;
     }
 
     /**
