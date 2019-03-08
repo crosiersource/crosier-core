@@ -156,7 +156,13 @@ class EntMenuRepository extends FilterRepository
      */
     private function entMenuInJson(EntMenu $entMenu)
     {
+        /** @var Program $program */
         $program = $this->getEntityManager()->getRepository(Program::class)->findOneBy(['UUID' => $entMenu->getProgramUUID()]);
+        $app = null;
+        if ($program) {
+            /** @var App $app */
+            $app = $this->getEntityManager()->getRepository(App::class)->findOneBy(['UUID' => $program->getAppUUID()]);
+        }
         return [
             'id' => $entMenu->getId(),
             'label' => $entMenu->getLabel(),
@@ -174,7 +180,12 @@ class EntMenuRepository extends FilterRepository
                 'id' => $program ? $program->getId() : null,
                 'descricao' => $program ? $program->getDescricao() : null,
                 'url' => $program ? $program->getUrl() : null,
-                'UUID' => $program ? $program->getUuid() : null
+                'UUID' => $program ? $program->getUUID() : null,
+                'app' => [
+                    'id' => $app ? $app->getId() : null,
+                    'nome' => $app ? $app->getNome() : null
+
+                ]
             ]
         ];
     }
@@ -214,7 +225,7 @@ class EntMenuRepository extends FilterRepository
         $tree = array();
 
         foreach ($pais as $pai) {
-            $tree[] = $pai;
+            $tree[] = $this->entMenuInJson($pai);
             $this->getFilhos($pai, $tree);
         }
         return $tree;
@@ -232,7 +243,7 @@ class EntMenuRepository extends FilterRepository
         $rs = $qry->getResult();
         if (count($rs) > 0) {
             foreach ($rs as $r) {
-                $tree[] = $r;
+                $tree[] = $this->entMenuInJson($r);
                 $this->getFilhos($r, $tree);
             }
         } else {

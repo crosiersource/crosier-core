@@ -44,6 +44,7 @@ class App implements EntityId
     /**
      * @var string
      * @ORM\Column(name="default_entmenu_uuid", type="string", nullable=true, length=36)
+     * @NotUppercase()
      */
     private $defaultEntMenuUUID;
 
@@ -68,7 +69,7 @@ class App implements EntityId
     /**
      * @return string
      */
-    public function getUUID(): string
+    public function getUUID(): ?string
     {
         return $this->UUID;
     }
@@ -76,7 +77,7 @@ class App implements EntityId
     /**
      * @param string $UUID
      */
-    public function setUUID(string $UUID): void
+    public function setUUID(?string $UUID): void
     {
         $this->UUID = $UUID;
     }

@@ -2,6 +2,7 @@
 
 namespace App\Repository\Config;
 
+use App\Entity\Config\App;
 use App\Entity\Config\Program;
 use CrosierSource\CrosierLibBaseBundle\Repository\FilterRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -18,11 +19,31 @@ class ProgramRepository extends FilterRepository
     public function handleFrombyFilters(QueryBuilder $qb)
     {
         return $qb->from($this->getEntityClass(), 'e')
-            ->leftJoin('App\Entity\Config\App', 'a', 'WITH', 'e.app = a');
+            ->leftJoin(App::class, 'a', 'WITH', 'e.appUUID = a.UUID');
     }
 
     public function getEntityClass()
     {
         return Program::class;
+    }
+
+    public function buildTransientsInAll(array $programs)
+    {
+        foreach ($programs as $program) {
+            $this->buildTransients($program);
+        }
+    }
+
+    /**
+     * Preenche os atributos transientes da entidades
+     * @param Program $program
+     */
+    public function buildTransients(Program $program)
+    {
+        if ($program && $program->getAppUUID()) {
+            /** @var App $app */
+            $app = $this->getEntityManager()->getRepository(App::class)->findOneBy(['UUID' => $program->getAppUUID()]);
+            $program->setApp($app);
+        }
     }
 }

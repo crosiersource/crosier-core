@@ -52,13 +52,17 @@ class Program implements EntityId
      */
     private $entMenuUUID;
 
-
+    /**
+     * Atributo transiente.
+     * @var App
+     */
+    private $app;
 
 
     /**
      * @return string
      */
-    public function getUUID(): string
+    public function getUUID(): ?string
     {
         return $this->UUID;
     }
@@ -66,7 +70,7 @@ class Program implements EntityId
     /**
      * @param string $UUID
      */
-    public function setUUID(string $UUID): void
+    public function setUUID(?string $UUID): void
     {
         $this->UUID = $UUID;
     }
@@ -104,17 +108,17 @@ class Program implements EntityId
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getAppUUID(): string
+    public function getAppUUID(): ?string
     {
         return $this->appUUID;
     }
 
     /**
-     * @param string $appUUID
+     * @param string|null $appUUID
      */
-    public function setAppUUID(string $appUUID): void
+    public function setAppUUID(?string $appUUID): void
     {
         $this->appUUID = $appUUID;
     }
@@ -133,6 +137,22 @@ class Program implements EntityId
     public function setEntMenuUUID(?string $entMenuUUID): void
     {
         $this->entMenuUUID = $entMenuUUID;
+    }
+
+    /**
+     * @return App|null
+     */
+    public function getApp(): ?App
+    {
+        return $this->app;
+    }
+
+    /**
+     * @param App|null $app
+     */
+    public function setApp(?App $app): void
+    {
+        $this->app = $app;
     }
 
 

@@ -5,6 +5,7 @@ namespace App\Controller\Config;
 use App\Entity\Config\Program;
 use App\EntityHandler\Config\ProgramEntityHandler;
 use App\Form\Config\ProgramType;
+use App\Repository\Config\ProgramRepository;
 use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
 use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\FilterData;
 use Symfony\Component\HttpFoundation\Request;
@@ -94,6 +95,14 @@ class ProgramController extends FormListController
     {
         return $this->doDatatablesJsList($request);
     }
+
+    public function handleDadosList(array &$dados)
+    {
+        /** @var ProgramRepository $programRepo */
+        $programRepo = $this->getDoctrine()->getRepository(Program::class);
+        $programRepo->buildTransientsInAll($dados);
+    }
+
 
     /**
      *

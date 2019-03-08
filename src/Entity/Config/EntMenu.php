@@ -62,6 +62,7 @@ class EntMenu implements EntityId
     /**
      * @var string
      * @ORM\Column(name="program_uuid", type="string", nullable=true, length=36)
+     * @NotUppercase()
      */
     private $programUUID;
 
@@ -93,7 +94,7 @@ class EntMenu implements EntityId
     /**
      * @return string
      */
-    public function getUUID(): string
+    public function getUUID(): ?string
     {
         return $this->UUID;
     }
@@ -101,7 +102,7 @@ class EntMenu implements EntityId
     /**
      * @param string $UUID
      */
-    public function setUUID(string $UUID): void
+    public function setUUID(?string $UUID): void
     {
         $this->UUID = $UUID;
     }

@@ -3,35 +3,35 @@
 */
 
 
-body,html {
-    height: 100%;
-    margin-bottom: 60px;
-    font-size: small;
-}
+/*body,html {*/
+    /*height: 100%;*/
+    /*margin-bottom: 60px;*/
+    /*font-size: small;*/
+/*}*/
 
-.footer {
-    position: fixed;
-    height: 40px;
-    bottom: 0;
-    width: 100%;
-    background-color: #fe9004;
-    left: 0px;
-}
+/*.footer {*/
+    /*position: fixed;*/
+    /*height: 40px;*/
+    /*bottom: 0;*/
+    /*width: 100%;*/
+    /*background-color: #fe9004;*/
+    /*left: 0px;*/
+/*}*/
 
 
-/* Custom page CSS
--------------------------------------------------- */
-/* Not required for template or sticky footer method. */
+/*!* Custom page CSS*/
+/*-------------------------------------------------- *!*/
+/*!* Not required for template or sticky footer method. *!*/
 
-body > .container-fluid {
-    padding: 10px 15px 0;
-}
+/*body > .container-fluid {*/
+    /*padding: 10px 15px 0;*/
+/*}*/
 
-.footer-div {
-    color: white;
-    font-size: small;
-    line-height: 40px;
-}
+/*.footer-div {*/
+    /*color: white;*/
+    /*font-size: small;*/
+    /*line-height: 40px;*/
+/*}*/
 
 
 input, select {
@@ -59,7 +59,7 @@ div.paceDiv {
    display: none;
 }
 
-.notuppercase
+.notuppercase,
 .email {
 	text-transform: lowercase;
 }
