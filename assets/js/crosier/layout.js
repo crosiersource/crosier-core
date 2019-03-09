@@ -43,7 +43,7 @@ import 'toastr/build/toastr.css'
 // import 'moment/locale/pt-br';
 // import Numeral from 'numeral';
 // import 'numeral/locales/pt-br.js'
-// //import '../../static/css/crosier.css';
+import '../../static/css/crosier.css';
 //
 // Moment().locale('pt-BR');
 //

@@ -47,11 +47,11 @@ class UserEntityHandler extends EntityHandler
      */
     public function renewTokenApi(User $user)
     {
-
-        $user->setApiToken(bin2hex(random_bytes(60)));
+        if (!$user->getApiToken()) {
+            $user->setApiToken(bin2hex(random_bytes(60)));
+        }
         $user->setApiTokenExpiresAt(new \DateTime('+48 hour'));
         $this->save($user);
-
         return $user->getApiToken();
     }
 

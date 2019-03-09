@@ -28,14 +28,19 @@ class EntMenuController extends FormListController
     protected $crudParams =
         [
             'typeClass' => EntMenuType::class,
+
             'formView' => 'Config/entMenuForm.html.twig',
             'formRoute' => 'cfg_entMenu_form',
             'formPageTitle' => 'Entrada de Menu',
+            'form_PROGRAM_UUID' => '',
+
             'listView' => 'Config/entMenuList.html.twig',
             'listRoute' => 'cfg_entMenu_list',
             'listRouteAjax' => null,
             'listPageTitle' => 'Entradas de Menu',
             'listId' => null,
+            'list_PROGRAM_UUID' => '',
+
             'normalizedAttrib' => null,
 
         ];
@@ -157,7 +162,7 @@ class EntMenuController extends FormListController
             $crosierMenus = $session->get('crosier_menus');
             $crosierMenus[$entMenu->getId()] = null;
             $session->set('crosier_menus', $crosierMenus);
-            return $this->redirectToRoute('cfg_entMenu_list', ['entMenu' => $entMenu]);
+            return $this->redirectToRoute('cfg_entMenu_list', ['entMenu' => $entMenu->getId()]);
         } else {
             $session->set('crosier_menus', null);
             return $this->redirectToRoute('cfg_entMenu_listPais');

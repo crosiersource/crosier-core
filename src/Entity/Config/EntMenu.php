@@ -20,6 +20,13 @@ class EntMenu implements EntityId
     use EntityIdTrait;
 
     /**
+     * @var string
+     * @ORM\Column(name="uuid", type="string", nullable=false, length=36)
+     * @NotUppercase()
+     */
+    private $UUID;
+
+    /**
      *
      * @ORM\Column(name="label", type="string", nullable=false, length=255)
      * @NotUppercase()
@@ -53,18 +60,11 @@ class EntMenu implements EntityId
     private $cssStyle;
 
     /**
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Config\App")
-     * @ORM\JoinColumn(nullable=true)
+     * @var string
+     * @ORM\Column(name="program_uuid", type="string", nullable=true, length=36)
+     * @NotUppercase()
      */
-    private $app;
-
-    /**
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Config\Program")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $program;
+    private $programUUID;
 
     /**
      *
@@ -89,6 +89,22 @@ class EntMenu implements EntityId
     public function __construct()
     {
         $this->filhos = new ArrayCollection();
+    }
+
+    /**
+     * @return string
+     */
+    public function getUUID(): ?string
+    {
+        return $this->UUID;
+    }
+
+    /**
+     * @param string $UUID
+     */
+    public function setUUID(?string $UUID): void
+    {
+        $this->UUID = $UUID;
     }
 
     /**
@@ -172,35 +188,19 @@ class EntMenu implements EntityId
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getApp(): ?App
+    public function getProgramUUID(): ?string
     {
-        return $this->app;
+        return $this->programUUID;
     }
 
     /**
-     * @param mixed $app
+     * @param string|null $programUUID
      */
-    public function setApp(?App $app): void
+    public function setProgramUUID(?string $programUUID): void
     {
-        $this->app = $app;
-    }
-
-    /**
-     * @return Program|null
-     */
-    public function getProgram(): ?Program
-    {
-        return $this->program;
-    }
-
-    /**
-     * @param Program|null $program
-     */
-    public function setProgram(?Program $program): void
-    {
-        $this->program = $program;
+        $this->programUUID = $programUUID;
     }
 
     /**

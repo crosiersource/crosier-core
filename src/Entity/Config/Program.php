@@ -19,6 +19,13 @@ class Program implements EntityId
     use EntityIdTrait;
 
     /**
+     * @var string
+     * @ORM\Column(name="uuid", type="string", nullable=false, length=36)
+     * @NotUppercase()
+     */
+    private $UUID;
+
+    /**
      *
      * @ORM\Column(name="descricao", type="string", nullable=false, length=255)
      */
@@ -32,24 +39,41 @@ class Program implements EntityId
     private $url;
 
     /**
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Config\App")
-     * @ORM\JoinColumn(nullable=false)
+     * @var string
+     * @ORM\Column(name="app_uuid", type="string", nullable=false, length=36)
+     * @NotUppercase()
+     */
+    private $appUUID;
+
+    /**
+     * @var string
+     * @ORM\Column(name="entmenu_uuid", type="string", nullable=true, length=36)
+     * @NotUppercase()
+     */
+    private $entMenuUUID;
+
+    /**
+     * Atributo transiente.
+     * @var App
      */
     private $app;
 
-    /**
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Config\EntMenu")
-     * @ORM\JoinColumn(name="entmenu_id", nullable=true)
-     */
-    private $entMenu;
 
     /**
-     * @ORM\Column(name="uuid", type="string", nullable=false, length=32)
-     * @NotUppercase()
+     * @return string
      */
-    private $uuid;
+    public function getUUID(): ?string
+    {
+        return $this->UUID;
+    }
+
+    /**
+     * @param string $UUID
+     */
+    public function setUUID(?string $UUID): void
+    {
+        $this->UUID = $UUID;
+    }
 
     /**
      * @return mixed
@@ -84,6 +108,38 @@ class Program implements EntityId
     }
 
     /**
+     * @return string|null
+     */
+    public function getAppUUID(): ?string
+    {
+        return $this->appUUID;
+    }
+
+    /**
+     * @param string|null $appUUID
+     */
+    public function setAppUUID(?string $appUUID): void
+    {
+        $this->appUUID = $appUUID;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getEntMenuUUID(): ?string
+    {
+        return $this->entMenuUUID;
+    }
+
+    /**
+     * @param null|string $entMenuUUID
+     */
+    public function setEntMenuUUID(?string $entMenuUUID): void
+    {
+        $this->entMenuUUID = $entMenuUUID;
+    }
+
+    /**
      * @return App|null
      */
     public function getApp(): ?App
@@ -92,43 +148,11 @@ class Program implements EntityId
     }
 
     /**
-     * @param mixed $app
+     * @param App|null $app
      */
     public function setApp(?App $app): void
     {
         $this->app = $app;
-    }
-
-    /**
-     * @return string
-     */
-    public function getUuid(): ?string
-    {
-        return $this->uuid;
-    }
-
-    /**
-     * @param string $uuid
-     */
-    public function setUuid(?string $uuid): void
-    {
-        $this->uuid = $uuid;
-    }
-
-    /**
-     * @return EntMenu|null
-     */
-    public function getEntMenu(): ?EntMenu
-    {
-        return $this->entMenu;
-    }
-
-    /**
-     * @param EntMenu|null $entMenu
-     */
-    public function setEntMenu(?EntMenu $entMenu): void
-    {
-        $this->entMenu = $entMenu;
     }
 
 

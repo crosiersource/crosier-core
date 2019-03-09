@@ -22,8 +22,8 @@ function getDatatablesColumns() {
             title: 'URL'
         },
         {
-            name: 'e.uuid',
-            data: 'e.uuid',
+            name: 'e.UUID',
+            data: 'e.UUID',
             title: 'UUID'
         },
         {
@@ -31,7 +31,7 @@ function getDatatablesColumns() {
             data: 'e.app',
             title: 'App',
             render: function (data, type, row) {
-                return data.nome;
+                return data ? data.nome : '';
             },
         },
         {

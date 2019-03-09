@@ -57,7 +57,7 @@ class LoginSubscriber implements EventSubscriberInterface
     public function onLogin(InteractiveLoginEvent $event)
     {
         $this->logger->info('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> LoginSubscriber onLogin');
-        if (strpos($event->getRequest()->getPathInfo(), '/api/') !== FALSE) {
+        // if (strpos($event->getRequest()->getPathInfo(), '/api/') !== FALSE) {
             try {
                 /** @var User $user */
                 $user = $event->getAuthenticationToken()->getUser();
@@ -70,7 +70,7 @@ class LoginSubscriber implements EventSubscriberInterface
                 $this->logger->error('Erro ao renewTokenApi()');
                 $this->logger->error($e->getMessage());
             }
-        }
+        // }
 
 
     }
