@@ -23,3 +23,5 @@
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-pack ###
+#
+assets/static/fos_js_routes.json
