@@ -5,3 +5,5 @@ chmod -Rf 0777 ./var
 chmod -Rf 0777 ./vendor/symfony/cache
 php bin/console crosier:uppercaseFieldsJsonBuilder
 yarn encore dev --watch --watch-poll
+
+
