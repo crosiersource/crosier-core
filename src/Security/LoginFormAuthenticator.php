@@ -4,6 +4,7 @@ namespace App\Security;
 
 use App\EntityHandler\Security\UserEntityHandler;
 use CrosierSource\CrosierLibBaseBundle\Repository\Security\UserRepository;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
@@ -43,21 +44,29 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      */
     private $userEntityHandler;
 
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
     public function __construct(UserRepository $userRepository,
                                 RouterInterface $router,
                                 CsrfTokenManagerInterface $csrfTokenManager,
                                 UserPasswordEncoderInterface $passwordEncoder,
-                                UserEntityHandler $userEntityHandler)
+                                UserEntityHandler $userEntityHandler,
+                                LoggerInterface $logger)
     {
         $this->userRepository = $userRepository;
         $this->router = $router;
         $this->csrfTokenManager = $csrfTokenManager;
         $this->passwordEncoder = $passwordEncoder;
         $this->userEntityHandler = $userEntityHandler;
+        $this->logger = $logger;
     }
 
     public function supports(Request $request)
     {
+        $this->logger->debug('LoginFormAuthenticator supports?');
         // do your work when we're POSTing to the login page
         return $request->attributes->get('_route') === 'login'
             && $request->isMethod('POST');
