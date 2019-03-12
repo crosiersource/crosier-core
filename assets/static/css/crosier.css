@@ -59,7 +59,12 @@ div.paceDiv {
    display: none;
 }
 
-.notuppercase,
+.lowercase,
 .email {
 	text-transform: lowercase;
+}
+
+.notuppercase
+{
+    text-transform: none;
 }

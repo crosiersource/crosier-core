@@ -32,6 +32,7 @@ class App implements EntityId
     /**
      *
      * @ORM\Column(name="nome", type="string", nullable=true, length=300)
+     * @NotUppercase()
      */
     private $nome;
 

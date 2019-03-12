@@ -2,6 +2,7 @@
 
 namespace App\Entity\Config;
 
+use CrosierSource\CrosierLibBaseBundle\Doctrine\Annotations\NotUppercase;
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityId;
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityIdTrait;
 use Doctrine\ORM\Mapping as ORM;
@@ -21,12 +22,14 @@ class AppConfig implements EntityId
     /**
      *
      * @ORM\Column(name="chave", type="string", nullable=true, length=255)
+     * @NotUppercase()
      */
     private $chave;
 
     /**
      *
      * @ORM\Column(name="valor", type="text", nullable=true)
+     * @NotUppercase()
      */
     private $valor;
 

@@ -126,20 +126,29 @@ class EntMenuRepository extends FilterRepository
         $rs = [];
         // Está no CrosierCore
         if ($entMenuPai->getId() === 1) {
+            // Cria entradas para os Apps instalados
             $defaultEntMenuApps = $this->getEntityManager()->getRepository(App::class)->findDefaultEntMenuApps();
             /** @var EntMenu $defaultEntMenuApp */
             foreach ($defaultEntMenuApps as $defaultEntMenuApp) {
-                if ($defaultEntMenuApp->getProgram() && $defaultEntMenuApp->getProgram()->getApp()) {
-                    $app = $defaultEntMenuApp->getProgram()->getApp();
+                if ($defaultEntMenuApp->getProgramUUID()) {
+                    /** @var ProgramRepository $programRepo */
+                    $programRepo = $this->getEntityManager()->getRepository(Program::class);
+                    /** @var Program $program */
+                    $program = $programRepo->findOneBy(['UUID' => $defaultEntMenuApp->getProgramUUID()]);
+                    $programRepo->buildTransients($program);
+                    $app = $program->getApp();
                     $url = $this->getEntityManager()->getRepository(AppConfig::class)->findConfigByCrosierEnv($app, 'URL');
                     $entMenuJson = $this->entMenuInJson($defaultEntMenuApp);
                     $token = $this->getSecurity()->getUser()->getApiToken();
                     $entMenuJson['program']['url'] = $url . $entMenuJson['program']['url'] . '?apiTokenAuthorization=' . $token;
                     $entMenuJson['label'] = $app->getNome();
+                    $entMenuJson['cssStyle'] = 'background-color: darkblue';
                     $rs[] = $entMenuJson;
                 }
             }
         }
+
+        $rs[] = ['tipo' => 'hr'];
 
         /** @var EntMenu $entMenu */
         foreach ($entsMenu as $entMenu) {

@@ -40,7 +40,10 @@ class AppType extends AbstractType
         });
 
         $builder->add('nome', TextType::class, array(
-            'label' => 'Nome'
+            'label' => 'Nome',
+            'attr' => [
+                'class' => 'notuppercase'
+            ]
         ));
 
         $builder->add('UUID', TextType::class, array(

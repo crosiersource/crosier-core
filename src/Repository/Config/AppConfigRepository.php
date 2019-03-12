@@ -29,7 +29,7 @@ class AppConfigRepository extends FilterRepository
             $crosierEnv = getenv('CROSIER_ENV');
             $qry->setParameter('chave', $chave . '_' . $crosierEnv);
             $appConfig = $qry->getOneOrNullResult();
-            return $appConfig->getValor();
+            return $appConfig ? $appConfig->getValor() : 'NULL_CONFIG';
         } catch (NonUniqueResultException $e) {
             $this->getLogger()->error($e->getMessage());
             return null;

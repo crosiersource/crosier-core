@@ -25,6 +25,10 @@ class AppRepository extends FilterRepository
         return $qry->getResult();
     }
 
+    /**
+     * Encontra as entradas de menus dos Apps que apontem para o dashboard (por padrão: '/').
+     * @return mixed
+     */
     public function findDefaultEntMenuApps()
     {
         $dql = "SELECT e FROM App\Entity\Config\EntMenu e JOIN App\Entity\Config\Program p WITH e.programUUID = p.UUID JOIN App\Entity\Config\App a WITH p.appUUID = a.UUID WHERE p.url = '/' AND a.id != 1";

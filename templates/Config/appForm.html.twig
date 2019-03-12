@@ -46,9 +46,9 @@
                         <tbody>
                         {% for config in e.configs %}
                             <tr>
-                                <td><input type="text" class="form-control" name="appConfigs[{{ config.id }}][chave]"
+                                <td><input type="text" class="form-control notuppercase" name="appConfigs[{{ config.id }}][chave]"
                                            value="{{ config.chave }}"/></td>
-                                <td><input type="text" class="form-control" name="appConfigs[{{ config.id }}][valor]"
+                                <td><input type="text" class="form-control notuppercase" name="appConfigs[{{ config.id }}][valor]"
                                            value="{{ config.valor }}"/></td>
                                 <td class="text-right">
                                     <button type="button" class="btn btn-danger"
@@ -62,10 +62,10 @@
                         {% endfor %}
                         <tr>
                             <td>
-                                <input type="text" class="form-control" name="appConfig[chave]"/>
+                                <input type="text" class="form-control notuppercase" name="appConfig[chave]"/>
                             </td>
                             <td>
-                                <input type="text" class="form-control" name="appConfig[valor]"/>
+                                <input type="text" class="form-control notuppercase" name="appConfig[valor]"/>
                             </td>
                             <td class="text-right"></td>
                         </tr>
