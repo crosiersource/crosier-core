@@ -70,41 +70,41 @@ VALUES ('MENUS PRINCIPAIS','/cfg/entMenu/listPais/','175bd6d3-6c29-438a-9520-47f
 
 
 
-INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `program_uuid`, `pai_id`, `ordem`, `css_style`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`) 
+INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `program_uuid`, `pai_uuid`, `ordem`, `css_style`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`) 
 VALUES ('71d1456b-3a9f-4589-8f71-42bbf6c91a3e','CrosierCore Menu',       '','PAI',NULL,NULL,1,'',now(),now(),1,1,1);
 
-INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `program_uuid`, `pai_id`, `ordem`, `css_style`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`) 
-VALUES ('e290e24f-a050-4bba-8ee8-877d55242267','Configurações',          'fas fa-cogs','DROPDOWN',NULL,1,1,NULL,now(),now(),1,1,1);
+INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `program_uuid`, `pai_uuid`, `ordem`, `css_style`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`) 
+VALUES ('e290e24f-a050-4bba-8ee8-877d55242267','Configurações',          'fas fa-cogs','DROPDOWN',NULL,'71d1456b-3a9f-4589-8f71-42bbf6c91a3e',1,NULL,now(),now(),1,1,1);
 
-INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `program_uuid`, `pai_id`, `ordem`, `css_style`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`) 
-VALUES ('849ef7e7-6dcb-4db6-b7e2-43b695ac6e90','Parâmetros do Sistema',  'fas fa-columns','ENT','93d6c377-6070-46fc-81fc-cdd1c67ccfab',2,2,NULL,now(),now(),1,1,1);
+INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `program_uuid`, `pai_uuid`, `ordem`, `css_style`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`) 
+VALUES ('849ef7e7-6dcb-4db6-b7e2-43b695ac6e90','Parâmetros do Sistema',  'fas fa-columns','ENT','93d6c377-6070-46fc-81fc-cdd1c67ccfab','e290e24f-a050-4bba-8ee8-877d55242267',2,NULL,now(),now(),1,1,1);
 
-INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `program_uuid`, `pai_id`, `ordem`, `css_style`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`) 
-VALUES ('55b8894c-06b1-4d5e-8480-ad2a0150bfa6','Usuários',               'fas fa-users','ENT','022bd4b2-4917-4524-be23-02c7c50596f4',2,4,NULL,now(),now(),1,1,1);
+INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `program_uuid`, `pai_uuid`, `ordem`, `css_style`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`) 
+VALUES ('55b8894c-06b1-4d5e-8480-ad2a0150bfa6','Usuários',               'fas fa-users','ENT','022bd4b2-4917-4524-be23-02c7c50596f4','e290e24f-a050-4bba-8ee8-877d55242267',4,NULL,now(),now(),1,1,1);
 
-INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `program_uuid`, `pai_id`, `ordem`, `css_style`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`) 
-VALUES ('0fbcfb61-3224-4b72-a3e6-86785b21d379','Grupos de Usuários',     'fas fa-people-carry','ENT','d2c56fc3-a9b5-43bb-a0b6-bd49badf3843',2,5,NULL,now(),now(),1,1,1);
+INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `program_uuid`, `pai_uuid`, `ordem`, `css_style`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`) 
+VALUES ('0fbcfb61-3224-4b72-a3e6-86785b21d379','Grupos de Usuários',     'fas fa-people-carry','ENT','d2c56fc3-a9b5-43bb-a0b6-bd49badf3843','e290e24f-a050-4bba-8ee8-877d55242267',5,NULL,now(),now(),1,1,1);
 
-INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `program_uuid`, `pai_id`, `ordem`, `css_style`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`) 
-VALUES ('73292344-d2ca-4101-b838-1551eb8eccad','Menus',                  'fas fa-bars','ENT','d7ae5e2c-961b-4aa2-a7fe-a7db860b75f9',2,3,NULL,now(),now(),1,1,1);
+INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `program_uuid`, `pai_uuid`, `ordem`, `css_style`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`) 
+VALUES ('73292344-d2ca-4101-b838-1551eb8eccad','Menus',                  'fas fa-bars','ENT','d7ae5e2c-961b-4aa2-a7fe-a7db860b75f9','e290e24f-a050-4bba-8ee8-877d55242267',3,NULL,now(),now(),1,1,1);
 
-INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `program_uuid`, `pai_id`, `ordem`, `css_style`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`) 
-VALUES ('264286e6-844d-421a-919a-37aef5ad8644','Geral',                 'far fa-dot-circle','DROPDOWN',NULL,1,0,NULL,now(),now(),1,1,1);
+INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `program_uuid`, `pai_uuid`, `ordem`, `css_style`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`) 
+VALUES ('b87ebd2d-1af3-4aa9-b5e1-9d68ede111cc','Programas',             'fas fa-microchip','ENT','175bd6d3-6c29-438a-9520-47fcee653cc5','e290e24f-a050-4bba-8ee8-877d55242267',5,NULL,now(),now(),1,1,1);
 
-INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `program_uuid`, `pai_id`, `ordem`, `css_style`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`) 
-VALUES ('bc1a31da-5d1e-4879-848d-3d983d1a1202','Pessoas',               'far fa-user-circle','ENT',NULL,18,0,NULL,now(),now(),1,1,1);
+INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `program_uuid`, `pai_uuid`, `ordem`, `css_style`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`)
+VALUES ('ceda07f6-a9fe-4bf8-a2cc-7bda0533d771','Aplicativos',             'fas fa-object-group','ENT','06104b18-3e32-4ff3-b822-2c65f79317a1','e290e24f-a050-4bba-8ee8-877d55242267',6,NULL,now(),now(),1,1,1);
 
-INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `program_uuid`, `pai_id`, `ordem`, `css_style`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`) 
-VALUES ('60b3a262-deb3-4f19-ad51-36cc7d3cf468','Informações Cadastrais','far fa-id-card','ENT',NULL,18,0,NULL,now(),now(),1,1,1);
+INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `program_uuid`, `pai_uuid`, `ordem`, `css_style`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`) 
+VALUES ('264286e6-844d-421a-919a-37aef5ad8644','Geral',                 'far fa-dot-circle','DROPDOWN',NULL,'71d1456b-3a9f-4589-8f71-42bbf6c91a3e',0,NULL,now(),now(),1,1,1);
 
-INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `program_uuid`, `pai_id`, `ordem`, `css_style`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`) 
-VALUES ('886797b4-2124-43eb-b780-e271f7dc5c3b','Categorias',            'far fa-id-badge','ENT',NULL,18,0,NULL,now(),now(),1,1,1);
+INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `program_uuid`, `pai_uuid`, `ordem`, `css_style`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`) 
+VALUES ('bc1a31da-5d1e-4879-848d-3d983d1a1202','Pessoas',               'far fa-user-circle','ENT',NULL,'264286e6-844d-421a-919a-37aef5ad8644',0,NULL,now(),now(),1,1,1);
 
-INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `program_uuid`, `pai_id`, `ordem`, `css_style`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`) 
-VALUES ('b87ebd2d-1af3-4aa9-b5e1-9d68ede111cc','Programas',             'fas fa-microchip','ENT','175bd6d3-6c29-438a-9520-47fcee653cc5',2,5,NULL,now(),now(),1,1,1);
+INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `program_uuid`, `pai_uuid`, `ordem`, `css_style`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`) 
+VALUES ('60b3a262-deb3-4f19-ad51-36cc7d3cf468','Informações Cadastrais','far fa-id-card','ENT',NULL,'264286e6-844d-421a-919a-37aef5ad8644',0,NULL,now(),now(),1,1,1);
 
-INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `program_uuid`, `pai_id`, `ordem`, `css_style`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`)
-VALUES ('ceda07f6-a9fe-4bf8-a2cc-7bda0533d771','Aplicativos',             'fas fa-object-group','ENT','06104b18-3e32-4ff3-b822-2c65f79317a1',2,6,NULL,now(),now(),1,1,1);
+INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `program_uuid`, `pai_uuid`, `ordem`, `css_style`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`) 
+VALUES ('886797b4-2124-43eb-b780-e271f7dc5c3b','Categorias',            'far fa-id-badge','ENT',NULL,'264286e6-844d-421a-919a-37aef5ad8644',0,NULL,now(),now(),1,1,1);
 
 
 

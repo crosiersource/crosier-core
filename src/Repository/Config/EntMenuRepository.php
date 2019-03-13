@@ -47,7 +47,7 @@ class EntMenuRepository extends FilterRepository
      */
     public function getMenusPais(): array
     {
-        return $this->findBy(['pai' => null], ['ordem' => 'ASC']);
+        return $this->findBy(['paiUUID' => null], ['ordem' => 'ASC']);
     }
 
 
@@ -56,7 +56,7 @@ class EntMenuRepository extends FilterRepository
      */
     public function getMenusPaisOuDropdowns(): array
     {
-        $dql = "SELECT e FROM App\Entity\Config\EntMenu e WHERE e.pai IS NULL OR e.tipo = :tipo ORDER BY e.label";
+        $dql = "SELECT e FROM App\Entity\Config\EntMenu e WHERE e.paiUUID IS NULL OR e.tipo = :tipo ORDER BY e.label";
         $qry = $this->getEntityManager()->createQuery($dql);
         $qry->setParameter('tipo', 'DROPDOWN');
         return $qry->getResult();
@@ -80,7 +80,7 @@ class EntMenuRepository extends FilterRepository
                 $app = $this->getEntityManager()->getRepository(App::class)->findOneBy(['UUID' => $program->getAppUUID()]);
                 $entMenuPai = $this->findOneBy(['UUID' => $app->getDefaultEntMenuUUID()]);
             } else {
-                $entMenuPai = $this->find(1);
+                $entMenuPai = $this->findOneBy(['UUID' => '71d1456b-3a9f-4589-8f71-42bbf6c91a3e']);
             }
             $rEntMenu = [
                 'id' => $entMenuPai->getId(),
@@ -121,7 +121,7 @@ class EntMenuRepository extends FilterRepository
     public function buildMenuByEntMenuPai(EntMenu $entMenuPai)
     {
 
-        $entsMenu = $this->findBy(['pai' => $entMenuPai], ['ordem' => 'ASC']);
+        $entsMenu = $this->findBy(['paiUUID' => $entMenuPai->getUUID()], ['ordem' => 'ASC']);
 
         $rs = [];
         // Está no CrosierCore
@@ -172,6 +172,7 @@ class EntMenuRepository extends FilterRepository
             /** @var App $app */
             $app = $this->getEntityManager()->getRepository(App::class)->findOneBy(['UUID' => $program->getAppUUID()]);
         }
+        $this->fillTransients($entMenu);
         return [
             'id' => $entMenu->getId(),
             'label' => $entMenu->getLabel(),
@@ -206,7 +207,8 @@ class EntMenuRepository extends FilterRepository
      */
     private function addFilhosInJson(EntMenu $entMenu, array &$json): array
     {
-        if ($entMenu->getFilhos() && $entMenu->getFilhos()->count() > 0) {
+        $this->fillTransients($entMenu);
+        if ($entMenu->getFilhos() && count($entMenu->getFilhos()) > 0) {
             foreach ($entMenu->getFilhos() as $filho) {
                 $filhoJson = $this->entMenuInJson($filho);
                 $this->addFilhosInJson($filho, $filhoJson);
@@ -225,9 +227,9 @@ class EntMenuRepository extends FilterRepository
      */
     public function makeTree(EntMenu $entMenuPai)
     {
-        $ql = "SELECT e FROM App\Entity\Config\EntMenu e WHERE e.pai = :entMenuPai ORDER BY e.ordem";
+        $ql = "SELECT e FROM App\Entity\Config\EntMenu e WHERE e.paiUUID = :entMenuPaiUUID ORDER BY e.ordem";
         $qry = $this->getEntityManager()->createQuery($ql);
-        $qry->setParameter('entMenuPai', $entMenuPai);
+        $qry->setParameter('entMenuPaiUUID', $entMenuPai->getUUID());
 
         $pais = $qry->getResult();
 
@@ -246,17 +248,39 @@ class EntMenuRepository extends FilterRepository
      */
     private function getFilhos(EntMenu $pai, &$tree)
     {
-        $ql = "SELECT e FROM App\Entity\Config\EntMenu e WHERE e.pai = :pai ORDER BY e.ordem";
-        $qry = $this->getEntityManager()->createQuery($ql);
-        $qry->setParameter('pai', $pai);
-        $rs = $qry->getResult();
-        if (count($rs) > 0) {
-            foreach ($rs as $r) {
-                $tree[] = $this->entMenuInJson($r);
-                $this->getFilhos($r, $tree);
+        $this->fillTransients($pai);
+        if ($pai->getFilhos()) {
+            $filhos = $pai->getFilhos();
+            foreach ($filhos as $filho) {
+                $tree[] = $this->entMenuInJson($filho);
+                $this->getFilhos($filho, $tree);
             }
         } else {
             return;
         }
     }
+
+
+    /**
+     * Preenche os atributos transientes.
+     *
+     * @param EntMenu $entMenu
+     */
+    public function fillTransients(EntMenu $entMenu)
+    {
+        if ($entMenu->getPaiUUID()) {
+            if (!$entMenu->getPai()) {
+                $pai = $this->findOneBy(['UUID' => $entMenu->getPaiUUID()]);
+                $entMenu->setPai($pai);
+            }
+
+            if (!$entMenu->getFilhos()) {
+                $filhos = $this->findBy(['paiUUID' => $entMenu->getUUID()],['ordem' => 'ASC']);
+                $entMenu->setFilhos($filhos);
+            }
+        }
+
+    }
+
+
 }

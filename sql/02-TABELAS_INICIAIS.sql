@@ -282,7 +282,7 @@ CREATE TABLE `cfg_entmenu` (
   `icon` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
   `tipo` varchar(50) COLLATE utf8_swedish_ci NOT NULL,
   `program_uuid` char(36) DEFAULT NULL,
-  `pai_id` bigint(20) DEFAULT NULL,
+  `pai_uuid` char(36) DEFAULT NULL,
   `ordem` int(11) NOT NULL,
   `css_style` varchar(2000) CHARACTER SET utf8 DEFAULT NULL,
 
@@ -294,13 +294,13 @@ CREATE TABLE `cfg_entmenu` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_cfg_entmenu_uuid` (`uuid`),
   KEY `K_cfg_entmenu_program` (`program_uuid`),
-  KEY `K_cfg_entmenu_pai` (`pai_id`),
+  KEY `K_cfg_entmenu_pai` (`pai_uuid`),
   KEY `K_cfg_entmenu_estabelecimento` (`estabelecimento_id`),
   KEY `K_cfg_entmenu_user_inserted` (`user_inserted_id`),
   KEY `K_cfg_entmenu_user_updated` (`user_updated_id`),
   CONSTRAINT `FK_cfg_entmenu_program` FOREIGN KEY (`program_uuid`) REFERENCES `cfg_program` (`uuid`),
   CONSTRAINT `FK_cfg_entmenu_estabelecimento` FOREIGN KEY (`estabelecimento_id`) REFERENCES `cfg_estabelecimento` (`id`),
-  CONSTRAINT `FK_cfg_entmenu_pai` FOREIGN KEY (`pai_id`) REFERENCES `cfg_entmenu` (`id`),
+  CONSTRAINT `FK_cfg_entmenu_pai` FOREIGN KEY (`pai_uuid`) REFERENCES `cfg_entmenu` (`uuid`),
   CONSTRAINT `FK_cfg_entmenu_user_inserted` FOREIGN KEY (`user_updated_id`) REFERENCES `sec_user` (`id`),
   CONSTRAINT `FK_cfg_entmenu_user_updated` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;

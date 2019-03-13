@@ -67,22 +67,21 @@ class EntMenu implements EntityId
     private $programUUID;
 
     /**
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Config\EntMenu", inversedBy="filhos")
-     * @ORM\JoinColumn(nullable=true)
+     * @var string
+     * @ORM\Column(name="pai_uuid", type="string", nullable=true, length=36)
+     * @NotUppercase()
+     */
+    private $paiUUID;
+
+    /**
+     * TRANSIENT
+     * @var EntMenu
      */
     private $pai;
 
     /**
-     *
+     * TRANSIENT
      * @var EntMenu[]|ArrayCollection
-     *
-     * @ORM\OneToMany(
-     *      targetEntity="EntMenu",
-     *      mappedBy="pai",
-     *      orphanRemoval=true
-     * )
-     * @ORM\OrderBy({"ordem" = "ASC"})
      */
     private $filhos;
 
@@ -204,17 +203,33 @@ class EntMenu implements EntityId
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getPai()
+    public function getPaiUUID(): ?string
+    {
+        return $this->paiUUID;
+    }
+
+    /**
+     * @param string|null $paiUUID
+     */
+    public function setPaiUUID(?string $paiUUID): void
+    {
+        $this->paiUUID = $paiUUID;
+    }
+
+    /**
+     * @return EntMenu|null
+     */
+    public function getPai(): ?EntMenu
     {
         return $this->pai;
     }
 
     /**
-     * @param mixed $pai
+     * @param EntMenu|null $pai
      */
-    public function setPai($pai): void
+    public function setPai(?EntMenu $pai): void
     {
         $this->pai = $pai;
     }
@@ -225,6 +240,14 @@ class EntMenu implements EntityId
     public function getFilhos()
     {
         return $this->filhos;
+    }
+
+    /**
+     * @param EntMenu[]|ArrayCollection $filhos
+     */
+    public function setFilhos($filhos): void
+    {
+        $this->filhos = $filhos;
     }
 
 
