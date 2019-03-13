@@ -43,6 +43,8 @@ class EntMenuController extends FormListController
 
             'normalizedAttrib' => null,
 
+            'deleteRoute' => 'cfg_entMenu_delete'
+
         ];
 
     /**

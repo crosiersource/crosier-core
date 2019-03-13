@@ -24,9 +24,11 @@ class ProgramController extends FormListController
     protected $crudParams =
         [
             'typeClass' => ProgramType::class,
+
             'formView' => 'Config/programForm.html.twig',
             'formRoute' => 'cfg_program_form',
             'formPageTitle' => 'Programa',
+
             'listView' => 'Config/programList.html.twig',
             'listRoute' => 'cfg_program_list',
             'listRouteAjax' => 'cfg_program_datatablesJsList',
@@ -39,6 +41,8 @@ class ProgramController extends FormListController
                 'url',
                 'app' => ['nome']
             ],
+
+            'deleteRoute' => 'cfg_program_delete'
 
         ];
 
