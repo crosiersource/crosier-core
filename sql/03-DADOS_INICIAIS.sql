@@ -89,7 +89,7 @@ INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `program_uuid`, `pai
 VALUES ('73292344-d2ca-4101-b838-1551eb8eccad','Menus',                  'fas fa-bars','ENT','d7ae5e2c-961b-4aa2-a7fe-a7db860b75f9','e290e24f-a050-4bba-8ee8-877d55242267',3,NULL,now(),now(),1,1,1);
 
 INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `program_uuid`, `pai_uuid`, `ordem`, `css_style`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`) 
-VALUES ('b87ebd2d-1af3-4aa9-b5e1-9d68ede111cc','Programas',             'fas fa-microchip','ENT','175bd6d3-6c29-438a-9520-47fcee653cc5','e290e24f-a050-4bba-8ee8-877d55242267',5,NULL,now(),now(),1,1,1);
+VALUES ('b87ebd2d-1af3-4aa9-b5e1-9d68ede111cc','Programas',             'fas fa-microchip','ENT','4d8765f4-e0f5-4cab-9f00-1c65a8c9ecb7','e290e24f-a050-4bba-8ee8-877d55242267',5,NULL,now(),now(),1,1,1);
 
 INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `program_uuid`, `pai_uuid`, `ordem`, `css_style`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`)
 VALUES ('ceda07f6-a9fe-4bf8-a2cc-7bda0533d771','Aplicativos',             'fas fa-object-group','ENT','06104b18-3e32-4ff3-b822-2c65f79317a1','e290e24f-a050-4bba-8ee8-877d55242267',6,NULL,now(),now(),1,1,1);
