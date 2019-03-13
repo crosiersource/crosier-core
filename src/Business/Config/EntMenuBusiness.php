@@ -19,7 +19,7 @@ class EntMenuBusiness
 
     public function saveOrdem($ordArr)
     {
-        $i = 0;
+        $i = 1;
         foreach ($ordArr as $ord) {
             $entMenu = $this->entityHandler->getDoctrine()->getRepository(EntMenu::class)->find($ord);
             $entMenu->setOrdem($i++);

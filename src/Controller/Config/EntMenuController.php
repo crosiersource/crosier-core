@@ -78,8 +78,9 @@ class EntMenuController extends FormListController
             $entMenu = new EntMenu();
         }
         $pai = $request->query->get('pai');
+        /** @var EntMenu $pai */
         $pai = $this->getDoctrine()->getRepository(EntMenu::class)->find($pai);
-        $entMenu->setPai($pai);
+        $entMenu->setPaiUUID($pai->getUUID());
         $parameters['pai'] = $request->get('pai');
         return $this->doForm($request, $entMenu, $parameters);
     }
