@@ -101,13 +101,33 @@ class EntMenuType extends AbstractType
             ));
 
 
-        $builder->add('pai', EntityType::class, array(
+        $builder->add('paiUUID', ChoiceType::class, array(
             'label' => 'Pai',
-            'class' => EntMenu::class,
-            'choices' => $this->doctrine->getRepository(EntMenu::class)->getMenusPaisOuDropdowns(),
-            'choice_label' => 'label',
-            'required' => false
+            'choices' => array_merge([null], $this->doctrine->getRepository(EntMenu::class)->findAll()),
+            'choice_label' => function (?EntMenu $entMenu) {
+                return $entMenu ? $entMenu->getLabel() : ' ';
+            },
+            'required' => false,
+            'attr' => [
+                'class' => 'autoSelect2'
+            ]
         ));
+        $builder->get('paiUUID')
+            ->addModelTransformer(new CallbackTransformer(
+                function (?string $paiUUID) {
+                    if ($paiUUID) {
+                        return $this->doctrine->getRepository(EntMenu::class)->findOneBy(['UUID' => $paiUUID]);
+                    }
+                    return null;
+                },
+                function (?EntMenu $entMenu) {
+                    if ($entMenu) {
+                        return $entMenu->getUUID();
+                    }
+                    return null;
+                }
+            ));
+
 
         $builder->add('cssStyle', TextType::class, array(
             'label' => 'CSS Style',
