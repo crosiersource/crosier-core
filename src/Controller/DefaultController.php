@@ -2,16 +2,13 @@
 
 namespace App\Controller;
 
-use App\Entity\Config\Modulo;
-use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\WhereBuilder;
+use CrosierSource\CrosierLibBaseBundle\Controller\BaseController;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class DefaultController extends AbstractController
+class DefaultController extends BaseController
 {
 
     /**
@@ -25,8 +22,8 @@ class DefaultController extends AbstractController
      */
     public function index()
     {
-        $vParams['modulos'] = $this->getDoctrine()->getRepository(Modulo::class)->findAll(WhereBuilder::buildOrderBy('ordem'));
-        return $this->render('main.html.twig', $vParams);
+        $params['PROGRAM_UUID'] = '4f4df268-09ef-4e9c-bbc9-82eaf85de43f';
+        return $this->render('dashboard.html.twig', $params);
     }
 
     /**

@@ -2,12 +2,17 @@
 
 namespace App\EntityHandler\Config;
 
-use CrosierSource\CrosierLibBaseBundle\EntityHandler\EntityHandler;
 use App\Entity\Config\App;
+use CrosierSource\CrosierLibBaseBundle\EntityHandler\EntityHandler;
 
+/**
+ * Class AppEntityHandler
+ * @package App\EntityHandler\Config
+ *
+ * @author Carlos Eduardo Pauluk
+ */
 class AppEntityHandler extends EntityHandler
 {
-
 
     public function getEntityClass()
     {

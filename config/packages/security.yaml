@@ -15,6 +15,10 @@ security:
         main:
             anonymous: true
 
+            remember_me:
+                secret:   '%kernel.secret%'
+                lifetime: 2592000 # 30 days in seconds
+
             guard:
                 authenticators:
                 - App\Security\LoginFormAuthenticator
@@ -26,9 +30,7 @@ security:
             logout:
                 path: logout
 
-            remember_me:
-                secret:   '%kernel.secret%'
-                lifetime: 2592000 # 30 days in seconds
+                success_handler: App\Security\LogoutHandler
 
             switch_user: true
 
@@ -44,6 +46,10 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # but, definitely allow /login to be accessible anonymously
+        - { path: ^/getCrosierAssetUrl, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/build, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/bundles, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/sec/hash, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/getCrosierAssetUrl, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         # if you wanted to force EVERY URL to be protected

@@ -2,8 +2,10 @@
 
 namespace App\Repository\Config;
 
+use App\Entity\Config\App;
+use App\Entity\Config\AppConfig;
 use App\Entity\Config\EntMenu;
-use App\Entity\Config\Modulo;
+use App\Entity\Config\Program;
 use CrosierSource\CrosierLibBaseBundle\Repository\FilterRepository;
 use Symfony\Component\Security\Core\Security;
 
@@ -41,106 +43,244 @@ class EntMenuRepository extends FilterRepository
     }
 
     /**
+     * @return array
+     */
+    public function getMenusPais(): array
+    {
+        return $this->findBy(['paiUUID' => null, 'tipo' => 'PAI'], ['ordem' => 'ASC']);
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getMenusPaisOuDropdowns(): array
+    {
+        $dql = "SELECT e FROM App\Entity\Config\EntMenu e WHERE e.paiUUID IS NULL OR e.tipo = :tipo ORDER BY e.label";
+        $qry = $this->getEntityManager()->createQuery($dql);
+        $qry->setParameter('tipo', 'DROPDOWN');
+        return $qry->getResult();
+    }
+
+    /**
+     * @param string $programUUID
+     * @return array|null
+     */
+    public function getEntMenuByProgramUUID(string $programUUID)
+    {
+        /** @var Program $program */
+        $program = $this->getEntityManager()->getRepository(Program::class)->findOneBy(['UUID' => $programUUID]);
+        if ($program) {
+            /** @var EntMenu $entMenuPai */
+            $entMenuPai = null;
+            if ($program->getEntMenuUUID()) {
+                $entMenuPai = $this->findOneBy(['UUID' => $program->getEntMenuUUID()]);
+            } else if ($program->getAppUUID()) {
+                /** @var App $app */
+                $app = $this->getEntityManager()->getRepository(App::class)->findOneBy(['UUID' => $program->getAppUUID()]);
+                $entMenuPai = $this->findOneBy(['UUID' => $app->getDefaultEntMenuUUID()]);
+            } else {
+                $entMenuPai = $this->findOneBy(['UUID' => '71d1456b-3a9f-4589-8f71-42bbf6c91a3e']);
+            }
+            $rEntMenu = [
+                'id' => $entMenuPai->getId(),
+                'UUID' => $entMenuPai->getUUID(),
+                'label' => $entMenuPai->getLabel(),
+                'icon' => $entMenuPai->getIcon(),
+                'tipo' => $entMenuPai->getTipo(),
+                'ordem' => $entMenuPai->getOrdem()
+            ];
+
+            return $rEntMenu;
+        }
+        return null;
+
+    }
+
+    /**
      * Monta o menu com somente aplicativos permitidos ao usuário logado.
      *
      * @return array
      */
-    public function getMainMenuSecured()
+    public function buildMenuByProgram(string $programUUID)
     {
-        $pais = $this->findBy(['pai' => null], ['ordem' => 'ASC']);
-        $ents = [];
-        $i = 0;
-        foreach ($pais as $pai) {
-            if (!$pai->getFilhos() or $pai->getFilhos()->count() < 1) {
-                $ents[$i]['pai'] = $pai;
-                $i++;
-            } else {
-                $addPai = false;
-                foreach ($pai->getFilhos() as $filho) {
-                    if ($filho->getApp() and $filho->getApp()->getRoles()) {
-                        if ($this->getSecurity()->isGranted($filho->getApp()->getRolesArray())) {
-                            $addPai = true;
-                            $ents[$i]['filhos'][] = $filho;
-                        }
-                    }
-                }
-                if ($addPai) {
-                    $ents[$i]['pai'] = $pai;
-                    $i++;
-                }
+        $entMenuPaiJson = $this->getEntMenuByProgramUUID($programUUID);
+        if ($entMenuPaiJson) {
+            $entMenuPai = $this->find($entMenuPaiJson['id']);
+            if ($entMenuPai) {
+                return $this->buildMenuByEntMenuPai($entMenuPai);
             }
         }
-        return $ents;
+        return null;
     }
 
     /**
-     * Retorna os itens do menu para o $modulo.
-     *
-     * @param Modulo $modulo
+     * @param EntMenu $entMenuPai
      * @return array
      */
-    public function getAppMainMenuSecured(Modulo $modulo)
+    public function buildMenuByEntMenuPai(EntMenu $entMenuPai)
     {
-        $dql = "SELECT e FROM App\Entity\Config\EntMenu e JOIN e.app a WHERE e.pai IS NULL AND a.modulo = :modulo ORDER BY e.ordem";
-        $qry = $this->getEntityManager()->createQuery($dql);
-        $qry->setParameter('modulo', $modulo);
 
-        $pais = $qry->getResult();
-        $ents = [];
-        $i = 0;
-        /** @var EntMenu $pai */
-        foreach ($pais as $pai) {
-            if (!$pai->getFilhos() or $pai->getFilhos()->count() < 1) {
-                $ents[$i]['pai'] = $pai;
-                $i++;
-            } else {
-                $addPai = false;
-                foreach ($pai->getFilhos() as $filho) {
-                    if ($filho->getApp() and $filho->getApp()->getRoles()) {
-                        if ($this->getSecurity()->isGranted($filho->getApp()->getRolesArray())) {
-                            $addPai = true;
-                            $ents[$i]['filhos'][] = $filho;
-                        }
-                    }
-                }
-                if ($addPai) {
-                    $ents[$i]['pai'] = $pai;
-                    $i++;
+        $entsMenu = $this->findBy(['paiUUID' => $entMenuPai->getUUID()], ['ordem' => 'ASC']);
+
+        $rs = [];
+        // Está no CrosierCore
+        if ($entMenuPai->getId() === 1) {
+            // Cria entradas para os Apps instalados
+            $defaultEntMenuApps = $this->getEntityManager()->getRepository(App::class)->findDefaultEntMenuApps();
+            /** @var EntMenu $defaultEntMenuApp */
+            foreach ($defaultEntMenuApps as $defaultEntMenuApp) {
+                if ($defaultEntMenuApp->getProgramUUID()) {
+                    /** @var ProgramRepository $programRepo */
+                    $programRepo = $this->getEntityManager()->getRepository(Program::class);
+                    /** @var Program $program */
+                    $program = $programRepo->findOneBy(['UUID' => $defaultEntMenuApp->getProgramUUID()]);
+                    $programRepo->buildTransients($program);
+                    $app = $program->getApp();
+                    $url = $this->getEntityManager()->getRepository(AppConfig::class)->findConfigByCrosierEnv($app, 'URL');
+                    $entMenuJson = $this->entMenuInJson($defaultEntMenuApp);
+                    $token = $this->getSecurity()->getUser()->getApiToken();
+                    $entMenuJson['program']['url'] = $url . $entMenuJson['program']['url'] . '?apiTokenAuthorization=' . $token;
+                    $entMenuJson['label'] = $app->getNome();
+                    $entMenuJson['cssStyle'] = 'background-color: darkblue';
+                    $rs[] = $entMenuJson;
                 }
             }
         }
-        return $ents;
+
+        $rs[] = ['tipo' => 'hr'];
+
+        /** @var EntMenu $entMenu */
+        foreach ($entsMenu as $entMenu) {
+            $entMenuInJson = $this->entMenuInJson($entMenu);
+            $this->addFilhosInJson($entMenu, $entMenuInJson);
+            $rs[] = $entMenuInJson;
+        }
+        return $rs;
     }
 
-    public function makeTree()
+    /**
+     * @param EntMenu $entMenu
+     * @return array
+     */
+    private function entMenuInJson(EntMenu $entMenu)
     {
-        $ql = "SELECT e FROM App\Entity\Config\EntMenu e WHERE e.pai IS NULL ORDER BY e.ordem";
+        /** @var Program $program */
+        $program = $this->getEntityManager()->getRepository(Program::class)->findOneBy(['UUID' => $entMenu->getProgramUUID()]);
+        $app = null;
+        if ($program) {
+            /** @var App $app */
+            $app = $this->getEntityManager()->getRepository(App::class)->findOneBy(['UUID' => $program->getAppUUID()]);
+        }
+        $this->fillTransients($entMenu);
+        return [
+            'id' => $entMenu->getId(),
+            'label' => $entMenu->getLabel(),
+            'icon' => $entMenu->getIcon(),
+            'tipo' => $entMenu->getTipo(),
+            'ordem' => $entMenu->getOrdem(),
+            'cssStyle' => $entMenu->getCssStyle(),
+            'pai' => [
+                'id' => $entMenu->getPai() ? $entMenu->getPai()->getId() : null,
+                'tipo' => $entMenu->getPai() ? $entMenu->getPai()->getTipo() : null,
+                'icon' => $entMenu->getPai() ? $entMenu->getPai()->getIcon() : null,
+                'label' => $entMenu->getPai() ? $entMenu->getPai()->getLabel() : null
+            ],
+            'program' => [
+                'id' => $program ? $program->getId() : null,
+                'descricao' => $program ? $program->getDescricao() : null,
+                'url' => $program ? $program->getUrl() : null,
+                'UUID' => $program ? $program->getUUID() : null,
+                'app' => [
+                    'id' => $app ? $app->getId() : null,
+                    'nome' => $app ? $app->getNome() : null
+
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * @param EntMenu $entMenu
+     * @param array $json
+     * @return array
+     */
+    private function addFilhosInJson(EntMenu $entMenu, array &$json): array
+    {
+        $this->fillTransients($entMenu);
+        if ($entMenu->getFilhos() && count($entMenu->getFilhos()) > 0) {
+            foreach ($entMenu->getFilhos() as $filho) {
+                $filhoJson = $this->entMenuInJson($filho);
+                $this->addFilhosInJson($filho, $filhoJson);
+                $json['filhos'][] = $filhoJson;
+            }
+        }
+        return $json;
+    }
+
+
+    /**
+     * Cria a árvore do menu para ser manipulada na tela de organização de menus.
+     *
+     * @param EntMenu $entMenuPai
+     * @return array
+     */
+    public function makeTree(EntMenu $entMenuPai)
+    {
+        $ql = "SELECT e FROM App\Entity\Config\EntMenu e WHERE e.paiUUID = :entMenuPaiUUID ORDER BY e.ordem";
         $qry = $this->getEntityManager()->createQuery($ql);
+        $qry->setParameter('entMenuPaiUUID', $entMenuPai->getUUID());
 
         $pais = $qry->getResult();
 
         $tree = array();
 
         foreach ($pais as $pai) {
-            $tree[] = $pai;
+            $tree[] = $this->entMenuInJson($pai);
             $this->getFilhos($pai, $tree);
         }
         return $tree;
     }
 
+    /**
+     * @param EntMenu $pai
+     * @param $tree
+     */
     private function getFilhos(EntMenu $pai, &$tree)
     {
-        $ql = "SELECT e FROM App\Entity\Config\EntMenu e WHERE e.pai = :pai ORDER BY e.ordem";
-        $qry = $this->getEntityManager()->createQuery($ql);
-        $qry->setParameter('pai', $pai);
-        $rs = $qry->getResult();
-        if (count($rs) > 0) {
-            foreach ($rs as $r) {
-                $tree[] = $r;
-                $this->getFilhos($r, $tree);
+        $this->fillTransients($pai);
+        if ($pai->getFilhos()) {
+            $filhos = $pai->getFilhos();
+            foreach ($filhos as $filho) {
+                $tree[] = $this->entMenuInJson($filho);
+                $this->getFilhos($filho, $tree);
             }
         } else {
             return;
         }
     }
+
+
+    /**
+     * Preenche os atributos transientes.
+     *
+     * @param EntMenu $entMenu
+     */
+    public function fillTransients(EntMenu $entMenu)
+    {
+        if ($entMenu->getPaiUUID()) {
+            if (!$entMenu->getPai()) {
+                $pai = $this->findOneBy(['UUID' => $entMenu->getPaiUUID()]);
+                $entMenu->setPai($pai);
+            }
+
+            if (!$entMenu->getFilhos()) {
+                $filhos = $this->findBy(['paiUUID' => $entMenu->getUUID()],['ordem' => 'ASC']);
+                $entMenu->setFilhos($filhos);
+            }
+        }
+
+    }
+
+
 }

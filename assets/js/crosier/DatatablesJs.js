@@ -4,6 +4,8 @@ import $ from "jquery";
 
 import CrosierMasks from './CrosierMasks';
 
+import 'datatables';
+
 class DatatablesJs {
 
     static makeDatatableJs(listId, columns, params) {
@@ -28,6 +30,8 @@ class DatatablesJs {
                 }
             };
 
+            // console.dir(defaultParams);
+
             $.extend(defaultParams, params);
 
             let datatable = $(listId).DataTable(defaultParams);
@@ -37,8 +41,18 @@ class DatatablesJs {
                 CrosierMasks.maskAll();
             });
 
-
         });
+    }
+
+    static makeEditButton(editUrl) {
+        return '<button type="button" class="btn btn-primary" onclick="window.location.href=\'' + editUrl + '\'">' +
+            '<i class="fas fa-wrench" aria-hidden="true"></i></button>';
+    }
+
+    static makeDeleteButton(deleteUrl, csrfTokenDelete) {
+        return '<button type="button" class="btn btn-danger" data-url="' + deleteUrl + '" ' +
+            'data-token="' + csrfTokenDelete + '" data-target="#confirmationModal" data-toggle="modal">' +
+            '<i class="fa fa-trash" aria-hidden="true"></i></button>';
     }
 
 }

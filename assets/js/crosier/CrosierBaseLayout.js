@@ -2,10 +2,12 @@
 
 import $ from 'jquery';
 
-import 'toastr/build/toastr.css'
 import toastrr from "toastr";
 
 import sprintf from "sprintf-js";
+
+import 'bootstrap-datepicker';
+import 'bootstrap-datepicker/js/locales/bootstrap-datepicker.pt-BR';
 
 class CrosierBaseLayout {
 
@@ -123,8 +125,10 @@ class CrosierBaseLayout {
         /**
          * Montagem dos select2 automáticos.
          */
+        $.fn.select2.defaults.set("theme", "bootstrap");
         $('.autoSelect2').each(function () {
             let elem = $(this);
+            // Se foi passado um route, então busca os dados lá
             if (elem.data('route-id')) {
                 $.ajax({
                         type: 'GET',
@@ -168,9 +172,11 @@ class CrosierBaseLayout {
                     $s2.val(elem.data('val')).trigger('change');
                 });
 
+            } else {
+                let $s2 = elem.select2();
             }
         });
-        $.fn.select2.defaults.set("theme", "bootstrap");
+
     }
 
 
@@ -182,59 +188,66 @@ class CrosierBaseLayout {
     }
 
 
-    /**
-     * Construir o mainMenu do app.
-     */
-    static buildAppMainMenu() {
-        let $appMainMenu = $('#appMainMenu');
+    // /**
+    //  * Construir o mainMenu do app.
+    //  */
+    // static buildAppMainMenu() {
+    //     let $appMainMenu = $('#appMainMenu');
+    //
+    //     // Construção do mainMenuSelect
+    //     $.ajax({
+    //             dataType: "json",
+    //             async: false,
+    //             url: '/getAppMainMenu',
+    //             type: 'POST'
+    //         }
+    //     ).done(function (results) {
+    //         let data = $.map(results, function (obj) {
+    //             obj.text = obj.label; // replace name with the property used for the text
+    //             return obj;
+    //         });
+    //         $appMainMenu.select2({
+    //                 data: results,
+    //                 templateResult: function (data) {
+    //                     var $item = $(
+    //                         '<span><i class="' + data.icon + ' text-center" style="width: 30px"></i> ' + data.text + '</span>'
+    //                     );
+    //                     return $item;
+    //
+    //                 },
+    //                 templateSelection: function (data) {
+    //                     var $item = $(
+    //                         '<span><i class="' + data.icon + '"></i> ' + data.text + '</span>'
+    //                     );
+    //                     return $item;
+    //
+    //                 },
+    //                 escapeMarkup: function (markup) {
+    //                     return markup;
+    //                 },
+    //             }
+    //         ).on('select2:select', function (e) {
+    //             let data = e.params.data;
+    //             if (data.programa.url) {
+    //                 window.location.href = data.programa.url;
+    //             }
+    //         });
+    //         data.forEach(function (e, index, arr) {
+    //             if (window.location.pathname === e.programa.url) {
+    //                 $appMainMenu.val(e.id).trigger('change');
+    //             }
+    //         });
+    //
+    //     });
+    //
+    //
+    // }
 
-        // Construção do mainMenuSelect
-        $.ajax({
-                dataType: "json",
-                async: false,
-                url: '/getAppMainMenu',
-                type: 'POST'
-            }
-        ).done(function (results) {
-            let data = $.map(results, function (obj) {
-                obj.text = obj.label; // replace name with the property used for the text
-                return obj;
-            });
-            $appMainMenu.select2({
-                    data: results,
-                    templateResult: function (data) {
-                        var $item = $(
-                            '<span><i class="' + data.icon + ' text-center" style="width: 30px"></i> ' + data.text + '</span>'
-                        );
-                        return $item;
 
-                    },
-                    templateSelection: function (data) {
-                        var $item = $(
-                            '<span><i class="' + data.icon + '"></i> ' + data.text + '</span>'
-                        );
-                        return $item;
-
-                    },
-                    escapeMarkup: function (markup) {
-                        return markup;
-                    },
-                }
-            ).on('select2:select', function (e) {
-                let data = e.params.data;
-                if (data.programa.url) {
-                    window.location.href = data.programa.url;
-                }
-            });
-            data.forEach(function (e, index, arr) {
-                if (window.location.pathname === e.programa.url) {
-                    $appMainMenu.val(e.id).trigger('change');
-                }
-            });
-
+    static handleBootstrapDatepicker() {
+        $('.bootstrap-datepicker').datepicker({
+            language: 'pt-BR'
         });
-
-
     }
 
 

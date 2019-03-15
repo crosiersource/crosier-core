@@ -39,6 +39,7 @@ Encore
 
     .addEntry('cfg/configList', './assets/js/cfg/configList.js')
     .addEntry('cfg/appList', './assets/js/cfg/appList.js')
+    .addEntry('cfg/programList', './assets/js/cfg/programList.js')
     .addEntry('cfg/entMenuList', './assets/js/cfg/entMenuList.js')
 
 

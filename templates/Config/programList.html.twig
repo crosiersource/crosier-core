@@ -1,0 +1,25 @@
+{% extends '@CrosierLibBase/list.html.twig' %}
+
+{% set campos_pesquisar %}
+
+    <div class="form-group">
+        <label for="p_descricao">Descrição</label>
+        <input type="text"
+               class="form-control" id="filter[descricao]"
+               name="filter[descricao]"
+               value="{{ filter.descricao|default('') }}">
+    </div>
+    <div class="form-group">
+        <label for="p_descricao">Módulo</label>
+        <input type="text"
+               class="form-control" id="filter[modulo]"
+               name="filter[modulo]"
+               value="{{ filter.modulo|default('') }}">
+    </div>
+
+{% endset %}
+
+
+{% block down_scripts %}
+    <script src="{{ asset('build/cfg/programList.js') }}"></script>
+{% endblock %}

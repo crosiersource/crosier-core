@@ -2,11 +2,10 @@
 
 namespace App\Controller\Security;
 
-use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
-use CrosierSource\CrosierLibBaseBundle\Entity\Security\User;
-use CrosierSource\CrosierLibBaseBundle\EntityHandler\EntityHandler;
 use App\EntityHandler\Security\UserEntityHandler;
 use App\Form\Security\UserType;
+use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
+use CrosierSource\CrosierLibBaseBundle\Entity\Security\User;
 use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\FilterData;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,49 +19,42 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends FormListController
 {
 
-    private $entityHandler;
+    protected $crudParams =
+        [
+            'PROGRAM_UUID' => '55c400fe067c2a97248a86d8bbc14c01',
+            'typeClass' => UserType::class,
+            'formView' => 'Security/userForm.html.twig',
+            'formRoute' => 'sec_user_form',
+            'formPageTitle' => 'Usuário',
+            'listView' => 'Security/userList.html.twig',
+            'listRoute' => 'sec_user_list',
+            'listRouteAjax' => 'sec_user_datatablesJsList',
+            'listPageTitle' => 'Usuários do Sistema',
+            'listId' => 'userList',
+            'normalizedAttrib' => [
+                'id',
+                'username',
+                'nome',
+                'email',
+                'grupo' => ['groupname']
+            ],
 
-    public function __construct(UserEntityHandler $entityHandler)
+        ];
+
+    /**
+     * @required
+     * @param UserEntityHandler $entityHandler
+     */
+    public function setEntityHandler(UserEntityHandler $entityHandler): void
     {
         $this->entityHandler = $entityHandler;
     }
 
-    public function getEntityHandler(): ?EntityHandler
+    public function getFilterDatas($params): array
     {
-        return $this->entityHandler;
-    }
-
-    public function getFormRoute()
-    {
-        return 'sec_user_form';
-    }
-
-    public function getFormView()
-    {
-        return 'Security/userForm.html.twig';
-    }
-
-    public function getFilterDatas($params)
-    {
-        return array(
-            new FilterData(['username', 'nome'], 'LIKE', $params['filter']['username'])
-        );
-    }
-
-    public function getListView()
-    {
-        return 'Security/userList.html.twig';
-    }
-
-    public function getListRoute()
-    {
-        return 'sec_user_list';
-    }
-
-
-    public function getTypeClass()
-    {
-        return UserType::class;
+        return [
+            new FilterData(['username', 'nome'], 'LIKE', 'username', 'string', $params)
+        ];
     }
 
     /**
@@ -71,7 +63,7 @@ class UserController extends FormListController
      * @param Request $request
      * @param User|null $user
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @throws \ReflectionException
+     * @throws \Exception
      */
     public function form(Request $request, User $user = null)
     {
@@ -83,27 +75,11 @@ class UserController extends FormListController
      * @Route("/sec/user/list/", name="sec_user_list")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
-     * @throws \ReflectionException
+     * @throws \Exception
      */
-    public function list(Request $request)
+    public function list(Request $request): Response
     {
         return $this->doList($request);
-    }
-
-    /**
-     * @return array|mixed
-     */
-    public function getNormalizeAttributes()
-    {
-        return array(
-            'attributes' => array(
-                'id',
-                'username',
-                'nome',
-                'email',
-                'grupo' => ['groupname']
-            )
-        );
     }
 
     /**
@@ -111,11 +87,11 @@ class UserController extends FormListController
      * @Route("/sec/user/datatablesJsList/", name="sec_user_datatablesJsList")
      * @param Request $request
      * @return Response
+     * @throws \CrosierSource\CrosierLibBaseBundle\Exception\ViewException
      */
-    public function datatablesJsList(Request $request)
+    public function datatablesJsList(Request $request): Response
     {
-        $jsonResponse = $this->doDatatablesJsList($request);
-        return $jsonResponse;
+        return $this->doDatatablesJsList($request);
     }
 
     /**
@@ -125,18 +101,9 @@ class UserController extends FormListController
      * @param User $user
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function delete(Request $request, User $user)
+    public function delete(Request $request, User $id): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         return $this->doDelete($request, $user);
-    }
-
-    public function getListPageTitle()
-    {
-        return "Usuários do Sistema";
-    }
-
-    public function getFormPageTitle() {
-        return "Usuário do Sistema";
     }
 
 

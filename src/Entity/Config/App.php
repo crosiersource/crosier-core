@@ -8,14 +8,12 @@ use CrosierSource\CrosierLibBaseBundle\Entity\EntityIdTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\JoinColumn;
-use Doctrine\ORM\Mapping\JoinTable;
-use Doctrine\ORM\Mapping\ManyToMany;
 
 /**
  *
  * @ORM\Entity(repositoryClass="App\Repository\Config\AppRepository")
  * @ORM\Table(name="cfg_app")
+ *
  * @author Carlos Eduardo Pauluk
  */
 class App implements EntityId
@@ -23,128 +21,131 @@ class App implements EntityId
 
     use EntityIdTrait;
 
-    /**
-     *
-     * @ORM\Column(name="descricao", type="string", nullable=false, length=255)
-     */
-    private $descricao;
 
     /**
-     * FIXME: remover e usar somente a URL.
-     * @ORM\Column(name="route", type="string", nullable=true, length=2000)
+     * @var string
+     * @ORM\Column(name="uuid", type="string", nullable=false, length=36)
      * @NotUppercase()
      */
-    private $route;
+    private $UUID;
 
     /**
-     * Sem o domínio.
-     * @ORM\Column(name="url", type="string", nullable=true, length=2000)
+     *
+     * @ORM\Column(name="nome", type="string", nullable=true, length=300)
      * @NotUppercase()
      */
-    private $url;
+    private $nome;
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Config\Modulo")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(name="obs", type="string", nullable=true, length=5000)
      */
-    private $modulo;
+    private $obs;
+
+    /**
+     * @var string
+     * @ORM\Column(name="default_entmenu_uuid", type="string", nullable=true, length=36)
+     * @NotUppercase()
+     */
+    private $defaultEntMenuUUID;
 
     /**
      *
-     * @ManyToMany(targetEntity="CrosierSource\CrosierLibBaseBundle\Entity\Security\Role")
-     * @JoinTable(name="cfg_app_role",
-     *      joinColumns={@JoinColumn(name="app_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@JoinColumn(name="role_id", referencedColumnName="id")}
-     *      )
+     * @var EntMenu[]|ArrayCollection
+     *
+     * @ORM\OneToMany(
+     *      targetEntity="AppConfig",
+     *      mappedBy="app",
+     *      orphanRemoval=true
+     * )
      */
-    private $roles;
+    private $configs;
+
 
     public function __construct()
     {
-        $this->roles = new ArrayCollection();
+        $this->configs = new ArrayCollection();
+    }
+
+    /**
+     * @return string
+     */
+    public function getUUID(): ?string
+    {
+        return $this->UUID;
+    }
+
+    /**
+     * @param string $UUID
+     */
+    public function setUUID(?string $UUID): void
+    {
+        $this->UUID = $UUID;
     }
 
     /**
      * @return mixed
      */
-    public function getDescricao()
+    public function getNome()
     {
-        return $this->descricao;
+        return $this->nome;
     }
 
     /**
-     * @param mixed $descricao
+     * @param mixed $nome
      */
-    public function setDescricao($descricao): void
+    public function setNome($nome): void
     {
-        $this->descricao = $descricao;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getRoute()
-    {
-        return $this->route;
-    }
-
-    /**
-     * @param mixed $route
-     */
-    public function setRoute($route): void
-    {
-        $this->route = $route;
+        $this->nome = $nome;
     }
 
     /**
      * @return mixed
      */
-    public function getUrl()
+    public function getObs()
     {
-        return $this->url;
+        return $this->obs;
     }
 
     /**
-     * @param mixed $url
+     * @param mixed $obs
      */
-    public function setUrl($url): void
+    public function setObs($obs): void
     {
-        $this->url = $url;
+        $this->obs = $obs;
     }
 
     /**
-     * @return mixed
+     * @return null|string
      */
-    public function getModulo(): ?Modulo
+    public function getDefaultEntMenuUUID(): ?string
     {
-        return $this->modulo;
+        return $this->defaultEntMenuUUID;
     }
 
     /**
-     * @param mixed $modulo
+     * @param null|string $defaultEntMenuUUID
      */
-    public function setModulo(?Modulo $modulo): void
+    public function setDefaultEntMenuUUID(?string $defaultEntMenuUUID): void
     {
-        $this->modulo = $modulo;
+        $this->defaultEntMenuUUID = $defaultEntMenuUUID;
     }
 
-    public function getRoles(): Collection
+    /**
+     * @return Collection|null
+     */
+    public function getConfigs(): ?Collection
     {
-        return $this->roles;
+        return $this->configs;
     }
 
-    public function getRolesArray()
+    /**
+     * @param Collection|null $configs
+     */
+    public function setConfigs(?Collection $configs): void
     {
-        if ($this->roles) {
-            $rolesArray = [];
-            foreach ($this->roles as $role) {
-                $rolesArray[] = $role->getRole();
-            }
-            return $rolesArray;
-        }
+        $this->configs = $configs;
     }
 
 
 }
-

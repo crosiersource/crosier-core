@@ -3,19 +3,22 @@
 namespace App\Form\Config;
 
 use App\Entity\Config\App;
-use App\Entity\Config\Modulo;
-use App\Entity\Security\Role;
-use App\Utils\Repository\WhereBuilder;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\Config\EntMenu;
+use CrosierSource\CrosierLibBaseBundle\Utils\StringUtils\StringUtils;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AppType extends AbstractType
 {
 
+    /** @var RegistryInterface */
     private $doctrine;
 
     public function __construct(RegistryInterface $doctrine)
@@ -25,29 +28,62 @@ class AppType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('descricao', TextType::class, array(
-            'label' => 'Descrição'
+
+        $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
+            /** @var App $app */
+            $app = $event->getData();
+            $builder = $event->getForm();
+
+            if (!$app->getId()) {
+                $builder->get('UUID')->setData(StringUtils::guidv4());
+            }
+        });
+
+        $builder->add('nome', TextType::class, array(
+            'label' => 'Nome',
+            'attr' => [
+                'class' => 'notuppercase'
+            ]
         ));
 
-        $builder->add('route', TextType::class, array(
-            'label' => 'Route',
-            'attr' => ['style' => 'text-transform: none;'],
+        $builder->add('UUID', TextType::class, array(
+            'label' => 'UUID',
+            'attr' => [
+                'class' => 'notuppercase'
+            ]
+        ));
+
+        $builder->add('obs', TextType::class, array(
+            'label' => 'Obs',
             'required' => false
         ));
 
-        $builder->add('modulo', EntityType::class, array(
-            'class' => Modulo::class,
-            'choice_label' => 'nome'
+        $builder->add('defaultEntMenuUUID', ChoiceType::class, array(
+            'label' => 'Menu Padrão',
+            'choices' => array_merge([null], $this->doctrine->getRepository(EntMenu::class)->findAll()),
+            'choice_label' => function (?EntMenu $entMenu) {
+                return $entMenu ? $entMenu->getLabel() : ' ';
+            },
+            'required' => false,
+            'attr' => [
+                'class' => 'autoSelect2'
+            ]
         ));
-
-        $builder->add('roles', EntityType::class, array(
-            'label' => 'Role',
-            'class' => Role::class,
-            'choices' => $this->doctrine->getRepository(Role::class)->findAll(WhereBuilder::buildOrderBy('role')),
-            'multiple' => true,
-            'choice_label' => 'Role',
-            'expanded' => true
-        ));
+        $builder->get('defaultEntMenuUUID')
+            ->addModelTransformer(new CallbackTransformer(
+                function (?string $entMenuUUID) {
+                    if ($entMenuUUID) {
+                        return $this->doctrine->getRepository(EntMenu::class)->findOneBy(['UUID' => $entMenuUUID]);
+                    }
+                    return null;
+                },
+                function (?EntMenu $entMenuUUID) {
+                    if ($entMenuUUID) {
+                        return $entMenuUUID->getUUID();
+                    }
+                    return null;
+                }
+            ));
 
 
     }

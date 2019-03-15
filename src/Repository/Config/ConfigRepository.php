@@ -38,4 +38,5 @@ class ConfigRepository extends FilterRepository
         return count($results) == 1 ? $results[0] : null;
     }
 
+
 }

@@ -2,11 +2,10 @@
 
 namespace App\Controller\Security;
 
-use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
-use CrosierSource\CrosierLibBaseBundle\Entity\Security\Group;
-use CrosierSource\CrosierLibBaseBundle\EntityHandler\EntityHandler;
 use App\EntityHandler\Security\GroupEntityHandler;
 use App\Form\Security\GroupType;
+use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
+use CrosierSource\CrosierLibBaseBundle\Entity\Security\Group;
 use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\FilterData;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,49 +19,38 @@ use Symfony\Component\Routing\Annotation\Route;
 class GroupController extends FormListController
 {
 
-    private $entityHandler;
+    protected $crudParams =
+        [
+            'typeClass' => GroupType::class,
+            'formView' => 'Security/groupForm.html.twig',
+            'formRoute' => 'sec_group_form',
+            'formPageTitle' => 'Grupo de Usuários',
+            'listView' => 'Security/groupList.html.twig',
+            'listRoute' => 'sec_group_list',
+            'listRouteAjax' => 'sec_group_datatablesJsList',
+            'listPageTitle' => 'Grupos de Usuários',
+            'listId' => 'groupList',
+            'normalizedAttrib' => [
+                'id',
+                'groupname'
+            ],
 
-    public function __construct(GroupEntityHandler $entityHandler)
+        ];
+
+    /**
+     * @required
+     * @param GroupEntityHandler $entityHandler
+     */
+    public function setEntityHandler(GroupEntityHandler $entityHandler): void
     {
         $this->entityHandler = $entityHandler;
     }
 
-    public function getEntityHandler(): ?EntityHandler
+    public function getFilterDatas(array $params): array
     {
-        return $this->entityHandler;
-    }
-
-    public function getFormRoute()
-    {
-        return 'sec_group_form';
-    }
-
-    public function getFormView()
-    {
-        return 'Security/groupForm.html.twig';
-    }
-
-    public function getFilterDatas($params)
-    {
-        return array(
-            new FilterData(['groupname'], 'LIKE', $params['filter']['groupname'])
-        );
-    }
-
-    public function getListView()
-    {
-        return 'Security/groupList.html.twig';
-    }
-
-    public function getListRoute()
-    {
-        return 'sec_group_list';
-    }
-
-
-    public function getTypeClass()
-    {
-        return GroupType::class;
+        return [
+            new FilterData(['groupname'], 'LIKE', 'groupname', 'string', $params)
+        ];
     }
 
     /**
@@ -71,7 +59,7 @@ class GroupController extends FormListController
      * @param Request $request
      * @param Group|null $group
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @throws \ReflectionException
+     * @throws \Exception
      */
     public function form(Request $request, Group $group = null)
     {
@@ -83,25 +71,11 @@ class GroupController extends FormListController
      * @Route("/sec/group/list/", name="sec_group_list")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
-     * @throws \ReflectionException
      * @throws \Exception
      */
-    public function list(Request $request)
+    public function list(Request $request): Response
     {
         return $this->doList($request);
-    }
-
-    /**
-     * @return array|mixed
-     */
-    public function getNormalizeAttributes()
-    {
-        return array(
-            'attributes' => array(
-                'id',
-                'groupname'
-            )
-        );
     }
 
     /**
@@ -109,11 +83,11 @@ class GroupController extends FormListController
      * @Route("/sec/group/datatablesJsList/", name="sec_group_datatablesJsList")
      * @param Request $request
      * @return Response
+     * @throws \CrosierSource\CrosierLibBaseBundle\Exception\ViewException
      */
-    public function datatablesJsList(Request $request)
+    public function datatablesJsList(Request $request): Response
     {
-        $jsonResponse = $this->doDatatablesJsList($request);
-        return $jsonResponse;
+        return $this->doDatatablesJsList($request);
     }
 
     /**
@@ -123,7 +97,7 @@ class GroupController extends FormListController
      * @param Group $group
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function delete(Request $request, Group $group)
+    public function delete(Request $request, Group $group): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         return $this->doDelete($request, $group);
     }

@@ -52,8 +52,6 @@ class  DiaUtilRepository extends FilterRepository
         $query = $em->createQuery($dql);
         $query->setParameters($params);
 
-        // qry.setParameter("ini", CalendarUtil.zeroDate(ini));
-        // qry.setParameter("fim", CalendarUtil.to235959(fim));
         $results = $query->getResult();
 
         return $results;
@@ -142,6 +140,7 @@ class  DiaUtilRepository extends FilterRepository
         $ini = clone $dia;
         $fim = clone $dia;
         if ($prox) {
+            $ini->add(new \DateInterval('P1D'));
             $fim->add(new \DateInterval('P20D'));
         } else {
             $ini->sub(new \DateInterval('P20D'));

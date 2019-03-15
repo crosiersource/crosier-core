@@ -2,12 +2,18 @@
 
 namespace App\Form\Security;
 
-use App\Entity\Security\Role;
+
+use CrosierSource\CrosierLibBaseBundle\Entity\Security\Role;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class RoleType
+ * @package App\Form\Security
+ * @author Carlos Eduardo Pauluk
+ */
 class RoleType extends AbstractType
 {
 

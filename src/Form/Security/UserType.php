@@ -2,10 +2,11 @@
 
 namespace App\Form\Security;
 
-use App\Entity\Security\Group;
-use App\Entity\Security\Role;
-use App\Entity\Security\User;
-use App\Utils\Repository\WhereBuilder;
+
+use CrosierSource\CrosierLibBaseBundle\Entity\Security\Group;
+use CrosierSource\CrosierLibBaseBundle\Entity\Security\Role;
+use CrosierSource\CrosierLibBaseBundle\Entity\Security\User;
+use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\WhereBuilder;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Form\AbstractType;
@@ -17,6 +18,11 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class UserType
+ * @package App\Form\Security
+ * @author Carlos Eduardo Pauluk
+ */
 class UserType extends AbstractType
 {
 
@@ -43,7 +49,7 @@ class UserType extends AbstractType
             'invalid_message' => 'As senhas são diferentes.',
             'required' => false,
             'options' => array('always_empty' => true, 'attr' => array('class' => 'password-field')),
-            'first_options'  => array('label' => 'Senha'),
+            'first_options' => array('label' => 'Senha'),
             'second_options' => array('label' => 'Repita a senha'),
         ));
 

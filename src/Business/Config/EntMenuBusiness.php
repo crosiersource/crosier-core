@@ -3,12 +3,13 @@
 namespace App\Business\Config;
 
 use App\Entity\Config\EntMenu;
-use App\Entity\Config\Modulo;
 use App\EntityHandler\Config\EntMenuEntityHandler;
 
 class EntMenuBusiness
 {
-
+    /**
+     * @var EntMenuEntityHandler
+     */
     private $entityHandler;
 
     public function __construct(EntMenuEntityHandler $entityHandler)
@@ -20,15 +21,10 @@ class EntMenuBusiness
     {
         $i = 1;
         foreach ($ordArr as $ord) {
-            $entMenu = $this->entityHandler->getEntityManager()->getRepository(EntMenu::class)->find($ord);
+            $entMenu = $this->entityHandler->getDoctrine()->getRepository(EntMenu::class)->find($ord);
             $entMenu->setOrdem($i++);
             $this->entityHandler->save($entMenu);
         }
-
-    }
-
-    public function buildAppMainMenuJson(Modulo $app) {
-
 
     }
 

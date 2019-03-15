@@ -20,6 +20,13 @@ class EntMenu implements EntityId
     use EntityIdTrait;
 
     /**
+     * @var string
+     * @ORM\Column(name="uuid", type="string", nullable=false, length=36)
+     * @NotUppercase()
+     */
+    private $UUID;
+
+    /**
      *
      * @ORM\Column(name="label", type="string", nullable=false, length=255)
      * @NotUppercase()
@@ -53,29 +60,28 @@ class EntMenu implements EntityId
     private $cssStyle;
 
     /**
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Config\App")
-     * @ORM\JoinColumn(nullable=true)
+     * @var string
+     * @ORM\Column(name="program_uuid", type="string", nullable=true, length=36)
+     * @NotUppercase()
      */
-    private $app;
+    private $programUUID;
 
     /**
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Config\EntMenu", inversedBy="filhos")
-     * @ORM\JoinColumn(nullable=true)
+     * @var string
+     * @ORM\Column(name="pai_uuid", type="string", nullable=true, length=36)
+     * @NotUppercase()
+     */
+    private $paiUUID;
+
+    /**
+     * TRANSIENT
+     * @var EntMenu
      */
     private $pai;
 
     /**
-     *
+     * TRANSIENT
      * @var EntMenu[]|ArrayCollection
-     *
-     * @ORM\OneToMany(
-     *      targetEntity="EntMenu",
-     *      mappedBy="pai",
-     *      orphanRemoval=true
-     * )
-     * @ORM\OrderBy({"ordem" = "ASC"})
      */
     private $filhos;
 
@@ -84,6 +90,21 @@ class EntMenu implements EntityId
         $this->filhos = new ArrayCollection();
     }
 
+    /**
+     * @return string
+     */
+    public function getUUID(): ?string
+    {
+        return $this->UUID;
+    }
+
+    /**
+     * @param string $UUID
+     */
+    public function setUUID(?string $UUID): void
+    {
+        $this->UUID = $UUID;
+    }
 
     /**
      * @return mixed
@@ -166,33 +187,49 @@ class EntMenu implements EntityId
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getApp()
+    public function getProgramUUID(): ?string
     {
-        return $this->app;
+        return $this->programUUID;
     }
 
     /**
-     * @param mixed $app
+     * @param string|null $programUUID
      */
-    public function setApp($app): void
+    public function setProgramUUID(?string $programUUID): void
     {
-        $this->app = $app;
+        $this->programUUID = $programUUID;
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getPai()
+    public function getPaiUUID(): ?string
+    {
+        return $this->paiUUID;
+    }
+
+    /**
+     * @param string|null $paiUUID
+     */
+    public function setPaiUUID(?string $paiUUID): void
+    {
+        $this->paiUUID = $paiUUID;
+    }
+
+    /**
+     * @return EntMenu|null
+     */
+    public function getPai(): ?EntMenu
     {
         return $this->pai;
     }
 
     /**
-     * @param mixed $pai
+     * @param EntMenu|null $pai
      */
-    public function setPai($pai): void
+    public function setPai(?EntMenu $pai): void
     {
         $this->pai = $pai;
     }
@@ -203,6 +240,14 @@ class EntMenu implements EntityId
     public function getFilhos()
     {
         return $this->filhos;
+    }
+
+    /**
+     * @param EntMenu[]|ArrayCollection $filhos
+     */
+    public function setFilhos($filhos): void
+    {
+        $this->filhos = $filhos;
     }
 
 
