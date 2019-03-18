@@ -3,8 +3,7 @@
 namespace App\Repository\Config;
 
 use App\Entity\Config\StoredViewInfo;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use CrosierSource\CrosierLibBaseBundle\Repository\FilterRepository;
 
 /**
  * Repository para a entidade StoredViewInfo.
@@ -12,12 +11,14 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @author Carlos Eduardo Pauluk
  *
  */
-class StoredViewInfoRepository extends ServiceEntityRepository
+class StoredViewInfoRepository extends FilterRepository
 {
 
-    public function __construct(RegistryInterface $registry)
+    /**
+     * @return string
+     */
+    public function getEntityClass(): string
     {
-        parent::__construct($registry, StoredViewInfo::class);
+        return StoredViewInfo::class;
     }
-
 }

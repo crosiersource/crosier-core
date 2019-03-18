@@ -20,17 +20,9 @@ class EntMenuRepository extends FilterRepository
 
     private $security;
 
-    public function getEntityClass()
+    public function getEntityClass(): string
     {
         return EntMenu::class;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSecurity(): Security
-    {
-        return $this->security;
     }
 
     /**
@@ -139,7 +131,7 @@ class EntMenuRepository extends FilterRepository
                     $app = $program->getApp();
                     $url = $this->getEntityManager()->getRepository(AppConfig::class)->findConfigByCrosierEnv($app, 'URL');
                     $entMenuJson = $this->entMenuInJson($defaultEntMenuApp);
-                    $token = $this->getSecurity()->getUser()->getApiToken();
+                    $token = $this->security->getUser()->getApiToken();
                     $entMenuJson['program']['url'] = $url . $entMenuJson['program']['url'] . '?apiTokenAuthorization=' . $token;
                     $entMenuJson['label'] = $app->getNome();
                     $entMenuJson['cssStyle'] = 'background-color: darkblue';

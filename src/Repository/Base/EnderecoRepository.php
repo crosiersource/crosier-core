@@ -28,7 +28,7 @@ class EnderecoRepository extends ServiceEntityRepository
 
     public function findPrimeiroByPessoa(Pessoa $pessoa)
     {
-        $sql = "SELECT * FROM vw_bon_pessoa_enderecos WHERE fornecedor_pessoa_id = ? OR cliente_pessoa_id = ? OR funcionario_pessoa_id = ? LIMIT 1";
+        $sql = 'SELECT * FROM vw_bon_pessoa_enderecos WHERE fornecedor_pessoa_id = ? OR cliente_pessoa_id = ? OR funcionario_pessoa_id = ? LIMIT 1';
         $rsm = new ResultSetMapping();
         $rsm->addEntityResult('App\Entity\Base\Endereco', 'e');
         $rsm->addFieldResult('e', 'id', 'id');

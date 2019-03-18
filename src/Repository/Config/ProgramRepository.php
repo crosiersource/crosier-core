@@ -16,15 +16,15 @@ use Doctrine\ORM\QueryBuilder;
 class ProgramRepository extends FilterRepository
 {
 
+    public function getEntityClass(): string
+    {
+        return Program::class;
+    }
+
     public function handleFrombyFilters(QueryBuilder $qb)
     {
         return $qb->from($this->getEntityClass(), 'e')
             ->leftJoin(App::class, 'a', 'WITH', 'e.appUUID = a.UUID');
-    }
-
-    public function getEntityClass()
-    {
-        return Program::class;
     }
 
     public function buildTransientsInAll(array $programs)

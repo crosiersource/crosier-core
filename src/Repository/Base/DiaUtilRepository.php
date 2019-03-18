@@ -14,7 +14,7 @@ use CrosierSource\CrosierLibBaseBundle\Repository\FilterRepository;
 class  DiaUtilRepository extends FilterRepository
 {
 
-    public function getEntityClass()
+    public function getEntityClass(): string
     {
         return DiaUtil::class;
     }
@@ -52,9 +52,7 @@ class  DiaUtilRepository extends FilterRepository
         $query = $em->createQuery($dql);
         $query->setParameters($params);
 
-        $results = $query->getResult();
-
-        return $results;
+        return $query->getResult();
     }
 
     /**
@@ -119,7 +117,7 @@ class  DiaUtilRepository extends FilterRepository
      */
     public function doFindBy(\DateTime $dia): ?DiaUtil
     {
-        $dql = "SELECT d FROM DiaUtil d WHERE d.dia = :dia";
+        $dql = 'SELECT d FROM DiaUtil d WHERE d.dia = :dia';
 
         $em = $this->getEntityManager();
         $query = $em->createQuery($dql);
@@ -127,9 +125,7 @@ class  DiaUtilRepository extends FilterRepository
             $dia
         ));
 
-        $results = $query->getResult();
-
-        return $results;
+        return $query->getResult();
     }
 
     /**

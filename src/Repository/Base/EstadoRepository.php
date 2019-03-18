@@ -2,7 +2,9 @@
 
 namespace App\Repository\Base;
 
+use App\Entity\Base\Estado;
 use App\Entity\Base\Municipio;
+use CrosierSource\CrosierLibBaseBundle\Repository\FilterRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -12,12 +14,15 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @author Carlos Eduardo Pauluk
  *
  */
-class EstadoRepository extends ServiceEntityRepository
+class EstadoRepository extends FilterRepository
 {
 
-    public function __construct(RegistryInterface $registry)
+    /**
+     * @return string
+     */
+    public function getEntityClass(): string
     {
-        parent::__construct($registry, Municipio::class);
+        return Estado::class;
     }
 
     public function findByUf($nome, $uf)
@@ -36,4 +41,6 @@ class EstadoRepository extends ServiceEntityRepository
 
         return count($results) == 1 ? $results[0] : null;
     }
+
+
 }

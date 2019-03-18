@@ -3,8 +3,7 @@
 namespace App\Repository\Config;
 
 use App\Entity\Config\Estabelecimento;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use CrosierSource\CrosierLibBaseBundle\Repository\FilterRepository;
 
 /**
  * Repository para a entidade Estabelecimento.
@@ -12,11 +11,13 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @author Carlos Eduardo Pauluk
  *
  */
-class EstabelecimentoRepository extends ServiceEntityRepository
+class EstabelecimentoRepository extends FilterRepository
 {
-    public function __construct(RegistryInterface $registry)
+    /**
+     * @return string
+     */
+    public function getEntityClass(): string
     {
-        parent::__construct($registry, Estabelecimento::class);
+        return Estabelecimento::class;
     }
-
 }

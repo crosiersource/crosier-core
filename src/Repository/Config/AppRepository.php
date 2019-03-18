@@ -14,12 +14,13 @@ use CrosierSource\CrosierLibBaseBundle\Repository\FilterRepository;
 class AppRepository extends FilterRepository
 {
 
-    public function getEntityClass()
+    public function getEntityClass(): string
     {
         return App::class;
     }
 
-    public function findApps() {
+    public function findApps()
+    {
         $dql = "SELECT a FROM App\Entity\Config\App a WHERE a.id != 1";
         $qry = $this->getEntityManager()->createQuery($dql);
         return $qry->getResult();

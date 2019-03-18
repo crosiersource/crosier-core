@@ -3,9 +3,8 @@
 namespace App\Repository\Base;
 
 use App\Entity\Base\Pessoa;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use CrosierSource\CrosierLibBaseBundle\Repository\FilterRepository;
 use Psr\Log\LoggerInterface;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * Repository para a entidade Pessoa.
@@ -13,17 +12,33 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @author Carlos Eduardo Pauluk
  *
  */
-class PessoaRepository extends ServiceEntityRepository
+class PessoaRepository extends FilterRepository
 {
 
+    /** @var LoggerInterface */
     private $logger;
 
-    public function __construct(RegistryInterface $registry, LoggerInterface $logger)
+    /**
+     * @required
+     * @param LoggerInterface $logger
+     */
+    public function setLogger(LoggerInterface $logger): void
     {
-        parent::__construct($registry, Pessoa::class);
-        $this->getLogger = $logger;
+        $this->logger = $logger;
     }
 
+    /**
+     * @return string
+     */
+    public function getEntityClass(): string
+    {
+        return Pessoa::class;
+    }
+
+    /**
+     * @param $documento
+     * @return null
+     */
     public function findByDocumento($documento)
     {
 
@@ -43,21 +58,20 @@ class PessoaRepository extends ServiceEntityRepository
         return $results ? $results[0] : null;
     }
 
+    /**
+     * @param $str
+     * @return mixed
+     */
     public function findAllByNome($str)
     {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
 
-//         $qb->select('e')
-//             ->from('App\Entity\Financeiro\Movimentacao', 'e')
-//             ->join('App\Entity\Base\Pessoa', 'p', Join::WITH, 'e.pessoa = p')
-//             ->where('p.nome LIKE :str OR p.nomeFantasia LIKE :str');
-
         $qb->select('e.id, e.documento, e.nome, e.nomeFantasia')
-            ->from('App\Entity\Base\Pessoa', 'e')
+            ->from(Pessoa::class, 'e')
             ->where('e.nome LIKE :str OR e.nomeFantasia LIKE :str');
 
-        $qb->setParameter("str", "%" . $str . "%");
+        $qb->setParameter('str', '%' . $str . '%');
 
         // $dql = $qb->getDql();
 
@@ -70,30 +84,22 @@ class PessoaRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
+    /**
+     * @param $str
+     * @return mixed
+     */
     public function findAllByNomez($str)
     {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
 
-//         $qb->select('e')
-//             ->from('App\Entity\Financeiro\Movimentacao', 'e')
-//             ->join('App\Entity\Base\Pessoa', 'p', Join::WITH, 'e.pessoa = p')
-//             ->where('p.nome LIKE :str OR p.nomeFantasia LIKE :str');
-
         $qb->select('e')
-            ->from('App\Entity\Base\Pessoa', 'e')
+            ->from(Pessoa::class, 'e')
             ->where('e.nome LIKE :str OR e.nomeFantasia LIKE :str');
 
-        $qb->setParameter("str", "%" . $str . "%");
-
-        // $dql = $qb->getDql();
-
-        // $sql = $qb->getQuery()->getSQL();
-
+        $qb->setParameter('str', '%' . $str . '%');
         $qb->setMaxResults(20);
-
         $query = $qb->getQuery();
-
         return $query->execute();
     }
 
@@ -126,4 +132,5 @@ class PessoaRepository extends ServiceEntityRepository
 
         return null;
     }
+
 }

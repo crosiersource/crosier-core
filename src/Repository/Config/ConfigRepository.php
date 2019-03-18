@@ -14,7 +14,7 @@ use CrosierSource\CrosierLibBaseBundle\Repository\FilterRepository;
 class ConfigRepository extends FilterRepository
 {
 
-    public function getEntityClass()
+    public function getEntityClass(): string
     {
         return Config::class;
     }

@@ -16,7 +16,7 @@ use Doctrine\ORM\NonUniqueResultException;
 class AppConfigRepository extends FilterRepository
 {
 
-    public function getEntityClass()
+    public function getEntityClass(): string
     {
         return AppConfig::class;
     }
