@@ -26,7 +26,7 @@ class AppConfigRepository extends FilterRepository
             $dql = "SELECT c FROM App\Entity\Config\AppConfig c WHERE c.app = :app AND c.chave = :chave";
             $qry = $this->getEntityManager()->createQuery($dql);
             $qry->setParameter('app', $app);
-            $crosierEnv = getenv('CROSIER_ENV');
+            $crosierEnv = $_SERVER['CROSIER_ENV'];
             $qry->setParameter('chave', $chave . '_' . $crosierEnv);
             $appConfig = $qry->getOneOrNullResult();
             return $appConfig ? $appConfig->getValor() : 'NULL_CONFIG';
