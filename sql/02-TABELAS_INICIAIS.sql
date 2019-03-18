@@ -17,12 +17,12 @@ DROP TABLE IF EXISTS `cfg_program_config`;
 DROP TABLE IF EXISTS `cfg_entmenu`;
 
 
-DROP TABLE IF EXISTS `ger_pessoa`;
-DROP TABLE IF EXISTS `ger_infocad_categ`;
-DROP TABLE IF EXISTS `ger_infocad`;
-DROP TABLE IF EXISTS `ger_municipio`;
-DROP TABLE IF EXISTS `ger_uf`;
-DROP TABLE IF EXISTS `ger_dia_util`;
+DROP TABLE IF EXISTS `bse_pessoa`;
+DROP TABLE IF EXISTS `bse_categ_relcom`;
+DROP TABLE IF EXISTS `bse_relcom`;
+DROP TABLE IF EXISTS `bse_municipio`;
+DROP TABLE IF EXISTS `bse_uf`;
+DROP TABLE IF EXISTS `bse_diautil`;
 
 
 
@@ -32,7 +32,7 @@ DROP TABLE IF EXISTS `ger_dia_util`;
 CREATE TABLE `cfg_estabelecimento` (
   `id` bigint(20) AUTO_INCREMENT NOT NULL,
   `codigo` bigint(20) NOT NULL,
-  `descricao` varchar(200) COLLATE utf8_swedish_ci NOT NULL,
+  `descricao` varchar(200)  NOT NULL,
   `concreto` bit(1) NOT NULL,
   `pai_id` bigint(20) DEFAULT NULL,
 
@@ -52,7 +52,7 @@ CREATE TABLE `cfg_estabelecimento` (
 
 CREATE TABLE `sec_group` (
   `id` bigint(20) AUTO_INCREMENT NOT NULL,
-  `groupname` varchar(90) COLLATE utf8_swedish_ci NOT NULL,
+  `groupname` varchar(90)  NOT NULL,
 
   `estabelecimento_id` bigint(20) NOT NULL,
   `inserted` datetime NOT NULL,
@@ -74,8 +74,8 @@ CREATE TABLE `sec_group` (
 
 CREATE TABLE `sec_role` (
   `id` bigint(20) AUTO_INCREMENT NOT NULL,
-  `role` varchar(90) COLLATE utf8_swedish_ci NOT NULL,
-  `descricao` varchar(90) COLLATE utf8_swedish_ci NOT NULL,
+  `role` varchar(90)  NOT NULL,
+  `descricao` varchar(90)  NOT NULL,
 
   `estabelecimento_id` bigint(20) NOT NULL,
   `inserted` datetime NOT NULL,
@@ -109,13 +109,13 @@ CREATE TABLE `sec_group_role` (
 
 CREATE TABLE `sec_user` (
   `id` bigint(20) AUTO_INCREMENT NOT NULL,
-  `username` varchar(90) COLLATE utf8_swedish_ci NOT NULL,
-  `nome` varchar(90) COLLATE utf8_swedish_ci NOT NULL,
-  `email` varchar(90) COLLATE utf8_swedish_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `username` varchar(90)  NOT NULL,
+  `nome` varchar(90)  NOT NULL,
+  `email` varchar(90)  NOT NULL,
+  `password` varchar(255) DEFAULT NULL,
   `ativo` bit(1) NOT NULL,
   `group_id` bigint(20) DEFAULT NULL,
-  `api_token` varchar(255) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `api_token` varchar(255) DEFAULT NULL,
   `api_token_expires_at` datetime DEFAULT NULL,
 
   `estabelecimento_id` bigint(20) NOT NULL,
@@ -151,9 +151,9 @@ CREATE TABLE `sec_user_role` (
 
 CREATE TABLE `cfg_config` (
   `id` bigint(20) AUTO_INCREMENT NOT NULL,
-  `chave` varchar(300) COLLATE utf8_swedish_ci NOT NULL,
-  `valor` varchar(10000) COLLATE utf8_swedish_ci NOT NULL,
-  `obs` varchar(5000) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `chave` varchar(300)  NOT NULL,
+  `valor` varchar(10000)  NOT NULL,
+  `obs` varchar(5000) DEFAULT NULL,
   `global` bit(1) NOT NULL,
   `estabelecimento_id` bigint(20) NOT NULL,
   `inserted` datetime NOT NULL,
@@ -176,8 +176,8 @@ CREATE TABLE `cfg_config` (
 CREATE TABLE `cfg_app` (
   `id` bigint(20) AUTO_INCREMENT NOT NULL,
   `uuid` char(36) NOT NULL,
-  `nome` varchar(300) COLLATE utf8_swedish_ci NOT NULL,
-  `obs` varchar(5000) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `nome` varchar(300)  NOT NULL,
+  `obs` varchar(5000) DEFAULT NULL,
   `default_entmenu_uuid` char(36) NULL,
 
   `inserted` datetime NOT NULL,
@@ -201,7 +201,7 @@ CREATE TABLE `cfg_app` (
 
 CREATE TABLE `cfg_app_config` (
   `id` bigint(20) AUTO_INCREMENT NOT NULL,
-  `chave` varchar(255) COLLATE utf8_swedish_ci NOT NULL,
+  `chave` varchar(255)  NOT NULL,
   `valor` LONGBLOB,
   `app_id` bigint(20) NOT NULL,
   `inserted` datetime NOT NULL,
@@ -227,8 +227,8 @@ CREATE TABLE `cfg_app_config` (
 CREATE TABLE `cfg_program` (
   `id` bigint(20) AUTO_INCREMENT NOT NULL,
   `uuid` char(36) NOT NULL,
-  `descricao` varchar(255) COLLATE utf8_swedish_ci NOT NULL,
-  `url` varchar(2000) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `descricao` varchar(255)  NOT NULL,
+  `url` varchar(2000) DEFAULT NULL,
   `app_uuid` char(36) NOT NULL,
   `entmenu_uuid` char(36) NULL,
   `inserted` datetime NOT NULL,
@@ -254,7 +254,7 @@ CREATE TABLE `cfg_program` (
 
 CREATE TABLE `cfg_program_config` (
   `id` bigint(20) AUTO_INCREMENT NOT NULL,
-  `chave` varchar(255) COLLATE utf8_swedish_ci NOT NULL,
+  `chave` varchar(255)  NOT NULL,
   `valor` LONGBLOB,
   `program_id` bigint(20) NOT NULL,
   `inserted` datetime NOT NULL,
@@ -278,9 +278,9 @@ CREATE TABLE `cfg_program_config` (
 CREATE TABLE `cfg_entmenu` (
   `id` bigint(20) AUTO_INCREMENT NOT NULL,
   `uuid` char(36) NOT NULL,
-  `label` varchar(255) COLLATE utf8_swedish_ci NOT NULL,
+  `label` varchar(255)  NOT NULL,
   `icon` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
-  `tipo` varchar(50) COLLATE utf8_swedish_ci NOT NULL,
+  `tipo` varchar(50)  NOT NULL,
   `program_uuid` char(36) DEFAULT NULL,
   `pai_uuid` char(36) DEFAULT NULL,
   `ordem` int(11) NOT NULL,
@@ -315,9 +315,9 @@ CREATE TABLE `cfg_entmenu` (
 
 
 -- Tabela mais genérica sobre relacionamentos pessoais
-CREATE TABLE `ger_pessoa` (
+CREATE TABLE `bse_pessoa` (
   `id` bigint(20) AUTO_INCREMENT NOT NULL,
-  `nome` VARCHAR(255) COLLATE utf8_swedish_ci NOT NULL,
+  `nome` VARCHAR(255)  NOT NULL,
 
   `inserted` datetime NOT NULL,
   `updated` datetime NOT NULL,
@@ -325,21 +325,21 @@ CREATE TABLE `ger_pessoa` (
   `user_inserted_id` bigint(20) NOT NULL,
   `user_updated_id` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_ger_pessoa_id` (`id`),
-  KEY `K_ger_pessoa_estabelecimento` (`estabelecimento_id`),
-  KEY `K_ger_pessoa_user_inserted` (`user_inserted_id`),
-  KEY `K_ger_pessoa_user_updated` (`user_updated_id`),
-  CONSTRAINT `FK_ger_pessoa_estabelecimento` FOREIGN KEY (`estabelecimento_id`) REFERENCES `cfg_estabelecimento` (`id`),
-  CONSTRAINT `FK_ger_pessoa_user_inserted` FOREIGN KEY (`user_updated_id`) REFERENCES `sec_user` (`id`),
-  CONSTRAINT `FK_ger_pessoa_user_updated` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`)
+  UNIQUE KEY `UK_bse_pessoa_id` (`id`),
+  KEY `K_bse_pessoa_estabelecimento` (`estabelecimento_id`),
+  KEY `K_bse_pessoa_user_inserted` (`user_inserted_id`),
+  KEY `K_bse_pessoa_user_updated` (`user_updated_id`),
+  CONSTRAINT `FK_bse_pessoa_estabelecimento` FOREIGN KEY (`estabelecimento_id`) REFERENCES `cfg_estabelecimento` (`id`),
+  CONSTRAINT `FK_bse_pessoa_user_inserted` FOREIGN KEY (`user_updated_id`) REFERENCES `sec_user` (`id`),
+  CONSTRAINT `FK_bse_pessoa_user_updated` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 
 
 
--- Categorização para os tipos de 'infocad' (CLIENTE, FORNECEDOR, etc)
-CREATE TABLE `ger_infocad_categ` (
+-- Categorização para os tipos de 'relcom' (CLIENTE, FORNECEDOR, etc)
+CREATE TABLE `bse_categ_relcom` (
   `id` bigint(20) AUTO_INCREMENT NOT NULL,
-  `descricao` VARCHAR(255) COLLATE utf8_swedish_ci NOT NULL,
+  `descricao` VARCHAR(100)  NOT NULL,
 
   `inserted` datetime NOT NULL,
   `updated` datetime NOT NULL,
@@ -347,32 +347,28 @@ CREATE TABLE `ger_infocad_categ` (
   `user_inserted_id` bigint(20) NOT NULL,
   `user_updated_id` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `K_ger_infocad_categ_estabelecimento` (`estabelecimento_id`),
-  KEY `K_ger_infocad_categ_user_inserted` (`user_inserted_id`),
-  KEY `K_ger_infocad_categ_user_updated` (`user_updated_id`),
-  CONSTRAINT `FK_ger_infocad_categ_estabelecimento` FOREIGN KEY (`estabelecimento_id`) REFERENCES `cfg_estabelecimento` (`id`),
-  CONSTRAINT `FK_ger_infocad_categ_user_inserted` FOREIGN KEY (`user_updated_id`) REFERENCES `sec_user` (`id`),
-  CONSTRAINT `FK_ger_infocad_categ_user_updated` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`)
+  KEY `K_bse_categ_relcom_estabelecimento` (`estabelecimento_id`),
+  KEY `K_bse_categ_relcom_user_inserted` (`user_inserted_id`),
+  KEY `K_bse_categ_relcom_user_updated` (`user_updated_id`),
+  CONSTRAINT `FK_bse_categ_relcom_estabelecimento` FOREIGN KEY (`estabelecimento_id`) REFERENCES `cfg_estabelecimento` (`id`),
+  CONSTRAINT `FK_bse_categ_relcom_user_inserted` FOREIGN KEY (`user_updated_id`) REFERENCES `sec_user` (`id`),
+  CONSTRAINT `FK_bse_categ_relcom_user_updated` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 
 
 
 
--- Informações cadastrais
-CREATE TABLE `ger_infocad` (
+-- Relacionamento Comercial
+CREATE TABLE `bse_relcom` (
   `id` bigint(20) AUTO_INCREMENT NOT NULL,
   `pessoa_id` bigint(20) NOT NULL,
-  `infocad_categ_id` bigint(20) NOT NULL,    
+  `categ_relcom_id` bigint(20) NOT NULL,    
   `tipo` ENUM('Pessoa Física', 'Pessoa Jurídica'),
-  `nome_fantasia` VARCHAR(255) COLLATE utf8_swedish_ci NOT NULL,
+  `nome_fantasia` VARCHAR(255)  NOT NULL,
   `cpf_cnpj` varchar(20) DEFAULT NULL,
   `rg_ie` varchar(20) DEFAULT NULL,
 
-  `enderecos` json DEFAULT NULL,
-  `municipio_id` bigint(20) DEFAULT NULL,
-  `cep` char(8) NOT NULL,  
-  `fones` json DEFAULT NULL,
-  `observacao` varchar(3000) DEFAULT NULL,
+  `obs` varchar(3000) DEFAULT NULL,
 
   `inserted` datetime NOT NULL,
   `updated` datetime NOT NULL,
@@ -380,16 +376,74 @@ CREATE TABLE `ger_infocad` (
   `user_inserted_id` bigint(20) NOT NULL,
   `user_updated_id` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_ger_infocad_pessoa_id` (`pessoa_id`),
-  KEY `K_ger_infocad_categ` (`infocad_categ_id`),
-  KEY `K_ger_infocad_estabelecimento` (`estabelecimento_id`),
-  KEY `K_ger_infocad_user_inserted` (`user_inserted_id`),
-  KEY `K_ger_infocad_user_updated` (`user_updated_id`),
-  CONSTRAINT `FK_ger_infocad_categ` FOREIGN KEY (`infocad_categ_id`) REFERENCES `ger_infocad` (`id`),
-  CONSTRAINT `FK_ger_infocad_pessoa` FOREIGN KEY (`pessoa_id`) REFERENCES `ger_pessoa` (`id`),
-  CONSTRAINT `FK_ger_infocad_estabelecimento` FOREIGN KEY (`estabelecimento_id`) REFERENCES `cfg_estabelecimento` (`id`),
-  CONSTRAINT `FK_ger_infocad_user_inserted` FOREIGN KEY (`user_updated_id`) REFERENCES `sec_user` (`id`),
-  CONSTRAINT `FK_ger_infocad_user_updated` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`)
+  UNIQUE KEY `UK_bse_relcom_pessoa_id` (`pessoa_id`),
+  KEY `K_bse_categ_relcom` (`categ_relcom_id`),
+  KEY `K_bse_relcom_estabelecimento` (`estabelecimento_id`),
+  KEY `K_bse_relcom_user_inserted` (`user_inserted_id`),
+  KEY `K_bse_relcom_user_updated` (`user_updated_id`),
+  CONSTRAINT `FK_bse_categ_relcom` FOREIGN KEY (`categ_relcom_id`) REFERENCES `bse_relcom` (`id`),
+  CONSTRAINT `FK_bse_relcom_pessoa` FOREIGN KEY (`pessoa_id`) REFERENCES `bse_pessoa` (`id`),
+  CONSTRAINT `FK_bse_relcom_estabelecimento` FOREIGN KEY (`estabelecimento_id`) REFERENCES `cfg_estabelecimento` (`id`),
+  CONSTRAINT `FK_bse_relcom_user_inserted` FOREIGN KEY (`user_updated_id`) REFERENCES `sec_user` (`id`),
+  CONSTRAINT `FK_bse_relcom_user_updated` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+
+
+-- Endereços de Relacionamento Comercial
+CREATE TABLE `bse_relcom_endereco` (
+  `id` bigint(20) AUTO_INCREMENT NOT NULL,
+  `relcom_id` bigint(20) NOT NULL,
+
+  `cep` varchar(9) DEFAULT NULL,
+  `logradouro` varchar(200) DEFAULT NULL,
+  `numero` varchar(20) DEFAULT NULL,
+  `complemento` varchar(120) DEFAULT NULL,
+  `bairro` varchar(120) DEFAULT NULL,
+  `cidade` varchar(120) DEFAULT NULL,
+  `estado` char(2) DEFAULT NULL,
+  `tipo_endereco` varchar(100) DEFAULT NULL,
+  `obs` varchar(3000) DEFAULT NULL,
+
+  `inserted` datetime NOT NULL,
+  `updated` datetime NOT NULL,
+  `estabelecimento_id` bigint(20) NOT NULL,
+  `user_inserted_id` bigint(20) NOT NULL,
+  `user_updated_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `K_bse_relcom_endereco_relcom` (`relcom_id`),
+  KEY `K_bse_relcom_endereco_estabelecimento` (`estabelecimento_id`),
+  KEY `K_bse_relcom_endereco_user_inserted` (`user_inserted_id`),
+  KEY `K_bse_relcom_endereco_user_updated` (`user_updated_id`),
+  CONSTRAINT `FK_bse_relcom_endereco_relcom` FOREIGN KEY (`relcom_id`) REFERENCES `bse_relcom` (`id`),
+  CONSTRAINT `FK_bse_relcom_endereco_estabelecimento` FOREIGN KEY (`estabelecimento_id`) REFERENCES `cfg_estabelecimento` (`id`),
+  CONSTRAINT `FK_bse_relcom_endereco_user_inserted` FOREIGN KEY (`user_updated_id`) REFERENCES `sec_user` (`id`),
+  CONSTRAINT `FK_bse_relcom_endereco_user_updated` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+
+
+-- Telefones de Relacionamento Comercial
+CREATE TABLE `bse_relcom_fone` (
+  `id` bigint(20) AUTO_INCREMENT NOT NULL,
+  `relcom_id` bigint(20) NOT NULL,
+
+  `numero` varchar(50) DEFAULT NULL,
+  `tipo` varchar(100) DEFAULT NULL,
+  `obs` varchar(3000) DEFAULT NULL,
+
+  `inserted` datetime NOT NULL,
+  `updated` datetime NOT NULL,
+  `estabelecimento_id` bigint(20) NOT NULL,
+  `user_inserted_id` bigint(20) NOT NULL,
+  `user_updated_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `K_bse_relcom_fone_relcom` (`relcom_id`),
+  KEY `K_bse_relcom_fone_estabelecimento` (`estabelecimento_id`),
+  KEY `K_bse_relcom_fone_user_inserted` (`user_inserted_id`),
+  KEY `K_bse_relcom_fone_user_updated` (`user_updated_id`),
+  CONSTRAINT `FK_bse_relcom_fone_relcom` FOREIGN KEY (`relcom_id`) REFERENCES `bse_relcom` (`id`),
+  CONSTRAINT `FK_bse_relcom_fone_estabelecimento` FOREIGN KEY (`estabelecimento_id`) REFERENCES `cfg_estabelecimento` (`id`),
+  CONSTRAINT `FK_bse_relcom_fone_user_inserted` FOREIGN KEY (`user_updated_id`) REFERENCES `sec_user` (`id`),
+  CONSTRAINT `FK_bse_relcom_fone_user_updated` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 
 
@@ -397,12 +451,12 @@ CREATE TABLE `ger_infocad` (
 
 
 
-CREATE TABLE `ger_municipio` (
+CREATE TABLE `bse_municipio` (
   `id` bigint(20) AUTO_INCREMENT NOT NULL,
   `municipio_codigo` int(11) NOT NULL,
-  `municipio_nome` varchar(200) COLLATE utf8_swedish_ci DEFAULT NULL,
-  `uf_nome` varchar(200) COLLATE utf8_swedish_ci DEFAULT NULL,
-  `uf_sigla` varchar(2) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `municipio_nome` varchar(200) DEFAULT NULL,
+  `uf_nome` varchar(200) DEFAULT NULL,
+  `uf_sigla` varchar(2) DEFAULT NULL,
 
   `inserted` datetime NOT NULL,
   `updated` datetime NOT NULL,
@@ -411,22 +465,22 @@ CREATE TABLE `ger_municipio` (
   `user_updated_id` bigint(20) NOT NULL,
   `version` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_ger_municipio` (`uf_sigla`,`municipio_nome`),
-  KEY `K_ger_municipio_estabelecimento` (`estabelecimento_id`),
-  KEY `K_ger_municipio_user_inserted` (`user_inserted_id`),
-  KEY `K_ger_municipio_user_updated` (`user_updated_id`),
-  CONSTRAINT `FK_ger_municipio_user_inserted` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`),
-  CONSTRAINT `FK_ger_municipio_user_updated` FOREIGN KEY (`user_updated_id`) REFERENCES `sec_user` (`id`),
-  CONSTRAINT `FK_ger_municipio_estabelecimento` FOREIGN KEY (`estabelecimento_id`) REFERENCES `cfg_estabelecimento` (`id`)
+  UNIQUE KEY `UK_bse_municipio` (`uf_sigla`,`municipio_nome`),
+  KEY `K_bse_municipio_estabelecimento` (`estabelecimento_id`),
+  KEY `K_bse_municipio_user_inserted` (`user_inserted_id`),
+  KEY `K_bse_municipio_user_updated` (`user_updated_id`),
+  CONSTRAINT `FK_bse_municipio_user_inserted` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`),
+  CONSTRAINT `FK_bse_municipio_user_updated` FOREIGN KEY (`user_updated_id`) REFERENCES `sec_user` (`id`),
+  CONSTRAINT `FK_bse_municipio_estabelecimento` FOREIGN KEY (`estabelecimento_id`) REFERENCES `cfg_estabelecimento` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 
 
 
 
-CREATE TABLE `ger_uf` (
+CREATE TABLE `bse_uf` (
   `id` bigint(20) AUTO_INCREMENT NOT NULL,
-  `sigla` char(2) COLLATE utf8_swedish_ci NOT NULL,
-  `nome` varchar(50) COLLATE utf8_swedish_ci NOT NULL,
+  `sigla` char(2)  NOT NULL,
+  `nome` varchar(50)  NOT NULL,
   `codigo_IBGE` int(11) NOT NULL,
 
   `inserted` datetime NOT NULL,
@@ -436,24 +490,24 @@ CREATE TABLE `ger_uf` (
   `user_updated_id` bigint(20) NOT NULL,
   `version` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_ger_uf_sigla` (`sigla`),
-  UNIQUE KEY `UK_ger_uf_nome` (`nome`),
-  UNIQUE KEY `UK_ger_uf_codigo_IBGE` (`codigo_IBGE`),
-  KEY `K_ger_uf_estabelecimento` (`estabelecimento_id`),
-  KEY `K_ger_uf_user_inserted` (`user_inserted_id`),
-  KEY `K_ger_uf_user_updated` (`user_updated_id`),
-  CONSTRAINT `FK_ger_uf_user_inserted` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`),
-  CONSTRAINT `FK_ger_uf_user_updated` FOREIGN KEY (`user_updated_id`) REFERENCES `sec_user` (`id`),
-  CONSTRAINT `FK_ger_uf_estabelecimento` FOREIGN KEY (`estabelecimento_id`) REFERENCES `cfg_estabelecimento` (`id`)
+  UNIQUE KEY `UK_bse_uf_sigla` (`sigla`),
+  UNIQUE KEY `UK_bse_uf_nome` (`nome`),
+  UNIQUE KEY `UK_bse_uf_codigo_IBGE` (`codigo_IBGE`),
+  KEY `K_bse_uf_estabelecimento` (`estabelecimento_id`),
+  KEY `K_bse_uf_user_inserted` (`user_inserted_id`),
+  KEY `K_bse_uf_user_updated` (`user_updated_id`),
+  CONSTRAINT `FK_bse_uf_user_inserted` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`),
+  CONSTRAINT `FK_bse_uf_user_updated` FOREIGN KEY (`user_updated_id`) REFERENCES `sec_user` (`id`),
+  CONSTRAINT `FK_bse_uf_estabelecimento` FOREIGN KEY (`estabelecimento_id`) REFERENCES `cfg_estabelecimento` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 
 
 
 
-CREATE TABLE `ger_dia_util` (
+CREATE TABLE `bse_diautil` (
   `id` bigint(20) AUTO_INCREMENT NOT NULL,
   `dia` datetime NOT NULL,
-  `descricao` varchar(40) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `descricao` varchar(40) DEFAULT NULL,
   `comercial` bit(1) NOT NULL,
   `financeiro` bit(1) NOT NULL,
   `municipio_id` bigint(20) DEFAULT NULL,
@@ -465,13 +519,13 @@ CREATE TABLE `ger_dia_util` (
   `user_updated_id` bigint(20) NOT NULL,
   `version` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_ger_dia_util` (`dia`, `municipio_id`),
-  KEY `K_ger_dia_util_estabelecimento` (`estabelecimento_id`),
-  KEY `K_ger_dia_util_user_inserted` (`user_inserted_id`),
-  KEY `K_ger_dia_util_user_updated` (`user_updated_id`),
-  CONSTRAINT `FK_ger_dia_util_user_inserted` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`),
-  CONSTRAINT `FK_ger_dia_util_user_updated` FOREIGN KEY (`user_updated_id`) REFERENCES `sec_user` (`id`),
-  CONSTRAINT `FK_ger_dia_util_estabelecimento` FOREIGN KEY (`estabelecimento_id`) REFERENCES `cfg_estabelecimento` (`id`)
+  UNIQUE KEY `UK_bse_dia_util` (`dia`, `municipio_id`),
+  KEY `K_bse_dia_util_estabelecimento` (`estabelecimento_id`),
+  KEY `K_bse_dia_util_user_inserted` (`user_inserted_id`),
+  KEY `K_bse_dia_util_user_updated` (`user_updated_id`),
+  CONSTRAINT `FK_bse_dia_util_user_inserted` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`),
+  CONSTRAINT `FK_bse_dia_util_user_updated` FOREIGN KEY (`user_updated_id`) REFERENCES `sec_user` (`id`),
+  CONSTRAINT `FK_bse_dia_util_estabelecimento` FOREIGN KEY (`estabelecimento_id`) REFERENCES `cfg_estabelecimento` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 
 

@@ -10,7 +10,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  *
  * @ORM\Entity(repositoryClass="App\Repository\Base\EstadoRepository")
- * @ORM\Table(name="bs_uf")
+ * @ORM\Table(name="bse_uf")
+ * @author Carlos Eduardo Pauluk
  */
 class Estado implements EntityId
 {

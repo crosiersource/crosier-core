@@ -101,7 +101,7 @@ INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `program_uuid`, `pai
 VALUES ('bc1a31da-5d1e-4879-848d-3d983d1a1202','Pessoas',               'far fa-user-circle','ENT',NULL,'264286e6-844d-421a-919a-37aef5ad8644',0,NULL,now(),now(),1,1,1);
 
 INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `program_uuid`, `pai_uuid`, `ordem`, `css_style`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`) 
-VALUES ('60b3a262-deb3-4f19-ad51-36cc7d3cf468','Informações Cadastrais','far fa-id-card','ENT',NULL,'264286e6-844d-421a-919a-37aef5ad8644',0,NULL,now(),now(),1,1,1);
+VALUES ('60b3a262-deb3-4f19-ad51-36cc7d3cf468','Relacionamentos Comerciais','far fa-id-card','ENT',NULL,'264286e6-844d-421a-919a-37aef5ad8644',0,NULL,now(),now(),1,1,1);
 
 INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `program_uuid`, `pai_uuid`, `ordem`, `css_style`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`) 
 VALUES ('886797b4-2124-43eb-b780-e271f7dc5c3b','Categorias',            'far fa-id-badge','ENT',NULL,'264286e6-844d-421a-919a-37aef5ad8644',0,NULL,now(),now(),1,1,1);

@@ -11,7 +11,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Entidade 'Dia Útil'.
  *
  * @ORM\Entity(repositoryClass="App\Repository\Base\DiaUtilRepository")
- * @ORM\Table(name="bon_dia_util")
+ * @ORM\Table(name="bse_diautil")
+ * @author Carlos Eduardo Pauluk
  */
 class DiaUtil implements EntityId
 {

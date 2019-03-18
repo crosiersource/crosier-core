@@ -9,7 +9,6 @@ use CrosierSource\CrosierLibBaseBundle\Repository\FilterRepository;
  * Repository para a entidade DiaUtil.
  *
  * @author Carlos Eduardo Pauluk
- *
  */
 class  DiaUtilRepository extends FilterRepository
 {

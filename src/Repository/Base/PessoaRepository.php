@@ -103,34 +103,5 @@ class PessoaRepository extends FilterRepository
         return $query->execute();
     }
 
-    /**
-     * Tenta encontrar um relacionamento (Cliente, Fornecedor, Funcionario) para a pessoa.
-     *
-     * @param Pessoa $pessoa
-     * @return NULL
-     * @throws \Exception
-     */
-    public function findRelacionamento(Pessoa $pessoa)
-    {
-        $repoCliente = $this->getEntityManager()->getRepository('App\Entity\CRM\Cliente');
-        $pessoaCliente = $repoCliente->findByPessoa($pessoa);
-        if ($pessoaCliente) {
-            return $pessoaCliente;
-        }
-
-        $repoFornecedor = $this->getEntityManager()->getRepository('App\Entity\Estoque\Fornecedor');
-        $pessoaFornecedor = $repoFornecedor->findByPessoa($pessoa);
-        if ($pessoaFornecedor) {
-            return $pessoaFornecedor;
-        }
-
-        $repoFuncionario = $this->getEntityManager()->getRepository('App\Entity\RH\Funcionario');
-        $pessoaFuncionario = $repoFuncionario->findByPessoa($pessoa);
-        if ($pessoaFuncionario) {
-            return $pessoaFuncionario;
-        }
-
-        return null;
-    }
 
 }

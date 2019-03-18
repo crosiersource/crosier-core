@@ -2,7 +2,7 @@
 
 namespace App\Business\Base;
 
-use App\Entity\Base\Endereco;
+use App\Entity\Base\EnderecoTrait;
 use App\Entity\Base\Pessoa;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -38,7 +38,7 @@ class PessoaBusiness
             $pessoa->setInscricaoEstadual($relacionamento->getInscricaoEstadual());
         }
 
-        $enderecoRepo = $this->doctrine->getRepository(Endereco::class);
+        $enderecoRepo = $this->doctrine->getRepository(EnderecoTrait::class);
         $endereco = $enderecoRepo->findPrimeiroByPessoa($pessoa);
 
         if ($endereco) {

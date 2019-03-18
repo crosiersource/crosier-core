@@ -2,7 +2,7 @@
 
 namespace App\Form\Base;
 
-use App\Entity\Base\Endereco;
+use App\Entity\Base\EnderecoTrait;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -107,7 +107,7 @@ class EnderecoType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => Endereco::class
+            'data_class' => EnderecoTrait::class
         ));
     }
 
