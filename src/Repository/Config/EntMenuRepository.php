@@ -92,9 +92,10 @@ class EntMenuRepository extends FilterRepository
     /**
      * Monta o menu com somente aplicativos permitidos ao usuário logado.
      *
+     * @param string $programUUID
      * @return array
      */
-    public function buildMenuByProgram(string $programUUID)
+    public function buildMenuByProgram(string $programUUID): array
     {
         $entMenuPaiJson = $this->getEntMenuByProgramUUID($programUUID);
         if ($entMenuPaiJson) {
@@ -110,7 +111,7 @@ class EntMenuRepository extends FilterRepository
      * @param EntMenu $entMenuPai
      * @return array
      */
-    public function buildMenuByEntMenuPai(EntMenu $entMenuPai)
+    public function buildMenuByEntMenuPai(EntMenu $entMenuPai): array
     {
 
         $entsMenu = $this->findBy(['paiUUID' => $entMenuPai->getUUID()], ['ordem' => 'ASC']);

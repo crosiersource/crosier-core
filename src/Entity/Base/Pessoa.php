@@ -5,7 +5,7 @@ namespace App\Entity\Base;
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityId;
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityIdTrait;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Entidade 'Pessoa'.
@@ -24,8 +24,8 @@ class Pessoa implements EntityId
      * Para Pessoa Jurídica é a Razão Social.
      *
      * @ORM\Column(name="nome", type="string", nullable=false, length=300)
-     * @Assert\Range(min=2, max=300)
      * @var null|string
+     * @Groups("entity")
      */
     private $nome;
 

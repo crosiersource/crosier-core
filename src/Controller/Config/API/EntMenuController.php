@@ -23,8 +23,10 @@ class EntMenuController extends AbstractController
 
     /**
      * @Route("/api/cfg/entMenu/buildMenu/{programUUID}", name="api_cfg_entMenu_buildMenu", requirements={"program"="\w{32}"})
+     * @param string $programUUID
+     * @return JsonResponse
      */
-    public function buildMenu(string $programUUID)
+    public function buildMenu(string $programUUID): JsonResponse
     {
         // Se fizer pelo getRepository, o Security não é injetado no setSecurity com o @required (provável bug no Symfony)
         // $menu = $this->getDoctrine()->getRepository(EntMenu::class)->buildMenuByProgram($programUUID);
@@ -34,8 +36,10 @@ class EntMenuController extends AbstractController
 
     /**
      * @Route("/api/cfg/entMenu/getEntMenuByProgramUUID/{programUUID}", name="api_cfg_entMenu_getEntMenuByProgramUUID", requirements={"program"="\w{32}"})
+     * @param string $programUUID
+     * @return JsonResponse
      */
-    public function getEntMenuByProgramUUID(string $programUUID)
+    public function getEntMenuByProgramUUID(string $programUUID): JsonResponse
     {
         // Se fizer pelo getRepository, o Security não é injetado no setSecurity com o @required (provável bug no Symfony)
         // $menu = $this->getDoctrine()->getRepository(EntMenu::class)->buildMenuByProgram($programUUID);
