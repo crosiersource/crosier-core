@@ -5,6 +5,7 @@ namespace App\Controller\Base;
 use App\Business\Base\PessoaBusiness;
 use App\Entity\Base\Pessoa;
 use App\Entity\Config\App;
+use App\EntityHandler\Base\PessoaEntityHandler;
 use App\Form\Base\PessoaType;
 use App\Repository\Base\PessoaRepository;
 use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
@@ -30,18 +31,23 @@ class PessoaController extends FormListController
             'listRoute' => 'bse_pessoa_list',
             'listRouteAjax' => 'bse_pessoa_datatablesJsList',
             'listPageTitle' => 'Pessoas',
-            'listId' => 'pessoaList',
-            'normalizedAttrib' => [
-                'id',
-                'nome',
-            ],
-
+            'listId' => 'pessoaList'
         ];
 
     /** @var PessoaBusiness */
     private $pessoaBusiness;
 
     /**
+     * @required
+     * @param PessoaEntityHandler $entityHandler
+     */
+    public function setEntityHandler(PessoaEntityHandler $entityHandler)
+    {
+        $this->entityHandler = $entityHandler;
+    }
+
+    /**
+     * @required
      * @param mixed $pessoaBusiness
      */
     public function setPessoaBusiness(PessoaBusiness $pessoaBusiness): void
