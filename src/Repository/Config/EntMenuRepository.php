@@ -113,12 +113,11 @@ class EntMenuRepository extends FilterRepository
      */
     public function buildMenuByEntMenuPai(EntMenu $entMenuPai): array
     {
-
         $entsMenu = $this->findBy(['paiUUID' => $entMenuPai->getUUID()], ['ordem' => 'ASC']);
 
         $rs = [];
         // Está no CrosierCore
-        if ($entMenuPai->getId() === 1) {
+        if ($entMenuPai->getUUID() === '71d1456b-3a9f-4589-8f71-42bbf6c91a3e') {
             // Cria entradas para os Apps instalados
             $defaultEntMenuApps = $this->getEntityManager()->getRepository(App::class)->findDefaultEntMenuApps();
             /** @var EntMenu $defaultEntMenuApp */

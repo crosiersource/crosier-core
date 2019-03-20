@@ -3,16 +3,16 @@
 namespace App\Repository\Base;
 
 
-use App\Entity\Base\RelacionamentoComercialEndereco;
+use App\Entity\Base\CategoriaPessoa;
 use CrosierSource\CrosierLibBaseBundle\Repository\FilterRepository;
 
 /**
- * Repository para a entidade RelacionamentoComercialEndereco.
+ * Repository para a entidade CategoriaPessoa.
  *
  * @author Carlos Eduardo Pauluk
  *
  */
-class RelacionamentoComercialEnderecoRepository extends FilterRepository
+class CategoriaPessoaRepository extends FilterRepository
 {
 
     /**
@@ -20,7 +20,7 @@ class RelacionamentoComercialEnderecoRepository extends FilterRepository
      */
     public function getEntityClass(): string
     {
-        return RelacionamentoComercialEndereco::class;
+        return CategoriaPessoa::class;
     }
 
 }

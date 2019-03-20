@@ -2,20 +2,20 @@
 
 namespace App\EntityHandler\Base;
 
-use App\Entity\Base\RelacionamentoComercialEndereco;
+use App\Entity\Base\CategoriaPessoa;
 use CrosierSource\CrosierLibBaseBundle\EntityHandler\EntityHandler;
 
 /**
- * EntityHandler para RelacionamentoComercialEndereco.
+ * EntityHandler para CategoriaPessoa.
  *
  * @package App\EntityHandler\Config
  * @author Carlos Eduardo Pauluk
  */
-class RelacionamentoComercialEnderecoEntityHandler extends EntityHandler
+class CategoriaPessoaEntityHandler extends EntityHandler
 {
 
     public function getEntityClass()
     {
-        return RelacionamentoComercialEndereco::class;
+        return CategoriaPessoa::class;
     }
 }

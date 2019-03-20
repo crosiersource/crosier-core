@@ -4,19 +4,22 @@ namespace App\Entity\Base;
 
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityId;
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityIdTrait;
+use CrosierSource\CrosierLibBaseBundle\Entity\Utils\EnderecoTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Entidade RelacionamentoComercial.
+ * Entidade Pessoa.
  *
- * @ORM\Entity(repositoryClass="App\Repository\Base\RelacionamentoComercialRepository")
- * @ORM\Table(name="bse_relcom")
+ * @ORM\Entity(repositoryClass="App\Repository\Base\PessoaRepository")
+ * @ORM\Table(name="bse_pessoa_endereco")
  * @author Carlos Eduardo Pauluk
  */
-class RelacionamentoComercial implements EntityId
+class PessoaEndereco implements EntityId
 {
 
     use EntityIdTrait;
+
+    use EnderecoTrait;
 
     /**
      *
@@ -41,6 +44,7 @@ class RelacionamentoComercial implements EntityId
     {
         $this->pessoa = $pessoa;
     }
+
 
 
 }

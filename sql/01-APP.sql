@@ -19,7 +19,7 @@ DELETE FROM cfg_entmenu WHERE uuid = '5b5ed5ea-b429-462b-9cb7-148a22c4b553';
 DELETE FROM cfg_program WHERE uuid = '4f4df268-09ef-4e9c-bbc9-82eaf85de43f';
 
 INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `program_uuid`, `pai_uuid`, `ordem`, `css_style`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`) 
-VALUES ('5b5ed5ea-b429-462b-9cb7-148a22c4b553','CrosierCore - Dashboard',  'fas fa-columns','ENT','4f4df268-09ef-4e9c-bbc9-82eaf85de43f','71d1456b-3a9f-4589-8f71-42bbf6c91a3e',2,NULL,now(),now(),1,1,1);
+VALUES ('5b5ed5ea-b429-462b-9cb7-148a22c4b553','Dashboard',  'fas fa-columns','ENT','4f4df268-09ef-4e9c-bbc9-82eaf85de43f','71d1456b-3a9f-4589-8f71-42bbf6c91a3e',1,NULL,now(),now(),1,1,1);
 
 INSERT INTO `cfg_program` (`descricao`, `url`, `app_uuid`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`, `entmenu_uuid`, `uuid`) 
 VALUES ('CROSIERCORE - DASHBOARD','/','175bd6d3-6c29-438a-9520-47fcee653cc5',now(),now(),1,1,1,NULL,'4f4df268-09ef-4e9c-bbc9-82eaf85de43f');
@@ -32,7 +32,7 @@ VALUES ('CROSIERCORE - DASHBOARD','/','175bd6d3-6c29-438a-9520-47fcee653cc5',now
 DELETE FROM cfg_entmenu WHERE uuid = 'e290e24f-a050-4bba-8ee8-877d55242267';
 
 INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `program_uuid`, `pai_uuid`, `ordem`, `css_style`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`) 
-VALUES ('e290e24f-a050-4bba-8ee8-877d55242267','Configurações',          'fas fa-cogs','DROPDOWN',NULL,'71d1456b-3a9f-4589-8f71-42bbf6c91a3e',1,NULL,now(),now(),1,1,1);
+VALUES ('e290e24f-a050-4bba-8ee8-877d55242267','Configurações',          'fas fa-cogs','DROPDOWN',NULL,'71d1456b-3a9f-4589-8f71-42bbf6c91a3e',999,NULL,now(),now(),1,1,1);
 
 
     -- Parâmetros
@@ -130,7 +130,7 @@ VALUES ('e290e24f-a050-4bba-8ee8-877d55242267','Configurações',          'fas 
 DELETE FROM cfg_entmenu WHERE uuid = '264286e6-844d-421a-919a-37aef5ad8644';
     
 INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `program_uuid`, `pai_uuid`, `ordem`, `css_style`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`) 
-VALUES ('264286e6-844d-421a-919a-37aef5ad8644','Geral',                 'far fa-dot-circle','DROPDOWN',NULL,'71d1456b-3a9f-4589-8f71-42bbf6c91a3e',0,NULL,now(),now(),1,1,1);
+VALUES ('264286e6-844d-421a-919a-37aef5ad8644','Geral',                 'far fa-dot-circle','DROPDOWN',NULL,'71d1456b-3a9f-4589-8f71-42bbf6c91a3e',2,NULL,now(),now(),1,1,1);
 
 
     -- Pessoas
@@ -147,20 +147,6 @@ VALUES ('264286e6-844d-421a-919a-37aef5ad8644','Geral',                 'far fa-
     INSERT INTO `cfg_program` (`descricao`, `url`, `app_uuid`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`, `entmenu_uuid`, `uuid`)
     VALUES ('PESSOAS [FORM]','/bse/pessoa/form/','175bd6d3-6c29-438a-9520-47fcee653cc5',now(),now(),1,1,1,NULL,'8f3e70d3-e374-401f-8881-c9cb845ef14e');
 
-
-    -- Relacionamentos Comerciais
-    DELETE FROM cfg_entmenu WHERE uuid = '60b3a262-deb3-4f19-ad51-36cc7d3cf468';
-    DELETE FROM cfg_program WHERE uuid = 'f0cd7596-f2c0-4e7e-9ac2-24b187448df3';
-    DELETE FROM cfg_program WHERE uuid = 'fc5f28f4-09e8-48d3-976b-359f5d0a5fa8';
-
-    INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `program_uuid`, `pai_uuid`, `ordem`, `css_style`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`) 
-    VALUES ('60b3a262-deb3-4f19-ad51-36cc7d3cf468','Relacionamentos Comerciais','far fa-id-card','ENT','f0cd7596-f2c0-4e7e-9ac2-24b187448df3','264286e6-844d-421a-919a-37aef5ad8644',2,NULL,now(),now(),1,1,1);
-
-    INSERT INTO `cfg_program` (`descricao`, `url`, `app_uuid`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`, `entmenu_uuid`, `uuid`)
-    VALUES ('RELACIONAMENTOS COMERCIAIS [LIST]','/bse/relacionamentoComercial/list/','175bd6d3-6c29-438a-9520-47fcee653cc5',now(),now(),1,1,1,NULL,'f0cd7596-f2c0-4e7e-9ac2-24b187448df3');
-
-    INSERT INTO `cfg_program` (`descricao`, `url`, `app_uuid`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`, `entmenu_uuid`, `uuid`)
-    VALUES ('RELACIONAMENTOS COMERCIAIS [FORM]','/bse/relacionamentoComercial/form/','175bd6d3-6c29-438a-9520-47fcee653cc5',now(),now(),1,1,1,NULL,'fc5f28f4-09e8-48d3-976b-359f5d0a5fa8');
 
 
     -- Categorias
