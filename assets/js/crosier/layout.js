@@ -76,6 +76,8 @@ $(document).ready(function () {
         $('#appMainMenu').select2('open');
     });
 
+    $('.focusOnReady').focus();
+
 
 
 });
