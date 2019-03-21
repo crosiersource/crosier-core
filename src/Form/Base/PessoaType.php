@@ -32,6 +32,7 @@ class PessoaType extends AbstractType
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
+     * @throws \CrosierSource\CrosierLibBaseBundle\Exception\ViewException
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -40,15 +41,15 @@ class PessoaType extends AbstractType
         ));
 
         $builder->add('tipo', ChoiceType::class, array(
-            'expanded' => true,
-            'label_attr' => [
-                'class' => 'radio-inline'
-            ],
+            'label' => 'Tipo',
             'choices' => array(
                 'Pessoa Física' => 'Pessoa Física',
                 'Pessoa Jurídica' => 'Pessoa Jurídica'
             ),
-            'required' => true
+            'required' => true,
+            'attr' => [
+                'class' => 'autoSelect2 focusOnReady'
+            ]
         ));
 
         $builder->add('nome', TextType::class, array(
@@ -68,10 +69,7 @@ class PessoaType extends AbstractType
             'attr' => [
                 'class' => 'autoSelect2'
             ]
-
         ));
-
-
 
         $builder->add('nomeFantasia', TextType::class, array(
             'label' => 'Nome Fantasia',

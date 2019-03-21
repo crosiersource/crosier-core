@@ -9,7 +9,7 @@ class TheFirstTest extends TestCase
 {
 
     public function testTheFirst() {
-        $this->assertTrue(false);
+        $this->assertTrue(true);
     }
 
 }

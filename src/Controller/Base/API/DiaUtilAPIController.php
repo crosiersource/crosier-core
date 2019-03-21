@@ -2,7 +2,6 @@
 
 namespace App\Controller\Base\API;
 
-use App\Business\Base\DiaUtilBusiness;
 use App\Entity\Base\DiaUtil;
 use App\Repository\Base\DiaUtilRepository;
 use CrosierSource\CrosierLibBaseBundle\Utils\APIUtils\APIProblem;
@@ -22,16 +21,6 @@ class DiaUtilAPIController extends AbstractController
 
     /** @var LoggerInterface */
     private $logger;
-
-    /**
-     * @var DiaUtilBusiness
-     */
-    private $diaUtilBusiness;
-
-    public function __construct(DiaUtilBusiness $diaUtilBusiness)
-    {
-        $this->diaUtilBusiness = $diaUtilBusiness;
-    }
 
     /**
      *
@@ -80,18 +69,17 @@ class DiaUtilAPIController extends AbstractController
     /**
      *
      * @Route("/api/bse/diaUtil/incPeriodo/", name="api_bse_diaUtil_incPeriodo")
-     *
      */
     public function incPeriodo(Request $request)
     {
         try {
-            $json = json_decode($request->getContent(), true);
-            $ini = $json[0]['ini'];
+
+            $ini = $request->get('ini');
             $dtIni = DateTimeUtils::parseDateStr($ini);
-            $fim = $json[0]['fim'];
+            $fim = $request->get('fim');
             $dtFim = DateTimeUtils::parseDateStr($fim);
 
-            $futuro = (bool)($json[0]['futuro']);
+            $futuro = (bool)($request->get('futuro'));
         } catch (\Exception $e) {
             return (new APIProblem(
                 400,
@@ -100,7 +88,7 @@ class DiaUtilAPIController extends AbstractController
         }
 
         try {
-            $periodo = $this->diaUtilBusiness->incPeriodo($futuro, $dtIni, $dtFim);
+            $periodo = DateTimeUtils::iteratePeriodoRelatorial($dtIni, $dtFim, $futuro);
             return new JsonResponse($periodo);
         } catch (\Exception $e) {
             return (new APIProblem(

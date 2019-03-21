@@ -1,23 +1,26 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: carlos
- * Date: 31/01/19
- * Time: 11:52
- */
 
-namespace App\Tests\src\Controller\Base;
+namespace Tests\src\Controller\Base;
 
 
 use CrosierSource\CrosierLibBaseBundle\Utils\DateTimeUtils\DateTimeUtils;
+use PHPUnit\Framework\TestCase;
 
-class DiaUtilControllerTest
+class DiaUtilControllerTest extends TestCase
 {
 
     public function testPeriodos()
     {
 
         $testes = [
+            [
+                'dtIni' => '2019-01-01',
+                'dtFim' => '2019-01-01',
+                'dtIni_dec' => '2018-12-31',
+                'dtFim_dec' => '2018-12-31',
+                'dtIni_inc' => '2019-01-02',
+                'dtFim_inc' => '2019-01-02'
+            ],
             [
                 'dtIni' => '2019-01-01',
                 'dtFim' => '2019-01-31',
@@ -68,42 +71,23 @@ class DiaUtilControllerTest
             ],
         ];
 
-        $r = "<pre>";
         foreach ($testes as $t) {
-
-            $r .= "<br/>Dt Ini: " . $t['dtIni'] . "<br />" .
-                "Dt Fim: " . $t['dtFim'] . "<br />";
 
             $dtIni = \DateTime::createFromFormat('Y-m-d', $t['dtIni']);
             $dtFim = \DateTime::createFromFormat('Y-m-d', $t['dtFim']);
             $periodo_dec = DateTimeUtils::decPeriodoRelatorial($dtIni, $dtFim);
             $periodo_inc = DateTimeUtils::incPeriodoRelatorial($dtIni, $dtFim);
 
-            if ($periodo_dec['dtIni'] != $t['dtIni_dec']) {
-                $r .=
-                    "Dt Ini Dec deveria ser: " . $t['dtIni_dec'] . "<br />" .
-                    "Retornou como         : " . $periodo_dec['dtIni'] . "<br />";
-            }
-            if ($periodo_dec['dtFim'] != $t['dtFim_dec']) {
-                $r .=
-                    "Dt Fim Dec deveria ser: " . $t['dtFim_dec'] . "<br />" .
-                    "Retornou como         : " . $periodo_dec['dtFim'] . "<br />";
-            }
-            if ($periodo_inc['dtIni'] != $t['dtIni_inc']) {
-                $r .=
-                    "Dt Ini Inc deveria ser: " . $t['dtIni_inc'] . "<br />" .
-                    "Retornou como         : " . $periodo_inc['dtIni'] . "<br />";
-            }
-            if ($periodo_inc['dtFim'] != $t['dtFim_inc']) {
-                $r .=
-                    "Dt Fim Inc deveria ser: " . $t['dtFim_inc'] . "<br />" .
-                    "Retornou como         : " . $periodo_inc['dtFim'] . "<br />";
-            }
+            $this->assertEquals($t['dtIni_dec'], $periodo_dec['dtIni']);
+            $this->assertEquals($t['dtFim_dec'], $periodo_dec['dtFim']);
 
+            $this->assertEquals($t['dtIni_inc'], $periodo_inc['dtIni']);
+            $this->assertEquals($t['dtFim_inc'], $periodo_inc['dtFim']);
 
         }
 
 
     }
+
 
 }
