@@ -5,6 +5,7 @@ namespace App\Entity\Base;
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityId;
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityIdTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Entidade 'Categoria de Relacionamento Comercial'.
@@ -23,6 +24,7 @@ class CategoriaPessoa implements EntityId
      *
      * @ORM\Column(name="descricao", type="string", nullable=false, length=100)
      * @var null|string
+     * @Groups("entity")
      */
     private $descricao;
 

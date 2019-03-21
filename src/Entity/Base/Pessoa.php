@@ -54,10 +54,11 @@ class Pessoa implements EntityId
      *
      * @ORM\ManyToMany(targetEntity="CategoriaPessoa")
      * @ORM\JoinTable(name="bse_pessoa_categ_pessoa",
-     *      joinColumns={@ORM\JoinColumn(name="categ_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="pessoa_id", referencedColumnName="id")}
+     *      joinColumns={@ORM\JoinColumn(name="pessoa_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="categ_id", referencedColumnName="id")}
      * )
      * @var null|Collection|CategoriaPessoa[]
+     * @Groups("entity")
      */
     private $categorias;
 

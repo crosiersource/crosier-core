@@ -2,7 +2,6 @@
 
 namespace App\Controller\Base\API;
 
-use App\Business\Base\DiaUtilBusiness;
 use App\Entity\Base\Pessoa;
 use CrosierSource\CrosierLibBaseBundle\Controller\BaseAPIEntityIdController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -10,27 +9,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class PessoaAPIController
+ * Class PessoaAPIController.
+ *
  * @package App\Controller\Base\API
  * @author Carlos Eduardo Pauluk
  */
 class PessoaAPIController extends BaseAPIEntityIdController
 {
-
-    /**
-     * @var DiaUtilBusiness
-     */
-    private $diaUtilBusiness;
-
-
-    /**
-     * @required
-     * @param DiaUtilBusiness $diaUtilBusiness
-     */
-    public function setDiaUtilBusiness(DiaUtilBusiness $diaUtilBusiness): void
-    {
-        $this->diaUtilBusiness = $diaUtilBusiness;
-    }
 
     /**
      * @return string
@@ -52,6 +37,7 @@ class PessoaAPIController extends BaseAPIEntityIdController
         return parent::findById($id);
     }
 
+
     /**
      *
      * @Route("/api/bse/pessoa/findByFilters/", name="api_bse_pessoa_findByFilters")
@@ -60,6 +46,54 @@ class PessoaAPIController extends BaseAPIEntityIdController
      */
     public function findByFilters(Request $request): JsonResponse
     {
-        return parent::findByFilters($request);
+        $content = $request->getContent();
+        return parent::doFindByFilters($content);
     }
+
+
+    /**
+     *
+     * @Route("/api/bse/pessoa/findByStr/{str}", name="api_bse_pessoa_findByStr")
+     * @param string $str
+     * @return JsonResponse
+     */
+    public function findByStr(string $str): JsonResponse
+    {
+        $filters = [
+            'filters' =>
+                [[
+                    'field' => ['nome', 'nomeFantasia', 'documento'],
+                    'compar' => 'LIKE',
+                    'val' => '%' . $str . '%'
+                ]]
+        ];
+        return $this->doFindByFilters(json_encode($filters));
+    }
+
+    /**
+     *
+     * @Route("/api/bse/pessoa/findByStrECateg/{categ}/{str}", name="api_bse_pessoa_findByStrECateg")
+     * @param string $str
+     * @return JsonResponse
+     */
+    public function findByStrECateg(string $categ, string $str): JsonResponse
+    {
+        $filters = [
+            'filters' =>
+                [
+                    [
+                        'field' => ['nome', 'nomeFantasia', 'documento'],
+                        'compar' => 'LIKE',
+                        'val' => '%' . $str . '%'
+                    ],
+                    [
+                        'field' => ['categ.descricao'],
+                        'compar' => 'LIKE',
+                        'val' => $categ
+                    ]
+                ]
+        ];
+        return $this->doFindByFilters(json_encode($filters));
+    }
+
 }
