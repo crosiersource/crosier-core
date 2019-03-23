@@ -64,7 +64,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Tests\\": "tests/"
+      "App\\Tests\\": "tests/"
     }
   },
   "replace": {
@@ -100,10 +100,6 @@
     {
       "type": "path",
       "url": "../crosierlib-base"
-    },
-    {
-      "type": "path",
-      "url": "../crosierlib-utils"
     }
   ]
 }
