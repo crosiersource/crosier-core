@@ -128,11 +128,11 @@ class CrosierBaseLayout {
         $.fn.select2.defaults.set("theme", "bootstrap");
         $('.autoSelect2').each(function () {
             let elem = $(this);
-            // Se foi passado um route, então busca os dados lá
-            if (elem.data('route-id')) {
+            // Se foi passado um id-route-url,
+            if (elem.data('id-route-url')) {
                 $.ajax({
                         type: 'GET',
-                        url: elem.data('route-id'),
+                        url: elem.data('id-route-url'),
                         async: true,
                         crossDomain: true,
                         contentType: "application/json",
