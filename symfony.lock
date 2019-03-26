@@ -128,6 +128,15 @@
     "ocramius/proxy-manager": {
         "version": "2.1.1"
     },
+    "php-http/guzzle6-adapter": {
+        "version": "v1.1.1"
+    },
+    "php-http/httplug": {
+        "version": "v1.1.0"
+    },
+    "php-http/promise": {
+        "version": "v1.0.0"
+    },
     "phpdocumentor/reflection-common": {
         "version": "1.0.1"
     },
