@@ -24,7 +24,7 @@ class DiaUtilAPIController extends AbstractController
 
     /**
      *
-     * @Route("/api/bse/diaUtil/findDiaUtil/", name="api_bse_diaUtil_findDiaUtil")
+     * @Route("/api/bse/diaUtil/findDiaUtil", name="api_bse_diaUtil_findDiaUtil")
      *
      * @param Request $request
      * @return JsonResponse
@@ -33,14 +33,12 @@ class DiaUtilAPIController extends AbstractController
     public function findDiaUtil(Request $request)
     {
         try {
-            $this->logger->info($request->getContent());
-            $json = json_decode($request->getContent(), true);
-            $dia = $json[0]['dt'];
+            $dia = $request->get('dt');
             $dateTimeDia = DateTimeUtils::parseDateStr($dia);
 
-            $prox = (bool)$json[0]['prox'];
-            $financeiro = $json[0]['financeiro'];
-            $comercial = $json[0]['comercial'];
+            $prox = (bool)$request->get('prox');
+            $financeiro = $request->get('financeiro') ? (bool)$request->get('financeiro') : null;
+            $comercial = $request->get('comercial') ? (bool)$request->get('comercial') : null;
         } catch (\Exception $e) {
             return (new APIProblem(
                 400,
@@ -54,7 +52,7 @@ class DiaUtilAPIController extends AbstractController
             $diaUtil = $repo->findDiaUtil($dateTimeDia, $prox, $financeiro, $comercial);
             $response = new JsonResponse(
                 [
-                    'diaUtil' => $diaUtil//->format('Y-m-d')
+                    'diaUtil' => $diaUtil->format('Y-m-d')
                 ]
             );
             return $response;
