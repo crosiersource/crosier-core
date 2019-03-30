@@ -53,7 +53,7 @@ class UserController extends FormListController
     public function getFilterDatas($params): array
     {
         return [
-            new FilterData(['username', 'nome'], 'LIKE', 'username', 'string', $params)
+            new FilterData(['username', 'nome'], 'LIKE', 'username', $params)
         ];
     }
 

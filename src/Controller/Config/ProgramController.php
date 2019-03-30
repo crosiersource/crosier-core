@@ -58,8 +58,8 @@ class ProgramController extends FormListController
     public function getFilterDatas(array $params): array
     {
         return [
-            new FilterData('descricao', 'LIKE', 'descricao', 'string', $params),
-            new FilterData('a.nome', 'LIKE', 'app', 'string', $params)
+            new FilterData('descricao', 'LIKE', 'descricao', $params),
+            new FilterData('a.nome', 'LIKE', 'app', $params)
         ];
     }
 

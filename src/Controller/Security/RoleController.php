@@ -50,7 +50,7 @@ class RoleController extends FormListController
     public function getFilterDatas(array $params): array
     {
         return [
-            new FilterData(['role'], 'LIKE', 'role', 'string', $params)
+            new FilterData(['role'], 'LIKE', 'role', $params)
         ];
     }
 

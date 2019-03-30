@@ -59,7 +59,7 @@ class ConfigController extends FormListController
     public function getFilterDatas(array $params): array
     {
         return [
-            new FilterData(['chave', 'valor'], 'LIKE', 'descricao', 'string', $params)
+            new FilterData(['chave', 'valor'], 'LIKE', 'descricao', $params)
         ];
     }
 

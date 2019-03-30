@@ -42,6 +42,7 @@
         "@coreui/icons": "^0.3.0",
         "bootstrap-datepicker": "^1.8.0",
         "chart.js": "^2.7.3",
+        "daterangepicker": "^3.0.3",
         "hotkeys-js": "^3.4.3"
     }
 }

@@ -49,7 +49,7 @@ class GroupController extends FormListController
     public function getFilterDatas(array $params): array
     {
         return [
-            new FilterData(['groupname'], 'LIKE', 'groupname', 'string', $params)
+            new FilterData(['groupname'], 'LIKE', 'groupname', $params)
         ];
     }
 

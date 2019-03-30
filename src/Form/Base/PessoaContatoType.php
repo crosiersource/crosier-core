@@ -65,7 +65,7 @@ class PessoaContatoType extends AbstractType
         ));
 
         $builder->add('valor', TextType::class, array(
-            'label' => 'Valor',
+            'label' => 'Contato',
             'attr' => [
                 'class' => 'notuppercase'
             ]

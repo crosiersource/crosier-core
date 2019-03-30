@@ -220,6 +220,8 @@ class PessoaController extends FormListController
 
 
     /**
+     * @ParamConverter("contato", class="App\Entity\Base\PessoaContato", options={"mapping": {"contato": "id"}})
+     * @ParamConverter("pessoa", class="App\Entity\Base\Pessoa", options={"mapping": {"pessoa": "id"}})
      *
      * @Route("/bse/pessoaContato/form/{pessoa}/{contato}", name="bse_pessoaContato_form", defaults={"contato"=null}, requirements={"pessoa"="\d+","contato"="\d+"})
      * @param Request $request

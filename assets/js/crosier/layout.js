@@ -33,21 +33,10 @@ import '../main.js';
 
 import 'toastr/build/toastr.css'
 
-// import 'summernote/dist/summernote-bs4.css';
-//
-// import 'flag-icon-css/css/flag-icon.css';
-//
-//
-//
-// import Moment from 'moment';
-// import 'moment/locale/pt-br';
-// import Numeral from 'numeral';
-// import 'numeral/locales/pt-br.js'
 import '../../static/css/crosier.css';
-//
-// Moment().locale('pt-BR');
-//
-// Numeral.locale('pt-br');
+
+import 'daterangepicker/daterangepicker.css';
+
 
 $(document).ready(function () {
 
