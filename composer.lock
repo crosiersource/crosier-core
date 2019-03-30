@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a304fb8be5d1d2d92575608487516095",
+    "content-hash": "bb22e976fe9d19a39141764fb75e1e86",
     "packages": [
         {
             "name": "crosiersource/crosierlib-base",
@@ -12,7 +12,7 @@
             "dist": {
                 "type": "path",
                 "url": "../crosierlib-base",
-                "reference": "bd91fe48fa3a8a30101eb83d3be5d0ca2dca0280",
+                "reference": "f5511d634b862ccf10c0c6f52f2112a4f7b93ffb",
                 "shasum": null
             },
             "require": {

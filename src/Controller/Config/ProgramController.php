@@ -25,7 +25,7 @@ class ProgramController extends FormListController
         [
             'typeClass' => ProgramType::class,
 
-            'formView' => 'Config/programForm.html.twig',
+            'formView' => '@CrosierLibBase/form.html.twig',
             'formRoute' => 'cfg_program_form',
             'formPageTitle' => 'Programa',
 

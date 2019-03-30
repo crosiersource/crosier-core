@@ -96,9 +96,38 @@ class Pessoa implements EntityId
     private $obs;
 
 
+    /**
+     *
+     * @var PessoaEndereco[]|ArrayCollection
+     *
+     * @ORM\OneToMany(
+     *      targetEntity="PessoaEndereco",
+     *     cascade={"persist"},
+     *      mappedBy="pessoa",
+     *      orphanRemoval=true
+     * )
+     */
+    private $enderecos;
+
+    /**
+     *
+     * @var PessoaContato[]|ArrayCollection
+     *
+     * @ORM\OneToMany(
+     *      targetEntity="PessoaContato",
+     *     cascade={"persist"},
+     *      mappedBy="pessoa",
+     *      orphanRemoval=true
+     * )
+     */
+    private $contatos;
+
+
     public function __construct()
     {
         $this->categorias = new ArrayCollection();
+        $this->enderecos = new ArrayCollection();
+        $this->contatos = new ArrayCollection();
     }
 
     /**
@@ -111,10 +140,12 @@ class Pessoa implements EntityId
 
     /**
      * @param null|string $nome
+     * @return Pessoa
      */
-    public function setNome(?string $nome): void
+    public function setNome(?string $nome): Pessoa
     {
         $this->nome = $nome;
+        return $this;
     }
 
     /**
@@ -127,10 +158,12 @@ class Pessoa implements EntityId
 
     /**
      * @param null|string $documento
+     * @return Pessoa
      */
-    public function setDocumento(?string $documento): void
+    public function setDocumento(?string $documento): Pessoa
     {
         $this->documento = $documento;
+        return $this;
     }
 
     /**
@@ -143,26 +176,12 @@ class Pessoa implements EntityId
 
     /**
      * @param null|string $tipo
+     * @return Pessoa
      */
-    public function setTipo(?string $tipo): void
+    public function setTipo(?string $tipo): Pessoa
     {
         $this->tipo = $tipo;
-    }
-
-    /**
-     * @return CategoriaPessoa[]|Collection|null
-     */
-    public function getCategorias()
-    {
-        return $this->categorias;
-    }
-
-    /**
-     * @param CategoriaPessoa[]|Collection|null $categorias
-     */
-    public function setCategorias($categorias): void
-    {
-        $this->categorias = $categorias;
+        return $this;
     }
 
     /**
@@ -175,10 +194,12 @@ class Pessoa implements EntityId
 
     /**
      * @param null|string $nomeFantasia
+     * @return Pessoa
      */
-    public function setNomeFantasia(?string $nomeFantasia): void
+    public function setNomeFantasia(?string $nomeFantasia): Pessoa
     {
         $this->nomeFantasia = $nomeFantasia;
+        return $this;
     }
 
     /**
@@ -191,10 +212,12 @@ class Pessoa implements EntityId
 
     /**
      * @param null|string $inscricaoEstadual
+     * @return Pessoa
      */
-    public function setInscricaoEstadual(?string $inscricaoEstadual): void
+    public function setInscricaoEstadual(?string $inscricaoEstadual): Pessoa
     {
         $this->inscricaoEstadual = $inscricaoEstadual;
+        return $this;
     }
 
     /**
@@ -207,10 +230,12 @@ class Pessoa implements EntityId
 
     /**
      * @param null|string $rg
+     * @return Pessoa
      */
-    public function setRg(?string $rg): void
+    public function setRg(?string $rg): Pessoa
     {
         $this->rg = $rg;
+        return $this;
     }
 
     /**
@@ -223,10 +248,68 @@ class Pessoa implements EntityId
 
     /**
      * @param null|string $obs
+     * @return Pessoa
      */
-    public function setObs(?string $obs): void
+    public function setObs(?string $obs): Pessoa
     {
         $this->obs = $obs;
+        return $this;
+    }
+
+    /**
+     * @return CategoriaPessoa[]|Collection|null
+     */
+    public function getCategorias(): ?Collection
+    {
+        return $this->categorias;
+    }
+
+    /**
+     * @return PessoaEndereco[]|ArrayCollection
+     */
+    public function getEnderecos(): ?Collection
+    {
+        return $this->enderecos;
+    }
+
+    public function addEndereco(PessoaEndereco $endereco): Pessoa
+    {
+        $endereco->setPessoa($this);
+        $this->enderecos->add($endereco);
+        return $this;
+    }
+
+    public function removeEndereco(PessoaEndereco $endereco): Pessoa
+    {
+        if ($this->enderecos->contains($endereco)) {
+            $this->enderecos->removeElement($endereco);
+            $endereco->setPessoa(null);
+        }
+        return $this;
+    }
+
+    /**
+     * @return PessoaContato[]|ArrayCollection
+     */
+    public function getContatos(): ?Collection
+    {
+        return $this->contatos;
+    }
+
+    public function addContato(PessoaContato $contato): Pessoa
+    {
+        $contato->setPessoa($this);
+        $this->contatos->add($contato);
+        return $this;
+    }
+
+    public function removeContato(PessoaContato $contato): Pessoa
+    {
+        if ($this->enderecos->contains($contato)) {
+            $this->enderecos->removeElement($contato);
+            $contato->setPessoa(null);
+        }
+        return $this;
     }
 
 

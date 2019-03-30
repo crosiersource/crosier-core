@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Entidade Pessoa.
  *
- * @ORM\Entity(repositoryClass="App\Repository\Base\PessoaRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Base\PessoaContatoRepository")
  * @ORM\Table(name="bse_pessoa_contato")
  * @author Carlos Eduardo Pauluk
  */
@@ -35,7 +35,7 @@ class PessoaContato implements EntityId
 
     /**
      *
-     * @ORM\Column(name="numero", type="string", nullable=true, length=100)
+     * @ORM\Column(name="valor", type="string", nullable=true, length=100)
      * @var string|null
      */
     private $valor;

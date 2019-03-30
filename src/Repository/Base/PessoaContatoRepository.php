@@ -23,4 +23,14 @@ class PessoaContatoRepository extends FilterRepository
         return PessoaContato::class;
     }
 
+    public function getAllTipos() {
+        $r = $this->getEntityManager()->createQuery('SELECT DISTINCT t From App\Entity\Base\PessoaContato t')->getResult();
+        $a = [];
+        /** @var PessoaContato $t */
+        foreach ($r as $t) {
+            $a[] = $t->getTipo();
+        }
+        return $a;
+    }
+
 }

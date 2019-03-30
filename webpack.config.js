@@ -32,6 +32,8 @@ Encore
      */
     .createSharedEntry('crosier/layout', './assets/js/crosier/layout.js')
     .addEntry('bse/pessoaList', './assets/js/bse/pessoaList.js')
+    .addEntry('bse/pessoaForm', './assets/js/bse/pessoaForm.js')
+    .addEntry('bse/pessoaEnderecoForm', './assets/js/bse/pessoaEnderecoForm.js')
 
     .addEntry('sec/userList', './assets/js/sec/userList.js')
     .addEntry('sec/groupList', './assets/js/sec/groupList.js')

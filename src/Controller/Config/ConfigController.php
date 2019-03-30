@@ -26,7 +26,7 @@ class ConfigController extends FormListController
         [
             'typeClass' => ConfigType::class,
 
-            'formView' => 'Config/configForm.html.twig',
+            'formView' => '@CrosierLibBase/form.html.twig',
             'formRoute' => 'cfg_config_form',
             'formPageTitle' => 'Parâmetro de Configuração',
             'form_PROGRAM_UUID' => 'd54092da-1cf1-4a67-8597-2d9a571221aa',

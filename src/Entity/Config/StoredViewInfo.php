@@ -23,24 +23,22 @@ class StoredViewInfo implements EntityId
 
     /**
      *
-     * @ORM\Column(name="view_name", type="string", length=200)
+     * @ORM\Column(name="view_name", type="string", length=300, nullable=true)
      */
     private $viewName;
 
     /**
      *
-     * @ORM\Column(name="viewInfo", type="blob")
+     * @ORM\Column(name="view_info", type="string", length=15000, nullable=true)
      */
     private $viewInfo;
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="CrosierSource\CrosierLibBaseBundle\Entity\Security\User", fetch="EAGER", cascade={"persist"})
-     * @ORM\JoinColumn(name="user_id", nullable=false)
+     * @ORM\Column(name="user_id", type="integer", nullable=false)
      *
      */
     public $user;
-
 
     /**
      * @return mixed
@@ -52,10 +50,12 @@ class StoredViewInfo implements EntityId
 
     /**
      * @param mixed $viewName
+     * @return StoredViewInfo
      */
-    public function setViewName($viewName): void
+    public function setViewName($viewName)
     {
         $this->viewName = $viewName;
+        return $this;
     }
 
     /**
@@ -68,10 +68,12 @@ class StoredViewInfo implements EntityId
 
     /**
      * @param mixed $viewInfo
+     * @return StoredViewInfo
      */
-    public function setViewInfo($viewInfo): void
+    public function setViewInfo($viewInfo)
     {
         $this->viewInfo = $viewInfo;
+        return $this;
     }
 
     /**
@@ -84,11 +86,12 @@ class StoredViewInfo implements EntityId
 
     /**
      * @param mixed $user
+     * @return StoredViewInfo
      */
-    public function setUser($user): void
+    public function setUser($user)
     {
         $this->user = $user;
+        return $this;
     }
-
 
 }

@@ -10,6 +10,12 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class ConfigType
+ *
+ * @package App\Form\Config
+ * @author Carlos Eduardo Pauluk
+ */
 class ConfigType extends AbstractType
 {
 

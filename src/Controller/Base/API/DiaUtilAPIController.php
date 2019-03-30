@@ -14,7 +14,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class DiaUtilController
+ *
  * @package App\Controller\Base
+ * @author Carlos Eduardo Pauluk
  */
 class DiaUtilAPIController extends AbstractController
 {
@@ -30,7 +32,7 @@ class DiaUtilAPIController extends AbstractController
      * @return JsonResponse
      * @throws \Exception
      */
-    public function findDiaUtil(Request $request)
+    public function findDiaUtil(Request $request): ?JsonResponse
     {
         try {
             $dia = $request->get('dt');
@@ -50,25 +52,31 @@ class DiaUtilAPIController extends AbstractController
             /** @var DiaUtilRepository $repo */
             $repo = $this->getDoctrine()->getRepository(DiaUtil::class);
             $diaUtil = $repo->findDiaUtil($dateTimeDia, $prox, $financeiro, $comercial);
-            $response = new JsonResponse(
-                [
-                    'diaUtil' => $diaUtil->format('Y-m-d')
-                ]
-            );
-            return $response;
+            if ($diaUtil) {
+                $response = new JsonResponse(
+                    [
+                        'diaUtil' => $diaUtil->format('Y-m-d')
+                    ]
+                );
+                return $response;
+            }
         } catch (\Exception $e) {
             return (new APIProblem(
                 400,
                 ApiProblem::TYPE_INTERNAL_ERROR
             ))->toJsonResponse();
         }
+
+        return new JsonResponse([]);
     }
 
     /**
      *
      * @Route("/api/bse/diaUtil/incPeriodo/", name="api_bse_diaUtil_incPeriodo")
+     * @param Request $request
+     * @return null|JsonResponse
      */
-    public function incPeriodo(Request $request)
+    public function incPeriodo(Request $request): ?JsonResponse
     {
         try {
 
@@ -77,7 +85,7 @@ class DiaUtilAPIController extends AbstractController
             $fim = $request->get('fim');
             $dtFim = DateTimeUtils::parseDateStr($fim);
 
-            $futuro = (bool)($request->get('futuro'));
+            $futuro = (bool)$request->get('futuro');
         } catch (\Exception $e) {
             return (new APIProblem(
                 400,
@@ -99,9 +107,10 @@ class DiaUtilAPIController extends AbstractController
     /**
      *
      * @Route("/api/bse/diaUtil/findDiasUteisFinanceirosByMesAno/", name="api_bse_diaUtil_findDiasUteisFinanceirosByMesAno")
-     *
+     * @param Request $request
+     * @return null|JsonResponse
      */
-    public function findDiasUteisFinanceirosByMesAno(Request $request)
+    public function findDiasUteisFinanceirosByMesAno(Request $request): ?JsonResponse
     {
         try {
             $json = json_decode($request->getContent(), true);
@@ -115,6 +124,7 @@ class DiaUtilAPIController extends AbstractController
         }
 
         try {
+            /** @var DiaUtilRepository $repo */
             $repo = $this->getDoctrine()->getRepository(DiaUtil::class);
             $r = $repo->findDiasUteisFinanceirosByMesAno($mesano);
             $diasUteisFinanceiros = [];

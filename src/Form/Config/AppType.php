@@ -15,6 +15,12 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class AppType
+ *
+ * @package App\Form\Config
+ * @author Carlos Eduardo Pauluk
+ */
 class AppType extends AbstractType
 {
 

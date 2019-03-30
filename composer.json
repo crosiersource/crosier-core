@@ -28,7 +28,7 @@
     "symfony/form": "4.2.*",
     "symfony/framework-bundle": "4.2.*",
     "symfony/monolog-bundle": "^3.3",
-    "symfony/orm-pack": "*",
+    "symfony/orm-pack": "^1.0",
     "symfony/process": "4.2.*",
     "symfony/property-access": "4.2.*",
     "symfony/security-bundle": "4.2.*",

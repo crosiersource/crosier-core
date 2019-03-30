@@ -18,6 +18,12 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class ProgramType
+ *
+ * @package App\Form\Config
+ * @author Carlos Eduardo Pauluk
+ */
 class ProgramType extends AbstractType
 {
     /** @var RegistryInterface */

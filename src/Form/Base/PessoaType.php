@@ -17,6 +17,7 @@ use Symfony\Component\Form\FormBuilderInterface;
  * Form para Pessoa.
  *
  * @package App\Form\Base
+ * @author Carlos Eduardo Pauluk
  */
 class PessoaType extends AbstractType
 {
@@ -52,23 +53,12 @@ class PessoaType extends AbstractType
             ]
         ));
 
-        $builder->add('nome', TextType::class, array(
-            'required' => true
-        ));
-
         $builder->add('documento', TextType::class, array(
             'required' => false
         ));
 
-        $builder->add('categorias', EntityType::class, array(
-            'label' => 'Categoria',
-            'class' => CategoriaPessoa::class,
-            'choices' => $this->doctrine->getRepository(CategoriaPessoa::class)->findAll(WhereBuilder::buildOrderBy(['descricao'])),
-            'choice_label' => 'descricao',
-            'multiple' => true,
-            'attr' => [
-                'class' => 'autoSelect2'
-            ]
+        $builder->add('nome', TextType::class, array(
+            'required' => true
         ));
 
         $builder->add('nomeFantasia', TextType::class, array(
@@ -84,6 +74,17 @@ class PessoaType extends AbstractType
         $builder->add('rg', TextType::class, array(
             'label' => 'RG',
             'required' => false
+        ));
+
+        $builder->add('categorias', EntityType::class, array(
+            'label' => 'Categoria',
+            'class' => CategoriaPessoa::class,
+            'choices' => $this->doctrine->getRepository(CategoriaPessoa::class)->findAll(WhereBuilder::buildOrderBy(['descricao'])),
+            'choice_label' => 'descricao',
+            'multiple' => true,
+            'attr' => [
+                'class' => 'autoSelect2'
+            ]
         ));
 
 

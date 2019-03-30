@@ -173,7 +173,33 @@ class CrosierBaseLayout {
                 });
 
             } else {
-                let $s2 = elem.select2();
+                let opt = {};
+
+                if (elem.data('s2allownew')) {
+                    opt = {
+                        tags: true,
+                        createTag: function (params) {
+                            return {
+                                id: params.term.toUpperCase(),
+                                text: params.term.toUpperCase(),
+                                newOption: true
+                            }
+                        },
+                        templateResult: function (data) {
+                            var $result = $("<span></span>");
+
+                            $result.text(data.text.toUpperCase());
+
+                            // if (data.newOption) {
+                            //     $result.append(" <em> *</em>");
+                            // }
+
+                            return $result;
+                        }
+                    };
+                }
+
+                let $s2 = elem.select2(opt);
             }
         });
 

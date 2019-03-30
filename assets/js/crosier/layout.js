@@ -65,8 +65,6 @@ $(document).ready(function () {
 
     CrosierBaseLayout.handleTooltip();
 
-    // CrosierBaseLayout.buildAppMainMenu();
-
     CrosierBaseLayout.handleBootstrapDatepicker();
 
     Hotkeys('ctrl+m', function (event, handler) {

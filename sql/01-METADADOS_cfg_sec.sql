@@ -16,6 +16,8 @@ DROP TABLE IF EXISTS `cfg_program`;
 DROP TABLE IF EXISTS `cfg_program_config`;
 DROP TABLE IF EXISTS `cfg_entmenu`;
 
+DROP TABLE IF EXISTS `cfg_stored_viewinfo`;
+
 
 
 
@@ -296,6 +298,32 @@ CREATE TABLE `cfg_entmenu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 
 
+
+
+
+CREATE TABLE `cfg_stored_viewinfo` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `view_name` varchar(300) COLLATE utf8_swedish_ci NOT NULL,
+  `view_info` varchar(15000) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+
+  `estabelecimento_id` bigint(20) NOT NULL,
+  `inserted` datetime NOT NULL,
+  `updated` datetime NOT NULL,
+  `user_inserted_id` bigint(20) NOT NULL,
+  `user_updated_id` bigint(20) NOT NULL,
+
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_cfg_stored_viewinfo` (`user_id`,`view_name`),
+  CONSTRAINT `FK_cfg_stored_viewinfo_user` FOREIGN KEY (`user_id`) REFERENCES `sec_user` (`id`),
+
+  KEY `K_cfg_stored_viewinfo_estabelecimento` (`estabelecimento_id`),
+  CONSTRAINT `K_cfg_stored_viewinfo_estabelecimento` FOREIGN KEY (`estabelecimento_id`) REFERENCES `cfg_estabelecimento` (`id`),
+  KEY `K_cfg_stored_viewinfo_user_inserted` (`user_inserted_id`),
+  CONSTRAINT `FK_cfg_stored_viewinfo_user_inserted` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`),
+  KEY `K_cfg_stored_viewinfo_user_updated` (`user_updated_id`),
+  CONSTRAINT `FK_cfg_stored_viewinfo_user_updated` FOREIGN KEY (`user_updated_id`) REFERENCES `sec_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 
 
 

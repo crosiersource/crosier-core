@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Entidade Pessoa.
  *
- * @ORM\Entity(repositoryClass="App\Repository\Base\PessoaRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Base\PessoaEnderecoRepository")
  * @ORM\Table(name="bse_pessoa_endereco")
  * @author Carlos Eduardo Pauluk
  */
@@ -24,7 +24,7 @@ class PessoaEndereco implements EntityId
     /**
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Base\Pessoa")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(name="pessoa_id", nullable=false)
      * @var Pessoa|null
      */
     private $pessoa;
@@ -44,7 +44,6 @@ class PessoaEndereco implements EntityId
     {
         $this->pessoa = $pessoa;
     }
-
 
 
 }
