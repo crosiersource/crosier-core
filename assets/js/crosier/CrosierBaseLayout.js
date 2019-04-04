@@ -88,16 +88,50 @@ class CrosierBaseLayout {
      * Método para exibir em um 'toastr' os flash messages do Symfony.
      */
     static handleFlashMessages() {
+        let $fixedFlashes = $('#fixedFlashes');
         $('.FLASHMESSAGE').each(function () {
             if ($(this).hasClass('FLASHMESSAGE_SUCCESS')) {
                 toastrr.success($(this).html(), '', 'trustedHtml');
+                if ($fixedFlashes) {
+                    $fixedFlashes.append(
+                        '<div class="alert alert-success" role="alert">\n<i class="fas fa-check-circle"></i> ' +
+                        $(this).html() +
+                        '</div>'
+                    );
+                }
             } else if ($(this).hasClass('FLASHMESSAGE_WARNING')) {
                 toastrr.warning($(this).html(), '', 'trustedHtml');
+                if ($fixedFlashes) {
+                    $fixedFlashes.append(
+                        '<div class="alert alert-success" role="alert">\n<i class="fas fa-exclamation-circle"></i> ' +
+                        $(this).html() +
+                        '</div>'
+                    );
+                }
             } else if ($(this).hasClass('FLASHMESSAGE_INFO')) {
                 toastrr.info($(this).html(), '', 'trustedHtml');
+                if ($fixedFlashes) {
+                    $fixedFlashes.append(
+                        '<div class="alert alert-success" role="alert">\n<i class="fas fa-info-circle"></i> ' +
+                        $(this).html() +
+                        '</div>'
+                    );
+                }
             } else if ($(this).hasClass('FLASHMESSAGE_ERROR')) {
                 toastrr.error($(this).html(), '', 'trustedHtml');
+                if ($fixedFlashes) {
+                    $fixedFlashes.append(
+                        '<div class="alert alert-danger" role="alert">\n<i class="fas fa-exclamation-triangle"></i> ' +
+                        $(this).html() +
+                        '</div>'
+                    );
+                }
             }
+
+
+
+
+
         });
     }
 
