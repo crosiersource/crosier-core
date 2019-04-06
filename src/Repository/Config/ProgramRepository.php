@@ -27,7 +27,7 @@ class ProgramRepository extends FilterRepository
             ->leftJoin(App::class, 'a', 'WITH', 'e.appUUID = a.UUID');
     }
 
-    public function buildTransientsInAll(array $programs)
+    public function buildTransientsInAll(array $programs): void
     {
         foreach ($programs as $program) {
             $this->buildTransients($program);
@@ -38,7 +38,7 @@ class ProgramRepository extends FilterRepository
      * Preenche os atributos transientes da entidades
      * @param Program $program
      */
-    public function buildTransients(Program $program)
+    public function buildTransients(Program $program): void
     {
         if ($program && $program->getAppUUID()) {
             /** @var App $app */
@@ -46,4 +46,6 @@ class ProgramRepository extends FilterRepository
             $program->setApp($app);
         }
     }
+
+
 }

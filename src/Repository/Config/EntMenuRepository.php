@@ -7,6 +7,8 @@ use App\Entity\Config\AppConfig;
 use App\Entity\Config\EntMenu;
 use App\Entity\Config\Program;
 use CrosierSource\CrosierLibBaseBundle\Repository\FilterRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use http\Exception\RuntimeException;
 use Symfony\Component\Security\Core\Security;
 
 /**
@@ -90,15 +92,16 @@ class EntMenuRepository extends FilterRepository
     }
 
     /**
-     * Monta o menu com somente aplicativos permitidos ao usuário logado.
      *
      * @param string $programUUID
      * @return array
      */
     public function buildMenuByProgram(string $programUUID): array
     {
+        /** @var EntMenu $entMenuPaiJson */
         $entMenuPaiJson = $this->getEntMenuByProgramUUID($programUUID);
         if ($entMenuPaiJson) {
+            /** @var EntMenu $entMenuPai */
             $entMenuPai = $this->find($entMenuPaiJson['id']);
             if ($entMenuPai) {
                 return $this->buildMenuByEntMenuPai($entMenuPai);
@@ -119,7 +122,7 @@ class EntMenuRepository extends FilterRepository
         // Está no CrosierCore
         if ($entMenuPai->getUUID() === '71d1456b-3a9f-4589-8f71-42bbf6c91a3e') {
             // Cria entradas para os Apps instalados
-            $defaultEntMenuApps = $this->getEntityManager()->getRepository(App::class)->findDefaultEntMenuApps();
+            $defaultEntMenuApps = $this->findBy(['tipo' => 'CROSIERCORE_APPENT']);
             /** @var EntMenu $defaultEntMenuApp */
             foreach ($defaultEntMenuApps as $defaultEntMenuApp) {
                 if ($defaultEntMenuApp->getProgramUUID()) {
@@ -133,8 +136,8 @@ class EntMenuRepository extends FilterRepository
                     $entMenuJson = $this->entMenuInJson($defaultEntMenuApp);
                     $token = $this->security->getUser()->getApiToken();
                     $entMenuJson['program']['url'] = $url . $entMenuJson['program']['url'] . '?apiTokenAuthorization=' . $token;
-                    $entMenuJson['label'] = $app->getNome();
-                    $entMenuJson['cssStyle'] = 'background-color: darkblue';
+//                    $entMenuJson['label'] = $app->getNome();
+//                    $entMenuJson['cssStyle'] = 'background-color: darkblue';
                     $rs[] = $entMenuJson;
                 }
             }
@@ -155,7 +158,7 @@ class EntMenuRepository extends FilterRepository
      * @param EntMenu $entMenu
      * @return array
      */
-    private function entMenuInJson(EntMenu $entMenu)
+    private function entMenuInJson(EntMenu $entMenu): array
     {
         /** @var Program $program */
         $program = $this->getEntityManager()->getRepository(Program::class)->findOneBy(['UUID' => $entMenu->getProgramUUID()]);
@@ -217,7 +220,7 @@ class EntMenuRepository extends FilterRepository
      * @param EntMenu $entMenuPai
      * @return array
      */
-    public function makeTree(EntMenu $entMenuPai)
+    public function makeTree(EntMenu $entMenuPai): array
     {
         $ql = "SELECT e FROM App\Entity\Config\EntMenu e WHERE e.paiUUID = :entMenuPaiUUID ORDER BY e.ordem";
         $qry = $this->getEntityManager()->createQuery($ql);
@@ -238,7 +241,7 @@ class EntMenuRepository extends FilterRepository
      * @param EntMenu $pai
      * @param $tree
      */
-    private function getFilhos(EntMenu $pai, &$tree)
+    private function getFilhos(EntMenu $pai, &$tree): void
     {
         $this->fillTransients($pai);
         if ($pai->getFilhos()) {
@@ -258,7 +261,7 @@ class EntMenuRepository extends FilterRepository
      *
      * @param EntMenu $entMenu
      */
-    public function fillTransients(EntMenu $entMenu)
+    public function fillTransients(EntMenu $entMenu): void
     {
         if ($entMenu->getPaiUUID()) {
             if (!$entMenu->getPai()) {
@@ -274,5 +277,19 @@ class EntMenuRepository extends FilterRepository
 
     }
 
+    /**
+     * @param string $appUUID
+     * @return mixed
+     */
+    public function findAppMainProgramUUID(string $appUUID) {
+        try {
+            $dql = 'SELECT p FROM App\Entity\Config\EntMenu e JOIN App\Entity\Config\Program p WITH e.programUUID = p.UUID WHERE p.appUUID = :appUUID AND e.tipo = \'CROSIERCORE_APPENT\'';
+            $qry = $this->getEntityManager()->createQuery($dql);
+            $qry->setParameter('appUUID', $appUUID);
+            return $qry->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+            throw new \RuntimeException($e->getMessage());
+        }
+    }
 
 }

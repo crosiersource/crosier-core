@@ -45,7 +45,9 @@ class LogoutHandler implements LogoutSuccessHandlerInterface
     public function onLogoutSuccess(Request $request)
     {
         try {
-            $this->userEntityHandler->revogarApiToken($this->security->getUser());
+            if ($this->security->getUser()) {
+                $this->userEntityHandler->revogarApiToken($this->security->getUser());
+            }
         } catch (ViewException $e) {
             $this->logger->error('Erro ao revogar apitoken');
             $this->logger->error($e->getMessage());

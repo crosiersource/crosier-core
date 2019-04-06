@@ -28,6 +28,11 @@ class EntMenuAPIController extends AbstractController
     private $programRepository;
 
 
+    /**
+     * EntMenuAPIController constructor.
+     * @param EntMenuRepository $entMenuRepository
+     * @param ProgramRepository $programRepository
+     */
     public function __construct(EntMenuRepository $entMenuRepository, ProgramRepository $programRepository)
     {
         $this->entMenuRepository = $entMenuRepository;
@@ -61,14 +66,14 @@ class EntMenuAPIController extends AbstractController
     }
 
     /**
-     * @Route("/api/cfg/entMenu/getDashboardProgramUUID/{appUUID}", name="api_cfg_entMenu_getDashboardProgramUUID")
+     * @Route("/api/cfg/entMenu/getAppMainProgramUUID/{appUUID}", name="api_cfg_entMenu_getDashboardProgramUUID")
      * @param string $appUUID
      * @return JsonResponse
      */
-    public function getDashboardProgramUUID(string $appUUID): JsonResponse
+    public function getAppMainProgramUUID(string $appUUID): JsonResponse
     {
         /** @var Program $program */
-        $program = $this->programRepository->findOneBy(['appUUID' => $appUUID, 'url' => '/']);
+        $program = $this->entMenuRepository->findAppMainProgramUUID($appUUID);
         return new JsonResponse(['programUUID' => $program->getUUID()]);
     }
 
