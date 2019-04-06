@@ -39,6 +39,7 @@ class DatatablesJs {
             datatable.on('draw', function () {
                 $('[data-toggle="tooltip"]').tooltip();
                 CrosierMasks.maskAll();
+                Pace.restart();
             });
 
         });
