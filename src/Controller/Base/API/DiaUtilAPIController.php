@@ -105,17 +105,21 @@ class DiaUtilAPIController extends AbstractController
     }
 
     /**
+     * Encontra o próximo dia útil ordinalmente
      *
-     * @Route("/api/bse/diaUtil/findDiasUteisFinanceirosByMesAno/", name="api_bse_diaUtil_findDiasUteisFinanceirosByMesAno")
+     * @Route("/api/bse/diaUtil/findEnesimoDiaUtil/", name="api_bse_diaUtil_findEnesimoDiaUtil")
      * @param Request $request
      * @return null|JsonResponse
      */
-    public function findDiasUteisFinanceirosByMesAno(Request $request): ?JsonResponse
+    public function findEnesimoDiaUtil(Request $request): ?JsonResponse
     {
         try {
-            $json = json_decode($request->getContent(), true);
-            $mesano = $json[0]['mesano'];
-            $mesano = DateTimeUtils::parseDateStr($mesano);
+            $dtIni = DateTimeUtils::parseDateStr($request->get('dtIni'));
+
+            $ordinal = (int)$request->get('ordinal');
+            $financeiro = $request->get('financeiro') ? (bool)$request->get('financeiro') : null;
+            $comercial = $request->get('comercial') ? (bool)$request->get('comercial') : null;
+
         } catch (\Exception $e) {
             return (new APIProblem(
                 400,
@@ -126,16 +130,11 @@ class DiaUtilAPIController extends AbstractController
         try {
             /** @var DiaUtilRepository $repo */
             $repo = $this->getDoctrine()->getRepository(DiaUtil::class);
-            $r = $repo->findDiasUteisFinanceirosByMesAno($mesano);
-            $diasUteisFinanceiros = [];
-            /** @var DiaUtil $diaUtil */
-            foreach ($r as $diaUtil) {
-                $diasUteisFinanceiros[] = $diaUtil->getDia();
-            }
+            $r = $repo->findEnesimoDiaUtil($dtIni, $ordinal, $financeiro, $comercial);
 
             $response = new JsonResponse(
                 [
-                    'diasUteisFinanceiros' => $diasUteisFinanceiros
+                    'diaUtil' => $r->format('Y-m-d')
                 ]
             );
             return $response;
