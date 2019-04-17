@@ -135,6 +135,7 @@ class  DiaUtilRepository extends FilterRepository
         $ini = clone $dia;
         $fim = clone $dia;
         if ($prox) {
+            $ini->add(new \DateInterval('P1D'));
             $fim->add(new \DateInterval('P20D'));
         } else {
             $ini->sub(new \DateInterval('P20D'));

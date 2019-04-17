@@ -127,11 +127,6 @@ class CrosierBaseLayout {
                     );
                 }
             }
-
-
-
-
-
         });
     }
 

@@ -135,7 +135,7 @@ class EntMenuRepository extends FilterRepository
                     $url = $this->getEntityManager()->getRepository(AppConfig::class)->findConfigByCrosierEnv($app, 'URL');
                     $entMenuJson = $this->entMenuInJson($defaultEntMenuApp);
                     $token = $this->security->getUser()->getApiToken();
-                    $entMenuJson['program']['url'] = $url . $entMenuJson['program']['url'] . '?apiTokenAuthorization=' . $token;
+                    $entMenuJson['program']['url'] = $url . $entMenuJson['program']['url'] . '?_remember_me=1&apiTokenAuthorization=' . $token;
 //                    $entMenuJson['label'] = $app->getNome();
 //                    $entMenuJson['cssStyle'] = 'background-color: darkblue';
                     $rs[] = $entMenuJson;
