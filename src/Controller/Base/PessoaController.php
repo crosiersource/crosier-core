@@ -184,7 +184,7 @@ class PessoaController extends FormListController
         $parameters['page_title'] = 'Endereço';
         $parameters['pessoa'] = $pessoa;
 
-        return $this->render('Base/pessoaEnderecoForm.html.twig', $parameters);
+        return $this->doRender('Base/pessoaEnderecoForm.html.twig', $parameters);
     }
 
 
@@ -276,7 +276,7 @@ class PessoaController extends FormListController
         $parameters['page_title'] = 'Contato';
         $parameters['pessoa'] = $pessoa;
 
-        return $this->render('Base/pessoaContatoForm.html.twig', $parameters);
+        return $this->doRender('Base/pessoaContatoForm.html.twig', $parameters);
     }
 
 

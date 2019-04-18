@@ -103,7 +103,7 @@ class EntMenuController extends FormListController
         $dados = $repo->makeTree($entMenu);
         $vParams['dados'] = $dados;
         $vParams['entMenu'] = $entMenu;
-        return $this->render($this->crudParams['listView'], $vParams);
+        return $this->doRender($this->crudParams['listView'], $vParams);
     }
 
     /**
@@ -121,7 +121,7 @@ class EntMenuController extends FormListController
         $repo = $this->getDoctrine()->getRepository(EntMenu::class);
         $dados = $repo->getMenusPais();
         $vParams['dados'] = $dados;
-        return $this->render('Config/entMenuList_pais.html.twig', $vParams);
+        return $this->doRender('Config/entMenuList_pais.html.twig', $vParams);
     }
 
     /**
