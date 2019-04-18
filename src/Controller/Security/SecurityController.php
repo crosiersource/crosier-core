@@ -2,11 +2,9 @@
 
 namespace App\Controller\Security;
 
-use App\Entity\Config\App;
 use App\EntityHandler\Security\UserEntityHandler;
 use CrosierSource\CrosierLibBaseBundle\Entity\Security\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -42,7 +40,7 @@ class SecurityController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->doRender('Security/login.html.twig', array(
+        return $this->render('Security/login.html.twig', array(
             'last_username' => $lastUsername,
             'error' => $error
         ));
@@ -56,18 +54,18 @@ class SecurityController extends AbstractController
         // não precisa
     }
 
-    /**
-     * @Route("/reauthApp/{app}", name="reauth_app")
-     * @param App $app
-     * @return RedirectResponse
-     * @throws \Exception
-     */
-    public function reauthApp(App $app)
-    {
-        $token = $this->userEntityHandler->renewTokenApi($this->getUser());
-        $url = $app->getEntranceUrl() . '?apiTokenAuthorization=' . $token;
-        return new RedirectResponse($url);
-    }
+//    /**
+//     * @Route("/reauthApp/{app}", name="reauth_app")
+//     * @param App $app
+//     * @return RedirectResponse
+//     * @throws \Exception
+//     */
+//    public function reauthApp(App $app)
+//    {
+//        $token = $this->userEntityHandler->renewTokenApi($this->getUser());
+//        $url = $app->getEntranceUrl() . '?apiTokenAuthorization=' . $token;
+//        return new RedirectResponse($url);
+//    }
 
 
     /**
@@ -77,7 +75,7 @@ class SecurityController extends AbstractController
      * @param UserPasswordEncoderInterface $encoder
      * @return Response
      */
-    public function hash(Request $request, UserPasswordEncoderInterface $encoder)
+    public function hash(Request $request, UserPasswordEncoderInterface $encoder): Response
     {
         $params = $request->query->all();
 
