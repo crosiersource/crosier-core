@@ -224,3 +224,25 @@ CREATE TABLE `bse_diautil` (
 
 
 
+CREATE TABLE `bse_prop` (
+  `id` bigint(20) AUTO_INCREMENT NOT NULL,
+  `uuid` char(36) NOT NULL,
+  `nome` varchar(100)  NOT NULL,
+  `obs` varchar(5000) DEFAULT NULL,
+  `valor` JSON  NOT NULL,
+  
+  `estabelecimento_id` bigint(20) NOT NULL,
+  `inserted` datetime NOT NULL,
+  `updated` datetime NOT NULL,  
+  `user_inserted_id` bigint(20) NOT NULL,
+  `user_updated_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_bse_prop_uuid` (`uuid`) USING BTREE,
+  UNIQUE KEY `UK_bse_prop_nome` (`nome`) USING BTREE,
+  KEY `K_bse_prop_estabelecimento` (`estabelecimento_id`),
+  KEY `K_bse_prop_user_inserted` (`user_inserted_id`),
+  KEY `K_bse_prop_user_updated` (`user_updated_id`),
+  CONSTRAINT `FK_bse_prop_estabelecimento` FOREIGN KEY (`estabelecimento_id`) REFERENCES `cfg_estabelecimento` (`id`),
+  CONSTRAINT `FK_bse_prop_user_updated` FOREIGN KEY (`user_updated_id`) REFERENCES `sec_user` (`id`),
+  CONSTRAINT `FK_bse_prop_user_inserted` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;

@@ -164,6 +164,20 @@ VALUES ('264286e6-844d-421a-919a-37aef5ad8644','Geral',                 'far fa-
     VALUES ('CATEGORIAS [FORM]','/bse/categoria/form/','175bd6d3-6c29-438a-9520-47fcee653cc5',now(),now(),1,1,1,NULL,'fc5f28f4-09e8-48d3-976b-359f5d0a5fa8');
 
 
+    -- Propriedades
+    DELETE FROM cfg_entmenu WHERE uuid = 'dfa4c109-1b23-415a-9110-66912bda2f61';
+    DELETE FROM cfg_program WHERE uuid = '250797fa-dece-4fa4-ba89-ef37c7281e58';
+    DELETE FROM cfg_program WHERE uuid = '3e37647f-2592-434b-9863-c3a963d154f2';
+
+    INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `program_uuid`, `pai_uuid`, `ordem`, `css_style`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`)
+    VALUES ('dfa4c109-1b23-415a-9110-66912bda2f61','Propriedades',            'fas fa-project-diagram','ENT','250797fa-dece-4fa4-ba89-ef37c7281e58','264286e6-844d-421a-919a-37aef5ad8644',3,NULL,now(),now(),1,1,1);
+
+    INSERT INTO `cfg_program` (`descricao`, `url`, `app_uuid`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`, `entmenu_uuid`, `uuid`)
+    VALUES ('PROPRIEDADES [LIST]','/bse/prop/list/','175bd6d3-6c29-438a-9520-47fcee653cc5',now(),now(),1,1,1,NULL,'250797fa-dece-4fa4-ba89-ef37c7281e58');
+
+    INSERT INTO `cfg_program` (`descricao`, `url`, `app_uuid`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`, `entmenu_uuid`, `uuid`)
+    VALUES ('PROPRIEDADES [FORM]','/bse/prop/form/','175bd6d3-6c29-438a-9520-47fcee653cc5',now(),now(),1,1,1,NULL,'3e37647f-2592-434b-9863-c3a963d154f2');
+
 
 
 COMMIT;

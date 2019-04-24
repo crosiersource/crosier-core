@@ -31,6 +31,7 @@ Encore
      * and one CSS file (e.g. app.css) if you JavaScript imports CSS.
      */
     .createSharedEntry('crosier/layout', './assets/js/crosier/layout.js')
+    .addEntry('bse/propList', './assets/js/bse/propList.js')
     .addEntry('bse/pessoaList', './assets/js/bse/pessoaList.js')
     .addEntry('bse/pessoaForm', './assets/js/bse/pessoaForm.js')
     .addEntry('bse/pessoaEnderecoForm', './assets/js/bse/pessoaEnderecoForm.js')
