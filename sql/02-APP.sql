@@ -158,10 +158,10 @@ VALUES ('264286e6-844d-421a-919a-37aef5ad8644','Geral',                 'far fa-
     VALUES ('886797b4-2124-43eb-b780-e271f7dc5c3b','Categorias',            'far fa-id-badge','ENT','34554ccb-4f6b-4b05-8040-7b08b87d1bfb','264286e6-844d-421a-919a-37aef5ad8644',3,NULL,now(),now(),1,1,1);
 
     INSERT INTO `cfg_program` (`descricao`, `url`, `app_uuid`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`, `entmenu_uuid`, `uuid`)
-    VALUES ('CATEGORIAS [LIST]','/bse/categoria/list/','175bd6d3-6c29-438a-9520-47fcee653cc5',now(),now(),1,1,1,NULL,'34554ccb-4f6b-4b05-8040-7b08b87d1bfb');
+    VALUES ('CATEGORIAS [LIST]','/bse/categoriaPessoa/list/','175bd6d3-6c29-438a-9520-47fcee653cc5',now(),now(),1,1,1,NULL,'34554ccb-4f6b-4b05-8040-7b08b87d1bfb');
 
     INSERT INTO `cfg_program` (`descricao`, `url`, `app_uuid`, `inserted`, `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`, `entmenu_uuid`, `uuid`)
-    VALUES ('CATEGORIAS [FORM]','/bse/categoria/form/','175bd6d3-6c29-438a-9520-47fcee653cc5',now(),now(),1,1,1,NULL,'fc5f28f4-09e8-48d3-976b-359f5d0a5fa8');
+    VALUES ('CATEGORIAS [FORM]','/bse/categoriaPessoa/form/','175bd6d3-6c29-438a-9520-47fcee653cc5',now(),now(),1,1,1,NULL,'fc5f28f4-09e8-48d3-976b-359f5d0a5fa8');
 
 
     -- Propriedades

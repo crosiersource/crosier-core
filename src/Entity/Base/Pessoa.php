@@ -72,6 +72,13 @@ class Pessoa implements EntityId
     private $nomeFantasia;
 
     /**
+     * Transient.
+     * @Groups("entity")
+     * @var string
+     */
+    private $nomeMontado;
+
+    /**
      *
      * @ORM\Column(name="ie", type="string", nullable=true, length=20)
      * @var null|string
@@ -199,6 +206,27 @@ class Pessoa implements EntityId
     public function setNomeFantasia(?string $nomeFantasia): Pessoa
     {
         $this->nomeFantasia = $nomeFantasia;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNomeMontado(): string
+    {
+        if (!$this->nomeMontado) {
+            $this->nomeMontado = $this->nome . ($this->nomeFantasia ? ' (' . $this->nomeFantasia . ')' : '');
+        }
+        return $this->nomeMontado;
+    }
+
+    /**
+     * @param string $nomeMontado
+     * @return Pessoa
+     */
+    public function setNomeMontado(string $nomeMontado): Pessoa
+    {
+        $this->nomeMontado = $nomeMontado;
         return $this;
     }
 

@@ -105,6 +105,7 @@ CREATE TABLE `sec_user` (
   `nome` varchar(90)  NOT NULL,
   `email` varchar(90)  NOT NULL,
   `password` varchar(255) DEFAULT NULL,
+  `senha` varchar(255) DEFAULT NULL,
   `ativo` bit(1) NOT NULL,
   `group_id` bigint(20) DEFAULT NULL,
   `api_token` varchar(255) DEFAULT NULL,
@@ -115,6 +116,7 @@ CREATE TABLE `sec_user` (
   `updated` datetime NOT NULL,
   `user_inserted_id` bigint(20) NOT NULL,
   `user_updated_id` bigint(20) NOT NULL,
+  `version` int(11) DEFAULT NULL,
 
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_sec_user_username_estabelecimento` (`username`,`estabelecimento_id`) USING BTREE,

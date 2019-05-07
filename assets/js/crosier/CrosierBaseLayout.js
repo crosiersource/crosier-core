@@ -207,23 +207,17 @@ class CrosierBaseLayout {
             }
 
             // else
+
             if (elem.data('route-url')) {
                 elem.select2({
                     minimumInputLength: 2,
                     ajax: {
                         delay: 750,
                         url: function (params) {
-                            console.log('route: ' + elem.data('route-url'));
-                            console.log(params.term);
-                            let uri = elem.data('route-url') + params.term;
-                            console.log(uri);
-                            return uri;
+                            return elem.data('route-url') + params.term;
                         },
                         dataType: 'json',
                         processResults: function (data) {
-                            console.log('data original:');
-                            console.dir(data);
-
                             // Se foi passado um formato a ser aplicado...
                             if (elem.data('text-format')) {
                                 data = $.map(data.results, function (obj) {
@@ -238,17 +232,25 @@ class CrosierBaseLayout {
                                     obj.text = text;
                                     return obj;
                                 });
-
-                                console.log('data transformada pelo formato:');
-                                console.dir(data);
-
                             }
-                            console.dir(data);
                             return {results: data};
                         },
                         cache: true
                     }
                 });
+                return;
+            }
+
+            // else
+
+            if (elem.data('options')) {
+                elem.select2({
+                    placeholder: '...',
+                    data: elem.data('options')
+                });
+                if (elem.data('val')) {
+                    elem.val(elem.data('val')).trigger('change');
+                }
                 return;
             }
 
@@ -268,8 +270,7 @@ class CrosierBaseLayout {
                         }
                     },
                     templateResult: function (data) {
-                        var $result = $("<span></span>");
-
+                        let $result = $("<span></span>");
                         $result.text(data.text.toUpperCase());
 
                         // if (data.newOption) {

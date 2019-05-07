@@ -60,7 +60,7 @@ class EntMenuRepository extends FilterRepository
      * @param string $programUUID
      * @return array|null
      */
-    public function getEntMenuByProgramUUID(string $programUUID)
+    public function getEntMenuByProgramUUID(string $programUUID): ?array
     {
         /** @var Program $program */
         $program = $this->getEntityManager()->getRepository(Program::class)->findOneBy(['UUID' => $programUUID]);

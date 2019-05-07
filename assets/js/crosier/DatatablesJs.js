@@ -46,12 +46,12 @@ class DatatablesJs {
     }
 
     static makeEditButton(editUrl) {
-        return '<button type="button" class="btn btn-primary" onclick="window.location.href=\'' + editUrl + '\'">' +
+        return '<button type="button" class="btn btn-primary btn-sm" onclick="window.location.href=\'' + editUrl + '\'">' +
             '<i class="fas fa-wrench" aria-hidden="true"></i></button>';
     }
 
     static makeDeleteButton(deleteUrl, csrfTokenDelete) {
-        return '<button type="button" class="btn btn-danger" data-url="' + deleteUrl + '" ' +
+        return '<button type="button" class="btn btn-danger btn-sm" data-url="' + deleteUrl + '" ' +
             'data-token="' + csrfTokenDelete + '" data-target="#confirmationModal" data-toggle="modal">' +
             '<i class="fa fa-trash" aria-hidden="true"></i></button>';
     }
