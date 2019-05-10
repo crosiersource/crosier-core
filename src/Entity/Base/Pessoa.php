@@ -57,7 +57,7 @@ class Pessoa implements EntityId
      *      joinColumns={@ORM\JoinColumn(name="pessoa_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="categ_id", referencedColumnName="id")}
      * )
-     * @var null|Collection|CategoriaPessoa[]
+     * @var null|CategoriaPessoa[]|array|Collection
      * @Groups("entity")
      */
     private $categorias;
@@ -285,11 +285,31 @@ class Pessoa implements EntityId
     }
 
     /**
-     * @return CategoriaPessoa[]|Collection|null
+     * @param CategoriaPessoa[]|array|Collection|null $categorias
+     * @return Pessoa
+     */
+    public function setCategorias($categorias): Pessoa
+    {
+        $this->categorias = $categorias;
+        return $this;
+    }
+
+    /**
+     * @return null|CategoriaPessoa[]|array|Collection
      */
     public function getCategorias(): ?Collection
     {
         return $this->categorias;
+    }
+
+    /**
+     * @param PessoaEndereco[]|ArrayCollection $enderecos
+     * @return Pessoa
+     */
+    public function setEnderecos($enderecos): Pessoa
+    {
+        $this->enderecos = $enderecos;
+        return $this;
     }
 
     /**
@@ -313,6 +333,16 @@ class Pessoa implements EntityId
             $this->enderecos->removeElement($endereco);
             $endereco->setPessoa(null);
         }
+        return $this;
+    }
+
+    /**
+     * @param PessoaContato[]|ArrayCollection $contatos
+     * @return Pessoa
+     */
+    public function setContatos($contatos): Pessoa
+    {
+        $this->contatos = $contatos;
         return $this;
     }
 

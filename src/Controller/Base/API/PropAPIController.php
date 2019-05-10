@@ -63,7 +63,7 @@ class PropAPIController extends BaseAPIEntityIdController
                 ]]
         ];
         $r = $this->doFindByFilters(json_encode($filters));
-        $r = json_decode($r->getContent(),true);
+        $r = json_decode($r->getContent(), true);
         return new JsonResponse($r['results'][0] ?? null);
     }
 
@@ -77,8 +77,18 @@ class PropAPIController extends BaseAPIEntityIdController
     public function findByFilters(Request $request): JsonResponse
     {
         $content = $request->getContent();
-        return parent::doFindByFilters($content);
+        return $this->doFindByFilters($content);
     }
 
 
+    /**
+     *
+     * @Route("/api/bse/prop/findById/{id}", name="api_bse_prop_findByFilters", requirements={"id"="\d+"})
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function findById(int $id): JsonResponse
+    {
+        return $this->doFindById($id);
+    }
 }

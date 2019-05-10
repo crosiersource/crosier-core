@@ -3,10 +3,12 @@
 namespace App\Controller\Base\API;
 
 use App\Entity\Base\Pessoa;
+use App\EntityHandler\Base\PessoaEntityHandler;
 use CrosierSource\CrosierLibBaseBundle\Controller\BaseAPIEntityIdController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+
 
 /**
  * Class PessoaAPIController.
@@ -16,6 +18,19 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class PessoaAPIController extends BaseAPIEntityIdController
 {
+
+    /** @var PessoaEntityHandler */
+    protected $entityHandler;
+
+    /**
+     * @required
+     * @param PessoaEntityHandler $entityHandler
+     */
+    public function setEntityHandler(PessoaEntityHandler $entityHandler): void
+    {
+        $this->entityHandler = $entityHandler;
+    }
+
 
     /**
      * @return string
@@ -28,13 +43,13 @@ class PessoaAPIController extends BaseAPIEntityIdController
 
     /**
      *
-     * @Route("/api/bse/pessoa/findById/{id}", name="api_bse_pessoa_findById", defaults={"id"=null}, requirements={"id"="\d+"})
+     * @Route("/api/bse/pessoa/findById/{id}", name="api_bse_pessoa_findById", requirements={"id"="\d+"})
      * @param int $id
      * @return JsonResponse
      */
     public function findById(int $id): JsonResponse
     {
-        return parent::findById($id);
+        return $this->doFindById($id);
     }
 
 
@@ -46,8 +61,7 @@ class PessoaAPIController extends BaseAPIEntityIdController
      */
     public function findByFilters(Request $request): JsonResponse
     {
-        $content = $request->getContent();
-        return parent::doFindByFilters($content);
+        return $this->doFindByFilters($request);
     }
 
 
@@ -100,5 +114,29 @@ class PessoaAPIController extends BaseAPIEntityIdController
 
         return $this->doFindByFilters(json_encode($parameters));
 
+    }
+
+
+    /**
+     *
+     * @Route("/api/bse/pessoa/getNew", name="api_bse_pessoa_getNew")
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getNew(Request $request): JsonResponse
+    {
+        return $this->doGetNew();
+    }
+
+
+    /**
+     *
+     * @Route("/api/bse/pessoa/save", name="api_bse_pessoa_save")
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function save(Request $request): JsonResponse
+    {
+        return $this->doSave($request);
     }
 }

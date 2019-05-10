@@ -21,7 +21,7 @@ class AppConfigAPIController extends AbstractController
 
     /**
      *
-     * @Route("/api/cfg/appConfig/getConfigByChave", name="api_bse_pessoa_findByFilters")
+     * @Route("/api/cfg/appConfig/getConfigByChave", name="api_cfg_appConfig_getConfigByChave")
      * @param Request $request
      * @return JsonResponse
      */

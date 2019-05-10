@@ -5,7 +5,7 @@ namespace App\Entity\Base;
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityId;
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityIdTrait;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  *
@@ -21,26 +21,28 @@ class Municipio implements EntityId
     /**
      *
      * @ORM\Column(name="municipio_codigo", type="integer", nullable=false)
-     * @Assert\NotBlank(message="O campo 'municipio_codigo' deve ser informado")
-     * @Assert\Range(min = 0)
+     * @Groups("entity")
      */
     private $municipioCodigo;
 
     /**
      *
      * @ORM\Column(name="municipio_nome", type="string", nullable=true, length=200)
+     * @Groups("entity")
      */
     private $municipioNome;
 
     /**
      *
      * @ORM\Column(name="uf_nome", type="string", nullable=true, length=200)
+     * @Groups("entity")
      */
     private $ufNome;
 
     /**
      *
      * @ORM\Column(name="uf_sigla", type="string", nullable=true, length=2)
+     * @Groups("entity")
      */
     private $ufSigla;
 
