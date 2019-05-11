@@ -3,6 +3,8 @@
 namespace App\Controller\Config\API;
 
 use App\Entity\Config\AppConfig;
+use App\Entity\Config\Config;
+use App\EntityHandler\Config\ConfigEntityHandler;
 use App\Repository\Config\AppConfigRepository;
 use CrosierSource\CrosierLibBaseBundle\Controller\BaseAPIEntityIdController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -15,20 +17,33 @@ use Symfony\Component\Routing\Annotation\Route;
  * @package App\Controller\Config\API
  * @author Carlos Eduardo Pauluk
  */
-class AppConfigAPIController extends BaseAPIEntityIdController
+class ConfigAPIController extends BaseAPIEntityIdController
 {
+
+    /** @var ConfigEntityHandler */
+    protected $entityHandler;
+
+    /**
+     * @required
+     * @param ConfigEntityHandler $entityHandler
+     */
+    public function setEntityHandler(ConfigEntityHandler $entityHandler): void
+    {
+        $this->entityHandler = $entityHandler;
+    }
+
 
     /**
      * @return string
      */
     public function getEntityClass(): string
     {
-        return AppConfig::class;
+        return Config::class;
     }
 
     /**
      *
-     * @Route("/api/cfg/appConfig/findById/{id}", name="api_cfg_appConfig_findById", requirements={"id"="\d+"})
+     * @Route("/api/cfg/config/findById/{id}", name="api_cfg_config_findById", requirements={"id"="\d+"})
      * @param int $id
      * @return JsonResponse
      */
@@ -39,7 +54,7 @@ class AppConfigAPIController extends BaseAPIEntityIdController
 
     /**
      *
-     * @Route("/api/cfg/appConfig/findByFilters/", name="api_cfg_appConfig_findByFilters")
+     * @Route("/api/cfg/config/findByFilters/", name="api_cfg_config_findByFilters")
      * @param Request $request
      * @return JsonResponse
      */
@@ -48,6 +63,26 @@ class AppConfigAPIController extends BaseAPIEntityIdController
         return $this->doFindByFilters($request);
     }
 
+    /**
+     *
+     * @Route("/api/cfg/config/getNew", name="api_cfg_config_getNew")
+     * @return JsonResponse
+     */
+    public function getNew(): JsonResponse
+    {
+        return $this->doGetNew();
+    }
+
+    /**
+     *
+     * @Route("/api/cfg/config/save", name="api_cfg_config_save")
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function save(Request $request): JsonResponse
+    {
+        return $this->doSave($request);
+    }
 
     /**
      *
@@ -69,7 +104,6 @@ class AppConfigAPIController extends BaseAPIEntityIdController
             return new JsonResponse('');
         }
     }
-
 
 
 }

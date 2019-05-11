@@ -113,6 +113,8 @@ class Pessoa implements EntityId
      *      mappedBy="pessoa",
      *      orphanRemoval=true
      * )
+     *
+     * @Groups("entity")
      */
     private $enderecos;
 
@@ -126,6 +128,8 @@ class Pessoa implements EntityId
      *      mappedBy="pessoa",
      *      orphanRemoval=true
      * )
+     *
+     * @Groups("entity")
      */
     private $contatos;
 

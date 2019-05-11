@@ -1,25 +1,7 @@
 SET FOREIGN_KEY_CHECKS=0;
 
+
 DROP TABLE IF EXISTS `cfg_estabelecimento`;
-
-DROP TABLE IF EXISTS `sec_group`;
-DROP TABLE IF EXISTS `sec_role`;
-DROP TABLE IF EXISTS `sec_group_role`;
-DROP TABLE IF EXISTS `sec_user`;
-DROP TABLE IF EXISTS `sec_user_role`;
-
-
-DROP TABLE IF EXISTS `cfg_config`;
-DROP TABLE IF EXISTS `cfg_app`;
-DROP TABLE IF EXISTS `cfg_app_config`;
-DROP TABLE IF EXISTS `cfg_program`;
-DROP TABLE IF EXISTS `cfg_program_config`;
-DROP TABLE IF EXISTS `cfg_entmenu`;
-
-DROP TABLE IF EXISTS `cfg_stored_viewinfo`;
-
-
-
 
 CREATE TABLE `cfg_estabelecimento` (
   `id` bigint(20) AUTO_INCREMENT NOT NULL,
@@ -41,6 +23,7 @@ CREATE TABLE `cfg_estabelecimento` (
 
 
 
+DROP TABLE IF EXISTS `sec_group`;
 
 CREATE TABLE `sec_group` (
   `id` bigint(20) AUTO_INCREMENT NOT NULL,
@@ -63,6 +46,7 @@ CREATE TABLE `sec_group` (
 
 
 
+DROP TABLE IF EXISTS `sec_role`;
 
 CREATE TABLE `sec_role` (
   `id` bigint(20) AUTO_INCREMENT NOT NULL,
@@ -85,6 +69,8 @@ CREATE TABLE `sec_role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 
 
+DROP TABLE IF EXISTS `sec_group_role`;
+
 CREATE TABLE `sec_group_role` (
   `group_id` bigint(20) NOT NULL,
   `role_id` bigint(20) NOT NULL,
@@ -98,6 +84,7 @@ CREATE TABLE `sec_group_role` (
 
 
 
+DROP TABLE IF EXISTS `sec_user`;
 
 CREATE TABLE `sec_user` (
   `id` bigint(20) AUTO_INCREMENT NOT NULL,
@@ -131,6 +118,11 @@ CREATE TABLE `sec_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 
 
+
+
+
+DROP TABLE IF EXISTS `sec_user_role`;
+
 CREATE TABLE `sec_user_role` (
   `user_id` bigint(20) NOT NULL,
   `role_id` bigint(20) NOT NULL,
@@ -143,6 +135,11 @@ CREATE TABLE `sec_user_role` (
 
 
 
+
+
+
+DROP TABLE IF EXISTS `cfg_config`;
+
 CREATE TABLE `cfg_config` (
   `id` bigint(20) AUTO_INCREMENT NOT NULL,
   `chave` varchar(300)  NOT NULL,
@@ -154,6 +151,7 @@ CREATE TABLE `cfg_config` (
   `updated` datetime NOT NULL,  
   `user_inserted_id` bigint(20) NOT NULL,
   `user_updated_id` bigint(20) NOT NULL,
+  `version` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_cfg_config_chave_estabelecimento` (`chave`,`estabelecimento_id`) USING BTREE,
   KEY `K_cfg_config_estabelecimento` (`estabelecimento_id`),
@@ -166,6 +164,11 @@ CREATE TABLE `cfg_config` (
 
 
 
+
+
+
+
+DROP TABLE IF EXISTS `cfg_app`;
 
 CREATE TABLE `cfg_app` (
   `id` bigint(20) AUTO_INCREMENT NOT NULL,
@@ -193,6 +196,11 @@ CREATE TABLE `cfg_app` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 
 
+
+
+
+DROP TABLE IF EXISTS `cfg_app_config`;
+
 CREATE TABLE `cfg_app_config` (
   `id` bigint(20) AUTO_INCREMENT NOT NULL,
   `chave` varchar(255)  NOT NULL,
@@ -217,6 +225,10 @@ CREATE TABLE `cfg_app_config` (
 
 
 
+
+
+
+DROP TABLE IF EXISTS `cfg_program`;
 
 CREATE TABLE `cfg_program` (
   `id` bigint(20) AUTO_INCREMENT NOT NULL,
@@ -246,6 +258,11 @@ CREATE TABLE `cfg_program` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 
 
+
+
+
+DROP TABLE IF EXISTS `cfg_program_config`;
+
 CREATE TABLE `cfg_program_config` (
   `id` bigint(20) AUTO_INCREMENT NOT NULL,
   `chave` varchar(255)  NOT NULL,
@@ -268,6 +285,11 @@ CREATE TABLE `cfg_program_config` (
   CONSTRAINT `FK_cfg_program_config_user_updated` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 
+
+
+
+
+DROP TABLE IF EXISTS `cfg_entmenu`;
 
 CREATE TABLE `cfg_entmenu` (
   `id` bigint(20) AUTO_INCREMENT NOT NULL,
@@ -302,6 +324,10 @@ CREATE TABLE `cfg_entmenu` (
 
 
 
+
+
+
+DROP TABLE IF EXISTS `cfg_stored_viewinfo`;
 
 CREATE TABLE `cfg_stored_viewinfo` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,

@@ -3,8 +3,11 @@
 namespace App\Controller\Base\API;
 
 use App\Entity\Base\Pessoa;
+use App\Entity\Base\PessoaContato;
+use App\Entity\Base\PessoaEndereco;
 use App\EntityHandler\Base\PessoaEntityHandler;
 use CrosierSource\CrosierLibBaseBundle\Controller\BaseAPIEntityIdController;
+use CrosierSource\CrosierLibBaseBundle\Utils\EntityIdUtils\EntityIdUtils;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -64,6 +67,31 @@ class PessoaAPIController extends BaseAPIEntityIdController
         return $this->doFindByFilters($request);
     }
 
+    /**
+     *
+     * @Route("/api/bse/pessoa/getNew", name="api_bse_pessoa_getNew")
+     * @return JsonResponse
+     */
+    public function getNew(): JsonResponse
+    {
+        $pessoa = new Pessoa();
+        $pessoa->addEndereco(new PessoaEndereco());
+        $pessoa->addContato(new PessoaContato());
+        return new JsonResponse(['entity' => EntityIdUtils::serialize($pessoa)]);
+    }
+
+
+    /**
+     *
+     * @Route("/api/bse/pessoa/save", name="api_bse_pessoa_save")
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function save(Request $request): JsonResponse
+    {
+        return $this->doSave($request);
+    }
+
 
     /**
      *
@@ -117,26 +145,5 @@ class PessoaAPIController extends BaseAPIEntityIdController
     }
 
 
-    /**
-     *
-     * @Route("/api/bse/pessoa/getNew", name="api_bse_pessoa_getNew")
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function getNew(Request $request): JsonResponse
-    {
-        return $this->doGetNew();
-    }
 
-
-    /**
-     *
-     * @Route("/api/bse/pessoa/save", name="api_bse_pessoa_save")
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function save(Request $request): JsonResponse
-    {
-        return $this->doSave($request);
-    }
 }

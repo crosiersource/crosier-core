@@ -5,12 +5,14 @@ namespace App\Entity\Config;
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityId;
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityIdTrait;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  *
  * @ORM\Entity(repositoryClass="App\Repository\Config\ConfigRepository")
  * @ORM\Table(name="cfg_config")
+ *
+ * @author Carlos Eduardo Pauluk
  */
 class Config implements EntityId
 {
@@ -20,68 +22,111 @@ class Config implements EntityId
     /**
      *
      * @ORM\Column(name="chave", type="string", nullable=false, length=300)
-     * @Assert\NotBlank(message="O campo 'chave' deve ser informado")
+     * @Groups("entity")
+     *
+     * @var null|string
      */
     private $chave;
 
     /**
      *
      * @ORM\Column(name="obs", type="string", nullable=true, length=5000)
+     * @Groups("entity")
+     *
+     * @var null|string
      */
     private $obs;
 
     /**
      *
      * @ORM\Column(name="valor", type="string", nullable=false, length=10000)
-     * @Assert\NotBlank(message="O campo 'valor' deve ser informado")
+     * @Groups("entity")
+     *
+     * @var null|string
      */
     private $valor;
 
     /**
      *
      * @ORM\Column(name="global", type="boolean", nullable=false)
-     * @Assert\NotNull(message="O campo 'global' deve ser informado")
+     * @Groups("entity")
+     *
+     * @var null|bool
      */
     private $global;
 
-    public function getChave()
+    /**
+     * @return null|string
+     */
+    public function getChave(): ?string
     {
         return $this->chave;
     }
 
-    public function setChave($chave)
+    /**
+     * @param null|string $chave
+     * @return Config
+     */
+    public function setChave(?string $chave): Config
     {
         $this->chave = $chave;
+        return $this;
     }
 
-    public function getObs()
+    /**
+     * @return null|string
+     */
+    public function getObs(): ?string
     {
         return $this->obs;
     }
 
-    public function setObs($obs)
+    /**
+     * @param null|string $obs
+     * @return Config
+     */
+    public function setObs(?string $obs): Config
     {
         $this->obs = $obs;
+        return $this;
     }
 
-    public function getValor()
+    /**
+     * @return null|string
+     */
+    public function getValor(): ?string
     {
         return $this->valor;
     }
 
-    public function setValor($valor)
+    /**
+     * @param null|string $valor
+     * @return Config
+     */
+    public function setValor(?string $valor): Config
     {
         $this->valor = $valor;
+        return $this;
     }
 
-    public function getGlobal()
+    /**
+     * @return bool|null
+     */
+    public function getGlobal(): ?bool
     {
         return $this->global;
     }
 
-    public function setGlobal($global)
+    /**
+     * @param bool|null $global
+     * @return Config
+     */
+    public function setGlobal(?bool $global): Config
     {
         $this->global = $global;
+        return $this;
     }
+
+
 }
     

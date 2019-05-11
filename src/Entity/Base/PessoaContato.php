@@ -5,6 +5,7 @@ namespace App\Entity\Base;
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityId;
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityIdTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Entidade Pessoa.
@@ -30,6 +31,8 @@ class PessoaContato implements EntityId
      *
      * @ORM\Column(name="tipo", type="string", nullable=true, length=50)
      * @var string|null
+     *
+     * @Groups("entity")
      */
     private $tipo;
 
@@ -37,6 +40,8 @@ class PessoaContato implements EntityId
      *
      * @ORM\Column(name="valor", type="string", nullable=true, length=100)
      * @var string|null
+     *
+     * @Groups("entity")
      */
     private $valor;
 
@@ -44,6 +49,8 @@ class PessoaContato implements EntityId
      *
      * @ORM\Column(name="obs", type="string", nullable=true, length=3000)
      * @var string|null
+     *
+     * @Groups("entity")
      */
     private $obs;
 
