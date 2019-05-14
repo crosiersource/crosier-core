@@ -68,7 +68,7 @@ class PessoaController extends FormListController
     public function getFilterDatas(array $params): array
     {
         return [
-            new FilterData(['nome'], 'LIKE', 'descricao', $params)
+            new FilterData(['nome'], 'LIKE', 'str', $params)
         ];
     }
 

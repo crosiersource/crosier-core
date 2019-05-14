@@ -12,6 +12,14 @@ Routing.setRoutingData(routes)
 function getDatatablesColumns() {
     return [
         {
+            name: 'e.id',
+            data: 'e.id',
+            title: 'ID',
+            render: function (data, type, row) {
+                return (data+"").padStart(8, "0");
+            },
+        },
+        {
             name: 'e.nome',
             data: 'e.nome',
             title: 'Nome'
