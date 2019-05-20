@@ -112,38 +112,5 @@ class PessoaAPIController extends BaseAPIEntityIdController
         return $this->doFindByFilters(json_encode($filters));
     }
 
-    /**
-     *
-     * @Route("/api/bse/pessoa/findByCategEStr", name="api_bse_pessoa_findByCategEStr")
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function findByCategEStr(Request $request): JsonResponse
-    {
-        $categ = $request->get('categ');
-        $str = $request->get('str');
-        $filters = [];
-        $filters [] = [
-            'field' => ['categ.descricao'],
-            'compar' => 'LIKE',
-            'val' => $categ
-        ];
-        if ($str) {
-            $filters[] = [
-                'field' => ['nome', 'nomeFantasia', 'documento'],
-                'compar' => 'LIKE',
-                'val' => '%' . $str . '%'
-            ];
-
-        }
-
-        $parameters['filters'] = $filters;
-        $parameters['limit'] = $request->get('limit') ?? 100;
-
-        return $this->doFindByFilters(json_encode($parameters));
-
-    }
-
-
 
 }
