@@ -40,7 +40,10 @@ class PessoaController extends FormListController
             'listRoute' => 'bse_pessoa_list',
             'listRouteAjax' => 'bse_pessoa_datatablesJsList',
             'listPageTitle' => 'Pessoas',
-            'listId' => 'pessoaList'
+            'listId' => 'pessoaList',
+
+            'role_access' => 'ROLE_BASE',
+            'role_delete' => 'ROLE_BASE_ADMIN',
         ];
 
     /** @var PessoaBusiness */

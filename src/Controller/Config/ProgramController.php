@@ -42,7 +42,10 @@ class ProgramController extends FormListController
                 'app' => ['nome']
             ],
 
-            'deleteRoute' => 'cfg_program_delete'
+            'deleteRoute' => 'cfg_program_delete',
+
+            'role_access' => 'ROLE_ADMIN',
+            'role_delete' => 'ROLE_ADMIN',
 
         ];
 

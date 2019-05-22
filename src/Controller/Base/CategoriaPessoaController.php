@@ -33,7 +33,10 @@ class CategoriaPessoaController extends FormListController
             'listRouteAjax' => 'bse_categoriaPessoa_datatablesJsList',
             'listPageTitle' => 'Categorias (Pessoa)',
             'listId' => 'categoriaPessoaList',
-            'listJS' => 'bse/categoriaPessoaList.js'
+            'listJS' => 'bse/categoriaPessoaList.js',
+
+            'role_access' => 'ROLE_ADMIN',
+            'role_delete' => 'ROLE_ADMIN',
         ];
 
     /**

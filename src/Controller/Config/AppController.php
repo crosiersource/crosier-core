@@ -45,6 +45,9 @@ class AppController extends FormListController
                 'entranceUrl',
             ],
 
+            'role_access' => 'ROLE_ADMIN',
+            'role_delete' => 'ROLE_ADMIN',
+
         ];
 
     /**

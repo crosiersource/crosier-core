@@ -21,7 +21,6 @@ class UserController extends FormListController
 
     protected $crudParams =
         [
-            'PROGRAM_UUID' => '55c400fe067c2a97248a86d8bbc14c01',
             'typeClass' => UserType::class,
             'formView' => 'Security/userForm.html.twig',
             'formRoute' => 'sec_user_form',
@@ -31,6 +30,7 @@ class UserController extends FormListController
             'listRouteAjax' => 'sec_user_datatablesJsList',
             'listPageTitle' => 'Usuários do Sistema',
             'listId' => 'userList',
+
             'normalizedAttrib' => [
                 'id',
                 'username',
@@ -38,6 +38,9 @@ class UserController extends FormListController
                 'email',
                 'grupo' => ['groupname']
             ],
+
+            'role_access' => 'ROLE_ADMIN',
+            'role_delete' => 'ROLE_ADMIN',
 
         ];
 

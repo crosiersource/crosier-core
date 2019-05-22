@@ -43,7 +43,10 @@ class EntMenuController extends FormListController
 
             'normalizedAttrib' => null,
 
-            'deleteRoute' => 'cfg_entMenu_delete'
+            'deleteRoute' => 'cfg_entMenu_delete',
+
+            'role_access' => 'ROLE_ADMIN',
+            'role_delete' => 'ROLE_ADMIN',
 
         ];
 

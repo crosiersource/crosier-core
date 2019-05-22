@@ -36,6 +36,9 @@ class PropController extends FormListController
             'list_PROGRAM_UUID' => '',
             'listJS' => 'bse/propList.js',
 
+            'role_access' => 'ROLE_ADMIN',
+            'role_delete' => 'ROLE_ADMIN',
+
         ];
 
     /**

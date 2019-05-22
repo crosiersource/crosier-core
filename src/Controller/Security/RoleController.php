@@ -36,6 +36,9 @@ class RoleController extends FormListController
                 'descricao'
             ],
 
+            'role_access' => 'ROLE_ADMIN',
+            'role_delete' => 'ROLE_ADMIN',
+
         ];
 
     /**

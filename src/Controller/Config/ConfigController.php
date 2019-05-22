@@ -45,6 +45,9 @@ class ConfigController extends FormListController
                 'global'
             ],
 
+            'role_access' => 'ROLE_ADMIN',
+            'role_delete' => 'ROLE_ADMIN',
+
         ];
 
     /**

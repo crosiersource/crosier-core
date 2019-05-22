@@ -35,6 +35,9 @@ class GroupController extends FormListController
                 'groupname'
             ],
 
+            'role_access' => 'ROLE_ADMIN',
+            'role_delete' => 'ROLE_ADMIN',
+
         ];
 
     /**
