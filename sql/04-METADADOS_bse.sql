@@ -1,19 +1,8 @@
 SET FOREIGN_KEY_CHECKS=0;
 
 
-
-DROP TABLE IF EXISTS `bse_categ_pessoa`;
-DROP TABLE IF EXISTS `bse_pessoa`;
-DROP TABLE IF EXISTS `bse_pessoa_categ_pessoa`;
-DROP TABLE IF EXISTS `bse_pessoa_endereco`;
-DROP TABLE IF EXISTS `bse_pessoa_contato`;
-DROP TABLE IF EXISTS `bse_municipio`;
-DROP TABLE IF EXISTS `bse_uf`;
-DROP TABLE IF EXISTS `bse_diautil`;
-
-
-
 -- Categorização para os tipos de 'pessoa' (CLIENTE, FORNECEDOR, etc)
+DROP TABLE IF EXISTS `bse_categ_pessoa`;
 CREATE TABLE `bse_categ_pessoa` (
   `id` bigint(20) AUTO_INCREMENT NOT NULL,
   `descricao` VARCHAR(100)  NOT NULL,
@@ -35,6 +24,7 @@ CREATE TABLE `bse_categ_pessoa` (
 
 
 -- Tabela mais genérica sobre relacionamentos pessoais
+DROP TABLE IF EXISTS `bse_pessoa`;
 CREATE TABLE `bse_pessoa` (
   `id` bigint(20) AUTO_INCREMENT NOT NULL,
 
@@ -69,6 +59,7 @@ CREATE TABLE `bse_pessoa` (
 
 
 -- Categorização para os tipos de 'pessoa' (CLIENTE, FORNECEDOR, etc)
+DROP TABLE IF EXISTS `bse_pessoa_categ_pessoa`;
 CREATE TABLE `bse_pessoa_categ_pessoa` (
   `pessoa_id` bigint(20) NOT NULL,
   `categ_id` bigint(20) NOT NULL,
@@ -82,6 +73,7 @@ CREATE TABLE `bse_pessoa_categ_pessoa` (
 
 
 -- Endereços de Relacionamento Comercial
+DROP TABLE IF EXISTS `bse_pessoa_endereco`;
 CREATE TABLE `bse_pessoa_endereco` (
   `id` bigint(20) AUTO_INCREMENT NOT NULL,
   `pessoa_id` bigint(20) NOT NULL,
@@ -114,6 +106,7 @@ CREATE TABLE `bse_pessoa_endereco` (
 
 
 -- Contatos de Relacionamentos Comerciais
+DROP TABLE IF EXISTS `bse_pessoa_contato`;
 CREATE TABLE `bse_pessoa_contato` (
   `id` bigint(20) AUTO_INCREMENT NOT NULL,
   `pessoa_id` bigint(20) NOT NULL,
@@ -142,7 +135,7 @@ CREATE TABLE `bse_pessoa_contato` (
 
 
 
-
+DROP TABLE IF EXISTS `bse_municipio`;
 CREATE TABLE `bse_municipio` (
   `id` bigint(20) AUTO_INCREMENT NOT NULL,
   `municipio_codigo` int(11) NOT NULL,
@@ -168,7 +161,7 @@ CREATE TABLE `bse_municipio` (
 
 
 
-
+DROP TABLE IF EXISTS `bse_uf`;
 CREATE TABLE `bse_uf` (
   `id` bigint(20) AUTO_INCREMENT NOT NULL,
   `sigla` char(2)  NOT NULL,
@@ -195,7 +188,7 @@ CREATE TABLE `bse_uf` (
 
 
 
-
+DROP TABLE IF EXISTS `bse_diautil`;
 CREATE TABLE `bse_diautil` (
   `id` bigint(20) AUTO_INCREMENT NOT NULL,
   `dia` datetime NOT NULL,
@@ -223,7 +216,7 @@ CREATE TABLE `bse_diautil` (
 
 
 
-
+DROP TABLE IF EXISTS `bse_prop`;
 CREATE TABLE `bse_prop` (
   `id` bigint(20) AUTO_INCREMENT NOT NULL,
   `uuid` char(36) NOT NULL,
