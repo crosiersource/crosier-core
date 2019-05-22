@@ -14,7 +14,9 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class UserEntityHandler extends EntityHandler
 {
 
+    /** @var UserPasswordEncoderInterface */
     private $encoder;
+
 
     /**
      * @return mixed
@@ -36,8 +38,14 @@ class UserEntityHandler extends EntityHandler
 
     public function beforeSave($user)
     {
-        // $encoded = $this->encoder->encodePassword($user,$user->getPassword());
-        // $user->setPassword($encoded);
+        /** @var User $user */
+        if ($user->getPassword() && strlen($user->getPassword()) < 53) {
+            $encoded = $this->encoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($encoded);
+        } elseif ($user->getId() && !$user->getPassword()) {
+            $savedPassword = $this->doctrine->getRepository(User::class)->getPassword($user);
+            $user->setPassword($savedPassword);
+        }
     }
 
     /**
