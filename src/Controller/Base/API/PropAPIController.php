@@ -55,14 +55,11 @@ class PropAPIController extends BaseAPIEntityIdController
     public function findByNome(string $nome): JsonResponse
     {
         $filters = [
-            'filters' =>
-                [[
-                    'field' => ['nome'],
-                    'compar' => 'EQ',
-                    'val' => $nome
-                ]]
+            'filters' => urlencode(json_encode([['nome','EQ',$nome]]))
         ];
-        $r = $this->doFindByFilters(json_encode($filters));
+        $request = new Request();
+        $request->query->add($filters);
+        $r = $this->doFindByFilters($request);
         $r = json_decode($r->getContent(), true);
         return new JsonResponse($r['results'][0] ?? null);
     }
