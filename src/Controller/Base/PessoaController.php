@@ -143,7 +143,10 @@ class PessoaController extends FormListController
      */
     public function formEndereco(Request $request, Pessoa $pessoa, PessoaEndereco $endereco = null)
     {
-        $this->checkAccess($this->crudParams['formRoute']);
+        if (!isset($this->crudParams['role_access'])) {
+            throw $this->createAccessDeniedException('Acesso negado.');
+        }
+        $this->denyAccessUnlessGranted(['ROLE_ADMIN', $this->crudParams['role_access']]);
 
         if (!$endereco) {
             $endereco = new PessoaEndereco();
@@ -202,7 +205,10 @@ class PessoaController extends FormListController
      */
     public function deleteEndereco(Request $request, PessoaEndereco $endereco): \Symfony\Component\HttpFoundation\RedirectResponse
     {
-        $this->checkAccess('bse_pessoaEndereco_delete');
+        if (!isset($this->crudParams['role_access'])) {
+            throw $this->createAccessDeniedException('Acesso negado.');
+        }
+        $this->denyAccessUnlessGranted(['ROLE_ADMIN', $this->crudParams['role_access']]);
 
         if (!$this->isCsrfTokenValid('delete', $request->request->get('token'))) {
             $this->addFlash('error', 'Erro interno do sistema.');
@@ -235,7 +241,10 @@ class PessoaController extends FormListController
      */
     public function formContato(Request $request, Pessoa $pessoa, PessoaContato $contato = null)
     {
-        $this->checkAccess($this->crudParams['formRoute']);
+        if (!isset($this->crudParams['role_access'])) {
+            throw $this->createAccessDeniedException('Acesso negado.');
+        }
+        $this->denyAccessUnlessGranted(['ROLE_ADMIN', $this->crudParams['role_access']]);
 
         if (!$contato) {
             $contato = new PessoaContato();
@@ -294,7 +303,10 @@ class PessoaController extends FormListController
      */
     public function deleteContato(Request $request, PessoaContato $contato): \Symfony\Component\HttpFoundation\RedirectResponse
     {
-        $this->checkAccess('bse_pessoaContato_delete');
+        if (!isset($this->crudParams['role_delete'])) {
+            throw $this->createAccessDeniedException('Acesso negado.');
+        }
+        $this->denyAccessUnlessGranted(['ROLE_ADMIN', $this->crudParams['role_delete']]);
 
         if (!$this->isCsrfTokenValid('delete', $request->request->get('token'))) {
             $this->addFlash('error', 'Erro interno do sistema.');

@@ -158,7 +158,6 @@ class AppController extends FormListController
      */
     public function deleteAppConfig(Request $request, AppConfig $appConfig): \Symfony\Component\HttpFoundation\RedirectResponse
     {
-        // $this->checkAccess($this->crudParams['deleteRoute']);
         if (!$this->isCsrfTokenValid('delete', $request->request->get('token'))) {
             $this->addFlash('error', 'Erro interno do sistema.');
         } else {
