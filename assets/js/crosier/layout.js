@@ -22,14 +22,14 @@ import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css';
 
 import Hotkeys from "hotkeys-js";
 
-import '@coreui/coreui';
+// import '@coreui/coreui';
 import '@coreui/coreui/dist/css/coreui.css';
 import '@coreui/icons/css/coreui-icons.css';
 import 'simple-line-icons/css/simple-line-icons.css';
 
 
-import CustomTooltips from '@coreui/coreui-plugin-chartjs-custom-tooltips';
-import '../main.js';
+// import CustomTooltips from '@coreui/coreui-plugin-chartjs-custom-tooltips';
+// import '../main.js';
 
 import 'toastr/build/toastr.css'
 
