@@ -29,7 +29,7 @@ import 'simple-line-icons/css/simple-line-icons.css';
 
 
 // import CustomTooltips from '@coreui/coreui-plugin-chartjs-custom-tooltips';
-// import '../main.js';
+import '../main.js';
 
 import 'toastr/build/toastr.css'
 
