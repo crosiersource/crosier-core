@@ -57,6 +57,12 @@
                             <button type="submit" class="btn btn-primary" value="Salvar">
                                 <i class="fas fa-save" aria-hidden="true"></i> Salvar
                             </button>
+
+                            <button type="button" value="Cancelar" class="btn btn-danger"
+                                    data-url="{{ url('bse_pessoa_delete', {'pessoa' : e.id}) }}" data-target="#confirmationModal"
+                                    data-toggle="modal" data-token="{{ csrf_token('delete') }}">
+                                <i class="fas fa-trash" aria-hidden="true"></i> Deletar
+                            </button>
                         </div>
                     </div>
 
