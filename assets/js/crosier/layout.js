@@ -63,7 +63,14 @@ $(document).ready(function () {
         $('#appMainMenu').select2('open');
     });
 
-    $('.focusOnReady').focus();
+    let $focusOnReady = $('.focusOnReady');
+    if ($focusOnReady) {
+        if ($focusOnReady.hasClass('autoSelect2')) {
+            $focusOnReady.select2('focus');
+        } else {
+            $focusOnReady.focus();
+        }
+    }
 
 
 

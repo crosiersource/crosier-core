@@ -7,10 +7,19 @@ use App\Entity\Base\PessoaContato;
 use App\Entity\Base\PessoaEndereco;
 use App\EntityHandler\Base\PessoaEntityHandler;
 use CrosierSource\CrosierLibBaseBundle\Controller\BaseAPIEntityIdController;
+use CrosierSource\CrosierLibBaseBundle\Repository\FilterRepository;
+use CrosierSource\CrosierLibBaseBundle\Utils\APIUtils\APIProblem;
 use CrosierSource\CrosierLibBaseBundle\Utils\EntityIdUtils\EntityIdUtils;
+use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\FilterData;
+use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
+use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 
 /**
@@ -101,15 +110,35 @@ class PessoaAPIController extends BaseAPIEntityIdController
      */
     public function findByStr(string $str): JsonResponse
     {
-        $filters = [
-            'filters' =>
-                [[
-                    'field' => ['nome', 'nomeFantasia', 'documento'],
-                    'compar' => 'LIKE',
-                    'val' => '%' . $str . '%'
-                ]]
-        ];
-        return $this->doFindByFilters(json_encode($filters));
+        $filters =
+            [
+                ['nome', 'nomeFantasia', 'documento'],
+                'LIKE',
+                '%' . $str . '%'
+            ];
+        try {
+            $filterDatas = [];
+            foreach ($filters as $filterArray) {
+                $filterDatas[] = FilterData::fromArray($filters);
+            }
+            /** @var FilterRepository $repo */
+            $repo = $this->getDoctrine()->getRepository($this->getEntityClass());
+            $r = $repo->findByFilters($filterDatas, ['e.nome' => 'ASC'], 0, 100);
+            $this->handleFindByFilters($r);
+
+            $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader()));
+            $serializer = new Serializer([new DateTimeNormalizer(), new ObjectNormalizer($classMetadataFactory)]);
+            $serialized = $serializer->normalize($r, 'json',
+                ['groups' => ['entity', 'entityId']]);
+            $results = array('results' => $serialized);
+            return new JsonResponse($results);
+        } catch (\Throwable $e) {
+            return (new APIProblem(
+                400,
+                ApiProblem::TYPE_INTERNAL_ERROR
+            ))->toJsonResponse();
+        }
+
     }
 
 
