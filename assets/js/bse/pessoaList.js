@@ -2,6 +2,7 @@
 
 let listId = "#pessoaList";
 
+import Moment from 'moment';
 import DatatablesJs from '../crosier/DatatablesJs';
 
 import routes from '../../static/fos_js_routes.json';
@@ -25,20 +26,21 @@ function getDatatablesColumns() {
             title: 'Nome'
         },
         {
-            name: 'e.id',
+            name: 'e.updated',
             data: 'e',
             title: '',
             render: function (data, type, row) {
                 let colHtml = "";
+                colHtml += '<span class="badge badge-pill badge-info">' + Moment(data.updated).format('DD/MM/YYYY HH:mm:ss') + '</span> ';
                 if ($(listId).data('routeedit')) {
                     let routeedit = $(listId).data('routeedit');
                     let editUrl = routeedit + '/' + data.id;
-                    colHtml += DatatablesJs.makeEditButton(editUrl);
+                    colHtml += DatatablesJs.makeEditButton(editUrl) + ' ';
                 }
                 if ($(listId).data('routedelete')) {
                     let deleteUrl = Routing.generate($(listId).data('routedelete'), {id: data.id});
                     let csrfTokenDelete = $(listId).data('crsf-token-delete');
-                    colHtml += DatatablesJs.makeDeleteButton(deleteUrl, csrfTokenDelete);
+                    colHtml += DatatablesJs.makeDeleteButton(deleteUrl, csrfTokenDelete) + ' ';
                 }
                 return colHtml;
             },
