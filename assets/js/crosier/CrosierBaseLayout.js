@@ -155,6 +155,7 @@ class CrosierBaseLayout {
          * Montagem dos select2 automáticos.
          */
         $.fn.select2.defaults.set("theme", "bootstrap");
+        $.fn.select2.defaults.set("language", "pt-BR");
         $('.autoSelect2').each(function () {
             let elem = $(this);
             // Se foi passado um id-route-url,
