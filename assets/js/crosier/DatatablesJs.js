@@ -11,6 +11,8 @@ class DatatablesJs {
     static makeDatatableJs(listId, columns, params) {
         $(document).ready(function () {
 
+            console.log('LEN: ' + columns.length);
+
             // declaro antes para poder sobreescrever ali com o extent, no caso de querer mudar alguma coisa (ex.: movimentacaoRecorrentesList.js)
             let defaultParams = {
                 paging: true,
@@ -25,9 +27,10 @@ class DatatablesJs {
                 },
                 searching: false,
                 columns: columns,
-                "language": {
+                language: {
                     "url": "/build/static/datatables-Portuguese-Brasil.json"
-                }
+                },
+                order: [[ columns.length - 1, "desc" ]]
             };
 
             // console.dir(defaultParams);
