@@ -125,10 +125,17 @@ class  DiaUtilRepository extends FilterRepository
     public function findEnesimoDiaUtil(\DateTime $dtIni, int $ordinal, ?bool $financeiro = null, ?bool $comercial = null): ?\DateTime
     {
         try {
+            $ordinal = $ordinal ?: 1; // o correto é passar 1, mas se passar 0 considera o mesmo.
             // Considera-se que existam no mínimo 3x mais dias úteis que dias não úteis
-            $dtFim = (clone $dtIni)->add(new \DateInterval('P' . ($ordinal * 3) . 'D'));
-            $diasUteis = $this->findDiasUteisBy($dtIni, $dtFim, $comercial, $financeiro);
-            return $diasUteis[$ordinal-1]->getDia() ?? null;
+            if ($ordinal >= 0) {
+                $dtFim = (clone $dtIni)->add(new \DateInterval('P' . ($ordinal * 3) . 'D'));
+                $diasUteis = $this->findDiasUteisBy($dtIni, $dtFim, $comercial, $financeiro);
+                return $diasUteis[$ordinal-1]->getDia() ?? null;
+            } else {
+                $dtFim = (clone $dtIni)->sub(new \DateInterval('P' . ((abs($ordinal) * 3) . 'D')));
+                $diasUteis = $this->findDiasUteisBy($dtFim, $dtIni, $comercial, $financeiro);
+                return $diasUteis[count($diasUteis) - abs($ordinal)]->getDia() ?? null;
+            }
         } catch (\Throwable $e) {
             throw new \RuntimeException($e->getMessage(), 0, $e);
         }

@@ -41,5 +41,95 @@ class DiaUtilRepositoryTest extends KernelTestCase
             '23/01/2019',
             $diaUtilRepo->findEnesimoDiaUtil(DateTimeUtils::parseDateStr('03/01/2019'), 15, true)->format('d/m/Y'));
 
+        $this->assertEquals(
+            '03/01/2019',
+            $diaUtilRepo->findEnesimoDiaUtil(DateTimeUtils::parseDateStr('03/01/2019'), 0, true)->format('d/m/Y'));
+
+        $this->assertEquals(
+            '03/01/2019',
+            $diaUtilRepo->findEnesimoDiaUtil(DateTimeUtils::parseDateStr('03/01/2019'), -1, true)->format('d/m/Y'));
+
+        $this->assertEquals(
+            '02/01/2019',
+            $diaUtilRepo->findEnesimoDiaUtil(DateTimeUtils::parseDateStr('03/01/2019'), -2, true)->format('d/m/Y'));
+
+        $this->assertEquals(
+            '04/01/2019',
+            $diaUtilRepo->findEnesimoDiaUtil(DateTimeUtils::parseDateStr('04/01/2019'), 1, true)->format('d/m/Y'));
+
+
+
+
+
+        // Próximo dia comercial ao dia 04/01/2019 (sexta): deve ser sábado dia 05/01/2019
+        $this->assertEquals(
+            '05/01/2019',
+            $diaUtilRepo->findEnesimoDiaUtil(DateTimeUtils::parseDateStr('04/01/2019'), 2, null, true)->format('d/m/Y'));
+        // Oposto
+        $this->assertEquals(
+            '04/01/2019',
+            $diaUtilRepo->findEnesimoDiaUtil(DateTimeUtils::parseDateStr('05/01/2019'), -2, null, true)->format('d/m/Y'));
+
+
+
+
+        // Próximo dia financeiro ao dia 04/01/2019 (sexta): deve ser segunda dia 07/01/2019
+        $this->assertEquals(
+            '07/01/2019',
+            $diaUtilRepo->findEnesimoDiaUtil(DateTimeUtils::parseDateStr('04/01/2019'), 2, true)->format('d/m/Y'));
+        // Oposto
+        $this->assertEquals(
+            '04/01/2019',
+            $diaUtilRepo->findEnesimoDiaUtil(DateTimeUtils::parseDateStr('07/01/2019'), -2, true)->format('d/m/Y'));
+
+
+
+
+        // O sétimo dia útil financeiro depois do dia 04/01/2019 (sexta): deve ser segunda dia 14/01/2019
+        $this->assertEquals(
+            '14/01/2019',
+            $diaUtilRepo->findEnesimoDiaUtil(DateTimeUtils::parseDateStr('04/01/2019'), 7, true)->format('d/m/Y'));
+        // O sétimo dia útil financeiro depois do dia 04/01/2019 (sexta): deve ser segunda dia 14/01/2019
+        $this->assertEquals(
+            '04/01/2019',
+            $diaUtilRepo->findEnesimoDiaUtil(DateTimeUtils::parseDateStr('14/01/2019'), -7, true)->format('d/m/Y'));
+
+
+
+
+        // O sétimo dia útil comercial depois do dia 04/01/2019 (sexta): deve ser sexta dia 11/01/2019
+        $this->assertEquals(
+            '11/01/2019',
+            $diaUtilRepo->findEnesimoDiaUtil(DateTimeUtils::parseDateStr('04/01/2019'), 7, null, true)->format('d/m/Y'));
+        // Oposto
+        $this->assertEquals(
+            '04/01/2019',
+            $diaUtilRepo->findEnesimoDiaUtil(DateTimeUtils::parseDateStr('11/01/2019'), -7, null, true)->format('d/m/Y'));
+
+
+
+
+        // O oitavo dia útil comercial depois do dia 04/01/2019 (sexta): deve ser sábado dia 12/01/2019
+        $this->assertEquals(
+            '12/01/2019',
+            $diaUtilRepo->findEnesimoDiaUtil(DateTimeUtils::parseDateStr('04/01/2019'), 8, null, true)->format('d/m/Y'));
+        // Oposto
+        $this->assertEquals(
+            '04/01/2019',
+            $diaUtilRepo->findEnesimoDiaUtil(DateTimeUtils::parseDateStr('12/01/2019'), -8, null, true)->format('d/m/Y'));
+
+
+
+
+        // O nono dia útil comercial depois do dia 04/01/2019 (sexta): deve ser segunda dia 14/01/2019
+        $this->assertEquals(
+            '14/01/2019',
+            $diaUtilRepo->findEnesimoDiaUtil(DateTimeUtils::parseDateStr('04/01/2019'), 9, null, true)->format('d/m/Y'));
+        // Oposto
+        $this->assertEquals(
+            '04/01/2019',
+            $diaUtilRepo->findEnesimoDiaUtil(DateTimeUtils::parseDateStr('14/01/2019'), -9, null, true)->format('d/m/Y'));
+
+
     }
 }

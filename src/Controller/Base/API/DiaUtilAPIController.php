@@ -85,7 +85,10 @@ class DiaUtilAPIController extends AbstractController
             $fim = $request->get('fim');
             $dtFim = DateTimeUtils::parseDateStr($fim);
 
-            $futuro = (bool)$request->get('futuro');
+            $futuro = $request->get('futuro') ? filter_var($request->get('futuro'), FILTER_VALIDATE_BOOLEAN) : null;
+
+            $comercial = $request->get('comercial') ? filter_var($request->get('comercial'), FILTER_VALIDATE_BOOLEAN) : null;
+            $financeiro = $request->get('financeiro') ? filter_var($request->get('financeiro'), FILTER_VALIDATE_BOOLEAN) : null;
         } catch (\Exception $e) {
             return (new APIProblem(
                 400,
@@ -94,7 +97,16 @@ class DiaUtilAPIController extends AbstractController
         }
 
         try {
-            $periodo = DateTimeUtils::iteratePeriodoRelatorial($dtIni, $dtFim, $futuro);
+            if ($ini === $fim) {
+                $repo = $this->getDoctrine()->getRepository(DiaUtil::class);
+                $diaUtil = $repo->findEnesimoDiaUtil($dtIni, $futuro ? 2 : -2, $financeiro, $comercial);
+                $periodo = [
+                    'dtIni' => $diaUtil->format('Y-m-d'),
+                    'dtFim' => $diaUtil->format('Y-m-d'),
+                ];
+            } else {
+                $periodo = DateTimeUtils::iteratePeriodoRelatorial($dtIni, $dtFim, $futuro);
+            }
             return new JsonResponse($periodo);
         } catch (\Exception $e) {
             return (new APIProblem(
