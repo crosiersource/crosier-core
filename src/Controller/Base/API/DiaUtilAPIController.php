@@ -38,9 +38,10 @@ class DiaUtilAPIController extends AbstractController
             $dia = $request->get('dt');
             $dateTimeDia = DateTimeUtils::parseDateStr($dia);
 
-            $prox = (bool)$request->get('prox');
-            $financeiro = $request->get('financeiro') ? (bool)$request->get('financeiro') : null;
-            $comercial = $request->get('comercial') ? (bool)$request->get('comercial') : null;
+            $prox = $request->get('prox') ? filter_var($request->get('prox'), FILTER_VALIDATE_BOOLEAN) : false;
+
+            $comercial = $request->get('comercial') ? filter_var($request->get('comercial'), FILTER_VALIDATE_BOOLEAN) : null;
+            $financeiro = $request->get('financeiro') ? filter_var($request->get('financeiro'), FILTER_VALIDATE_BOOLEAN) : null;
         } catch (\Exception $e) {
             return (new APIProblem(
                 400,
@@ -52,14 +53,28 @@ class DiaUtilAPIController extends AbstractController
             /** @var DiaUtilRepository $repo */
             $repo = $this->getDoctrine()->getRepository(DiaUtil::class);
             $diaUtil = $repo->findDiaUtil($dateTimeDia, $prox, $financeiro, $comercial);
-            if ($diaUtil) {
+            // Se não achar, apenas incrementa ou decrementa
+            if (!$diaUtil) {
+                if ($prox) {
+                    $dateTimeDia->add(new \DateInterval('P1D'));
+                } else {
+                    $dateTimeDia->sub(new \DateInterval('P1D'));
+                }
                 $response = new JsonResponse(
                     [
-                        'diaUtil' => $diaUtil->format('Y-m-d')
+                        'diaUtil' => $dateTimeDia->format('Y-m-d')
                     ]
                 );
                 return $response;
             }
+
+            $response = new JsonResponse(
+                [
+                    'diaUtil' => $diaUtil->format('Y-m-d')
+                ]
+            );
+            return $response;
+
         } catch (\Exception $e) {
             return (new APIProblem(
                 400,
@@ -129,8 +144,8 @@ class DiaUtilAPIController extends AbstractController
             $dtIni = DateTimeUtils::parseDateStr($request->get('dtIni'));
 
             $ordinal = (int)$request->get('ordinal');
-            $financeiro = $request->get('financeiro') ? (bool)$request->get('financeiro') : null;
-            $comercial = $request->get('comercial') ? (bool)$request->get('comercial') : null;
+            $comercial = $request->get('comercial') ? filter_var($request->get('comercial'), FILTER_VALIDATE_BOOLEAN) : null;
+            $financeiro = $request->get('financeiro') ? filter_var($request->get('financeiro'), FILTER_VALIDATE_BOOLEAN) : null;
 
         } catch (\Exception $e) {
             return (new APIProblem(

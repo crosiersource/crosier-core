@@ -29,10 +29,8 @@ function getDatatablesColumns() {
             data: 'e',
             title: '',
             render: function (data, type, row) {
-                let routeedit = $(listId).data('routeedit');
-                let url = routeedit + '/' + data.id;
-                return "<button type=\"button\" class=\"btn btn-primary\" onclick=\"window.location.href='" + url + "'\">" +
-                    "<i class=\"fas fa-wrench\" aria-hidden=\"true\"></i></button>";
+                let routeedit = Routing.generate($(listId).data('routeedit'), {id: data.id});
+                colHtml += DatatablesJs.makeEditButton(routeedit);
             },
             className: 'text-right'
         }
