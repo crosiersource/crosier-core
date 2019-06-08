@@ -53,7 +53,7 @@ class CrosierBaseLayout {
             var args = Array.prototype.slice.call(arguments, 2);
             var namespaces = functionName.split(".");
             var func = namespaces.pop();
-            for (var i = 0; i < namespaces.length; i++) {
+            for (let i = 0; i < namespaces.length; i++) {
                 context = context[namespaces[i]];
             }
             return context[func].apply(context, args);
@@ -73,6 +73,9 @@ class CrosierBaseLayout {
                         "name", "token").attr("value", token));
                     $(form).appendTo('body').submit();
                 } else if ($(this).data('form')) {
+                    console.log('por form');
+                    console.log('name = ' + $(this).data("name"));
+                    console.log('value = ' + $(this).data("value"));
                     $("[name='" + $(this).data('form') + "']").append($('<input></input>')
                         .attr("type", "hidden")
                         .attr("name", $(this).data("name"))
