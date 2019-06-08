@@ -86,11 +86,11 @@ class  DiaUtilRepository extends FilterRepository
             $ini = clone $dia;
             $fim = clone $dia;
             if ($prox) {
-                $ini->add(new \DateInterval('P0D'));
+                $ini->add(new \DateInterval('P1D'));
                 $fim->add(new \DateInterval('P20D'));
             } else {
                 $ini->sub(new \DateInterval('P20D'));
-                $fim->sub(new \DateInterval('P0D'));
+                $fim->sub(new \DateInterval('P1D'));
             }
             $lista = $this->findDiasUteisBy($ini, $fim, $comercial, $financeiro);
             if ($prox) {
