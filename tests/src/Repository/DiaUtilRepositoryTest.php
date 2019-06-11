@@ -25,9 +25,21 @@ class DiaUtilRepositoryTest extends KernelTestCase
 
         $this->assertInstanceOf(DiaUtilRepository::class, $diaUtilRepo);
 
+        $proxDiaUtil = $diaUtilRepo->findDiaUtil(DateTimeUtils::parseDateStr('01/01/2019'), true, true, true);
+        $this->assertEquals('02/01/2019', $proxDiaUtil->format('d/m/Y'));
 
-        $segundoDia = $diaUtilRepo->findDiaUtil(DateTimeUtils::parseDateStr('01/01/2019'), true, true, true);
-        $this->assertEquals('02/01/2019', $segundoDia->format('d/m/Y'));
+        $proxOuMesmoDiaUtil = $diaUtilRepo->findDiaUtil(DateTimeUtils::parseDateStr('01/01/2019'), null, true, true);
+        $this->assertEquals('02/01/2019', $proxOuMesmoDiaUtil->format('d/m/Y'));
+
+        $proxOuMesmoDiaUtil = $diaUtilRepo->findDiaUtil(DateTimeUtils::parseDateStr('02/01/2019'), null, true, true);
+        $this->assertEquals('02/01/2019', $proxOuMesmoDiaUtil->format('d/m/Y'));
+
+        $diaUtilAnterior = $diaUtilRepo->findDiaUtil(DateTimeUtils::parseDateStr('03/01/2019'), false, true, true);
+        $this->assertEquals('02/01/2019', $diaUtilAnterior->format('d/m/Y'));
+
+
+
+
 
         // Considerando-se ordinalmente, dia 01 ou dia 02 sempre começarão a contagem pelo dia 02
         $this->assertEquals(

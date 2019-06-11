@@ -38,7 +38,7 @@ class DiaUtilAPIController extends AbstractController
             $dia = $request->get('dt');
             $dateTimeDia = DateTimeUtils::parseDateStr($dia);
 
-            $prox = $request->get('prox') ? filter_var($request->get('prox'), FILTER_VALIDATE_BOOLEAN) : false;
+            $prox = $request->get('prox') ? filter_var($request->get('prox'), FILTER_VALIDATE_BOOLEAN) : null;
 
             $comercial = $request->get('comercial') ? filter_var($request->get('comercial'), FILTER_VALIDATE_BOOLEAN) : null;
             $financeiro = $request->get('financeiro') ? filter_var($request->get('financeiro'), FILTER_VALIDATE_BOOLEAN) : null;

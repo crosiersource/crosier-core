@@ -73,9 +73,6 @@ class CrosierBaseLayout {
                         "name", "token").attr("value", token));
                     $(form).appendTo('body').submit();
                 } else if ($(this).data('form')) {
-                    console.log('por form');
-                    console.log('name = ' + $(this).data("name"));
-                    console.log('value = ' + $(this).data("value"));
                     $("[name='" + $(this).data('form') + "']").append($('<input></input>')
                         .attr("type", "hidden")
                         .attr("name", $(this).data("name"))
@@ -161,6 +158,7 @@ class CrosierBaseLayout {
         $.fn.select2.defaults.set("language", "pt-BR");
         $('.autoSelect2').each(function () {
             let elem = $(this);
+
             // Se foi passado um id-route-url,
             if (elem.data('id-route-url')) {
                 $.ajax({
@@ -175,11 +173,10 @@ class CrosierBaseLayout {
                         },
                     }
                 ).done(function (results) {
-                    console.dir(results);
 
                     if (elem.data('text-format')) {
                         results = $.map(results, function (obj) {
-                            let text  = sprintf.sprintf(elem.data('text-format'), obj);
+                            let text = sprintf.sprintf(elem.data('text-format'), obj);
                             text = text.replace(/^null /, '');
                             text = text.replace(/ null$/, '');
                             text = text.replace(/ null /, ' ');
@@ -189,6 +186,8 @@ class CrosierBaseLayout {
                     }
 
                     let $s2 = elem.select2({
+                        placeholder: '...',
+                        allowClear: true,
                         data: results,
                         sorter: function (data) {
                             return data.sort(function (a, b) {
@@ -213,8 +212,10 @@ class CrosierBaseLayout {
             // else
 
             if (elem.data('route-url')) {
-                elem.select2({
+                let $s2 = elem.select2({
                     minimumInputLength: 2,
+                    placeholder: '...',
+                    allowClear: true,
                     ajax: {
                         delay: 750,
                         url: function (params) {
@@ -225,7 +226,7 @@ class CrosierBaseLayout {
                             // Se foi passado um formato a ser aplicado...
                             if (elem.data('text-format')) {
                                 data = $.map(data.results, function (obj) {
-                                    let text  = sprintf.sprintf(elem.data('text-format'), obj);
+                                    let text = sprintf.sprintf(elem.data('text-format'), obj);
                                     text = text
                                         .replace(/^null /, '')
                                         .replace(/ null$/, '')
@@ -250,6 +251,7 @@ class CrosierBaseLayout {
             if (elem.data('options')) {
                 elem.select2({
                     placeholder: '...',
+                    allowClear: true,
                     data: elem.data('options')
                 });
                 if (elem.data('val')) {
@@ -261,10 +263,15 @@ class CrosierBaseLayout {
             // else
 
 
-            let opt = {};
+            let opt = {
+                placeholder: '...',
+                allowClear: true,
+            };
 
             if (elem.data('s2allownew')) {
                 opt = {
+                    placeholder: '...',
+                    allowClear: true,
                     tags: true,
                     createTag: function (params) {
                         return {
@@ -287,6 +294,9 @@ class CrosierBaseLayout {
             }
 
             let $s2 = elem.select2(opt);
+
+
+
 
         });
 

@@ -106,8 +106,6 @@ class PessoaController extends FormListController
      * @param Request $request
      * @return Response
      * @throws \CrosierSource\CrosierLibBaseBundle\Exception\ViewException
-     * @throws \Doctrine\Common\Annotations\AnnotationException
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
     public function datatablesJsList(Request $request): Response
     {
