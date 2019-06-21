@@ -3,11 +3,6 @@
 import $ from 'jquery';
 
 
-import '@coreui/coreui';
-import '@coreui/coreui/dist/css/coreui.css';
-import '@coreui/icons/css/coreui-icons.css';
-import 'simple-line-icons/css/simple-line-icons.css';
-
 
 import CustomTooltips from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import '../main.js';
@@ -16,6 +11,13 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap';
 import 'popper.js';
 import 'perfect-scrollbar';
+
+
+import '@coreui/coreui';
+import '@coreui/coreui/dist/css/coreui.css';
+import '@coreui/icons/css/coreui-icons.css';
+import 'simple-line-icons/css/simple-line-icons.css';
+
 
 import 'select2/dist/css/select2.css';
 import 'select2';
