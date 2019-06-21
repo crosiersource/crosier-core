@@ -221,6 +221,10 @@ class CrosierBaseLayout {
                         url: function (params) {
                             return elem.data('route-url') + params.term;
                         },
+                        headers: {
+                            'X-Authorization': 'Bearer ' + elem.data('bearer'),
+                            'Content-Type': 'application/json'
+                        },
                         dataType: 'json',
                         processResults: function (data) {
                             // Se foi passado um formato a ser aplicado...
