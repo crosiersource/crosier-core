@@ -55,10 +55,14 @@ class DiaUtilAPIController extends AbstractController
             $diaUtil = $repo->findDiaUtil($dateTimeDia, $prox, $financeiro, $comercial);
             // Se não achar, apenas incrementa ou decrementa
             if (!$diaUtil) {
-                if ($prox) {
-                    $dateTimeDia->add(new \DateInterval('P1D'));
+                if ($prox === null) {
+                    // não faz nada
                 } else {
-                    $dateTimeDia->sub(new \DateInterval('P1D'));
+                    if ($prox) {
+                        $dateTimeDia->add(new \DateInterval('P1D'));
+                    } else {
+                        $dateTimeDia->sub(new \DateInterval('P1D'));
+                    }
                 }
                 $response = new JsonResponse(
                     [
