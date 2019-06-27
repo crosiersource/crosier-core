@@ -11,47 +11,50 @@
   ],
   "require": {
     "php": "^7.1.3",
+    "ext-bcmath": "*",
     "ext-ctype": "*",
     "ext-curl": "*",
     "ext-iconv": "*",
     "ext-intl": "*",
-    "ext-json": "^1.6",
+    "ext-json": "*",
+    "ext-zip": "*",
+    "ext-simplexml": "*",
     "crosiersource/crosierlib-base": "*@dev",
+    "dompdf/dompdf": "^0.8.3",
     "friendsofsymfony/jsrouting-bundle": "^2.2",
+    "sensio/framework-extra-bundle": "^5.2",
     "nelmio/cors-bundle": "^1.5",
-    "sensio/framework-extra-bundle": "^5.1",
     "sensiolabs/security-checker": "^5.0",
-    "symfony/asset": "4.2.*",
-    "symfony/console": "4.2.*",
-    "symfony/dotenv": "4.2.*",
-    "symfony/expression-language": "4.2.*",
+    "symfony/asset": "^4.0",
+    "symfony/console": "^4.0",
+    "symfony/dotenv": "^4.0",
+    "symfony/expression-language": "^4.0",
     "symfony/flex": "^1.1",
-    "symfony/form": "4.2.*",
-    "symfony/framework-bundle": "4.2.*",
+    "symfony/form": "^4.0",
+    "symfony/framework-bundle": "^4.0",
     "symfony/monolog-bundle": "^3.3",
-    "symfony/orm-pack": "^1.0",
-    "symfony/process": "4.2.*",
-    "symfony/property-access": "4.2.*",
-    "symfony/security-bundle": "4.2.*",
-    "symfony/serializer": "4.2.*",
-    "symfony/serializer-pack": "1.*",
+    "symfony/orm-pack": "*",
+    "symfony/process": "^4.0",
+    "symfony/security-bundle": "^4.0",
+    "symfony/serializer-pack": "*",
     "symfony/swiftmailer-bundle": "^3.1",
-    "symfony/translation": "4.2.*",
-    "symfony/twig-bundle": "4.2.*",
-    "symfony/validator": "4.2.*",
-    "symfony/web-link": "4.2.*",
-    "symfony/webpack-encore-pack": "^1.0",
-    "symfony/yaml": "4.2.*",
-    "twig/extensions": "^1.5"
+    "symfony/translation": "^4.0",
+    "symfony/twig-bundle": "^4.0",
+    "symfony/validator": "^4.0",
+    "symfony/web-link": "^4.0",
+    "symfony/webpack-encore-bundle": "^1.0",
+    "symfony/yaml": "^4.0",
+    "twig/extensions": "^1.5",
+    "symfony/property-access": "^4.0"
   },
   "require-dev": {
     "phpspec/phpspec": "^5.1",
     "symfony/debug-pack": "*",
     "symfony/maker-bundle": "^1.0",
-    "symfony/phpunit-bridge": "4.2.*",
+    "symfony/phpunit-bridge": "^4.0",
     "symfony/profiler-pack": "*",
     "symfony/test-pack": "^1.0",
-    "symfony/web-server-bundle": "4.2.*"
+    "symfony/web-server-bundle": "^4.0"
   },
   "config": {
     "preferred-install": {
@@ -96,7 +99,7 @@
   "extra": {
     "symfony": {
       "allow-contrib": false,
-      "require": "4.2.*"
+      "require": "4.3.*"
     }
   },
   "repositories": [
