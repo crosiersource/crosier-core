@@ -9,6 +9,8 @@ import sprintf from "sprintf-js";
 import 'bootstrap-datepicker';
 import 'bootstrap-datepicker/js/locales/bootstrap-datepicker.pt-BR';
 
+import Push from "push.js";
+
 class CrosierBaseLayout {
 
     /**
@@ -319,6 +321,30 @@ class CrosierBaseLayout {
         $('.bootstrap-datepicker').datepicker({
             language: 'pt-BR'
         });
+    }
+
+
+    static startPushForUser() {
+        let ulid = $('#ulid').data('value');
+        console.log('ulid: ' + ulid);
+        const es = new EventSource('http://localhost:3000/hub?topic=' + encodeURIComponent('https://mercure.crosier/topics/user/' + ulid));
+        es.onmessage = e => {
+            console.dir(JSON.parse(e.data));
+
+            var win = window.open('https://www.uol.com.br', '_blank');
+            win.focus();
+
+            Push.create("Hello world!", {
+                body: "How's it hangin'?",
+                icon: 'https://dev.core.crosier/build/static/images/favicon.ico',
+                timeout: 4000,
+                onClick: function () {
+                    window.focus();
+                    this.close();
+                }
+            });
+
+        }
     }
 
 

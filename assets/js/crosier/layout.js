@@ -45,6 +45,9 @@ import '../../static/css/crosier.css';
 import 'daterangepicker/daterangepicker.css';
 
 
+
+
+
 $(document).ready(function () {
 
     CrosierMasks.maskAll();
@@ -78,6 +81,8 @@ $(document).ready(function () {
             $focusOnReady.focus();
         }
     }
+
+    CrosierBaseLayout.startPushForUser();
 
 
 
