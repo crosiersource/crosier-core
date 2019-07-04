@@ -325,6 +325,11 @@ class CrosierBaseLayout {
 
 
     static startPushForUser() {
+
+        if (!Push.Permission.has()) {
+            Push.Permission.request(function (){}, function (){console.log('Push.Permission.DENIED')});
+        }
+
         let ulid = $('#ulid').data('value');
         let hubUrl = $('#hubUrl').data('value');
 
@@ -332,6 +337,7 @@ class CrosierBaseLayout {
         const es = new EventSource(hubUrl + '?topic=' + encodeURIComponent('https://mercure.crosier/topics/user/' + ulid));
         es.onmessage = e => {
             let data = JSON.parse(e.data);
+
 
             Push.create(data.title, {
                 icon: $('link[rel="icon"]').attr('href'),
