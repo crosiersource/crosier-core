@@ -326,8 +326,10 @@ class CrosierBaseLayout {
 
     static startPushForUser() {
         let ulid = $('#ulid').data('value');
+        let hubUrl = $('#hubUrl').data('value');
+
         console.log('ulid: ' + ulid);
-        const es = new EventSource('http://localhost:3000/hub?topic=' + encodeURIComponent('https://mercure.crosier/topics/user/' + ulid));
+        const es = new EventSource(hubUrl + '?topic=' + encodeURIComponent('https://mercure.crosier/topics/user/' + ulid));
         es.onmessage = e => {
             let data = JSON.parse(e.data);
 
