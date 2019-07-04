@@ -329,20 +329,24 @@ class CrosierBaseLayout {
         console.log('ulid: ' + ulid);
         const es = new EventSource('http://localhost:3000/hub?topic=' + encodeURIComponent('https://mercure.crosier/topics/user/' + ulid));
         es.onmessage = e => {
-            console.dir(JSON.parse(e.data));
+            let data = JSON.parse(e.data);
 
-            var win = window.open('https://www.uol.com.br', '_blank');
-            win.focus();
-
-            Push.create("Hello world!", {
-                body: "How's it hangin'?",
-                icon: 'https://dev.core.crosier/build/static/images/favicon.ico',
-                timeout: 4000,
+            Push.create(data.title, {
+                icon: $('link[rel="icon"]').attr('href'),
+                timeout: 8000,
                 onClick: function () {
-                    window.focus();
+
+                    if (data.url) {
+                        let win = window.open(data.url, '_blank');
+                        win.focus();
+                    } else {
+                        window.focus();
+                    }
                     this.close();
                 }
             });
+
+
 
         }
     }
