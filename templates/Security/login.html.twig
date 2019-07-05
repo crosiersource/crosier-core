@@ -29,7 +29,8 @@
                             <input type="hidden" name="_csrf_token"
                                    value="{{ csrf_token('authenticate') }}">
                             {% if error %}
-                                <div>
+                                <div class="alert alert-danger" role="alert">
+                                    <i class="fas fa-exclamation-triangle"></i>
                                     {{ error.messageKey|trans(error.messageData, 'security') }}
                                 </div>
                             {% endif %}
