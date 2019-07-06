@@ -15,7 +15,7 @@
         "flag-icon": "^2.5.0",
         "flag-icon-css": "^3.2.1",
         "hotkeys-js": "^3.4.3",
-        "jquery": "^3.3.1",
+        "jquery": "^3.4.0",
         "jquery-mask-plugin": "^1.14.15",
         "jquery-maskmoney": "^3.0.2",
         "moment": "^2.23.0",
@@ -33,7 +33,9 @@
         "sprintf-js": "^1.1.2",
         "summernote": "^0.8.11",
         "toastr": "^2.1.4",
-        "webpack-notifier": "^1.7.0"
+        "webpack-notifier": "^1.7.0",
+	"js-yaml": "^3.13.1",
+	"fstream": "^1.0.12"
     },
     "license": "UNLICENSED",
     "private": true,
