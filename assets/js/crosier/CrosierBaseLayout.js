@@ -332,20 +332,28 @@ class CrosierBaseLayout {
         }
 
         let crosierCoreUrl = $('#crosierCoreUrl').data('value');
+        let at = $('#at').data('value');
 
 
 
         window.setInterval(function () {
+            console.log('getNewMessages');
 
             Pace.ignore(
                 function () {
 
-                    $.ajax({
+                    $.ajax(
+                        crosierCoreUrl + '/api/cfg/pushMessage/getNewMessages',
+                        {
                             crossDomain: true,
                             dataType: "json",
-                            url: crosierCoreUrl + '/cfg/pushMessage/getNewMessages'
+                            headers: {
+                                'X-Authorization': 'Bearer ' + at,
+                                'Content-Type': 'application/json'
+                            },
                         }
                     ).done(function (data) {
+                        console.log('done');
                         $.each(data, function (key, val) {
                             Push.create(val.mensagem, {
                                 icon: $('link[rel="icon"]').attr('href'),
@@ -361,7 +369,11 @@ class CrosierBaseLayout {
                                 }
                             });
                         });
-                    })
+                    }).fail(function( jqXHR, textStatus, errorThrown ) {
+                        console.dir(jqXHR);
+                        console.dir(textStatus);
+                        console.dir(errorThrown);
+                    });
                 }
             );
 

@@ -7,9 +7,11 @@ use App\EntityHandler\Config\PushMessageEntityHandler;
 use App\Repository\Config\PushMessageRepository;
 use CrosierSource\CrosierLibBaseBundle\Controller\BaseAPIEntityIdController;
 use CrosierSource\CrosierLibBaseBundle\Utils\EntityIdUtils\EntityIdUtils;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * Class PushMessageAPIController
@@ -20,8 +22,36 @@ use Symfony\Component\Routing\Annotation\Route;
 class PushMessageAPIController extends BaseAPIEntityIdController
 {
 
+
     /** @var PushMessageEntityHandler */
     protected $entityHandler;
+
+    /** @var Security */
+    private $security;
+
+    /** @var LoggerInterface */
+    protected $logger;
+
+    /** @var PushMessageEntityHandler */
+    private $pushMessageEntityHandler;
+
+    /**
+     * @required
+     * @param Security $security
+     */
+    public function setSecurity(Security $security): void
+    {
+        $this->security = $security;
+    }
+
+    /**
+     * @required
+     * @param LoggerInterface $logger
+     */
+    public function setLogger(LoggerInterface $logger): void
+    {
+        $this->logger = $logger;
+    }
 
     /**
      * @required
@@ -82,6 +112,36 @@ class PushMessageAPIController extends BaseAPIEntityIdController
     public function save(Request $request): JsonResponse
     {
         return $this->doSave($request);
+    }
+
+
+    /**
+     * @Route("/api/cfg/pushMessage/getNewMessages", name="cfg_pushMessage_getNewMessages")
+     */
+    public function getNewMessages(): ?JsonResponse
+    {
+        $this->logger->debug('/cfg/pushMessage/getNewMessages');
+
+        try {
+            /** @var PushMessageRepository $pushMessageRepo */
+            $pushMessageRepo = $this->getDoctrine()->getRepository(PushMessage::class);
+            $pushMessages = $pushMessageRepo->findByFiltersSimpl(
+                [
+                    ['dtNotif', 'IS_NULL'],
+                    ['userDestinatarioId', 'EQ', $this->security->getUser()->getId()]
+                ]
+            );
+            $r = [];
+            /** @var PushMessage $pushMessage */
+            foreach ($pushMessages as $pushMessage) {
+                $pushMessage->setDtNotif(new \DateTime());
+                $r[] = EntityIdUtils::serialize($pushMessage);
+                $this->entityHandler->save($pushMessage);
+            }
+            return new JsonResponse($r);
+        } catch (\Exception $e) {
+            return new JsonResponse('');
+        }
     }
 
 }
