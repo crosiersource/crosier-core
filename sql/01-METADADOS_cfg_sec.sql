@@ -359,6 +359,41 @@ CREATE TABLE `cfg_stored_viewinfo` (
 
 
 
+DROP TABLE IF EXISTS `cfg_pushmessage`;
+
+CREATE TABLE `cfg_pushmessage` (
+  `id` bigint(20) AUTO_INCREMENT NOT NULL,
+  `mensagem` varchar(200)  NOT NULL,
+  `url` varchar(2000)  DEFAULT NULL,
+  `user_destinatario_id` bigint(20) DEFAULT NULL,
+  `dt_envio` datetime DEFAULT NULL,
+  `dt_notif` datetime DEFAULT NULL,
+  `dt_abert` datetime DEFAULT NULL,
+
+  `params` varchar(5000) DEFAULT NULL,
+
+  `inserted` datetime NOT NULL,
+  `updated` datetime NOT NULL,
+  `estabelecimento_id` bigint(20) NOT NULL,
+  `user_inserted_id` bigint(20) NOT NULL,
+  `user_updated_id` bigint(20) NOT NULL,
+  
+  PRIMARY KEY (`id`),
+  KEY `K_cfg_pushmessage_user_destinatario` (`user_destinatario_id`),
+  CONSTRAINT `FK_cfg_pushmessage_user_destinatario` FOREIGN KEY (`user_destinatario_id`) REFERENCES `sec_user` (`id`),
+
+  KEY `K_cfg_pushmessage_estabelecimento` (`estabelecimento_id`),
+  CONSTRAINT `K_cfg_pushmessage_estabelecimento` FOREIGN KEY (`estabelecimento_id`) REFERENCES `cfg_estabelecimento` (`id`),
+  KEY `K_cfg_pushmessage_user_inserted` (`user_inserted_id`),
+  CONSTRAINT `FK_cfg_pushmessage_user_inserted` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`),
+  KEY `K_cfg_pushmessage_user_updated` (`user_updated_id`),
+  CONSTRAINT `FK_cfg_pushmessage_user_updated` FOREIGN KEY (`user_updated_id`) REFERENCES `sec_user` (`id`)
+  
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+
+
+
+
 
 
 

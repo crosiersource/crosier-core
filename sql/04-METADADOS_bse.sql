@@ -244,3 +244,8 @@ CREATE TABLE `bse_prop` (
   CONSTRAINT `FK_bse_prop_user_updated` FOREIGN KEY (`user_updated_id`) REFERENCES `sec_user` (`id`),
   CONSTRAINT `FK_bse_prop_user_inserted` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+
+
+
+
+

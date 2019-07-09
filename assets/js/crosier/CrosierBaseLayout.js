@@ -24,9 +24,9 @@ class CrosierBaseLayout {
             }
         });
 
-        $(document).ajaxStart(function () {
-            Pace.restart();
-        });
+        // $(document).ajaxStart(function () {
+        //     Pace.restart();
+        // });
     }
 
 
@@ -302,8 +302,6 @@ class CrosierBaseLayout {
             let $s2 = elem.select2(opt);
 
 
-
-
         });
 
     }
@@ -327,36 +325,44 @@ class CrosierBaseLayout {
     static startPushForUser() {
 
         if (!Push.Permission.has()) {
-            Push.Permission.request(function (){}, function (){console.log('Push.Permission.DENIED')});
-        }
-
-        let ulid = $('#ulid').data('value');
-        let hubUrl = $('#hubUrl').data('value');
-
-        console.log('ulid: ' + ulid);
-        const es = new EventSource(hubUrl + '?topic=' + encodeURIComponent('https://mercure.crosier/topics/user/' + ulid));
-        es.onmessage = e => {
-            let data = JSON.parse(e.data);
-
-
-            Push.create(data.title, {
-                icon: $('link[rel="icon"]').attr('href'),
-                timeout: 8000,
-                onClick: function () {
-
-                    if (data.url) {
-                        let win = window.open(data.url, '_blank');
-                        win.focus();
-                    } else {
-                        window.focus();
-                    }
-                    this.close();
-                }
+            Push.Permission.request(function () {
+            }, function () {
+                console.log('Push.Permission.DENIED')
             });
-
-
-
         }
+
+        let crosierCoreUrl = $('#crosierCoreUrl').data('value');
+
+        window.setInterval(function () {
+
+            Pace.ignore(
+                function () {
+
+                    $.getJSON(crosierCoreUrl + '/cfg/pushMessage/getNewMessages', function (data) {
+
+                        $.each(data, function (key, val) {
+                            Push.create(val.mensagem, {
+                                icon: $('link[rel="icon"]').attr('href'),
+                                timeout: 8000,
+                                onClick: function () {
+
+                                    if (val.url) {
+                                        let win = window.open(val.url, '_blank');
+                                        win.focus();
+                                    } else {
+                                        window.focus();
+                                    }
+                                    this.close();
+                                }
+                            });
+                        });
+
+                    })
+                }
+            );
+
+
+        }, 5000);
     }
 
 
