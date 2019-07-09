@@ -333,6 +333,8 @@ class CrosierBaseLayout {
 
         let crosierCoreUrl = $('#crosierCoreUrl').data('value');
 
+
+
         window.setInterval(function () {
 
             Pace.ignore(
