@@ -338,14 +338,17 @@ class CrosierBaseLayout {
             Pace.ignore(
                 function () {
 
-                    $.getJSON(crosierCoreUrl + '/cfg/pushMessage/getNewMessages', function (data) {
-
+                    $.ajax({
+                            crossDomain: true,
+                            dataType: "json",
+                            url: crosierCoreUrl + '/cfg/pushMessage/getNewMessages'
+                        }
+                    ).done(function (data) {
                         $.each(data, function (key, val) {
                             Push.create(val.mensagem, {
                                 icon: $('link[rel="icon"]').attr('href'),
                                 timeout: 8000,
                                 onClick: function () {
-
                                     if (val.url) {
                                         let win = window.open(val.url, '_blank');
                                         win.focus();
@@ -356,7 +359,6 @@ class CrosierBaseLayout {
                                 }
                             });
                         });
-
                     })
                 }
             );
