@@ -4,7 +4,6 @@ namespace App\Controller\Config\API;
 
 use App\Entity\Config\Program;
 use App\Repository\Config\EntMenuRepository;
-use App\Repository\Config\ProgramRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,20 +22,12 @@ class EntMenuAPIController extends AbstractController
     private $entMenuRepository;
 
     /**
-     * @var ProgramRepository
-     */
-    private $programRepository;
-
-
-    /**
      * EntMenuAPIController constructor.
      * @param EntMenuRepository $entMenuRepository
-     * @param ProgramRepository $programRepository
      */
-    public function __construct(EntMenuRepository $entMenuRepository, ProgramRepository $programRepository)
+    public function __construct(EntMenuRepository $entMenuRepository)
     {
         $this->entMenuRepository = $entMenuRepository;
-        $this->programRepository = $programRepository;
     }
 
     /**
