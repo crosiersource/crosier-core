@@ -337,7 +337,6 @@ class CrosierBaseLayout {
 
 
         window.setInterval(function () {
-            console.log('getNewMessages');
 
             Pace.ignore(
                 function () {
@@ -353,8 +352,6 @@ class CrosierBaseLayout {
                             },
                         }
                     ).done(function (data) {
-                        console.log('done');
-                        console.dir(data);
                         $.each(data, function (key, val) {
                             Push.create(val.mensagem, {
                                 icon: $('link[rel="icon"]').attr('href'),
