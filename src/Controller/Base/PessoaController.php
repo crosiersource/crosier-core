@@ -15,6 +15,7 @@ use CrosierSource\CrosierLibBaseBundle\Exception\ViewException;
 use CrosierSource\CrosierLibBaseBundle\Utils\ExceptionUtils\ExceptionUtils;
 use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\FilterData;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -80,7 +81,7 @@ class PessoaController extends FormListController
      * @Route("/bse/pessoa/form/{id}", name="bse_pessoa_form", defaults={"id"=null}, requirements={"id"="\d+"})
      * @param Request $request
      * @param pessoa|null $pessoa
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
     public function form(Request $request, Pessoa $pessoa = null)
@@ -114,12 +115,12 @@ class PessoaController extends FormListController
 
     /**
      *
-     * @Route("/bse/pessoa/delete/{pessoa}/", name="bse_pessoa_delete", requirements={"pessoa"="\d+"})
+     * @Route("/bse/pessoa/delete/{id}/", name="bse_pessoa_delete", requirements={"id"="\d+"})
      * @param Request $request
      * @param Pessoa $pessoa
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      */
-    public function delete(Request $request, Pessoa $pessoa): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function delete(Request $request, Pessoa $pessoa): RedirectResponse
     {
         return $this->doDelete($request, $pessoa);
     }
@@ -134,7 +135,7 @@ class PessoaController extends FormListController
      * @param Request $request
      * @param Pessoa|null $pessoa
      * @param PessoaEndereco|null $endereco
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      *
      *
@@ -197,11 +198,11 @@ class PessoaController extends FormListController
      * @Route("/bse/pessoaEndereco/delete/{endereco}/", name="bse_pessoaEndereco_delete", requirements={"endereco"="\d+"})
      * @param Request $request
      * @param PessoaEndereco $endereco
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      *
      * @ParamConverter("endereco", class="App\Entity\Base\PessoaEndereco", options={"mapping": {"endereco": "id"}})
      */
-    public function deleteEndereco(Request $request, PessoaEndereco $endereco): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function deleteEndereco(Request $request, PessoaEndereco $endereco): RedirectResponse
     {
         if (!isset($this->crudParams['role_access'])) {
             throw $this->createAccessDeniedException('Acesso negado.');
@@ -225,7 +226,6 @@ class PessoaController extends FormListController
     }
 
 
-
     /**
      * @ParamConverter("contato", class="App\Entity\Base\PessoaContato", options={"mapping": {"contato": "id"}})
      * @ParamConverter("pessoa", class="App\Entity\Base\Pessoa", options={"mapping": {"pessoa": "id"}})
@@ -234,7 +234,7 @@ class PessoaController extends FormListController
      * @param Request $request
      * @param Pessoa|null $pessoa
      * @param PessoaContato|null $contato
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
     public function formContato(Request $request, Pessoa $pessoa, PessoaContato $contato = null)
@@ -295,11 +295,11 @@ class PessoaController extends FormListController
      * @Route("/bse/pessoaContato/delete/{contato}/", name="bse_pessoaContato_delete", requirements={"contato"="\d+"})
      * @param Request $request
      * @param PessoaContato $contato
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      *
      * @ParamConverter("contato", class="App\Entity\Base\PessoaContato", options={"mapping": {"contato": "id"}})
      */
-    public function deleteContato(Request $request, PessoaContato $contato): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function deleteContato(Request $request, PessoaContato $contato): RedirectResponse
     {
         if (!isset($this->crudParams['role_delete'])) {
             throw $this->createAccessDeniedException('Acesso negado.');
