@@ -7,7 +7,7 @@
 {% set route_list_ajax = 'sec_role_datatablesJsList' %}
 {% set list_id = 'roleList' %}
 
-{% set campos_pesquisar %}
+{% block campos_pesquisar %}
 
     <div class="form-group">
         <label for="p_descricao">Role</label>
@@ -17,7 +17,7 @@
                value="{{ filter.role|default('') }}">
     </div>
 
-{% endset %}
+{% endblock %}
 
 
 {% block down_scripts %}

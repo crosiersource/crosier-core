@@ -1,6 +1,6 @@
 {% extends '@CrosierLibBase/list.html.twig' %}
 
-{% set campos_pesquisar %}
+{% block campos_pesquisar %}
 
     <div class="form-group">
         <label for="p_nome">Nome</label>
@@ -10,7 +10,7 @@
                value="{{ filter.nome|default('') }}">
     </div>
 
-{% endset %}
+{% endblock %}
 
 
 {% block down_scripts %}

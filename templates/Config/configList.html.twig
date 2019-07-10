@@ -7,7 +7,7 @@
 {% set route_list_ajax = 'cfg_config_datatablesJsList' %}
 {% set list_id = 'configList' %}
 
-{% set campos_pesquisar %}
+{% block campos_pesquisar %}
 
     <div class="form-group">
         <label for="p_descricao">Descrição</label>
@@ -17,8 +17,7 @@
                value="{{ filter.descricao|default('') }}">
     </div>
 
-{% endset %}
-
+{% endblock %}
 
 {% block down_scripts %}
     <script src="{{ asset('build/cfg/configList.js') }}"></script>
