@@ -7,6 +7,7 @@ use App\EntityHandler\Security\UserEntityHandler;
 use CrosierSource\CrosierLibBaseBundle\Entity\Security\User;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Security\Http\SecurityEvents;
 
@@ -35,10 +36,14 @@ class LoginSubscriber implements EventSubscriberInterface
      */
     private $userEntityHandler;
 
-    public function __construct(LoggerInterface $logger, UserEntityHandler $userEntityHandler)
+    /** @var SessionInterface */
+    private $session;
+
+    public function __construct(LoggerInterface $logger, UserEntityHandler $userEntityHandler, SessionInterface $session)
     {
         $this->logger = $logger;
         $this->userEntityHandler = $userEntityHandler;
+        $this->session = $session;
     }
 
     /**
@@ -56,22 +61,20 @@ class LoginSubscriber implements EventSubscriberInterface
 
     public function onLogin(InteractiveLoginEvent $event)
     {
-        $this->logger->info('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> LoginSubscriber onLogin');
-        // if (strpos($event->getRequest()->getPathInfo(), '/api/') !== FALSE) {
-            try {
-                /** @var User $user */
-                $user = $event->getAuthenticationToken()->getUser();
-                // Se for expirar dentro de 1 hora, já renova.
-                if ($user->getApiTokenExpiresAt() < new \DateTime('+24 hour')) {
-                    $this->logger->info('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Renovando o apiToken');
-                    $this->userEntityHandler->renewTokenApi($user);
-                }
-            } catch (\Exception $e) {
-                $this->logger->error('Erro ao renewTokenApi()');
-                $this->logger->error($e->getMessage());
-            }
-        // }
-
-
+        $this->logger->info('InteractiveLoginEvent');
+        try {
+            /** @var User $user */
+            $user = $event->getAuthenticationToken()->getUser();
+            $user->setSessionId($this->session->getId());
+            // $this->userEntityHandler->save($user);
+//            // Se for expirar dentro de 1 hora, já renova.
+//            if ($user->getApiTokenExpiresAt() < new \DateTime('+24 hour')) {
+//                $this->logger->info('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Renovando o apiToken');
+//                $this->userEntityHandler->renewTokenApi($user);
+//            }
+        } catch (\Exception $e) {
+            $this->logger->error('Erro ao renewTokenApi()');
+            $this->logger->error($e->getMessage());
+        }
     }
 }
