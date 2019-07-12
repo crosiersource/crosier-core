@@ -58,7 +58,7 @@ class UserEntityHandler extends EntityHandler
         if (!$user->getApiToken()) {
             $user->setApiToken(bin2hex(random_bytes(60)));
         }
-        $user->setApiTokenExpiresAt(new \DateTime('+48 hour'));
+        $user->setApiTokenExpiresAt(new \DateTime('+1680 hour'));
         $this->save($user);
         return $user->getApiToken();
     }

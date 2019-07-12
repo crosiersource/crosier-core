@@ -335,48 +335,54 @@ class CrosierBaseLayout {
         let at = $('#at').data('value');
 
 
+        if (crosierCoreUrl && at) {
+            window.setInterval(function () {
 
-        window.setInterval(function () {
+                Pace.ignore(
+                    function () {
 
-            Pace.ignore(
-                function () {
-
-                    $.ajax(
-                        crosierCoreUrl + '/api/cfg/pushMessage/getNewMessages',
-                        {
-                            crossDomain: true,
-                            dataType: "json",
-                            headers: {
-                                'X-Authorization': 'Bearer ' + at,
-                                'Content-Type': 'application/json'
-                            },
-                        }
-                    ).done(function (data) {
-                        $.each(data, function (key, val) {
-                            Push.create(val.mensagem, {
-                                icon: $('link[rel="icon"]').attr('href'),
-                                timeout: 8000,
-                                onClick: function () {
-                                    if (val.url) {
-                                        let win = window.open(val.url, '_blank');
-                                        win.focus();
-                                    } else {
-                                        window.focus();
+                        $.ajax(
+                            crosierCoreUrl + '/api/cfg/pushMessage/getNewMessages',
+                            {
+                                crossDomain: true,
+                                dataType: "json",
+                                headers: {
+                                    'X-Authorization': 'Bearer ' + at,
+                                    'Content-Type': 'application/json'
+                                },
+                            }
+                        ).done(function (data) {
+                            $.each(data, function (key, val) {
+                                Push.create(val.mensagem, {
+                                    icon: $('link[rel="icon"]').attr('href'),
+                                    timeout: 8000,
+                                    onClick: function () {
+                                        if (val.url) {
+                                            let win = window.open(val.url, '_blank');
+                                            win.focus();
+                                        } else {
+                                            window.focus();
+                                        }
+                                        this.close();
                                     }
-                                    this.close();
-                                }
+                                });
                             });
+                        }).fail(function (jqXHR, textStatus, errorThrown) {
+                            console.log('Erro - /api/cfg/pushMessage/getNewMessages');
+                            if (jqXHR) {
+                                console.dir(jqXHR);
+                            }
+                            if (textStatus) {
+                                console.dir(textStatus);
+                            }
                         });
-                    }).fail(function( jqXHR, textStatus, errorThrown ) {
-                        console.dir(jqXHR);
-                        console.dir(textStatus);
-                        console.dir(errorThrown);
-                    });
-                }
-            );
+                    }
+                );
 
 
-        }, 5000);
+            }, 10000);
+
+        }
     }
 
 

@@ -10,6 +10,7 @@ use CrosierSource\CrosierLibBaseBundle\Utils\EntityIdUtils\EntityIdUtils;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
@@ -118,9 +119,10 @@ class PushMessageAPIController extends BaseAPIEntityIdController
     /**
      * @Route("/api/cfg/pushMessage/getNewMessages", name="cfg_pushMessage_getNewMessages")
      */
-    public function getNewMessages(): ?JsonResponse
+    public function getNewMessages(Request $request): ?JsonResponse
     {
         $this->logger->debug('/cfg/pushMessage/getNewMessages');
+        $this->logger->debug('CRSRSESSCK: ' . $request->cookies->get('CRSRSESSCK_CROSIERCORE'));
 
         try {
             /** @var PushMessageRepository $pushMessageRepo */

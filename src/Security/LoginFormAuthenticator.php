@@ -3,7 +3,9 @@
 namespace App\Security;
 
 use App\EntityHandler\Security\UserEntityHandler;
+use CrosierSource\CrosierLibBaseBundle\Entity\Security\User;
 use CrosierSource\CrosierLibBaseBundle\Repository\Security\UserRepository;
+use CrosierSource\CrosierLibBaseBundle\Utils\StringUtils\StringUtils;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,22 +33,25 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 {
     use TargetPathTrait;
 
+    /** @var UserRepository */
     private $userRepository;
 
+    /** @var RouterInterface */
     private $router;
 
+    /** @var CsrfTokenManagerInterface */
     private $csrfTokenManager;
 
+    /** @var UserPasswordEncoderInterface */
     private $passwordEncoder;
 
-    /**
-     * @var UserEntityHandler
-     */
+    /** @var UserEntityHandler */
     private $userEntityHandler;
 
-    /**
-     * @var LoggerInterface
-     */
+    /** @var Security */
+    private $security;
+
+    /** @var LoggerInterface */
     private $logger;
 
     public function __construct(UserRepository $userRepository,
@@ -54,7 +59,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
                                 CsrfTokenManagerInterface $csrfTokenManager,
                                 UserPasswordEncoderInterface $passwordEncoder,
                                 UserEntityHandler $userEntityHandler,
-                                LoggerInterface $logger)
+                                LoggerInterface $logger,
+                                Security $security)
     {
         $this->userRepository = $userRepository;
         $this->router = $router;
@@ -62,14 +68,15 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         $this->passwordEncoder = $passwordEncoder;
         $this->userEntityHandler = $userEntityHandler;
         $this->logger = $logger;
+        $this->security = $security;
     }
 
     public function supports(Request $request)
     {
         $this->logger->debug('LoginFormAuthenticator supports?');
-        // do your work when we're POSTing to the login page
-        return $request->attributes->get('_route') === 'login'
-            && $request->isMethod('POST');
+        $supports = $request->attributes->get('_route') === 'login' && $request->isMethod('POST');
+        $this->logger->info($supports ? 'Yeah!' : 'Nope!');
+        return $supports;
     }
 
     public function getCredentials(Request $request)
@@ -105,8 +112,14 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
+        /** @var User $user */
+        $user = $token->getUser();
+        $user->setSessionId(StringUtils::guidv4());
+        $this->userEntityHandler->save($user);
+
+        $this->userEntityHandler->renewTokenApi($token->getUser());
+
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
-            $this->userEntityHandler->renewTokenApi($token->getUser());
             return new RedirectResponse($targetPath);
         }
 

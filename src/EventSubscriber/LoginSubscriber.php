@@ -65,13 +65,11 @@ class LoginSubscriber implements EventSubscriberInterface
         try {
             /** @var User $user */
             $user = $event->getAuthenticationToken()->getUser();
-            $user->setSessionId($this->session->getId());
-            // $this->userEntityHandler->save($user);
-//            // Se for expirar dentro de 1 hora, já renova.
-//            if ($user->getApiTokenExpiresAt() < new \DateTime('+24 hour')) {
-//                $this->logger->info('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Renovando o apiToken');
-//                $this->userEntityHandler->renewTokenApi($user);
-//            }
+            // Se for expirar dentro de 2 semanas, já renova.
+            if ($user->getApiTokenExpiresAt() < new \DateTime('+336 hour')) {
+                $this->logger->info('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Renovando o apiToken');
+                $this->userEntityHandler->renewTokenApi($user);
+            }
         } catch (\Exception $e) {
             $this->logger->error('Erro ao renewTokenApi()');
             $this->logger->error($e->getMessage());
