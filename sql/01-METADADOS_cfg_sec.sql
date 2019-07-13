@@ -97,6 +97,7 @@ CREATE TABLE `sec_user` (
   `group_id` bigint(20) DEFAULT NULL,
   `api_token` varchar(255) DEFAULT NULL,
   `api_token_expires_at` datetime DEFAULT NULL,
+  `session_id` varchar(200) DEFAULT NULL,
 
   `estabelecimento_id` bigint(20) NOT NULL,
   `inserted` datetime NOT NULL,
