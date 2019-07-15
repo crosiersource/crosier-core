@@ -114,7 +114,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     {
         /** @var User $user */
         $user = $token->getUser();
-        $user->setSessionId(StringUtils::guidv4());
         $this->userEntityHandler->save($user);
 
         $this->userEntityHandler->renewTokenApi($token->getUser());
