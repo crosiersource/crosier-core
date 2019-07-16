@@ -17,7 +17,10 @@ security:
 
             remember_me:
                 secret:   '%kernel.secret%'
-                lifetime: 2592000 # 30 days in seconds
+                lifetime: 6048000 # 10 semanas
+                domain: "%env(CROSIER_MAINDOMAIN)%"
+                samesite: lax
+
 
             guard:
                 authenticators:

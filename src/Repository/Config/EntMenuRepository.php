@@ -8,7 +8,7 @@ use App\Entity\Config\EntMenu;
 use App\Entity\Config\Program;
 use CrosierSource\CrosierLibBaseBundle\Repository\FilterRepository;
 use Doctrine\ORM\NonUniqueResultException;
-use http\Exception\RuntimeException;
+use RuntimeException;
 use Symfony\Component\Security\Core\Security;
 
 /**
@@ -57,6 +57,25 @@ class EntMenuRepository extends FilterRepository
     }
 
     /**
+     *
+     * @param string $programUUID
+     * @return array
+     */
+    public function buildMenuByProgram(string $programUUID): array
+    {
+        /** @var EntMenu $entMenuPaiJson */
+        $entMenuPaiJson = $this->getEntMenuByProgramUUID($programUUID);
+        if ($entMenuPaiJson) {
+            /** @var EntMenu $entMenuPai */
+            $entMenuPai = $this->find($entMenuPaiJson['id']);
+            if ($entMenuPai) {
+                return $this->buildMenuByEntMenuPai($entMenuPai);
+            }
+        }
+        return null;
+    }
+
+    /**
      * @param string $programUUID
      * @return array|null
      */
@@ -92,25 +111,6 @@ class EntMenuRepository extends FilterRepository
     }
 
     /**
-     *
-     * @param string $programUUID
-     * @return array
-     */
-    public function buildMenuByProgram(string $programUUID): array
-    {
-        /** @var EntMenu $entMenuPaiJson */
-        $entMenuPaiJson = $this->getEntMenuByProgramUUID($programUUID);
-        if ($entMenuPaiJson) {
-            /** @var EntMenu $entMenuPai */
-            $entMenuPai = $this->find($entMenuPaiJson['id']);
-            if ($entMenuPai) {
-                return $this->buildMenuByEntMenuPai($entMenuPai);
-            }
-        }
-        return null;
-    }
-
-    /**
      * @param EntMenu $entMenuPai
      * @return array
      */
@@ -135,7 +135,7 @@ class EntMenuRepository extends FilterRepository
                     $url = $this->getEntityManager()->getRepository(AppConfig::class)->findConfigByCrosierEnv($app, 'URL');
                     $entMenuJson = $this->entMenuInJson($defaultEntMenuApp);
                     $token = $this->security->getUser()->getApiToken();
-                    $entMenuJson['program']['url'] = $url . $entMenuJson['program']['url'] . '?_remember_me=1&apiTokenAuthorization=' . $token;
+                    $entMenuJson['program']['url'] = $url; // . $entMenuJson['program']['url'] . '?_remember_me=1&apiTokenAuthorization=' . $token;
 //                    $entMenuJson['label'] = $app->getNome();
 //                    $entMenuJson['cssStyle'] = 'background-color: darkblue';
                     $rs[] = $entMenuJson;
@@ -196,6 +196,27 @@ class EntMenuRepository extends FilterRepository
     }
 
     /**
+     * Preenche os atributos transientes.
+     *
+     * @param EntMenu $entMenu
+     */
+    public function fillTransients(EntMenu $entMenu): void
+    {
+        if ($entMenu->getPaiUUID()) {
+            if (!$entMenu->getPai()) {
+                $pai = $this->findOneBy(['UUID' => $entMenu->getPaiUUID()]);
+                $entMenu->setPai($pai);
+            }
+
+            if (!$entMenu->getFilhos()) {
+                $filhos = $this->findBy(['paiUUID' => $entMenu->getUUID()], ['ordem' => 'ASC']);
+                $entMenu->setFilhos($filhos);
+            }
+        }
+
+    }
+
+    /**
      * @param EntMenu $entMenu
      * @param array $json
      * @return array
@@ -212,7 +233,6 @@ class EntMenuRepository extends FilterRepository
         }
         return $json;
     }
-
 
     /**
      * Cria a árvore do menu para ser manipulada na tela de organização de menus.
@@ -255,40 +275,19 @@ class EntMenuRepository extends FilterRepository
         }
     }
 
-
-    /**
-     * Preenche os atributos transientes.
-     *
-     * @param EntMenu $entMenu
-     */
-    public function fillTransients(EntMenu $entMenu): void
-    {
-        if ($entMenu->getPaiUUID()) {
-            if (!$entMenu->getPai()) {
-                $pai = $this->findOneBy(['UUID' => $entMenu->getPaiUUID()]);
-                $entMenu->setPai($pai);
-            }
-
-            if (!$entMenu->getFilhos()) {
-                $filhos = $this->findBy(['paiUUID' => $entMenu->getUUID()],['ordem' => 'ASC']);
-                $entMenu->setFilhos($filhos);
-            }
-        }
-
-    }
-
     /**
      * @param string $appUUID
      * @return mixed
      */
-    public function findAppMainProgramUUID(string $appUUID) {
+    public function findAppMainProgramUUID(string $appUUID)
+    {
         try {
             $dql = 'SELECT p FROM App\Entity\Config\EntMenu e JOIN App\Entity\Config\Program p WITH e.programUUID = p.UUID WHERE p.appUUID = :appUUID AND e.tipo = \'CROSIERCORE_APPENT\'';
             $qry = $this->getEntityManager()->createQuery($dql);
             $qry->setParameter('appUUID', $appUUID);
             return $qry->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
-            throw new \RuntimeException($e->getMessage());
+            throw new RuntimeException($e->getMessage());
         }
     }
 
