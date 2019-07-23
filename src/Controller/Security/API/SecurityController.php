@@ -36,6 +36,7 @@ class SecurityController extends AbstractController
         return new JsonResponse(
             [
                 'username' => $user->getUsername(),
+                'hasApiToken' => strlen($user->getApiToken()) === 120,
                 'apiTokenExpiresAt' => $user->getApiTokenExpiresAt()->format('d/m/Y H:i:s')
             ]
         );
