@@ -109,17 +109,6 @@ class AppConfigAPIController extends BaseAPIEntityIdController
         return $this->doSave($request);
     }
 
-    /**
-     * @param AppConfig $entity
-     */
-    public function prepareEntity(&$entity): void
-    {
-        if ($entity->getApp() && $entity->getApp()->getId()) {
-            /** @var App $app */
-            $app = $this->getDoctrine()->getRepository(App::class)->find($entity->getApp()->getId());
-            $entity->setApp($app);
-        }
-    }
 
 
 }
