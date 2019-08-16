@@ -8,6 +8,7 @@ use CrosierSource\CrosierLibBaseBundle\Entity\EntityIdTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  *
@@ -23,9 +24,11 @@ class App implements EntityId
 
 
     /**
-     * @var string
      * @ORM\Column(name="uuid", type="string", nullable=false, length=36)
      * @NotUppercase()
+     * @Groups("entity")
+     *
+     * @var string
      */
     private $UUID;
 
@@ -33,25 +36,33 @@ class App implements EntityId
      *
      * @ORM\Column(name="nome", type="string", nullable=true, length=300)
      * @NotUppercase()
+     * @Groups("entity")
+     *
+     * @var string|null
      */
     private $nome;
 
     /**
      *
      * @ORM\Column(name="obs", type="string", nullable=true, length=5000)
+     * @Groups("entity")
+     *
+     * @var string|null
      */
     private $obs;
 
     /**
-     * @var string
      * @ORM\Column(name="default_entmenu_uuid", type="string", nullable=true, length=36)
      * @NotUppercase()
+     * @Groups("entity")
+     *
+     * @var string|null
      */
     private $defaultEntMenuUUID;
 
     /**
      *
-     * @var EntMenu[]|ArrayCollection
+     * @var AppConfig[]|ArrayCollection
      *
      * @ORM\OneToMany(
      *      targetEntity="AppConfig",

@@ -6,6 +6,8 @@ use CrosierSource\CrosierLibBaseBundle\Doctrine\Annotations\NotUppercase;
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityId;
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityIdTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 /**
  *
@@ -21,8 +23,11 @@ class AppConfig implements EntityId
 
     /**
      *
-     * @ORM\Column(name="chave", type="string", nullable=true, length=255)
+     * @ORM\Column(name="chave", type="string", nullable=false, length=255)
      * @NotUppercase()
+     * @Groups("entity")
+     *
+     * @var string|null
      */
     private $chave;
 
@@ -30,6 +35,9 @@ class AppConfig implements EntityId
      *
      * @ORM\Column(name="valor", type="text", nullable=true)
      * @NotUppercase()
+     * @Groups("entity")
+     *
+     * @var string|null
      */
     private $valor;
 
@@ -37,13 +45,18 @@ class AppConfig implements EntityId
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Config\App")
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @Groups("entity")
+     * @MaxDepth(2)
+     *
+     * @var App|null
      */
     private $app;
 
     /**
      * @return mixed
      */
-    public function getChave(): string
+    public function getChave(): ?string
     {
         return $this->chave;
     }
@@ -59,7 +72,7 @@ class AppConfig implements EntityId
     /**
      * @return mixed
      */
-    public function getValor(): string
+    public function getValor(): ?string
     {
         return $this->valor;
     }
@@ -73,17 +86,17 @@ class AppConfig implements EntityId
     }
 
     /**
-     * @return mixed
+     * @return App|null
      */
-    public function getApp(): App
+    public function getApp(): ?App
     {
         return $this->app;
     }
 
     /**
-     * @param mixed $app
+     * @param App|null $app
      */
-    public function setApp($app): void
+    public function setApp(?App $app): void
     {
         $this->app = $app;
     }

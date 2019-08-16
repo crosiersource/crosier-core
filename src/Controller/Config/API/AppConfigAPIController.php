@@ -2,9 +2,12 @@
 
 namespace App\Controller\Config\API;
 
+use App\Entity\Config\App;
 use App\Entity\Config\AppConfig;
+use App\EntityHandler\Config\AppConfigEntityHandler;
 use App\Repository\Config\AppConfigRepository;
 use CrosierSource\CrosierLibBaseBundle\Controller\BaseAPIEntityIdController;
+use CrosierSource\CrosierLibBaseBundle\Utils\EntityIdUtils\EntityIdUtils;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,6 +20,18 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AppConfigAPIController extends BaseAPIEntityIdController
 {
+
+    /** @var AppConfigEntityHandler */
+    protected $entityHandler;
+
+    /**
+     * @required
+     * @param AppConfigEntityHandler $entityHandler
+     */
+    public function setEntityHandler(AppConfigEntityHandler $entityHandler): void
+    {
+        $this->entityHandler = $entityHandler;
+    }
 
     /**
      * @return string
@@ -70,6 +85,41 @@ class AppConfigAPIController extends BaseAPIEntityIdController
         }
     }
 
+
+    /**
+     *
+     * @Route("/api/cfg/appConfig/getNew", name="api_cfg_appConfig_getNew")
+     * @return JsonResponse
+     */
+    public function getNew(): JsonResponse
+    {
+        $appConfig = new AppConfig();
+        return new JsonResponse(['entity' => EntityIdUtils::serialize($appConfig)]);
+    }
+
+
+    /**
+     *
+     * @Route("/api/cfg/appConfig/save", name="api_cfg_appConfig_save")
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function save(Request $request): JsonResponse
+    {
+        return $this->doSave($request);
+    }
+
+    /**
+     * @param AppConfig $entity
+     */
+    public function prepareEntity(&$entity): void
+    {
+        if ($entity->getApp() && $entity->getApp()->getId()) {
+            /** @var App $app */
+            $app = $this->getDoctrine()->getRepository(App::class)->find($entity->getApp()->getId());
+            $entity->setApp($app);
+        }
+    }
 
 
 }

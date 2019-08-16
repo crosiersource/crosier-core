@@ -13,6 +13,7 @@ use CrosierSource\CrosierLibBaseBundle\EntityHandler\EntityHandler;
  */
 class PessoaEntityHandler extends EntityHandler
 {
+
     public function beforeSave($pessoa)
     {
         /** @var Pessoa $pessoa */
