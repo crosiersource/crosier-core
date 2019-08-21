@@ -301,6 +301,10 @@ class CrosierBaseLayout {
 
             let $s2 = elem.select2(opt);
 
+            if (elem.data('val')) {
+                elem.val(elem.data('val')).trigger('change');
+            }
+
 
         });
 
