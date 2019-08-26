@@ -2,10 +2,10 @@
 
 namespace App\Repository\Config;
 
-use App\Entity\Config\App;
-use App\Entity\Config\AppConfig;
 use App\Entity\Config\EntMenu;
 use App\Entity\Config\Program;
+use CrosierSource\CrosierLibBaseBundle\Entity\Config\App;
+use CrosierSource\CrosierLibBaseBundle\Entity\Config\AppConfig;
 use CrosierSource\CrosierLibBaseBundle\Repository\FilterRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use RuntimeException;

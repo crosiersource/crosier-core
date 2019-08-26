@@ -2,8 +2,8 @@
 
 namespace App\Repository\Config;
 
-use App\Entity\Config\App;
 use App\Entity\Config\Program;
+use CrosierSource\CrosierLibBaseBundle\Entity\Config\App;
 use CrosierSource\CrosierLibBaseBundle\Repository\FilterRepository;
 use Doctrine\ORM\QueryBuilder;
 

@@ -2,8 +2,8 @@
 
 namespace App\Form\Config;
 
-use App\Entity\Config\App;
 use App\Entity\Config\EntMenu;
+use CrosierSource\CrosierLibBaseBundle\Entity\Config\App;
 use CrosierSource\CrosierLibBaseBundle\Utils\StringUtils\StringUtils;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Form\AbstractType;

@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  *
- * @ORM\Entity(repositoryClass="App\Repository\Config\MainMenuItemRepository")
+ * @ORM\Entity
  * @ORM\Table(name="cfg_mainmenuitem")
  * @author Carlos Eduardo Pauluk
  */
@@ -54,7 +54,7 @@ class MainMenuItem implements EntityId
     /**
      * Pode ser null nos casos de, por exemplo, um delimitador (<hr>).
      * FIXME: alterar para Programa
-     * @ORM\ManyToOne(targetEntity="App\Entity\Config\App")
+     * @ORM\ManyToOne(targetEntity="CrosierSource\CrosierLibBaseBundle\Entity\Config\App")
      * @ORM\JoinColumn(nullable=true)
      */
     private $programa;

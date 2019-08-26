@@ -2,12 +2,13 @@
 
 namespace App\Controller\Config;
 
-use App\Entity\Config\App;
-use App\Entity\Config\AppConfig;
-use App\EntityHandler\Config\AppConfigEntityHandler;
-use App\EntityHandler\Config\AppEntityHandler;
 use App\Form\Config\AppType;
 use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
+use CrosierSource\CrosierLibBaseBundle\Entity\Config\App;
+use CrosierSource\CrosierLibBaseBundle\Entity\Config\AppConfig;
+use CrosierSource\CrosierLibBaseBundle\EntityHandler\Config\AppConfigEntityHandler;
+use CrosierSource\CrosierLibBaseBundle\EntityHandler\Config\AppEntityHandler;
+use CrosierSource\CrosierLibBaseBundle\Repository\Config\AppConfigRepository;
 use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\FilterData;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -86,11 +87,16 @@ class AppController extends FormListController
     public function form(Request $request, App $app = null)
     {
         if ($app) {
+
+            /** @var AppConfigRepository $repoAppConfig */
+            $repoAppConfig = $this->getDoctrine()->getRepository(AppConfig::class);
+            $app->setConfigs($repoAppConfig->findBy(['appUUID' => $app->getUUID()]));
+
             if ($request->get('appConfig')) {
                 $appConfigArr = $request->get('appConfig');
                 if (isset($appConfigArr['chave']) && $appConfigArr['chave']) {
                     $appConfig = new AppConfig();
-                    $appConfig->setApp($app);
+                    $appConfig->setAppUUID($app->getUUID());
                     $appConfig->setChave($request->get('appConfig')['chave']);
                     $appConfig->setValor($request->get('appConfig')['valor']);
                     $this->appConfigEntityHandler->save($appConfig);
@@ -106,8 +112,6 @@ class AppController extends FormListController
                     $this->appConfigEntityHandler->save($appConfig);
                 }
             }
-
-
         }
 
         return $this->doForm($request, $app);

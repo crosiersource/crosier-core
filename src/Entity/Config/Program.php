@@ -3,6 +3,7 @@
 namespace App\Entity\Config;
 
 use CrosierSource\CrosierLibBaseBundle\Doctrine\Annotations\NotUppercase;
+use CrosierSource\CrosierLibBaseBundle\Entity\Config\App;
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityId;
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityIdTrait;
 use Doctrine\ORM\Mapping as ORM;
