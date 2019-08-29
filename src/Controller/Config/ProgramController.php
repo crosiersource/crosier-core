@@ -2,11 +2,10 @@
 
 namespace App\Controller\Config;
 
-use App\Entity\Config\Program;
-use App\EntityHandler\Config\ProgramEntityHandler;
-use App\Form\Config\ProgramType;
-use App\Repository\Config\ProgramRepository;
 use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
+use CrosierSource\CrosierLibBaseBundle\Entity\Config\Program;
+use CrosierSource\CrosierLibBaseBundle\EntityHandler\Config\ProgramEntityHandler;
+use CrosierSource\CrosierLibBaseBundle\Repository\Config\ProgramRepository;
 use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\FilterData;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,33 +20,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProgramController extends FormListController
 {
 
-    protected $crudParams =
-        [
-            'typeClass' => ProgramType::class,
-
-            'formView' => '@CrosierLibBase/form.html.twig',
-            'formRoute' => 'cfg_program_form',
-            'formPageTitle' => 'Programa',
-
-            'listView' => 'Config/programList.html.twig',
-            'listRoute' => 'cfg_program_list',
-            'listRouteAjax' => 'cfg_program_datatablesJsList',
-            'listPageTitle' => 'Programas',
-            'listId' => 'programList',
-            'normalizedAttrib' => [
-                'id',
-                'descricao',
-                'UUID',
-                'url',
-                'app' => ['nome']
-            ],
-
-            'deleteRoute' => 'cfg_program_delete',
-
-            'role_access' => 'ROLE_ADMIN',
-            'role_delete' => 'ROLE_ADMIN',
-
-        ];
 
     /**
      * @required
@@ -76,7 +48,12 @@ class ProgramController extends FormListController
      */
     public function form(Request $request, Program $program = null)
     {
-        return $this->doForm($request, $program);
+        $params = [
+            'formView' => '@CrosierLibBase/form.html.twig',
+            'formRoute' => 'cfg_program_form',
+            'formPageTitle' => 'Programa'
+        ];
+        return $this->doForm($request, $program, $params);
     }
 
     /**
@@ -88,7 +65,14 @@ class ProgramController extends FormListController
      */
     public function list(Request $request): Response
     {
-        return $this->doList($request);
+        $params = [
+            'listView' => 'Config/programList.html.twig',
+            'listRoute' => 'cfg_program_list',
+            'listRouteAjax' => 'cfg_program_datatablesJsList',
+            'listPageTitle' => 'Programas',
+            'listId' => 'programList'
+        ];
+        return $this->doList($request, $params);
     }
 
     /**

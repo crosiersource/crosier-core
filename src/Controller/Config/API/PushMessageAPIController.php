@@ -2,15 +2,14 @@
 
 namespace App\Controller\Config\API;
 
-use App\Entity\Config\PushMessage;
-use App\EntityHandler\Config\PushMessageEntityHandler;
-use App\Repository\Config\PushMessageRepository;
 use CrosierSource\CrosierLibBaseBundle\Controller\BaseAPIEntityIdController;
+use CrosierSource\CrosierLibBaseBundle\Entity\Config\PushMessage;
+use CrosierSource\CrosierLibBaseBundle\EntityHandler\Config\PushMessageEntityHandler;
+use CrosierSource\CrosierLibBaseBundle\Repository\Config\PushMessageRepository;
 use CrosierSource\CrosierLibBaseBundle\Utils\EntityIdUtils\EntityIdUtils;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
@@ -27,11 +26,11 @@ class PushMessageAPIController extends BaseAPIEntityIdController
     /** @var PushMessageEntityHandler */
     protected $entityHandler;
 
-    /** @var Security */
-    private $security;
-
     /** @var LoggerInterface */
     protected $logger;
+
+    /** @var Security */
+    private $security;
 
     /** @var PushMessageEntityHandler */
     private $pushMessageEntityHandler;

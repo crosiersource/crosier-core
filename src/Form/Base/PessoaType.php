@@ -2,8 +2,8 @@
 
 namespace App\Form\Base;
 
-use App\Entity\Base\CategoriaPessoa;
-use App\Entity\Base\Pessoa;
+use CrosierSource\CrosierLibBaseBundle\Entity\Base\CategoriaPessoa;
+use CrosierSource\CrosierLibBaseBundle\Entity\Base\Pessoa;
 use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\WhereBuilder;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -16,9 +16,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Form para Pessoa.
  *
- * @package App\Form\Base
  * @author Carlos Eduardo Pauluk
  */
 class PessoaType extends AbstractType
@@ -35,7 +33,6 @@ class PessoaType extends AbstractType
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
-     * @throws \CrosierSource\CrosierLibBaseBundle\Exception\ViewException
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

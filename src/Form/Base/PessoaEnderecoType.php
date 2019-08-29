@@ -3,15 +3,13 @@
 namespace App\Form\Base;
 
 
-use App\Entity\Base\PessoaEndereco;
+use CrosierSource\CrosierLibBaseBundle\Entity\Base\PessoaEndereco;
 use CrosierSource\CrosierLibBaseBundle\Form\Traits\EnderecoTypeTrait;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class PessoaEnderecoType
  *
- * @package App\Form\Base
  * @author Carlos Eduardo Pauluk
  */
 class PessoaEnderecoType extends AbstractType

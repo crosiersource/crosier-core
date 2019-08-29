@@ -10,8 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class RoleType
- * @package App\Form\Security
+ *
  * @author Carlos Eduardo Pauluk
  */
 class RoleType extends AbstractType

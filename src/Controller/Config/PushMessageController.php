@@ -2,8 +2,8 @@
 
 namespace App\Controller\Config;
 
-use App\EntityHandler\Config\PushMessageEntityHandler;
 use CrosierSource\CrosierLibBaseBundle\Controller\BaseController;
+use CrosierSource\CrosierLibBaseBundle\EntityHandler\Config\PushMessageEntityHandler;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Security;
 

@@ -2,10 +2,9 @@
 
 namespace App\Controller\Base;
 
-use App\Entity\Base\CategoriaPessoa;
-use App\EntityHandler\Base\CategoriaPessoaEntityHandler;
-use App\Form\Base\CategoriaPessoaType;
 use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
+use CrosierSource\CrosierLibBaseBundle\Entity\Base\CategoriaPessoa;
+use CrosierSource\CrosierLibBaseBundle\EntityHandler\Base\CategoriaPessoaEntityHandler;
 use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\FilterData;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,25 +18,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CategoriaPessoaController extends FormListController
 {
-
-    protected $crudParams =
-        [
-            'typeClass' => CategoriaPessoaType::class,
-
-            'formView' => '@CrosierLibBase/form.html.twig',
-            'formRoute' => 'bse_categoriaPessoa_form',
-            'formPageTitle' => 'Categoria (Pessoa)',
-
-            'listView' => '@CrosierLibBase/list.html.twig',
-            'listRoute' => 'bse_categoriaPessoa_list',
-            'listRouteAjax' => 'bse_categoriaPessoa_datatablesJsList',
-            'listPageTitle' => 'Categorias (Pessoa)',
-            'listId' => 'categoriaPessoaList',
-            'listJS' => 'bse/categoriaPessoaList.js',
-
-            'role_access' => 'ROLE_ADMIN',
-            'role_delete' => 'ROLE_ADMIN',
-        ];
 
     /**
      * @required
@@ -65,7 +45,12 @@ class CategoriaPessoaController extends FormListController
      */
     public function form(Request $request, CategoriaPessoa $categoriaPessoa = null)
     {
-        return $this->doForm($request, $categoriaPessoa);
+        $params = [
+            'formView' => '@CrosierLibBase/form.html.twig',
+            'formRoute' => 'bse_categoriaPessoa_form',
+            'formPageTitle' => 'Categoria (Pessoa)'
+        ];
+        return $this->doForm($request, $categoriaPessoa, $params);
     }
 
     /**
@@ -77,7 +62,15 @@ class CategoriaPessoaController extends FormListController
      */
     public function list(Request $request): Response
     {
-        return $this->doList($request);
+        $params = [
+            'listView' => '@CrosierLibBase/list.html.twig',
+            'listRoute' => 'bse_categoriaPessoa_list',
+            'listRouteAjax' => 'bse_categoriaPessoa_datatablesJsList',
+            'listPageTitle' => 'Categorias (Pessoa)',
+            'listId' => 'categoriaPessoaList',
+            'listJS' => 'bse/categoriaPessoaList.js',
+        ];
+        return $this->doList($request, $params);
     }
 
     /**

@@ -2,10 +2,9 @@
 
 namespace App\Controller\Base;
 
-use App\Entity\Base\Prop;
-use App\EntityHandler\Base\PropEntityHandler;
-use App\Form\Base\PropType;
 use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
+use CrosierSource\CrosierLibBaseBundle\Entity\Base\Prop;
+use CrosierSource\CrosierLibBaseBundle\EntityHandler\Base\PropEntityHandler;
 use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\FilterData;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,29 +17,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class PropController extends FormListController
 {
-
-    protected $crudParams =
-        [
-            'typeClass' => PropType::class,
-
-            'formView' => '@CrosierLibBase/form.html.twig',
-            'formRoute' => 'bse_prop_form',
-            'formPageTitle' => 'Propriedades',
-            'form_PROGRAM_UUID' => '',
-
-            'listView' => '@CrosierLibBase/list.html.twig',
-            'listRoute' => 'bse_prop_list',
-            'listRouteAjax' => 'bse_prop_datatablesJsList',
-            'listPageTitle' => 'Propriedades',
-            'listId' => 'propList',
-            'list_PROGRAM_UUID' => '',
-            'listJS' => 'bse/propList.js',
-
-            'role_access' => 'ROLE_ADMIN',
-            'role_delete' => 'ROLE_ADMIN',
-
-        ];
-
     /**
      * @required
      * @param PropEntityHandler $entityHandler
@@ -67,7 +43,12 @@ class PropController extends FormListController
      */
     public function form(Request $request, Prop $prop = null)
     {
-        return $this->doForm($request, $prop);
+        $params = [
+            'formView' => '@CrosierLibBase/form.html.twig',
+            'formRoute' => 'bse_prop_form',
+            'formPageTitle' => 'Propriedades',
+        ];
+        return $this->doForm($request, $prop, $params);
     }
 
     /**
@@ -79,7 +60,15 @@ class PropController extends FormListController
      */
     public function list(Request $request): Response
     {
-        return $this->doList($request);
+        $params = [
+            'listView' => '@CrosierLibBase/list.html.twig',
+            'listRoute' => 'bse_prop_list',
+            'listRouteAjax' => 'bse_prop_datatablesJsList',
+            'listPageTitle' => 'Propriedades',
+            'listId' => 'propList',
+            'listJS' => 'bse/propList.js',
+        ];
+        return $this->doList($request, $params);
     }
 
     /**
@@ -104,24 +93,6 @@ class PropController extends FormListController
     public function delete(Request $request, Prop $prop): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         return $this->doDelete($request, $prop);
-    }
-
-
-    private function p($gradeId, $val, &$arr)
-    {
-
-        $achou = false;
-        foreach ($arr as &$e) {
-            if ($e['gradeId'] === $gradeId) {
-                $e['tamanhos'][] = $val;
-                $achou = true;
-                break;
-            }
-        }
-        if (!$achou) {
-            $arr[] = ['gradeId' => $gradeId, 'tamanhos' => [$val]];
-        }
-
     }
 
     /**
@@ -305,6 +276,23 @@ class PropController extends FormListController
         $this->p(20, ['id' => 192, 'ordem' => 14, 'posicao' => 14, 'tamanho' => 'SG'], $arr);
 
         return new Response(json_encode($arr));
+
+    }
+
+    private function p($gradeId, $val, &$arr)
+    {
+
+        $achou = false;
+        foreach ($arr as &$e) {
+            if ($e['gradeId'] === $gradeId) {
+                $e['tamanhos'][] = $val;
+                $achou = true;
+                break;
+            }
+        }
+        if (!$achou) {
+            $arr[] = ['gradeId' => $gradeId, 'tamanhos' => [$val]];
+        }
 
     }
 

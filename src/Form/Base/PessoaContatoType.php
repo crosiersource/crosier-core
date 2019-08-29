@@ -2,8 +2,8 @@
 
 namespace App\Form\Base;
 
-use App\Entity\Base\PessoaContato;
-use App\Repository\Base\PessoaContatoRepository;
+use CrosierSource\CrosierLibBaseBundle\Entity\Base\PessoaContato;
+use CrosierSource\CrosierLibBaseBundle\Repository\Base\PessoaContatoRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -14,9 +14,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class PessoaContatoType
  *
- * @package App\Form\Config
  * @author Carlos Eduardo Pauluk
  */
 class PessoaContatoType extends AbstractType

@@ -13,9 +13,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class GroupType.
  *
- * @package App\Form\Security
  * @author Carlos Eduardo Pauluk
  */
 class GroupType extends AbstractType

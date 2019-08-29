@@ -2,7 +2,7 @@
 
 namespace App\Form\Base;
 
-use App\Entity\Base\Prop;
+use CrosierSource\CrosierLibBaseBundle\Entity\Base\Prop;
 use CrosierSource\CrosierLibBaseBundle\Utils\StringUtils\StringUtils;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -13,9 +13,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class PropType
  *
- * @package App\Form\Base
  * @author Carlos Eduardo Pauluk
  */
 class PropType extends AbstractType

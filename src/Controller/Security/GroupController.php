@@ -2,10 +2,9 @@
 
 namespace App\Controller\Security;
 
-use App\EntityHandler\Security\GroupEntityHandler;
-use App\Form\Security\GroupType;
 use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
 use CrosierSource\CrosierLibBaseBundle\Entity\Security\Group;
+use CrosierSource\CrosierLibBaseBundle\EntityHandler\Security\GroupEntityHandler;
 use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\FilterData;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,27 +17,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class GroupController extends FormListController
 {
-
-    protected $crudParams =
-        [
-            'typeClass' => GroupType::class,
-            'formView' => 'Security/groupForm.html.twig',
-            'formRoute' => 'sec_group_form',
-            'formPageTitle' => 'Grupo de Usuários',
-            'listView' => 'Security/groupList.html.twig',
-            'listRoute' => 'sec_group_list',
-            'listRouteAjax' => 'sec_group_datatablesJsList',
-            'listPageTitle' => 'Grupos de Usuários',
-            'listId' => 'groupList',
-            'normalizedAttrib' => [
-                'id',
-                'groupname'
-            ],
-
-            'role_access' => 'ROLE_ADMIN',
-            'role_delete' => 'ROLE_ADMIN',
-
-        ];
 
     /**
      * @required
@@ -66,7 +44,12 @@ class GroupController extends FormListController
      */
     public function form(Request $request, Group $group = null)
     {
-        return $this->doForm($request, $group);
+        $params = [
+            'formView' => 'Security/groupForm.html.twig',
+            'formRoute' => 'sec_group_form',
+            'formPageTitle' => 'Grupo de Usuários'
+        ];
+        return $this->doForm($request, $group, $params);
     }
 
     /**
@@ -78,7 +61,14 @@ class GroupController extends FormListController
      */
     public function list(Request $request): Response
     {
-        return $this->doList($request);
+        $params = [
+            'listView' => 'Security/groupList.html.twig',
+            'listRoute' => 'sec_group_list',
+            'listRouteAjax' => 'sec_group_datatablesJsList',
+            'listPageTitle' => 'Grupos de Usuários',
+            'listId' => 'groupList',
+        ];
+        return $this->doList($request, $params);
     }
 
     /**

@@ -8,14 +8,17 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @author Carlos Eduardo Pauluk
+ */
 class CrosierCoreAssetController extends AbstractController
 {
-
 
     /**
      * @var \Symfony\Component\Asset\Packages
      */
     private $assetsManager;
+
     /**
      * @var LoggerInterface
      */
@@ -31,7 +34,7 @@ class CrosierCoreAssetController extends AbstractController
     /**
      * @Route("/getCrosierAssetUrl/", name="getCrosierAssetUrl")
      */
-    public function getCrosierAssetUrl(Request $request)
+    public function getCrosierAssetUrl(Request $request): JsonResponse
     {
         $this->logger->debug('responding getCrosierAssetUrl()');
         $asset = $request->get('asset');

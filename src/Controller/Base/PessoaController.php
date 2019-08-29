@@ -2,15 +2,13 @@
 
 namespace App\Controller\Base;
 
-use App\Business\Base\PessoaBusiness;
-use App\Entity\Base\Pessoa;
-use App\Entity\Base\PessoaContato;
-use App\Entity\Base\PessoaEndereco;
-use App\EntityHandler\Base\PessoaEntityHandler;
 use App\Form\Base\PessoaContatoType;
 use App\Form\Base\PessoaEnderecoType;
-use App\Form\Base\PessoaType;
 use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
+use CrosierSource\CrosierLibBaseBundle\Entity\Base\Pessoa;
+use CrosierSource\CrosierLibBaseBundle\Entity\Base\PessoaContato;
+use CrosierSource\CrosierLibBaseBundle\Entity\Base\PessoaEndereco;
+use CrosierSource\CrosierLibBaseBundle\EntityHandler\Base\PessoaEntityHandler;
 use CrosierSource\CrosierLibBaseBundle\Exception\ViewException;
 use CrosierSource\CrosierLibBaseBundle\Utils\ExceptionUtils\ExceptionUtils;
 use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\FilterData;
@@ -29,27 +27,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class PessoaController extends FormListController
 {
 
-    protected $crudParams =
-        [
-            'typeClass' => PessoaType::class,
-
-            'formView' => 'Base/pessoaForm.html.twig',
-            'formRoute' => 'bse_pessoa_form',
-            'formPageTitle' => 'Pessoa',
-
-            'listView' => 'Base/pessoaList.html.twig',
-            'listRoute' => 'bse_pessoa_list',
-            'listRouteAjax' => 'bse_pessoa_datatablesJsList',
-            'listPageTitle' => 'Pessoas',
-            'listId' => 'pessoaList',
-
-            'role_access' => 'ROLE_BASE',
-            'role_delete' => 'ROLE_BASE_ADMIN',
-        ];
-
-    /** @var PessoaBusiness */
-    private $pessoaBusiness;
-
     /**
      * @required
      * @param PessoaEntityHandler $entityHandler
@@ -58,16 +35,6 @@ class PessoaController extends FormListController
     {
         $this->entityHandler = $entityHandler;
     }
-
-    /**
-     * @required
-     * @param mixed $pessoaBusiness
-     */
-    public function setPessoaBusiness(PessoaBusiness $pessoaBusiness): void
-    {
-        $this->pessoaBusiness = $pessoaBusiness;
-    }
-
 
     public function getFilterDatas(array $params): array
     {
@@ -86,7 +53,13 @@ class PessoaController extends FormListController
      */
     public function form(Request $request, Pessoa $pessoa = null)
     {
-        return $this->doForm($request, $pessoa);
+        $params = [
+            'formView' => 'Base/pessoaForm.html.twig',
+            'formRoute' => 'bse_pessoa_form',
+            'formPageTitle' => 'Pessoa'
+        ];
+
+        return $this->doForm($request, $pessoa, $params);
     }
 
     /**
@@ -98,7 +71,14 @@ class PessoaController extends FormListController
      */
     public function list(Request $request): Response
     {
-        return $this->doList($request);
+        $params = [
+            'listView' => 'Base/pessoaList.html.twig',
+            'listRoute' => 'bse_pessoa_list',
+            'listRouteAjax' => 'bse_pessoa_datatablesJsList',
+            'listPageTitle' => 'Pessoas',
+            'listId' => 'pessoaList'
+        ];
+        return $this->doList($request, $params);
     }
 
     /**
@@ -142,11 +122,6 @@ class PessoaController extends FormListController
      */
     public function formEndereco(Request $request, Pessoa $pessoa, PessoaEndereco $endereco = null)
     {
-        if (!isset($this->crudParams['role_access'])) {
-            throw $this->createAccessDeniedException('Acesso negado.');
-        }
-        $this->denyAccessUnlessGranted(['ROLE_ADMIN', $this->crudParams['role_access']]);
-
         if (!$endereco) {
             $endereco = new PessoaEndereco();
             $endereco->setPessoa($pessoa);
@@ -204,11 +179,6 @@ class PessoaController extends FormListController
      */
     public function deleteEndereco(Request $request, PessoaEndereco $endereco): RedirectResponse
     {
-        if (!isset($this->crudParams['role_access'])) {
-            throw $this->createAccessDeniedException('Acesso negado.');
-        }
-        $this->denyAccessUnlessGranted(['ROLE_ADMIN', $this->crudParams['role_access']]);
-
         if (!$this->isCsrfTokenValid('delete', $request->request->get('token'))) {
             $this->addFlash('error', 'Erro interno do sistema.');
         } else {
@@ -239,11 +209,6 @@ class PessoaController extends FormListController
      */
     public function formContato(Request $request, Pessoa $pessoa, PessoaContato $contato = null)
     {
-        if (!isset($this->crudParams['role_access'])) {
-            throw $this->createAccessDeniedException('Acesso negado.');
-        }
-        $this->denyAccessUnlessGranted(['ROLE_ADMIN', $this->crudParams['role_access']]);
-
         if (!$contato) {
             $contato = new PessoaContato();
             $contato->setPessoa($pessoa);
@@ -301,11 +266,6 @@ class PessoaController extends FormListController
      */
     public function deleteContato(Request $request, PessoaContato $contato): RedirectResponse
     {
-        if (!isset($this->crudParams['role_delete'])) {
-            throw $this->createAccessDeniedException('Acesso negado.');
-        }
-        $this->denyAccessUnlessGranted(['ROLE_ADMIN', $this->crudParams['role_delete']]);
-
         if (!$this->isCsrfTokenValid('delete', $request->request->get('token'))) {
             $this->addFlash('error', 'Erro interno do sistema.');
         } else {

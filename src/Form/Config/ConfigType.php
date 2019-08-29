@@ -2,7 +2,7 @@
 
 namespace App\Form\Config;
 
-use App\Entity\Config\Config;
+use CrosierSource\CrosierLibBaseBundle\Entity\Config\Config;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -11,9 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class ConfigType
  *
- * @package App\Form\Config
  * @author Carlos Eduardo Pauluk
  */
 class ConfigType extends AbstractType

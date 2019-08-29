@@ -2,10 +2,9 @@
 
 namespace App\Controller\Config;
 
-use App\Entity\Config\Config;
-use App\EntityHandler\Config\ConfigEntityHandler;
-use App\Form\Config\ConfigType;
 use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
+use CrosierSource\CrosierLibBaseBundle\Entity\Config\Config;
+use CrosierSource\CrosierLibBaseBundle\EntityHandler\Config\ConfigEntityHandler;
 use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\FilterData;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,34 +20,6 @@ use Symfony\Component\Serializer\Serializer;
  */
 class ConfigController extends FormListController
 {
-
-    protected $crudParams =
-        [
-            'typeClass' => ConfigType::class,
-
-            'formView' => '@CrosierLibBase/form.html.twig',
-            'formRoute' => 'cfg_config_form',
-            'formPageTitle' => 'Parâmetro de Configuração',
-            'form_PROGRAM_UUID' => 'd54092da-1cf1-4a67-8597-2d9a571221aa',
-
-            'listView' => 'Config/configList.html.twig',
-            'listRoute' => 'cfg_config_list',
-            'listRouteAjax' => 'cfg_config_datatablesJsList',
-            'listPageTitle' => 'Parâmetros de Configuração',
-            'listId' => 'configList',
-            'list_PROGRAM_UUID' => '93d6c377-6070-46fc-81fc-cdd1c67ccfab',
-
-            'normalizedAttrib' => [
-                'id',
-                'chave',
-                'valor',
-                'global'
-            ],
-
-            'role_access' => 'ROLE_ADMIN',
-            'role_delete' => 'ROLE_ADMIN',
-
-        ];
 
     /**
      * @required
@@ -76,7 +47,12 @@ class ConfigController extends FormListController
      */
     public function form(Request $request, Config $config = null)
     {
-        return $this->doForm($request, $config);
+        $params = [
+            'formView' => '@CrosierLibBase/form.html.twig',
+            'formRoute' => 'cfg_config_form',
+            'formPageTitle' => 'Parâmetro de Configuração',
+        ];
+        return $this->doForm($request, $config, $params);
     }
 
     /**
@@ -88,6 +64,13 @@ class ConfigController extends FormListController
      */
     public function list(Request $request): Response
     {
+        $params = [
+            'listView' => 'Config/configList.html.twig',
+            'listRoute' => 'cfg_config_list',
+            'listRouteAjax' => 'cfg_config_datatablesJsList',
+            'listPageTitle' => 'Parâmetros de Configuração',
+            'listId' => 'configList'
+        ];
         return $this->doList($request);
     }
 

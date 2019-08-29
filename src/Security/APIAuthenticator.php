@@ -8,7 +8,7 @@ use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 /**
  * Autenticação por API Token.
  *
- * @package App\Security
+ * @author Carlos Eduardo Pauluk
  */
 class APIAuthenticator extends AbstractGuardAuthenticator
 {

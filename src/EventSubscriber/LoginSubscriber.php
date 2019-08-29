@@ -3,11 +3,10 @@
 namespace App\EventSubscriber;
 
 
-use App\EntityHandler\Security\UserEntityHandler;
 use CrosierSource\CrosierLibBaseBundle\Entity\Security\User;
+use CrosierSource\CrosierLibBaseBundle\EntityHandler\Security\UserEntityHandler;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Security\Http\SecurityEvents;
 
@@ -20,7 +19,6 @@ use Symfony\Component\Security\Http\SecurityEvents;
  * Caso este monitoramento não seja realizado, pode acontecer do usuário ser automaticamente deslogado enquanto está
  * em plena operação de um crosierapp.
  *
- * @package App\EventSubscriber
  * @author Carlos Eduardo Pauluk
  */
 class LoginSubscriber implements EventSubscriberInterface
@@ -36,14 +34,10 @@ class LoginSubscriber implements EventSubscriberInterface
      */
     private $userEntityHandler;
 
-    /** @var SessionInterface */
-    private $session;
-
-    public function __construct(LoggerInterface $logger, UserEntityHandler $userEntityHandler, SessionInterface $session)
+    public function __construct(LoggerInterface $logger, UserEntityHandler $userEntityHandler)
     {
         $this->logger = $logger;
         $this->userEntityHandler = $userEntityHandler;
-        $this->session = $session;
     }
 
     /**

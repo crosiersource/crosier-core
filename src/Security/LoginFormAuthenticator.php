@@ -2,10 +2,9 @@
 
 namespace App\Security;
 
-use App\EntityHandler\Security\UserEntityHandler;
+use CrosierSource\CrosierLibBaseBundle\EntityHandler\Security\UserEntityHandler;
 use CrosierSource\CrosierLibBaseBundle\Entity\Security\User;
 use CrosierSource\CrosierLibBaseBundle\Repository\Security\UserRepository;
-use CrosierSource\CrosierLibBaseBundle\Utils\StringUtils\StringUtils;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +26,6 @@ use Symfony\Component\Security\Http\Util\TargetPathTrait;
  * Authenticador padrão para o formulário de login do crosier.
  *
  * @author Carlos Eduardo Pauluk
- * @package App\Security
  */
 class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 {

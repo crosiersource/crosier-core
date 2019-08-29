@@ -2,10 +2,9 @@
 
 namespace App\Controller\Security;
 
-use App\EntityHandler\Security\RoleEntityHandler;
-use App\Form\Security\RoleType;
 use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
 use CrosierSource\CrosierLibBaseBundle\Entity\Security\Role;
+use CrosierSource\CrosierLibBaseBundle\EntityHandler\Security\RoleEntityHandler;
 use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\FilterData;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,28 +17,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class RoleController extends FormListController
 {
-
-    protected $crudParams =
-        [
-            'typeClass' => RoleType::class,
-            'formView' => 'Security/roleForm.html.twig',
-            'formRoute' => 'sec_role_form',
-            'formPageTitle' => 'Roles',
-            'listView' => 'Security/roleList.html.twig',
-            'listRoute' => 'sec_role_list',
-            'listRouteAjax' => 'sec_role_datatablesJsList',
-            'listPageTitle' => 'Roles',
-            'listId' => 'roleList',
-            'normalizedAttrib' => [
-                'id',
-                'role',
-                'descricao'
-            ],
-
-            'role_access' => 'ROLE_ADMIN',
-            'role_delete' => 'ROLE_ADMIN',
-
-        ];
 
     /**
      * @required
@@ -67,7 +44,12 @@ class RoleController extends FormListController
      */
     public function form(Request $request, Role $role = null)
     {
-        return $this->doForm($request, $role);
+        $params = [
+            'formView' => 'Security/roleForm.html.twig',
+            'formRoute' => 'sec_role_form',
+            'formPageTitle' => 'Roles'
+        ];
+        return $this->doForm($request, $role, $params);
     }
 
     /**
@@ -79,6 +61,13 @@ class RoleController extends FormListController
      */
     public function list(Request $request): Response
     {
+        $params = [
+            'listView' => 'Security/roleList.html.twig',
+            'listRoute' => 'sec_role_list',
+            'listRouteAjax' => 'sec_role_datatablesJsList',
+            'listPageTitle' => 'Roles',
+            'listId' => 'roleList'
+        ];
         return $this->doList($request);
     }
 

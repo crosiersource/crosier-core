@@ -2,7 +2,6 @@
 
 namespace App\Controller\Config;
 
-use App\Form\Config\AppType;
 use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
 use CrosierSource\CrosierLibBaseBundle\Entity\Config\App;
 use CrosierSource\CrosierLibBaseBundle\Entity\Config\AppConfig;
@@ -27,29 +26,6 @@ class AppController extends FormListController
      * @var AppConfigEntityHandler
      */
     private $appConfigEntityHandler;
-
-    protected $crudParams =
-        [
-            'typeClass' => AppType::class,
-            'formView' => 'Config/appForm.html.twig',
-            'formRoute' => 'cfg_app_form',
-            'formPageTitle' => 'App',
-            'listView' => 'Config/appList.html.twig',
-            'listRoute' => 'cfg_app_list',
-            'listRouteAjax' => 'cfg_app_datatablesJsList',
-            'listPageTitle' => 'Apps',
-            'listId' => 'appList',
-            'normalizedAttrib' => [
-                'id',
-                'nome',
-                'obs',
-                'entranceUrl',
-            ],
-
-            'role_access' => 'ROLE_ADMIN',
-            'role_delete' => 'ROLE_ADMIN',
-
-        ];
 
     /**
      * @required
@@ -86,6 +62,11 @@ class AppController extends FormListController
      */
     public function form(Request $request, App $app = null)
     {
+        $params = [
+            'formView' => 'Config/appForm.html.twig',
+            'formRoute' => 'cfg_app_form',
+            'formPageTitle' => 'App',
+        ];
         if ($app) {
 
             /** @var AppConfigRepository $repoAppConfig */
@@ -114,7 +95,7 @@ class AppController extends FormListController
             }
         }
 
-        return $this->doForm($request, $app);
+        return $this->doForm($request, $app, $params);
     }
 
     /**
@@ -126,7 +107,14 @@ class AppController extends FormListController
      */
     public function list(Request $request): Response
     {
-        return $this->doList($request);
+        $params = [
+            'listView' => 'Config/appList.html.twig',
+            'listRoute' => 'cfg_app_list',
+            'listRouteAjax' => 'cfg_app_datatablesJsList',
+            'listPageTitle' => 'Apps',
+            'listId' => 'appList'
+        ];
+        return $this->doList($request, $params);
     }
 
     /**
@@ -176,7 +164,7 @@ class AppController extends FormListController
             return $this->redirect($request->server->get('HTTP_REFERER'));
         } else {
 
-            return $this->redirectToRoute($this->crudParams['listRoute']);
+            return $this->redirectToRoute('cfg_app_list');
         }
     }
 

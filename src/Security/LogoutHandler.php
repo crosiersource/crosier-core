@@ -3,7 +3,7 @@
 namespace App\Security;
 
 
-use App\EntityHandler\Security\UserEntityHandler;
+use CrosierSource\CrosierLibBaseBundle\EntityHandler\Security\UserEntityHandler;
 use CrosierSource\CrosierLibBaseBundle\Exception\ViewException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -12,6 +12,10 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Logout\LogoutSuccessHandlerInterface;
 
+/**
+ *
+ * @author Carlos Eduardo Pauluk
+ */
 class LogoutHandler implements LogoutSuccessHandlerInterface
 {
 

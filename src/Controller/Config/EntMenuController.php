@@ -2,12 +2,11 @@
 
 namespace App\Controller\Config;
 
-use App\Business\Config\EntMenuBusiness;
-use App\Entity\Config\EntMenu;
-use App\EntityHandler\Config\EntMenuEntityHandler;
-use App\Form\Config\EntMenuType;
-use App\Repository\Config\EntMenuRepository;
+use CrosierSource\CrosierLibBaseBundle\Business\Config\EntMenuBusiness;
 use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
+use CrosierSource\CrosierLibBaseBundle\Entity\Config\EntMenu;
+use CrosierSource\CrosierLibBaseBundle\EntityHandler\Config\EntMenuEntityHandler;
+use CrosierSource\CrosierLibBaseBundle\Repository\Config\EntMenuRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,31 +23,6 @@ class EntMenuController extends FormListController
 
     /** @var EntMenuBusiness */
     private $entMenuBusiness;
-
-    protected $crudParams =
-        [
-            'typeClass' => EntMenuType::class,
-
-            'formView' => 'Config/entMenuForm.html.twig',
-            'formRoute' => 'cfg_entMenu_form',
-            'formPageTitle' => 'Entrada de Menu',
-            'form_PROGRAM_UUID' => '',
-
-            'listView' => 'Config/entMenuList.html.twig',
-            'listRoute' => 'cfg_entMenu_list',
-            'listRouteAjax' => null,
-            'listPageTitle' => 'Entradas de Menu',
-            'listId' => null,
-            'list_PROGRAM_UUID' => '',
-
-            'normalizedAttrib' => null,
-
-            'deleteRoute' => 'cfg_entMenu_delete',
-
-            'role_access' => 'ROLE_ADMIN',
-            'role_delete' => 'ROLE_ADMIN',
-
-        ];
 
     /**
      * @required
@@ -79,6 +53,11 @@ class EntMenuController extends FormListController
      */
     public function form(Request $request, EntMenu $entMenu = null)
     {
+        $parameters = [
+            'formView' => 'Config/entMenuForm.html.twig',
+            'formRoute' => 'cfg_entMenu_form',
+            'formPageTitle' => 'Entrada de Menu'
+        ];
         if (!$entMenu) {
             $entMenu = new EntMenu();
         }
@@ -104,9 +83,9 @@ class EntMenuController extends FormListController
         /** @var EntMenuRepository $repo */
         $repo = $this->getDoctrine()->getRepository(EntMenu::class);
         $dados = $repo->makeTree($entMenu);
-        $vParams['dados'] = $dados;
-        $vParams['entMenu'] = $entMenu;
-        return $this->doRender($this->crudParams['listView'], $vParams);
+        $params['dados'] = $dados;
+        $params['entMenu'] = $entMenu;
+        return $this->doRender('Config/entMenuList.html.twig', $params);
     }
 
     /**
@@ -169,10 +148,12 @@ class EntMenuController extends FormListController
             $crosierMenus[$entMenu->getId()] = null;
             $session->set('crosier_menus', $crosierMenus);
             return $this->redirectToRoute('cfg_entMenu_list', ['entMenu' => $entMenu->getId()]);
-        } else {
-            $session->set('crosier_menus', null);
-            return $this->redirectToRoute('cfg_entMenu_listPais');
         }
+
+        // else
+        $session->set('crosier_menus', null);
+        return $this->redirectToRoute('cfg_entMenu_listPais');
+
     }
 
 

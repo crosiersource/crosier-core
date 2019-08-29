@@ -2,11 +2,10 @@
 
 namespace App\Form\Config;
 
-use App\Entity\Config\EntMenu;
-use App\Entity\Config\Program;
+use CrosierSource\CrosierLibBaseBundle\Entity\Config\EntMenu;
+use CrosierSource\CrosierLibBaseBundle\Entity\Config\Program;
 use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\WhereBuilder;
 use CrosierSource\CrosierLibBaseBundle\Utils\StringUtils\StringUtils;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
@@ -18,9 +17,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class EntMenuType
  *
- * @package App\Form\Config
  * @author Carlos Eduardo Pauluk
  */
 class EntMenuType extends AbstractType
