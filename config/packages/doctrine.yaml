@@ -16,7 +16,6 @@ doctrine:
             collate: utf8mb4_unicode_ci
 
         url: '%env(resolve:DATABASE_URL)%'
-        logging: false
         mapping_types:
             enum: string
     orm:
