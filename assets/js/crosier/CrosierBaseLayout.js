@@ -221,7 +221,7 @@ class CrosierBaseLayout {
                     ajax: {
                         delay: 750,
                         url: function (params) {
-                            return elem.data('route-url') + params.term;
+                            return elem.data('route-url');
                         },
                         headers: {
                             'X-Authorization': 'Bearer ' + elem.data('bearer'),
