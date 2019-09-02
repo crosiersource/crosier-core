@@ -9,6 +9,7 @@ use CrosierSource\CrosierLibBaseBundle\EntityHandler\Config\AppConfigEntityHandl
 use CrosierSource\CrosierLibBaseBundle\EntityHandler\Config\AppEntityHandler;
 use CrosierSource\CrosierLibBaseBundle\Repository\Config\AppConfigRepository;
 use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\FilterData;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -59,6 +60,8 @@ class AppController extends FormListController
      * @param app|null $app
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @throws \Exception
+     *
+     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
      */
     public function form(Request $request, App $app = null)
     {
@@ -104,6 +107,8 @@ class AppController extends FormListController
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
+     *
+     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
      */
     public function list(Request $request): Response
     {
@@ -123,6 +128,8 @@ class AppController extends FormListController
      * @param Request $request
      * @return Response
      * @throws \CrosierSource\CrosierLibBaseBundle\Exception\ViewException
+     *
+     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
      */
     public function datatablesJsList(Request $request): Response
     {
@@ -135,6 +142,8 @@ class AppController extends FormListController
      * @param Request $request
      * @param App $app
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     *
+     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
      */
     public function delete(Request $request, App $app): \Symfony\Component\HttpFoundation\RedirectResponse
     {
@@ -147,6 +156,8 @@ class AppController extends FormListController
      * @param Request $request
      * @param AppConfig $appConfig
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     *
+     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
      */
     public function deleteAppConfig(Request $request, AppConfig $appConfig): \Symfony\Component\HttpFoundation\RedirectResponse
     {
@@ -162,10 +173,9 @@ class AppController extends FormListController
         }
         if ($request->server->get('HTTP_REFERER')) {
             return $this->redirect($request->server->get('HTTP_REFERER'));
-        } else {
-
-            return $this->redirectToRoute('cfg_app_list');
         }
+        // else
+        return $this->redirectToRoute('cfg_app_list');
     }
 
 

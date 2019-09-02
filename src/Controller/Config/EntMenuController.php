@@ -7,6 +7,7 @@ use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
 use CrosierSource\CrosierLibBaseBundle\Entity\Config\EntMenu;
 use CrosierSource\CrosierLibBaseBundle\EntityHandler\Config\EntMenuEntityHandler;
 use CrosierSource\CrosierLibBaseBundle\Repository\Config\EntMenuRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,8 +49,9 @@ class EntMenuController extends FormListController
      * @param Request $request
      * @param EntMenu|null $entMenu
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @Security("has_role('ROLE_ADMIN')")
      * @throws \Exception
+     *
+     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
      */
     public function form(Request $request, EntMenu $entMenu = null)
     {
@@ -74,8 +76,9 @@ class EntMenuController extends FormListController
      * @Route("/cfg/entMenu/list/{entMenu}", name="cfg_entMenu_list", requirements={"entMenu"="\d+"})
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Security("has_role('ROLE_ADMIN')")
      * @throws \Exception
+     *
+     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
      */
     public function list(Request $request, EntMenu $entMenu): Response
     {
@@ -93,8 +96,9 @@ class EntMenuController extends FormListController
      * @Route("/cfg/entMenu/listPais/", name="cfg_entMenu_listPais")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Security("has_role('ROLE_ADMIN')")
      * @throws \Exception
+     *
+     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
      */
     public function listPais(Request $request): Response
     {
@@ -112,6 +116,8 @@ class EntMenuController extends FormListController
      * @param Request $request
      * @param EntMenu $entMenu
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     *
+     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
      */
     public function delete(Request $request, EntMenu $entMenu): \Symfony\Component\HttpFoundation\RedirectResponse
     {
@@ -123,6 +129,8 @@ class EntMenuController extends FormListController
      * @Route("/cfg/entMenu/saveOrdem/", name="cfg_entMenu_saveOrdem")
      * @param Request $request
      * @return Response|\Symfony\Component\HttpFoundation\RedirectResponse
+     *
+     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
      */
     public function save(Request $request)
     {
@@ -153,7 +161,6 @@ class EntMenuController extends FormListController
         // else
         $session->set('crosier_menus', null);
         return $this->redirectToRoute('cfg_entMenu_listPais');
-
     }
 
 

@@ -7,6 +7,7 @@ use CrosierSource\CrosierLibBaseBundle\Entity\Config\Program;
 use CrosierSource\CrosierLibBaseBundle\EntityHandler\Config\ProgramEntityHandler;
 use CrosierSource\CrosierLibBaseBundle\Repository\Config\ProgramRepository;
 use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\FilterData;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -45,6 +46,8 @@ class ProgramController extends FormListController
      * @param Program|null $program
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @throws \Exception
+     *
+     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
      */
     public function form(Request $request, Program $program = null)
     {
@@ -62,6 +65,8 @@ class ProgramController extends FormListController
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
+     *
+     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
      */
     public function list(Request $request): Response
     {
@@ -81,12 +86,17 @@ class ProgramController extends FormListController
      * @param Request $request
      * @return Response
      * @throws \CrosierSource\CrosierLibBaseBundle\Exception\ViewException
+     *
+     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
      */
     public function datatablesJsList(Request $request): Response
     {
         return $this->doDatatablesJsList($request);
     }
 
+    /**
+     * @param array $dados
+     */
     public function handleDadosList(array &$dados)
     {
         /** @var ProgramRepository $programRepo */
@@ -101,6 +111,8 @@ class ProgramController extends FormListController
      * @param Request $request
      * @param Program $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     *
+     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
      */
     public function delete(Request $request, Program $id): \Symfony\Component\HttpFoundation\RedirectResponse
     {

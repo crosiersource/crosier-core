@@ -6,6 +6,7 @@ use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
 use CrosierSource\CrosierLibBaseBundle\Entity\Config\Config;
 use CrosierSource\CrosierLibBaseBundle\EntityHandler\Config\ConfigEntityHandler;
 use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\FilterData;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -44,6 +45,8 @@ class ConfigController extends FormListController
      * @param Config|null $config
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @throws \Exception
+     *
+     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
      */
     public function form(Request $request, Config $config = null)
     {
@@ -61,6 +64,8 @@ class ConfigController extends FormListController
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
+     *
+     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
      */
     public function list(Request $request): Response
     {
@@ -80,6 +85,8 @@ class ConfigController extends FormListController
      * @param Request $request
      * @return Response
      * @throws \CrosierSource\CrosierLibBaseBundle\Exception\ViewException
+     *
+     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
      */
     public function datatablesJsList(Request $request): Response
     {
@@ -92,6 +99,8 @@ class ConfigController extends FormListController
      * @param Request $request
      * @param Config $config
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     *
+     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
      */
     public function delete(Request $request, Config $config): \Symfony\Component\HttpFoundation\RedirectResponse
     {
@@ -102,6 +111,8 @@ class ConfigController extends FormListController
      *
      * @Route("/cfg/config/select2json", name="cfg_config_select2json")
      * @return Response
+     *
+     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
      */
     public function configSelect2json(): Response
     {
