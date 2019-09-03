@@ -178,16 +178,21 @@ class CrosierBaseLayout {
 
                     if (elem.data('text-format')) {
                         results = $.map(results, function (obj) {
-                            let text = sprintf.sprintf(elem.data('text-format'), obj);
-                            text = text.replace(/^null /, '');
-                            text = text.replace(/ null$/, '');
-                            text = text.replace(/ null /, ' ');
-                            obj.text = text;
+                            let textt = sprintf.sprintf(elem.data('text-format'), obj);
+                            textt = textt
+                                .replace(/^null /, '')
+                                .replace(/ null$/, '')
+                                .replace(/ null /, ' ')
+                                .replace(/ - $/, '')
+                                .replace(/ -$/, '')
+                                .replace(/^\s*- /, '');
+                            obj.text = textt;
                             return obj;
                         });
                     }
 
                     let $s2 = elem.select2({
+                        minimumInputLength: 2,
                         placeholder: '...',
                         allowClear: true,
                         data: results,
@@ -202,6 +207,36 @@ class CrosierBaseLayout {
                                 }
                                 return 0;
                             });
+                        },
+                        ajax: {
+                            delay: 750,
+                            url: function (params) {
+                                return elem.data('route-url');
+                            },
+                            headers: {
+                                'X-Authorization': 'Bearer ' + elem.data('bearer'),
+                                'Content-Type': 'application/json'
+                            },
+                            dataType: 'json',
+                            processResults: function (data) {
+                                // Se foi passado um formato a ser aplicado...
+                                if (elem.data('text-format')) {
+                                    data = $.map(data.results, function (obj) {
+                                        let text = sprintf.sprintf(elem.data('text-format'), obj);
+                                        text = text
+                                            .replace(/^null /, '')
+                                            .replace(/ null$/, '')
+                                            .replace(/ null /, ' ')
+                                            .replace(/ - $/, '')
+                                            .replace(/ -$/, '')
+                                            .replace(/^\s*- /, '');
+                                        obj.text = text;
+                                        return obj;
+                                    });
+                                }
+                                return {results: data};
+                            },
+                            cache: true
                         }
                     });
 
