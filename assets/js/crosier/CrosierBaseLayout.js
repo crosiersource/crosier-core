@@ -266,6 +266,7 @@ class CrosierBaseLayout {
                         },
                         dataType: 'json',
                         processResults: function (data) {
+                            console.dir(data);
                             // Se foi passado um formato a ser aplicado...
                             if (elem.data('text-format')) {
                                 data = $.map(data.results, function (obj) {

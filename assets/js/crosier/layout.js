@@ -45,6 +45,9 @@ import '../../static/css/crosier.css';
 import 'daterangepicker/daterangepicker.css';
 
 
+import '@fortawesome/fontawesome-free/css/all.css';
+
+
 
 
 
