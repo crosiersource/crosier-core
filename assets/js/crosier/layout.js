@@ -66,6 +66,8 @@ $(document).ready(function () {
 
     CrosierBaseLayout.handleBootstrapDatepicker();
 
+    CrosierBaseLayout.handleCamposCepComBtnConsulta();
+
     Hotkeys('ctrl+m', function (event, handler) {
         // Prevent the default refresh event under WINDOWS system
         event.preventDefault();

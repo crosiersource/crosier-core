@@ -11,6 +11,8 @@ import 'bootstrap-datepicker/js/locales/bootstrap-datepicker.pt-BR';
 
 import Push from "push.js";
 
+import CrosierMasks from './CrosierMasks';
+
 class CrosierBaseLayout {
 
     /**
@@ -345,6 +347,49 @@ class CrosierBaseLayout {
 
     }
 
+
+    static handleCamposCepComBtnConsulta() {
+        let $cepComBtnConsulta = $('.cepComBtnConsulta');
+        $cepComBtnConsulta.css('width', '50%').addClass('float-left');
+
+        let html = $cepComBtnConsulta.parent().html();
+
+        $cepComBtnConsulta.parent().html(html +
+            '<button type="button" id="btnConsultaCep_' + $cepComBtnConsulta.attr('id') + '" data-campo-cep="' + $cepComBtnConsulta.attr('id') + '" class="btn btn-outline-success ml-2" title="Pesquisar endereço pelo CEP"><i class="fas fa-map-marked-alt"></i> Pesquisar</button>'
+        );
+
+        CrosierMasks.maskCEP(); // tem que remascarar depois de recriar o campo
+
+        $cepComBtnConsulta = $('.cepComBtnConsulta');
+
+        $('#btnConsultaCep_' + $cepComBtnConsulta.attr('id')).click(function () {
+            let $cep = $cepComBtnConsulta.val();
+            $.ajax({
+                url: '/base/municipio/findEnderecoByCEP?cep=' + $cep,
+                type: 'get',
+                dataType: 'json',
+                success: function (r) {
+                    let res = JSON.parse(r);
+                    let prefixoDosCampos = $cepComBtnConsulta.data('prefixodoscampos');
+
+                    let campoLogradouro = $cepComBtnConsulta.data('campo-logradouro') ? $cepComBtnConsulta.data('campo-logradouro') : prefixoDosCampos + 'logradouro';
+                    $('input[id=' + campoLogradouro + ']').val(res.tipo_logradouro + ' ' + res.logradouro);
+
+                    let campoCidade = $cepComBtnConsulta.data('campo-cidade') ? $cepComBtnConsulta.data('campo-cidade') : prefixoDosCampos + 'cidade';
+                    $('input[id=' + campoCidade + ']').val(res.cidade);
+
+                    let campoBairro = $cepComBtnConsulta.data('campo-bairro') ? $cepComBtnConsulta.data('campo-bairro') : prefixoDosCampos + 'bairro';
+                    $('input[id=' + campoBairro + ']').val(res.bairro);
+
+                    let campoEstado = $cepComBtnConsulta.data('campo-estado') ? $cepComBtnConsulta.data('campo-estado') : prefixoDosCampos + 'estado';
+                    $('#' + campoEstado + '').val(res.uf).trigger('change');
+                }
+            });
+
+        });
+
+
+    }
 
     /**
      * Ativar tooltip.

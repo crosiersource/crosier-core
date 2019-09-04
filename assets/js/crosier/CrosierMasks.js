@@ -104,6 +104,10 @@ class CrosierMasks {
             clearIfNotMatch: true,
             selectOnFocus: true
         });
+        $('.cepComBtnConsulta').mask('00000-000', {
+            clearIfNotMatch: true,
+            selectOnFocus: true
+        });
     }
 
     static maskTelefone9digitos() {
