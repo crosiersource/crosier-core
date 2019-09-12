@@ -2,6 +2,7 @@
 
 namespace App\Controller\Config;
 
+use App\Form\Config\AppType;
 use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
 use CrosierSource\CrosierLibBaseBundle\Entity\Config\App;
 use CrosierSource\CrosierLibBaseBundle\Entity\Config\AppConfig;
@@ -66,9 +67,11 @@ class AppController extends FormListController
     public function form(Request $request, App $app = null)
     {
         $params = [
+            'typeClass' => AppType::class,
             'formView' => 'Config/appForm.html.twig',
             'formRoute' => 'cfg_app_form',
             'formPageTitle' => 'App',
+            'listRoute' => 'cfg_app_list',
         ];
         if ($app) {
 
@@ -113,6 +116,7 @@ class AppController extends FormListController
     public function list(Request $request): Response
     {
         $params = [
+            'formRoute' => 'cfg_app_form',
             'listView' => 'Config/appList.html.twig',
             'listRoute' => 'cfg_app_list',
             'listRouteAjax' => 'cfg_app_datatablesJsList',
