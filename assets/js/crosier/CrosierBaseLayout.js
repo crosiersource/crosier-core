@@ -266,7 +266,6 @@ class CrosierBaseLayout {
                         },
                         dataType: 'json',
                         processResults: function (data) {
-                            console.dir(data);
                             // Se foi passado um formato a ser aplicado...
                             if (elem.data('text-format')) {
                                 data = $.map(data.results, function (obj) {
@@ -282,7 +281,7 @@ class CrosierBaseLayout {
                                     return obj;
                                 });
                             }
-                            return {results: data};
+                            return {results: data.results};
                         },
                         cache: true
                     }
