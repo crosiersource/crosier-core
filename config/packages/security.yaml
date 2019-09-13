@@ -1,7 +1,7 @@
 security:
     encoders:
         CrosierSource\CrosierLibBaseBundle\Entity\Security\User:
-            algorithm: bcrypt
+            algorithm: auto
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         app_user_provider:
