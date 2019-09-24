@@ -42,6 +42,10 @@ input[type=submit], input[type=button]  {
     text-transform: none;
 }
 
+.decimal2,
+.decimal3,
+.dinheiro,
+.money,
 .crsr-dec2,
 .crsr-dec3,
 .crsr-money

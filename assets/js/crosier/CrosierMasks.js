@@ -19,7 +19,8 @@ class CrosierMasks {
     }
 
     static maskMoneys() {
-        $(".crsr-money").each(function () {
+        let $money = $(".crsr-money, .money, .dinheiro");
+        $money.each(function () {
 
             $(this).maskMoney({
                 prefix: '',
@@ -36,7 +37,23 @@ class CrosierMasks {
 
     static maskDecs() {
 
-        $(".crsr-dec2").maskMoney({
+        let $dec1 = $(".crsr-dec1, .decimal1");
+        let $dec2 = $(".crsr-dec2, .decimal2");
+        let $dec3 = $(".crsr-dec3, .decimal3");
+        let $dec4 = $(".crsr-dec4, .decimal4");
+        let $dec5 = $(".crsr-dec5, .decimal5");
+
+        $dec1.maskMoney({
+            prefix: '',
+            thousands: '.',
+            decimal: ',',
+            affixesStay: true,
+            precision: 1,
+            allowZero: true
+        });
+        $dec1.trigger('mask.maskMoney');
+
+        $dec2.maskMoney({
             prefix: '',
             thousands: '.',
             decimal: ',',
@@ -44,9 +61,9 @@ class CrosierMasks {
             precision: 2,
             allowZero: true
         });
-        $(".crsr-dec2").trigger('mask.maskMoney');
+        $dec2.trigger('mask.maskMoney');
 
-        $(".crsr-dec3").maskMoney({
+        $dec3.maskMoney({
             prefix: '',
             thousands: '.',
             decimal: ',',
@@ -54,10 +71,9 @@ class CrosierMasks {
             precision: 3,
             allowZero: true
         });
-        $(".crsr-dec3").trigger('mask.maskMoney');
+        $dec3.trigger('mask.maskMoney');
 
-
-        $(".crsr-dec4").maskMoney({
+        $dec4.maskMoney({
             prefix: '',
             thousands: '.',
             decimal: ',',
@@ -65,7 +81,7 @@ class CrosierMasks {
             precision: 4,
             allowZero: true
         });
-        $(".crsr-dec4").trigger('mask.maskMoney');
+        $dec4.trigger('mask.maskMoney');
 
     }
 
