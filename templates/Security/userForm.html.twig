@@ -25,7 +25,7 @@
 
 		{% form_theme form 'bootstrap_4_horizontal_layout.html.twig' %}
 
-		{{ form_start(form) }}
+		{{ form_start(form, { 'attr': {'autocomplete': 'false'}}) }}
 		{{ form_widget(form) }}
 
 		<div class="row">

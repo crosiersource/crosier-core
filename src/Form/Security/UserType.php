@@ -35,52 +35,64 @@ class UserType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('username', TextType::class, array(
+        $builder->add('username', TextType::class, [
             'label' => 'Usuário',
             'attr' => ['style' => 'text-transform: none;']
-        ));
+        ]);
 
-        $builder->add('nome', TextType::class, array(
+        $builder->add('nome', TextType::class, [
             'label' => 'Nome'
-        ));
+        ]);
 
-        $builder->add('password', RepeatedType::class, array(
+        $builder->add('password', RepeatedType::class, [
             'type' => PasswordType::class,
             'invalid_message' => 'As senhas são diferentes.',
             'required' => false,
-            'options' => array('always_empty' => true, 'attr' => array('class' => 'password-field')),
-            'first_options' => array('label' => 'Senha'),
-            'second_options' => array('label' => 'Repita a senha'),
-        ));
+            'options' => [
+                'always_empty' => true,
+                'attr' => [
+                    'class' => 'password-field',
+                    'autocomplete' => 'new-password'
+                ]
+            ],
+            'first_options' => ['label' => 'Senha'],
+            'second_options' => ['label' => 'Repita a senha'],
+        ]);
 
-        $builder->add('email', EmailType::class, array(
+        $builder->add('email', EmailType::class, [
             'label' => 'E-mail',
             'attr' => ['style' => 'text-transform: none;']
-        ));
+        ]);
 
-        $builder->add('isActive', ChoiceType::class, array(
+        $builder->add('isActive', ChoiceType::class, [
             'label' => 'Ativo',
-            'choices' => array(
+            'choices' => [
                 'Sim' => true,
                 'Não' => false
-            )
-        ));
+            ],
+            'attr' => [
+                'class' => 'autoSelect2',
+            ]
+        ]);
 
-        $builder->add('group', EntityType::class, array(
+        $builder->add('group', EntityType::class, [
             'label' => 'Grupo',
             'class' => Group::class,
             'choices' => $this->doctrine->getRepository(Group::class)->findAll(WhereBuilder::buildOrderBy('groupname')),
-            'choice_label' => 'groupname'
-        ));
+            'choice_label' => 'groupname',
+            'attr' => [
+                'class' => 'autoSelect2',
+            ]
+        ]);
 
-        $builder->add('userRoles', EntityType::class, array(
+        $builder->add('userRoles', EntityType::class, [
             'label' => 'Role',
             'class' => Role::class,
             'choices' => $this->doctrine->getRepository(Role::class)->findAll(WhereBuilder::buildOrderBy('role')),
             'multiple' => true,
             'choice_label' => 'Role',
             'expanded' => true
-        ));
+        ]);
 
 
     }

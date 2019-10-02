@@ -1,5 +1,7 @@
 'use strict';
 
+import Moment from 'moment';
+
 let listId = "#appList";
 
 import DatatablesJs from '../crosier/DatatablesJs';
@@ -31,6 +33,7 @@ function getDatatablesColumns() {
                     let csrfTokenDelete = $(listId).data('crsf-token-delete');
                     colHtml += DatatablesJs.makeDeleteButton(deleteUrl, csrfTokenDelete);
                 }
+                colHtml += '<br /><span class="badge badge-pill badge-info">' + Moment(data.updated).format('DD/MM/YYYY HH:mm:ss') + '</span> ';
                 return colHtml;
             },
             className: 'text-right'

@@ -1,5 +1,7 @@
 'use strict';
 
+import Moment from 'moment';
+
 let listId = "#configList";
 
 import DatatablesJs from '../crosier/DatatablesJs';
@@ -31,6 +33,9 @@ function getDatatablesColumns() {
             render: function (data, type, row) {
                 let routeedit = Routing.generate($(listId).data('routeedit'), {id: data.id});
                 colHtml += DatatablesJs.makeEditButton(routeedit);
+                colHtml += '<br /><span class="badge badge-pill badge-info">' + Moment(data.updated).format('DD/MM/YYYY HH:mm:ss') + '</span> ';
+                return colHtml;
+
             },
             className: 'text-right'
         }

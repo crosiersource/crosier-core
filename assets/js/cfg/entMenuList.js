@@ -13,8 +13,7 @@ let sortable = Sortable.create(simpleList, {
         animation: 150,
 
         onEnd: function (/**Event*/evt) {
-            console.log('endd');
-            console.log(this.toArray());
+            console.dir(evt);
         }
     }
 );
