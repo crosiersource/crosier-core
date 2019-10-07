@@ -305,6 +305,17 @@ class CrosierBaseLayout {
 
             // else
 
+            if (elem.data('tagsoptions')) {
+                elem.select2({
+                    tags: true,
+                    tokenSeparators: [',', ' '],
+                    data: elem.data('tagsoptions')
+                });
+                return;
+            }
+
+            // else
+
 
             let opt = {
                 placeholder: '...',
