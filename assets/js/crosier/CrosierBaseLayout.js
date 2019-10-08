@@ -308,7 +308,7 @@ class CrosierBaseLayout {
             if (elem.data('tagsoptions')) {
                 elem.select2({
                     tags: true,
-                    tokenSeparators: [',', ' '],
+                    tokenSeparators: [','],
                     data: elem.data('tagsoptions')
                 });
                 return;
