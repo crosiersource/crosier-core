@@ -15,6 +15,10 @@ chmod -Rf 0777 ./var/
 chmod -Rf 0777 ./vendor/symfony/cache/
 echo "ok!"
 
+echo "yarn install..."
+yarn install
+echo "ok!"
+
 echo "yarn encore production..."
 yarn encore production
 echo "ok!"
