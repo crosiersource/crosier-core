@@ -4,6 +4,7 @@ namespace App\Controller\Base;
 
 use App\Form\Base\PessoaContatoType;
 use App\Form\Base\PessoaEnderecoType;
+use App\Form\Base\PessoaType;
 use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
 use CrosierSource\CrosierLibBaseBundle\Entity\Base\Pessoa;
 use CrosierSource\CrosierLibBaseBundle\Entity\Base\PessoaContato;
@@ -48,15 +49,18 @@ class PessoaController extends FormListController
      * @Route("/bse/pessoa/form/{id}", name="bse_pessoa_form", defaults={"id"=null}, requirements={"id"="\d+"})
      * @param Request $request
      * @param pessoa|null $pessoa
-     * @return RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return RedirectResponse|Response
      * @throws \Exception
      */
     public function form(Request $request, Pessoa $pessoa = null)
     {
         $params = [
+            'listView' => 'Base/pessoaList.html.twig',
+            'listRoute' => 'bse_pessoa_list',
             'formView' => 'Base/pessoaForm.html.twig',
             'formRoute' => 'bse_pessoa_form',
-            'formPageTitle' => 'Pessoa'
+            'formPageTitle' => 'Pessoa',
+            'typeClass' => PessoaType::class
         ];
 
         return $this->doForm($request, $pessoa, $params);
@@ -66,12 +70,14 @@ class PessoaController extends FormListController
      *
      * @Route("/bse/pessoa/list/", name="bse_pessoa_list")
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      * @throws \Exception
      */
     public function list(Request $request): Response
     {
         $params = [
+            'formView' => 'Base/pessoaForm.html.twig',
+            'formRoute' => 'bse_pessoa_form',
             'listView' => 'Base/pessoaList.html.twig',
             'listRoute' => 'bse_pessoa_list',
             'listRouteAjax' => 'bse_pessoa_datatablesJsList',
@@ -86,7 +92,7 @@ class PessoaController extends FormListController
      * @Route("/bse/pessoa/datatablesJsList/", name="bse_pessoa_datatablesJsList")
      * @param Request $request
      * @return Response
-     * @throws \CrosierSource\CrosierLibBaseBundle\Exception\ViewException
+     * @throws ViewException
      */
     public function datatablesJsList(Request $request): Response
     {
@@ -105,17 +111,16 @@ class PessoaController extends FormListController
         return $this->doDelete($request, $pessoa);
     }
 
-
     /**
      *
-     * @ParamConverter("endereco", class="App\Entity\Base\PessoaEndereco", options={"mapping": {"endereco": "id"}})
-     * @ParamConverter("pessoa", class="App\Entity\Base\Pessoa", options={"mapping": {"pessoa": "id"}})
+     * @ParamConverter("endereco", class="CrosierSource\CrosierLibBaseBundle\Entity\Base\PessoaEndereco", options={"mapping": {"endereco": "id"}})
+     * @ParamConverter("pessoa", class="CrosierSource\CrosierLibBaseBundle\Entity\Base\Pessoa", options={"mapping": {"pessoa": "id"}})
      *
      * @Route("/bse/pessoaEndereco/form/{pessoa}/{endereco}", name="bse_pessoaEndereco_form", defaults={"endereco"=null}, requirements={"pessoa"="\d+","endereco"="\d+"})
      * @param Request $request
      * @param Pessoa|null $pessoa
      * @param PessoaEndereco|null $endereco
-     * @return RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return RedirectResponse|Response
      * @throws \Exception
      *
      *
@@ -126,8 +131,6 @@ class PessoaController extends FormListController
             $endereco = new PessoaEndereco();
             $endereco->setPessoa($pessoa);
         }
-
-        $this->handleReferer($request);
 
         $form = $this->createForm(PessoaEnderecoType::class, $endereco);
 
@@ -167,7 +170,6 @@ class PessoaController extends FormListController
         return $this->doRender('Base/pessoaEnderecoForm.html.twig', $parameters);
     }
 
-
     /**
      *
      * @Route("/bse/pessoaEndereco/delete/{endereco}/", name="bse_pessoaEndereco_delete", requirements={"endereco"="\d+"})
@@ -175,7 +177,7 @@ class PessoaController extends FormListController
      * @param PessoaEndereco $endereco
      * @return RedirectResponse
      *
-     * @ParamConverter("endereco", class="App\Entity\Base\PessoaEndereco", options={"mapping": {"endereco": "id"}})
+     * @ParamConverter("endereco", class="CrosierSource\CrosierLibBaseBundle\Entity\Base\PessoaEndereco", options={"mapping": {"endereco": "id"}})
      */
     public function deleteEndereco(Request $request, PessoaEndereco $endereco): RedirectResponse
     {
@@ -195,16 +197,15 @@ class PessoaController extends FormListController
         return $this->redirectToRoute('bse_pessoa_form', ['id' => $pessoa->getId(), '_fragment' => 'enderecos']);
     }
 
-
     /**
-     * @ParamConverter("contato", class="App\Entity\Base\PessoaContato", options={"mapping": {"contato": "id"}})
-     * @ParamConverter("pessoa", class="App\Entity\Base\Pessoa", options={"mapping": {"pessoa": "id"}})
+     * @ParamConverter("contato", class="CrosierSource\CrosierLibBaseBundle\Entity\Base\PessoaContato", options={"mapping": {"contato": "id"}})
+     * @ParamConverter("pessoa", class="CrosierSource\CrosierLibBaseBundle\Entity\Base\Pessoa", options={"mapping": {"pessoa": "id"}})
      *
      * @Route("/bse/pessoaContato/form/{pessoa}/{contato}", name="bse_pessoaContato_form", defaults={"contato"=null}, requirements={"pessoa"="\d+","contato"="\d+"})
      * @param Request $request
      * @param Pessoa|null $pessoa
      * @param PessoaContato|null $contato
-     * @return RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return RedirectResponse|Response
      * @throws \Exception
      */
     public function formContato(Request $request, Pessoa $pessoa, PessoaContato $contato = null)
@@ -213,8 +214,6 @@ class PessoaController extends FormListController
             $contato = new PessoaContato();
             $contato->setPessoa($pessoa);
         }
-
-        $this->handleReferer($request);
 
         $form = $this->createForm(PessoaContatoType::class, $contato);
 
@@ -262,7 +261,7 @@ class PessoaController extends FormListController
      * @param PessoaContato $contato
      * @return RedirectResponse
      *
-     * @ParamConverter("contato", class="App\Entity\Base\PessoaContato", options={"mapping": {"contato": "id"}})
+     * @ParamConverter("contato", class="CrosierSource\CrosierLibBaseBundle\Entity\Base\PessoaContato", options={"mapping": {"contato": "id"}})
      */
     public function deleteContato(Request $request, PessoaContato $contato): RedirectResponse
     {

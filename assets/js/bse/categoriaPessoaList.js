@@ -7,7 +7,7 @@ import DatatablesJs from '../crosier/DatatablesJs';
 import routes from '../../static/fos_js_routes.json';
 import Routing from '../../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js';
 
-Routing.setRoutingData(routes)
+Routing.setRoutingData(routes);
 
 function getDatatablesColumns() {
     return [
