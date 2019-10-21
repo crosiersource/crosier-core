@@ -6,85 +6,193 @@
 {% block page_content %}
 
 
-    <div class="card">
-        <div class="card-header">
 
-            <div class="row">
-                <div class="col-8">
-                    <h3>Entradas de Menu ({{ entMenu.label }})</h3>
-                </div>
-                <div class="col-4 text-right">
-                    <button type="button" class="btn btn-primary" id="saveOrdem"
-                            data-target="#confirmationModal" data-toggle="modal">
-                        <i class="fas fa-save" aria-hidden="true"></i> Salvar
-                    </button>
-
-                    <button type="button" class="btn btn-info"
-                            onclick="window.location.href='{{ url('cfg_entMenu_form', {'pai' : entMenu.id}) }}'">
-                        <i class="far fa-caret-square-right" aria-hidden="true"></i> Nova Raíz
-                    </button>
-
-                    <button type="button" class="btn btn-outline-primary"
-                            onclick="window.location.href='{{ url('cfg_entMenu_clear', {entMenu: entMenu.id}) }}'">
-                        <i class="fas fa-retweet" aria-hidden="true"></i> Recarregar Menu
-                    </button>
-                    <button type="button" class="btn btn-outline-secondary"
-                            onclick="window.location.href='{{ url('cfg_entMenu_listPais') }}'">
-                        <i class="fas fa-backward" aria-hidden="true"></i> Listar Menus
-                    </button>
-
-                </div>
-            </div>
-
-        </div>
-
-        <div class="card-body">
+    <div class="container" style="margin-bottom: 50px">
+        <div class="card">
+            <div class="card-header">
 
 
-            <div id="simpleList" class="list-group">
-                {% for item in dados %}
-                    <div class="list-group-item" data-id="{{ item.id }}"
-                         style="{{ item.tipo == 'DROPDOWN' ? 'background-color: grey' : '' }} {{ item.tipo == 'TITLE' ? 'background-color: orange' : '' }} {{ item.cssStyle }}">
+                <div class="d-flex flex-wrap align-items-center">
 
-                        <div class="text-left" style="float:left; {{ item.pai != null ? 'padding: 20px' : '' }}">
-                            <i class="{{ item.icon }}"></i>
-                            {{ item.label }} {{ (item.tipo == 'DROPDOWN' or item.tipo == 'PAI') ? '<i class="fas fa-caret-left"></i>'|raw : '' }}
-                            {% if item.program %}
-                                <span style="color: grey">({{ item.program.app.nome }} - {{ item.program.descricao }}
-                                    - {{ item.program.url }})</span>
-                            {% endif %}
+                    <div class="mr-1">
+                        <h3>Entradas de Menu</h3>
+                        <h6>{{ entMenu.label }}</h6>
+                    </div>
 
-                        </div>
+                    <div class="d-sm-flex flex-nowrap ml-auto">
 
-                        <div class="text-right">
+                        <button type="button" class="btn btn-info ml-1"
+                                onclick="window.location.href='{{ url('cfg_entMenu_form', {'pai' : entMenu.id}) }}'">
+                            <i class="far fa-caret-square-right" aria-hidden="true"></i> Nova Raíz
+                        </button>
 
-                            {% if (item.tipo == 'DROPDOWN' or item.tipo == 'PAI') %}
-                            <button type="button" class="btn btn-primary"
-                                    onclick="window.location.href='{{ url('cfg_entMenu_form', {'pai' : item.id}) }}'">
-                                <i class="fas fa-file" aria-hidden="true"></i> Novo
-                            </button>
-                            {% endif %}
-
-                            <button type="button" class="btn btn-primary"
-                                    onclick="window.location.href='{{ url('cfg_entMenu_form', {'pai' : item.pai.id|default(''), id: item.id}) }}'">
-                                <i class="fas fa-wrench" aria-hidden="true"></i>
-                            </button>
-
-                            <button type="button" class="btn btn-danger"
-                                    data-url="{{ url('cfg_entMenu_delete', {id: item.id}) }}"
-                                    data-token="{{ csrf_token('delete') }}"
-                                    data-target="#confirmationModal" data-toggle="modal">
-                                <i class="fa fa-trash" aria-hidden="true"></i>
-                            </button>
-                        </div>
+                        <button type="button" class="btn btn-outline-primary ml-1" title="Recarregar cachê"
+                                onclick="window.location.href='{{ url('cfg_entMenu_clear', {entMenu: entMenu.id}) }}'">
+                            <i class="fas fa-retweet" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary ml-1" title="Listar menus raíz"
+                                onclick="window.location.href='{{ url('cfg_entMenu_listPais') }}'">
+                            <i class="fas fa-backward" aria-hidden="true"></i>
+                        </button>
 
                     </div>
-                {% endfor %}
+                </div>
+
+
             </div>
 
+            <div class="card-body">
 
+                <ul class="nav nav-tabs" id="principal" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="cabecalho-tab" data-toggle="tab" href="#cabecalho"
+                           role="tab"
+                           aria-controls="home" aria-selected="true">Menu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="locators-tab" data-toggle="tab" href="#locators" role="tab"
+                           aria-controls="profile" aria-selected="false">Localizadores</a>
+                    </li>
+                </ul>
+
+                <div class="form-group row">
+
+                </div>
+
+
+                <div class="tab-content" id="myTabContent">
+
+
+                    <div class="tab-pane fade show active" id="cabecalho" role="tabpanel"
+                         aria-labelledby="cabecalho-tab">
+
+                        <div class="container" style="margin-bottom: 50px">
+
+                            <div id="simpleList" class="list-group">
+                                {% for item in dados %}
+                                    <div class="list-group-item" data-id="{{ item.id }}"
+                                         style="{{ item.tipo == 'DROPDOWN' ? 'background-color: grey' : '' }} {{ item.tipo == 'TITLE' ? 'background-color: orange' : '' }} {{ item.cssStyle }}">
+
+                                        <div class="text-left"
+                                             style="float:left; {{ item.pai != null and item.pai.id != entMenu.id ? 'padding-left: 20px' : '' }}">
+                                            <i class="{{ item.icon }}"></i>
+                                            {{ item.label }}
+                                            <br/>
+                                            <span style="font-size: smaller; color: grey">{{ item.url }}</span>
+                                        </div>
+
+                                        <div class="text-right">
+
+                                            {% if (item.tipo == 'DROPDOWN' or item.tipo == 'PAI') %}
+                                                <button type="button" class="btn btn-sm btn-primary"
+                                                        onclick="window.location.href='{{ url('cfg_entMenu_form', {'pai' : item.id}) }}'">
+                                                    <i class="fas fa-file" aria-hidden="true"></i> Novo
+                                                </button>
+                                            {% endif %}
+
+                                            <button type="button" class="btn btn-sm btn-primary"
+                                                    onclick="window.location.href='{{ url('cfg_entMenu_form', {'pai' : item.pai.id|default(''), id: item.id}) }}'">
+                                                <i class="fas fa-wrench" aria-hidden="true"></i>
+                                            </button>
+
+                                            <button type="button" class="btn btn-sm btn-danger"
+                                                    data-url="{{ url('cfg_entMenu_delete', {id: item.id}) }}"
+                                                    data-token="{{ csrf_token('delete') }}"
+                                                    data-target="#confirmationModal" data-toggle="modal">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="tab-pane fade show" id="locators" role="tabpanel"
+                         aria-labelledby="locators-tab">
+
+                        <div class="container" style="margin-bottom: 50px">
+
+                            <table class="table table-striped table-hover crsr-datatable display compact"
+                                   id="entMenuLocatorList">
+                                <thead>
+                                <tr>
+                                    <th>Quem</th>
+                                    <th>URL</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for k,locator in locators.e %}
+                                    <form name="ent_menu_locator" method="post"
+                                          action="{{ url('cfg_entMenuLocator_form', {'menuUUID':locator.menuUUID}) }}"></form>
+
+                                    {% form_theme locators.form[k] 'bootstrap_4_horizontal_layout.html.twig' %}
+
+                                    {{ form_start(locators.form[k]) }}
+
+                                    <tr>
+                                        <td>{{ form_widget(locators.form[k].quem) }}</td>
+                                        <td>{{ form_widget(locators.form[k].urlRegexp) }}</td>
+                                        <td class="text-right">
+                                            <button type="submit" class="btn btn-sm btn-primary" value="Salvar">
+                                                <i class="fas fa-save" aria-hidden="true"></i> Salvar
+                                            </button>
+
+                                            <button type="button" class="btn btn-sm btn-danger"
+                                                    data-url="{{ url('cfg_entMenuLocator_delete', {id: locator.id}) }}"
+                                                    data-token="{{ csrf_token('delete') }}"
+                                                    data-target="#confirmationModal" data-toggle="modal">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                    {{ form_end(locators.form[k]) }}
+
+                                {% endfor %}
+
+                                {% form_theme formEntMenuLocator 'bootstrap_4_horizontal_layout.html.twig' %}
+
+                                {{ form_start(formEntMenuLocator) }}
+
+                                <tr>
+                                    <td>{{ form_widget(formEntMenuLocator.quem) }}</td>
+                                    <td>{{ form_widget(formEntMenuLocator.urlRegexp) }}</td>
+                                    <td class="text-right">
+                                        <button type="submit" class="btn btn-sm btn-primary" value="Salvar">
+                                            <i class="fas fa-save" aria-hidden="true"></i> Salvar
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                {{ form_end(formEntMenuLocator) }}
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="row">
+                    <div class="col-12">&nbsp;</div>
+                </div>
+
+
+            </div>
         </div>
+
+
     </div>
+
+
+
 
 
 
@@ -94,5 +202,5 @@
 
 
 {% block down_scripts %}
-    <script src="{{ asset('build/cfg/entMenuList.js') }}"></script>
+    <script src="{{ asset('build/Config/entMenuList.js') }}"></script>
 {% endblock %}

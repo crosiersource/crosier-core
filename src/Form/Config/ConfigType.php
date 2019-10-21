@@ -19,25 +19,26 @@ class ConfigType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('chave', TextType::class, array(
+        $builder->add('chave', TextType::class, [
             'label' => 'Chave'
-        ));
+        ]);
 
-        $builder->add('valor', TextType::class, array(
+        $builder->add('valor', TextType::class, [
             'label' => 'Valor',
             'attr' => ['style' => 'text-transform: none;']
-        ));
+        ]);
 
-        $builder->add('obs', TextareaType::class, array(
+        $builder->add('obs', TextareaType::class, [
             'label' => 'Obs'
-        ));
+        ]);
 
-        $builder->add('global', ChoiceType::class, array(
-            'choices' => array(
+        $builder->add('global', ChoiceType::class, [
+            'choices' => [
                 'Sim' => true,
                 'Não' => false
-            )
-        ));
+            ],
+            'attr' => ['class' => 'autoSelect2']
+        ]);
 
     }
 

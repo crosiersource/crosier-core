@@ -31,19 +31,20 @@ Encore
      * and one CSS file (e.g. app.css) if you JavaScript imports CSS.
      */
     .createSharedEntry('crosier/layout', './assets/js/crosier/layout.js')
-    .addEntry('bse/propList', './assets/js/bse/propList.js')
-    .addEntry('bse/pessoaList', './assets/js/bse/pessoaList.js')
-    .addEntry('bse/categoriaPessoaList', './assets/js/bse/categoriaPessoaList.js')
-    .addEntry('bse/pessoaForm', './assets/js/bse/pessoaForm.js')
+    .addEntry('Base/propList', './assets/js/Base/propList.js')
+    .addEntry('Base/pessoaList', './assets/js/Base/pessoaList.js')
+    .addEntry('Base/categoriaPessoaList', './assets/js/Base/categoriaPessoaList.js')
+    .addEntry('Base/pessoaForm', './assets/js/Base/pessoaForm.js')
 
-    .addEntry('sec/userList', './assets/js/sec/userList.js')
-    .addEntry('sec/groupList', './assets/js/sec/groupList.js')
-    .addEntry('sec/roleList', './assets/js/sec/roleList.js')
+    .addEntry('Security/userList', './assets/js/Security/userList.js')
+    .addEntry('Security/groupList', './assets/js/Security/groupList.js')
+    .addEntry('Security/roleList', './assets/js/Security/roleList.js')
 
-    .addEntry('cfg/configList', './assets/js/cfg/configList.js')
-    .addEntry('cfg/appList', './assets/js/cfg/appList.js')
-    .addEntry('cfg/programList', './assets/js/cfg/programList.js')
-    .addEntry('cfg/entMenuList', './assets/js/cfg/entMenuList.js')
+    .addEntry('Config/configList', './assets/js/Config/configList.js')
+    .addEntry('Config/appList', './assets/js/Config/appList.js')
+    .addEntry('Config/programList', './assets/js/Config/programList.js')
+    .addEntry('Config/entMenuList', './assets/js/Config/entMenuList.js')
+    .addEntry('Config/entMenuLocatorList', './assets/js/Config/entMenuLocatorList.js')
 
 
 

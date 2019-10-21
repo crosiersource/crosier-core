@@ -44,24 +44,24 @@ class ProgramType extends AbstractType
             }
         });
 
-        $builder->add('descricao', TextType::class, array(
+        $builder->add('descricao', TextType::class, [
             'label' => 'Descrição'
-        ));
+        ]);
 
-        $builder->add('UUID', TextType::class, array(
+        $builder->add('UUID', TextType::class, [
             'label' => 'UUID',
             'attr' => [
                 'class' => 'notuppercase'
             ]
-        ));
+        ]);
 
-        $builder->add('url', TextType::class, array(
+        $builder->add('url', TextType::class, [
             'label' => 'URL',
             'attr' => ['style' => 'text-transform: none;'],
             'required' => false
-        ));
+        ]);
 
-        $builder->add('appUUID', ChoiceType::class, array(
+        $builder->add('appUUID', ChoiceType::class, [
             'label' => 'App',
             'choices' => array_merge([null], $this->doctrine->getRepository(App::class)->findAll(WhereBuilder::buildOrderBy(['nome']))),
             'choice_label' => function (?App $app) {
@@ -71,7 +71,7 @@ class ProgramType extends AbstractType
             'attr' => [
                 'class' => 'autoSelect2'
             ]
-        ));
+        ]);
         $builder->get('appUUID')
             ->addModelTransformer(new CallbackTransformer(
                 function (?string $appUUID) {
@@ -88,7 +88,7 @@ class ProgramType extends AbstractType
                 }
             ));
 
-        $builder->add('entMenuUUID', ChoiceType::class, array(
+        $builder->add('entMenuUUID', ChoiceType::class, [
             'label' => 'Menu',
             'choices' => array_merge([null], $this->doctrine->getRepository(EntMenu::class)->findAll()),
             'choice_label' => function (?EntMenu $entMenu) {
@@ -98,7 +98,7 @@ class ProgramType extends AbstractType
             'attr' => [
                 'class' => 'autoSelect2'
             ]
-        ));
+        ]);
         $builder->get('entMenuUUID')
             ->addModelTransformer(new CallbackTransformer(
                 function (?string $entMenuUUID) {

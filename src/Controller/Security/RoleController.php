@@ -92,7 +92,7 @@ class RoleController extends FormListController
      */
     public function delete(Request $request, Role $role): \Symfony\Component\HttpFoundation\RedirectResponse
     {
-        return $this->doDelete($request, $role);
+        return $this->doDelete($request, $role, ['listRoute' => 'sec_role_list']);
     }
 
 }

@@ -11,18 +11,12 @@
 
             <div class="row">
                 <div class="col-8">
-                    <h3>Entradas de Menu</h3>
+                    <h3>Menus</h3>
                 </div>
                 <div class="col-4 text-right">
-                    <button type="button" class="btn btn-primary" id="saveOrdem"
-                            data-target="#confirmationModal" data-toggle="modal">
-                        <i class="fas fa-save" aria-hidden="true"></i> Salvar
-                    </button>
-
-                    <button type="button" class="btn btn-primary" id="Recarregar menus"
-                            onclick="window.location.href='{{ url('cfg_entMenu_clear') }}'">
-                        <i class="fas fa-retweet" aria-hidden="true"></i> Recarregar Menus
-                    </button>
+                    <a role="button" class="btn btn-primary" href="{{ url('cfg_entMenu_form') }}" title="Novo">
+                        <i class="fas fa-file" aria-hidden="true"></i>
+                    </a>
                 </div>
             </div>
 
@@ -46,7 +40,7 @@
                         <tr>
                             <td>{{ item.label }}</td>
                             <td class="text-right">
-                                <button type="button" class="btn btn-primary"
+                                <button type="button" class="btn btn-sm btn-primary"
                                         onclick="window.location.href='{{ url('cfg_entMenu_list', {entMenu: item.id}) }}'">
                                     <i class="fas fa-wrench" aria-hidden="true"></i>
                                 </button>
@@ -69,5 +63,5 @@
 
 
 {% block down_scripts %}
-    <script src="{{ asset('build/cfg/entMenuList.js') }}"></script>
+    <script src="{{ asset('build/Config/entMenuList.js') }}"></script>
 {% endblock %}

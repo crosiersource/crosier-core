@@ -104,7 +104,7 @@ class ConfigController extends FormListController
      */
     public function delete(Request $request, Config $config): \Symfony\Component\HttpFoundation\RedirectResponse
     {
-        return $this->doDelete($request, $config);
+        return $this->doDelete($request, $config, ['listRoute' => 'cfg_config_list']);
     }
 
     /**

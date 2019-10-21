@@ -108,7 +108,7 @@ class PessoaController extends FormListController
      */
     public function delete(Request $request, Pessoa $pessoa): RedirectResponse
     {
-        return $this->doDelete($request, $pessoa);
+        return $this->doDelete($request, $pessoa, ['listRoute' => 'bse_pessoa_list']);
     }
 
     /**

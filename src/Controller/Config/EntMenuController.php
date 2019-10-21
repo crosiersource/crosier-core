@@ -2,13 +2,16 @@
 
 namespace App\Controller\Config;
 
+use App\Form\Config\EntMenuLocatorType;
+use App\Form\Config\EntMenuType;
 use CrosierSource\CrosierLibBaseBundle\Business\Config\EntMenuBusiness;
 use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
 use CrosierSource\CrosierLibBaseBundle\Entity\Config\EntMenu;
+use CrosierSource\CrosierLibBaseBundle\Entity\Config\EntMenuLocator;
 use CrosierSource\CrosierLibBaseBundle\EntityHandler\Config\EntMenuEntityHandler;
 use CrosierSource\CrosierLibBaseBundle\Repository\Config\EntMenuRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -48,7 +51,7 @@ class EntMenuController extends FormListController
      * @Route("/cfg/entMenu/form/{id}", name="cfg_entMenu_form", defaults={"id"=null}, requirements={"id"="\d+"})
      * @param Request $request
      * @param EntMenu|null $entMenu
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      * @throws \Exception
      *
      * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
@@ -56,18 +59,26 @@ class EntMenuController extends FormListController
     public function form(Request $request, EntMenu $entMenu = null)
     {
         $parameters = [
-            'formView' => 'Config/entMenuForm.html.twig',
+            'typeClass' => EntMenuType::class,
             'formRoute' => 'cfg_entMenu_form',
+            'formView' => 'Config/entMenuForm.html.twig',
             'formPageTitle' => 'Entrada de Menu'
         ];
         if (!$entMenu) {
             $entMenu = new EntMenu();
         }
         $pai = $request->query->get('pai');
-        /** @var EntMenu $pai */
-        $pai = $this->getDoctrine()->getRepository(EntMenu::class)->find($pai);
-        $entMenu->setPaiUUID($pai->getUUID());
-        $parameters['pai'] = $request->get('pai');
+        if ($pai) {
+            /** @var EntMenu $pai */
+            $pai = $this->getDoctrine()->getRepository(EntMenu::class)->find($pai);
+            $entMenu->setPaiUUID($pai->getUUID());
+            $parameters['pai'] = $request->get('pai');
+            $parameters['routeParams']['pai'] = $parameters['pai'];
+        }
+        /** @var EntMenuRepository $repoEntMenu */
+        $repoEntMenu = $this->getDoctrine()->getRepository(EntMenu::class);
+        $repoEntMenu->fillTransients($entMenu);
+
         return $this->doForm($request, $entMenu, $parameters);
     }
 
@@ -75,9 +86,8 @@ class EntMenuController extends FormListController
      *
      * @Route("/cfg/entMenu/list/{entMenu}", name="cfg_entMenu_list", requirements={"entMenu"="\d+"})
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
-     * @throws \Exception
-     *
+     * @param EntMenu $entMenu
+     * @return Response
      * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
      */
     public function list(Request $request, EntMenu $entMenu): Response
@@ -88,6 +98,24 @@ class EntMenuController extends FormListController
         $dados = $repo->makeTree($entMenu);
         $params['dados'] = $dados;
         $params['entMenu'] = $entMenu;
+
+        /** @var EntMenuRepository $repoEntMenuLocator */
+        $repoEntMenuLocator = $this->getDoctrine()->getRepository(EntMenuLocator::class);
+        $locators = $repoEntMenuLocator->findBy(['menuUUID' => $entMenu->getUUID()]);
+
+        foreach ($locators as $locator) {
+            $params['locators']['e'][] = $locator;
+            $params['locators']['form'][] = $this->createForm(EntMenuLocatorType::class, $locator,
+                ['action' => $this->generateUrl('cfg_entMenuLocator_form', ['menuUUID' => $entMenu->getUUID()])])
+                ->createView();
+        }
+
+        $entMenuLocator = new EntMenuLocator();
+        $entMenuLocator->setMenuUUID($entMenu->getUUID());
+        $params['formEntMenuLocator'] = $this->createForm(EntMenuLocatorType::class, $entMenuLocator,
+            ['action' => $this->generateUrl('cfg_entMenuLocator_form', ['menuUUID' => $entMenu->getUUID()])])
+            ->createView();
+
         return $this->doRender('Config/entMenuList.html.twig', $params);
     }
 
@@ -95,7 +123,7 @@ class EntMenuController extends FormListController
      *
      * @Route("/cfg/entMenu/listPais/", name="cfg_entMenu_listPais")
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      * @throws \Exception
      *
      * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
@@ -121,7 +149,17 @@ class EntMenuController extends FormListController
      */
     public function delete(Request $request, EntMenu $entMenu): \Symfony\Component\HttpFoundation\RedirectResponse
     {
-        return $this->doDelete($request, $entMenu);
+        if ($entMenu->getPaiUUID()) {
+            /** @var EntMenuRepository $repoEntMenu */
+            $repoEntMenu = $this->getDoctrine()->getRepository(EntMenu::class);
+            $repoEntMenu->fillTransients($entMenu);
+
+            $parameters['listRoute'] = 'cfg_entMenu_list';
+            $parameters['listRouteParams'] = ['pai' => $entMenu->getPai()->getId()];
+        } else {
+            $parameters['listRoute'] = 'cfg_entMenu_listPais';
+        }
+        return $this->doDelete($request, $entMenu, $parameters);
     }
 
     /**
@@ -132,12 +170,15 @@ class EntMenuController extends FormListController
      *
      * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
      */
-    public function save(Request $request)
+    public function saveOrdem(Request $request): JsonResponse
     {
-        $ordArr = json_decode($request->request->get('jsonSortable'));
-        $this->entMenuBusiness->saveOrdem($ordArr);
-        return new Response('');
-
+        try {
+            $ordArr = json_decode($request->request->get('jsonSortable'));
+            $this->entMenuBusiness->saveOrdem($ordArr);
+            return new JsonResponse(['result' => 'OK']);
+        } catch (\Exception $e) {
+            return new JsonResponse(['result' => 'ERRO']);
+        }
     }
 
     /**

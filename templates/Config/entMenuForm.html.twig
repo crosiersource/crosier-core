@@ -1,64 +1,51 @@
-{% extends '@CrosierLibBase/index.html.twig' %}
+{% extends '@CrosierLibBase/form.html.twig' %}
 
 
-{% block title %}Entrada de Menu{% endblock %}
+{% block btns %}
 
+    <button type="button" class="btn btn-primary" title="Novo"
+            onclick="window.location.href='{{ url('cfg_entMenu_form', {'pai': e.pai|default('') != '' ? e.pai.id : ''}) }}'">
+        <i class="fas fa-file" aria-hidden="true"></i>
+    </button>
 
-{% block page_content %}
+    {% if e.id|default('') != '' %}
 
+        {% if e.paiUUID|default('') == '' %}
+            {# é um menu raíz #}
+            <a role="button" class="btn btn-secondary" title="Listar menus raíz"
+               href="{{ url('cfg_entMenu_listPais') }}">
+                <i class="fas fa-th-list" aria-hidden="true"></i>
+            </a>
 
-<div class="card">
-	<div class="card-header">
+            <a role="button" class="btn btn-outline-secondary" title="Configurar este menu"
+               href="{{ url('cfg_entMenu_list', {'entMenu': e.id}) }}">
+                <i class="fas fa-cogs" aria-hidden="true"></i>
+            </a>
 
-		<div class="row">
-			<div class="col-8">
-				<h3>Entrada de Menu</h3>
-			</div>
-			<div class="col-4 text-right">
-				<button type="button" class="btn btn-primary"
-						onclick="window.location.href='{{ url('cfg_entMenu_form', {'pai' : pai}) }}'">
-					<i class="fas fa-file" aria-hidden="true"></i> Novo
-				</button>
+        {% else %}
+            {# NÃO é um menu raíz #}
+            <a role="button" class="btn btn-success" title="Voltar"
+               href="{{ url('cfg_entMenu_list', {'entMenu': e.superPai.id}) }}">
+                <i class="fas fa-arrow-left" aria-hidden="true"></i>
+            </a>
+        {% endif %}
 
-				<a class="btn btn-secondary"
-					href="{{ url('cfg_entMenu_list', {entMenu: pai}) }}">
-					<i class="fas fa-sync" aria-hidden="true"></i> Listar
-				</a>
-			</div>
-		</div>
+    {% else %}
 
-	</div>
+        {% if e.paiUUID|default('') == '' %}
+            {# é um menu raíz #}
+            <a role="button" class="btn btn-secondary" title="Listar menus raíz"
+               href="{{ url('cfg_entMenu_listPais') }}">
+                <i class="fas fa-th-list" aria-hidden="true"></i>
+            </a>
+        {% else %}
+            {# NÃO é um menu raíz #}
+            <a role="button" class="btn btn-success" title="Voltar"
+               href="{{ url('cfg_entMenu_list', {'entMenu': e.superPai.id}) }}">
+                <i class="fas fa-arrow-left" aria-hidden="true"></i> Voltar
+            </a>
+        {% endif %}
 
-	<div class="card-body">
-
-		{% form_theme form 'bootstrap_4_horizontal_layout.html.twig' %}
-
-		{{ form_start(form) }}
-		{{ form_widget(form) }}
-
-		<div class="row">
-			<div class="col text-right">
-				<button type="submit" class="btn btn-primary" value="Salvar">
-					<i class="fas fa-save" aria-hidden="true"></i> Salvar
-				</button>
-
-				<button type="button" value="Resetar" class="btn btn-secondary"
-					data-url="{{ url('cfg_entMenu_form') }}"
-					data-target="#confirmationModal" data-toggle="modal">
-					<i class="fas fa-undo" aria-hidden="true"></i> Recarregar
-				</button>
-			</div>
-		</div>
-
-
-		{{ form_end(form) }}
-
-
-	</div>
-</div>
-
-
-
-
+    {% endif %}
 
 {% endblock %}

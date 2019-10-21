@@ -50,7 +50,7 @@ class AppController extends FormListController
     public function getFilterDatas(array $params): array
     {
         return [
-            new FilterData(['chave', 'valor'], 'LIKE', 'descricao', $params)
+            new FilterData(['chave', 'valor'], 'LIKE', 'str', $params)
         ];
     }
 
@@ -117,9 +117,9 @@ class AppController extends FormListController
     {
         $params = [
             'formRoute' => 'cfg_app_form',
-            'listView' => 'Config/appList.html.twig',
             'listRoute' => 'cfg_app_list',
             'listRouteAjax' => 'cfg_app_datatablesJsList',
+            'listJS' => 'Config/appList.js',
             'listPageTitle' => 'Apps',
             'listId' => 'appList'
         ];
@@ -151,7 +151,7 @@ class AppController extends FormListController
      */
     public function delete(Request $request, App $app): \Symfony\Component\HttpFoundation\RedirectResponse
     {
-        return $this->doDelete($request, $app);
+        return $this->doDelete($request, $app, ['listRoute' => 'cfg_app_list']);
     }
 
     /**

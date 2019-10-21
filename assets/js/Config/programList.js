@@ -1,5 +1,7 @@
 'use strict';
 
+import Moment from 'moment';
+
 let listId = "#programList";
 
 import DatatablesJs from '../crosier/DatatablesJs';
@@ -39,17 +41,18 @@ function getDatatablesColumns() {
             data: 'e',
             title: '',
             render: function (data, type, row) {
-                console.dir(data);
-                let routeedit = $(listId).data('routeedit');
-                let url = routeedit + '/' + data.id;
-                let deleteUrl = Routing.generate('cfg_program_delete', {id: data.id} );
-                let csrfTokenDelete = $(listId).data('crsf-token-delete');
-                return "<button type=\"button\" class=\"btn btn-primary\" onclick=\"window.location.href='" + url + "'\">" +
-                    "<i class=\"fas fa-wrench\" aria-hidden=\"true\"></i></button>" +
-                    " <button type=\"button\" class=\"btn btn-danger\" data-url=\"" + deleteUrl + "\" " +
-                    "data-token=\"" + csrfTokenDelete + "\" data-target=\"#confirmationModal\" data-toggle=\"modal\">" +
-                    "<i class=\"fa fa-trash\" aria-hidden=\"true\"></i>" +
-                    "</button>";
+                let colHtml = "";
+                if ($(listId).data('routeedit')) {
+                    let routeedit = Routing.generate($(listId).data('routeedit'), {id: data.id});
+                    colHtml += DatatablesJs.makeEditButton(routeedit);
+                }
+                if ($(listId).data('routedelete')) {
+                    let deleteUrl = Routing.generate($(listId).data('routedelete'), {id: data.id});
+                    let csrfTokenDelete = $(listId).data('crsf-token-delete');
+                    colHtml += DatatablesJs.makeDeleteButton(deleteUrl, csrfTokenDelete);
+                }
+                colHtml += '<br /><span class="badge badge-pill badge-info">' + Moment(data.updated).format('DD/MM/YYYY HH:mm:ss') + '</span> ';
+                return colHtml;
             },
             className: 'text-right'
         }

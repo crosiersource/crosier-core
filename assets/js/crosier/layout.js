@@ -5,7 +5,6 @@ import $ from 'jquery';
 
 
 import CustomTooltips from '@coreui/coreui-plugin-chartjs-custom-tooltips';
-import '../main.js';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap';

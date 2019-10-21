@@ -18,14 +18,14 @@ class RoleType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('role', TextType::class, array(
+        $builder->add('role', TextType::class, [
             'label' => 'Role'
-        ));
+        ]);
 
-        $builder->add('descricao', TextType::class, array(
+        $builder->add('descricao', TextType::class, [
             'label' => 'Descrição',
             'required' => false
-        ));
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -116,7 +116,7 @@ class ProgramController extends FormListController
      */
     public function delete(Request $request, Program $id): \Symfony\Component\HttpFoundation\RedirectResponse
     {
-        return $this->doDelete($request, $id);
+        return $this->doDelete($request, $id, ['listRoute' => 'cfg_program_list']);
     }
 
 

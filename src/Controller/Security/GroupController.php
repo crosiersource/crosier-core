@@ -92,7 +92,7 @@ class GroupController extends FormListController
      */
     public function delete(Request $request, Group $group): \Symfony\Component\HttpFoundation\RedirectResponse
     {
-        return $this->doDelete($request, $group);
+        return $this->doDelete($request, $group, ['listRoute' => 'sec_group_list']);
     }
 
 }

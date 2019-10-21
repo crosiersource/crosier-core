@@ -40,7 +40,7 @@ class CategoriaPessoaController extends FormListController
      * @Route("/bse/categoriaPessoa/form/{id}", name="bse_categoriaPessoa_form", defaults={"id"=null}, requirements={"id"="\d+"})
      * @param Request $request
      * @param categoriaPessoa|null $categoriaPessoa
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      * @throws \Exception
      */
     public function form(Request $request, CategoriaPessoa $categoriaPessoa = null)
@@ -57,7 +57,7 @@ class CategoriaPessoaController extends FormListController
      *
      * @Route("/bse/categoriaPessoa/list/", name="bse_categoriaPessoa_list")
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      * @throws \Exception
      */
     public function list(Request $request): Response
@@ -94,7 +94,7 @@ class CategoriaPessoaController extends FormListController
      */
     public function delete(Request $request, CategoriaPessoa $categoriaPessoa): \Symfony\Component\HttpFoundation\RedirectResponse
     {
-        return $this->doDelete($request, $categoriaPessoa);
+        return $this->doDelete($request, $categoriaPessoa, ['listRoute' => 'bse_categoriaPessoa_list']);
     }
 
 

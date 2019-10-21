@@ -92,7 +92,7 @@ class PropController extends FormListController
      */
     public function delete(Request $request, Prop $prop): \Symfony\Component\HttpFoundation\RedirectResponse
     {
-        return $this->doDelete($request, $prop);
+        return $this->doDelete($request, $prop, ['listRoute' => 'bse_prop_list']);
     }
 
     /**
