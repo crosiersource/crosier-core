@@ -1,6 +1,6 @@
 {
     "devDependencies": {
-        "@coreui/coreui": "^2.1.6",
+        "@coreui/coreui": "^2.1.12",
         "@coreui/coreui-plugin-chartjs-custom-tooltips": "^1.2.0",
         "@coreui/icons": "^0.3.0",
         "@fortawesome/fontawesome-free": "^5.10.2",
