@@ -78,7 +78,7 @@ class EntMenuType extends AbstractType
             'choice_label' => function (?App $app) {
                 return $app ? $app->getNome() : ' ';
             },
-            'required' => false,
+            'required' => true,
             'attr' => [
                 'class' => 'autoSelect2'
             ]

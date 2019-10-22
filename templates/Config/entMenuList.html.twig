@@ -74,7 +74,7 @@
                                          style="{{ item.tipo == 'DROPDOWN' ? 'background-color: grey' : '' }} {{ item.tipo == 'TITLE' ? 'background-color: orange' : '' }} {{ item.cssStyle }}">
 
                                         <div class="text-left"
-                                             style="float:left; {{ item.pai != null and item.pai.id != entMenu.id ? 'padding-left: 20px' : '' }}">
+                                             style="float:left; {{ item.pai != null and item.pai.id != entMenu.id ? 'padding-left: ' ~ (item.nivel * 20) ~ 'px' : '' }}">
                                             <i class="{{ item.icon }}"></i>
                                             {{ item.label }}
                                             <br/>
