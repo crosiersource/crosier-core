@@ -78,10 +78,15 @@
                                             <i class="{{ item.icon }}"></i>
                                             {{ item.label }}
                                             <br/>
+
                                             <span style="font-size: smaller; color: grey">{{ item.url }}</span>
+
                                         </div>
 
+
                                         <div class="text-right">
+
+                                            <span class="badge badge-pill badge-info">{{ item.roles }}</span>
 
                                             {% if (item.tipo == 'DROPDOWN' or item.tipo == 'PAI') %}
                                                 <button type="button" class="btn btn-sm btn-primary"
@@ -126,34 +131,36 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {% for k,locator in locators.e %}
-                                    <form name="ent_menu_locator" method="post"
-                                          action="{{ url('cfg_entMenuLocator_form', {'menuUUID':locator.menuUUID}) }}"></form>
+                                {% if locators is defined %}
+                                    {% for k,locator in locators.e %}
+                                        <form name="ent_menu_locator" method="post"
+                                              action="{{ url('cfg_entMenuLocator_form', {'menuUUID':locator.menuUUID}) }}"></form>
 
-                                    {% form_theme locators.form[k] 'bootstrap_4_horizontal_layout.html.twig' %}
+                                        {% form_theme locators.form[k] 'bootstrap_4_horizontal_layout.html.twig' %}
 
-                                    {{ form_start(locators.form[k]) }}
+                                        {{ form_start(locators.form[k]) }}
 
-                                    <tr>
-                                        <td>{{ form_widget(locators.form[k].quem) }}</td>
-                                        <td>{{ form_widget(locators.form[k].urlRegexp) }}</td>
-                                        <td class="text-right">
-                                            <button type="submit" class="btn btn-sm btn-primary" value="Salvar">
-                                                <i class="fas fa-save" aria-hidden="true"></i> Salvar
-                                            </button>
+                                        <tr>
+                                            <td>{{ form_widget(locators.form[k].quem) }}</td>
+                                            <td>{{ form_widget(locators.form[k].urlRegexp) }}</td>
+                                            <td class="text-right">
+                                                <button type="submit" class="btn btn-sm btn-primary" value="Salvar">
+                                                    <i class="fas fa-save" aria-hidden="true"></i> Salvar
+                                                </button>
 
-                                            <button type="button" class="btn btn-sm btn-danger"
-                                                    data-url="{{ url('cfg_entMenuLocator_delete', {id: locator.id}) }}"
-                                                    data-token="{{ csrf_token('delete') }}"
-                                                    data-target="#confirmationModal" data-toggle="modal">
-                                                <i class="fa fa-trash" aria-hidden="true"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
+                                                <button type="button" class="btn btn-sm btn-danger"
+                                                        data-url="{{ url('cfg_entMenuLocator_delete', {id: locator.id}) }}"
+                                                        data-token="{{ csrf_token('delete') }}"
+                                                        data-target="#confirmationModal" data-toggle="modal">
+                                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
 
-                                    {{ form_end(locators.form[k]) }}
+                                        {{ form_end(locators.form[k]) }}
 
-                                {% endfor %}
+                                    {% endfor %}
+                                {% endif %}
 
                                 {% form_theme formEntMenuLocator 'bootstrap_4_horizontal_layout.html.twig' %}
 

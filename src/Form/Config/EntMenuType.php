@@ -135,6 +135,12 @@ class EntMenuType extends AbstractType
             'attr' => ['style' => 'text-transform: none;']
         ]);
 
+        $builder->add('roles', TextType::class, [
+            'label' => 'Roles',
+            'help' => 'Separadas por vírgulas',
+            'required' => false,
+        ]);
+
 
     }
 
