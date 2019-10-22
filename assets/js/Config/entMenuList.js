@@ -17,11 +17,7 @@ $(document).ready(function () {
         {
             animation: 150,
             onEnd: function (/**Event*/evt) {
-                console.dir(evt);
-
                 let jsonSortable = JSON.stringify(sortable.toArray());
-
-                console.dir(jsonSortable);
 
                 $.ajax({
                     url: Routing.generate('cfg_entMenu_saveOrdem'),
