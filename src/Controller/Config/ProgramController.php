@@ -97,7 +97,7 @@ class ProgramController extends FormListController
     /**
      * @param array $dados
      */
-    public function handleDadosList(array &$dados)
+    public function handleDadosList(array &$dados): void
     {
         /** @var ProgramRepository $programRepo */
         $programRepo = $this->getDoctrine()->getRepository(Program::class);
