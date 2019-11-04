@@ -62,33 +62,6 @@ class AppType extends AbstractType
             'required' => false
         ));
 
-        $builder->add('defaultEntMenuUUID', ChoiceType::class, array(
-            'label' => 'Menu Padrão',
-            'choices' => array_merge([null], $this->doctrine->getRepository(EntMenu::class)->findAll()),
-            'choice_label' => function (?EntMenu $entMenu) {
-                return $entMenu ? $entMenu->getLabel() : ' ';
-            },
-            'required' => false,
-            'attr' => [
-                'class' => 'autoSelect2'
-            ]
-        ));
-        $builder->get('defaultEntMenuUUID')
-            ->addModelTransformer(new CallbackTransformer(
-                function (?string $entMenuUUID) {
-                    if ($entMenuUUID) {
-                        return $this->doctrine->getRepository(EntMenu::class)->findOneBy(['UUID' => $entMenuUUID]);
-                    }
-                    return null;
-                },
-                function (?EntMenu $entMenuUUID) {
-                    if ($entMenuUUID) {
-                        return $entMenuUUID->getUUID();
-                    }
-                    return null;
-                }
-            ));
-
 
     }
 

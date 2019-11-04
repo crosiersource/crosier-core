@@ -186,7 +186,6 @@ CREATE TABLE `cfg_app`
     `uuid`                 char(36)                  NOT NULL,
     `nome`                 varchar(300)              NOT NULL,
     `obs`                  varchar(5000) DEFAULT NULL,
-    `default_entmenu_uuid` char(36)                  NULL,
 
     `inserted`             datetime                  NOT NULL,
     `updated`              datetime                  NOT NULL,
@@ -199,11 +198,9 @@ CREATE TABLE `cfg_app`
     KEY `K_cfg_app_estabelecimento` (`estabelecimento_id`),
     KEY `K_cfg_app_user_inserted` (`user_inserted_id`),
     KEY `K_cfg_app_user_updated` (`user_updated_id`),
-    KEY `K_cfg_app_entmenu` (`default_entmenu_uuid`),
     CONSTRAINT `FK_cfg_app_estabelecimento` FOREIGN KEY (`estabelecimento_id`) REFERENCES `cfg_estabelecimento` (`id`),
     CONSTRAINT `FK_cfg_app_user_inserted` FOREIGN KEY (`user_updated_id`) REFERENCES `sec_user` (`id`),
-    CONSTRAINT `FK_cfg_app_user_updated` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`),
-    CONSTRAINT `FK_cfg_app_entmenu` FOREIGN KEY (`default_entmenu_uuid`) REFERENCES `cfg_entmenu` (`uuid`)
+    CONSTRAINT `FK_cfg_app_user_updated` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
   COLLATE = utf8_swedish_ci;
