@@ -103,6 +103,14 @@ VALUES ('dfa4c109-1b23-415a-9110-66912bda2f61', 'Propriedades', 'fas fa-project-
 
 
 --
+--
+--
+--
+--
+--
+--
+-- cfg_entmenu_locator
+--
 INSERT INTO cfg_entmenu_locator(menu_uuid, url_regexp, quem, inserted, updated, estabelecimento_id, user_inserted_id,
                                 user_updated_id)
 VALUES ('71d1456b-3a9f-4589-8f71-42bbf6c91a3e', '^https://core\.', '*', now(), now(), 1, 1, 1);
