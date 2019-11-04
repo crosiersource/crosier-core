@@ -11,7 +11,7 @@ FROM cfg_entmenu
 WHERE uuid = '71d1456b-3a9f-4589-8f71-42bbf6c91a3e';
 INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `app_uuid`, `pai_uuid`, `ordem`, `css_style`, `inserted`,
                            `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`, `url`, `roles`)
-VALUES ('71d1456b-3a9f-4589-8f71-42bbf6c91a3e', 'crosier-core (Menu Raíz)', '', 'PAI',
+VALUES ('71d1456b-3a9f-4589-8f71-42bbf6c91a3e', 'crosier-core (Menu Raíz)', 'fas fa-dollar-sign', 'PAI',
         '175bd6d3-6c29-438a-9520-47fcee653cc5', NULL, 1, '', now(), now(),
         1, 1, 1, '', '');
 
