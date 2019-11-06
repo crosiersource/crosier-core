@@ -12,7 +12,19 @@ class CrosierMasks {
             clearIfNotMatch: true,
             selectOnFocus: true
         });
+        $('.crsr-date-diames').mask('00/00', {
+            clearIfNotMatch: true,
+            selectOnFocus: true
+        });
+        $('.crsr-mesano').mask('00/0000', {
+            clearIfNotMatch: true,
+            selectOnFocus: true
+        });
         $('.crsr-datetime').mask('00/00/0000 00:00:00', {
+            clearIfNotMatch: true,
+            selectOnFocus: true
+        });
+        $('.crsr-datetime-hm').mask('00/00/0000 00:00', {
             clearIfNotMatch: true,
             selectOnFocus: true
         });

@@ -47,8 +47,8 @@ class DatatablesJs {
     }
 
     static makeEditButton(editUrl) {
-        return '<button type="button" class="btn btn-primary btn-sm" onclick="window.location.href=\'' + editUrl + '\'">' +
-            '<i class="fas fa-wrench" aria-hidden="true"></i></button> ';
+        return '<a role="button" class="btn btn-primary btn-sm" href="' + editUrl + '">' +
+            '<i class="fas fa-wrench" aria-hidden="true"></i></a> ';
     }
 
     static makeDeleteButton(deleteUrl, csrfTokenDelete) {
