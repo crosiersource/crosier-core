@@ -5,7 +5,7 @@ const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 Encore
-    // directory where compiled assets will be stored
+// directory where compiled assets will be stored
     .setOutputPath('public/build/')
     // public path used by the web server to access the output path
     .setPublicPath('/build')
@@ -16,7 +16,7 @@ Encore
     .autoProvidejQuery()
     .addPlugin(new CopyWebpackPlugin([
         // copies to {output}/static
-        { from: './assets/static', to: 'static' }
+        {from: './assets/static', to: 'static'}
     ]))
     // o summmernote tem esta dependência, mas não é necessária
     .addPlugin(new webpack.IgnorePlugin(/^codemirror$/))
@@ -61,19 +61,20 @@ Encore
     .enableSourceMaps(!Encore.isProduction())
     // enables hashed filenames (e.g. app.abc123.css)
     .enableVersioning(Encore.isProduction())
-    .configureBabel(() => {}, {
+    .configureBabel(() => {
+    }, {
         useBuiltIns: 'usage',
         corejs: 3
     })
     .enableSingleRuntimeChunk()
-    // enables Sass/SCSS support
-    //.enableSassLoader()
+// enables Sass/SCSS support
+//.enableSassLoader()
 
-    // uncomment if you use TypeScript
-    //.enableTypeScriptLoader()
+// uncomment if you use TypeScript
+//.enableTypeScriptLoader()
 
-    // uncomment if you're having problems with a jQuery plugin
-    //.autoProvidejQuery()
+// uncomment if you're having problems with a jQuery plugin
+//.autoProvidejQuery()
 ;
 
 module.exports = Encore.getWebpackConfig();
