@@ -3,7 +3,7 @@
 namespace App\Command\Base;
 
 use App\EntityOC\OcProduct;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -17,24 +17,24 @@ class TesteOcCommand extends Command
 
     private $doctrine;
 
-    public function __construct(RegistryInterface $doctrine)
+    public function __construct(ManagerRegistry $doctrine)
     {
         $this->doctrine = $doctrine;
         parent::__construct();
     }
 
     /**
-     * @return RegistryInterface
+     * @return ManagerRegistry
      */
-    public function getDoctrine(): RegistryInterface
+    public function getDoctrine(): ManagerRegistry
     {
         return $this->doctrine;
     }
 
     /**
-     * @param RegistryInterface $doctrine
+     * @param ManagerRegistry $doctrine
      */
-    public function setDoctrine(RegistryInterface $doctrine): void
+    public function setDoctrine(ManagerRegistry $doctrine): void
     {
         $this->doctrine = $doctrine;
     }
