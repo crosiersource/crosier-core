@@ -3,7 +3,7 @@
 namespace App\Business\Security;
 
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
@@ -18,7 +18,7 @@ class SecurityBusiness
 
     private $authChecker;
 
-    public function __construct(ManagerRegistry $doctrine, AuthorizationCheckerInterface $authChecker)
+    public function __construct(EntityManagerInterface $doctrine, AuthorizationCheckerInterface $authChecker)
     {
         $this->doctrine = $doctrine;
         $this->authChecker = $authChecker;

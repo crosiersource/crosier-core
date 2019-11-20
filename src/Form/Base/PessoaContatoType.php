@@ -4,7 +4,7 @@ namespace App\Form\Base;
 
 use CrosierSource\CrosierLibBaseBundle\Entity\Base\PessoaContato;
 use CrosierSource\CrosierLibBaseBundle\Repository\Base\PessoaContatoRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -20,10 +20,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class PessoaContatoType extends AbstractType
 {
 
-    /** @var ManagerRegistry */
+    /** @var EntityManagerInterface */
     private $doctrine;
 
-    public function __construct(ManagerRegistry $doctrine)
+    public function __construct(EntityManagerInterface $doctrine)
     {
         $this->doctrine = $doctrine;
     }
