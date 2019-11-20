@@ -3981,14 +3981,13 @@ jquery-mask-plugin@^1.14.15:
   resolved "https://registry.yarnpkg.com/jquery-mask-plugin/-/jquery-mask-plugin-1.14.16.tgz#9ebb55947d984da5aade45315b2fe6b113e28aae"
   integrity sha512-reywdHlYEkPbzWjTpcc1fk9XQ3PLvO5dzEAVqy8zI7NTF22tB1HbeU3iboZTLdkBEPaWAqeI2HtEjsGQ4roZKw==
 
-jquery-maskmoney@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/jquery-maskmoney/-/jquery-maskmoney-3.0.2.tgz#f18de4f06b8c66ad97cae8b320571c936ac637b7"
-  integrity sha1-8Y3k8GuMZq2XyuizIFcck2rGN7c=
+"jquery-maskmoney@https://github.com/plentz/jquery-maskmoney":
+  version "3.1.1"
+  resolved "https://github.com/plentz/jquery-maskmoney#cdbeeac5a3a6042db3f94ad44e0cf7f93a51c149"
   dependencies:
-    jquery ">=1.6"
+    jquery latest
 
-jquery@>=1.10, jquery@>=1.12.0, jquery@>=1.6, jquery@>=1.7, "jquery@>=1.7.1 <4.0.0", jquery@^3.4.0:
+jquery@>=1.10, jquery@>=1.12.0, jquery@>=1.7, "jquery@>=1.7.1 <4.0.0", jquery@^3.4.0, jquery@latest:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.4.1.tgz#714f1f8d9dde4bdfa55764ba37ef214630d80ef2"
   integrity sha512-36+AdBzCL+y6qjw5Tx7HgzeGCzC81MDDgaUP8ld2zhx58HdqXGoBd+tHdrBMiyjGQs0Hxs/MLZTu/eHNJJuWPw==

@@ -30,27 +30,12 @@ class CrosierMasks {
         });
     }
 
-    static maskMoneys() {
-        let $money = $(".crsr-money, .money, .dinheiro");
-        $money.each(function () {
-
-            $(this).maskMoney({
-                prefix: '',
-                thousands: '.',
-                decimal: ',',
-                affixesStay: true,
-                allowZero: true,
-                precision: 2
-            });
-            $(this).trigger('mask.maskMoney');
-
-        });
-    }
-
     static maskDecs() {
 
+        
+
         let $dec1 = $(".crsr-dec1, .decimal1");
-        let $dec2 = $(".crsr-dec2, .decimal2");
+        let $dec2 = $(".crsr-dec2, .decimal2, .crsr-money, .money, .dinheiro");
         let $dec3 = $(".crsr-dec3, .decimal3");
         let $dec4 = $(".crsr-dec4, .decimal4");
         let $dec5 = $(".crsr-dec5, .decimal5");
@@ -61,7 +46,9 @@ class CrosierMasks {
             decimal: ',',
             affixesStay: true,
             precision: 1,
-            allowZero: true
+            allowZero: true,
+            allowEmpty: true,
+            selectAllOnFocus: true
         });
         $dec1.trigger('mask.maskMoney');
 
@@ -71,7 +58,9 @@ class CrosierMasks {
             decimal: ',',
             affixesStay: true,
             precision: 2,
-            allowZero: true
+            allowZero: true,
+            allowEmpty: true,
+            selectAllOnFocus: true
         });
         $dec2.trigger('mask.maskMoney');
 
@@ -81,7 +70,9 @@ class CrosierMasks {
             decimal: ',',
             affixesStay: true,
             precision: 3,
-            allowZero: true
+            allowZero: true,
+            allowEmpty: true,
+            selectAllOnFocus: true
         });
         $dec3.trigger('mask.maskMoney');
 
@@ -91,9 +82,23 @@ class CrosierMasks {
             decimal: ',',
             affixesStay: true,
             precision: 4,
-            allowZero: true
+            allowZero: true,
+            allowEmpty: true,
+            selectAllOnFocus: true
         });
         $dec4.trigger('mask.maskMoney');
+
+        $dec5.maskMoney({
+            prefix: '',
+            thousands: '.',
+            decimal: ',',
+            affixesStay: true,
+            precision: 4,
+            allowZero: true,
+            allowEmpty: true,
+            selectAllOnFocus: true
+        });
+        $dec5.trigger('mask.maskMoney');
 
     }
 
@@ -156,7 +161,6 @@ class CrosierMasks {
 
     static maskAll() {
         CrosierMasks.maskDateTimes();
-        CrosierMasks.maskMoneys();
         CrosierMasks.maskDecs();
         CrosierMasks.maskCPF_CNPJ();
         CrosierMasks.maskTelefone9digitos();
