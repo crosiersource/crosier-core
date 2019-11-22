@@ -182,16 +182,16 @@ DROP TABLE IF EXISTS `cfg_app`;
 
 CREATE TABLE `cfg_app`
 (
-    `id`                   bigint(20) AUTO_INCREMENT NOT NULL,
-    `uuid`                 char(36)                  NOT NULL,
-    `nome`                 varchar(300)              NOT NULL,
-    `obs`                  varchar(5000) DEFAULT NULL,
+    `id`                 bigint(20) AUTO_INCREMENT NOT NULL,
+    `uuid`               char(36)                  NOT NULL,
+    `nome`               varchar(300)              NOT NULL,
+    `obs`                varchar(5000) DEFAULT NULL,
 
-    `inserted`             datetime                  NOT NULL,
-    `updated`              datetime                  NOT NULL,
-    `estabelecimento_id`   bigint(20)                NOT NULL,
-    `user_inserted_id`     bigint(20)                NOT NULL,
-    `user_updated_id`      bigint(20)                NOT NULL,
+    `inserted`           datetime                  NOT NULL,
+    `updated`            datetime                  NOT NULL,
+    `estabelecimento_id` bigint(20)                NOT NULL,
+    `user_inserted_id`   bigint(20)                NOT NULL,
+    `user_updated_id`    bigint(20)                NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `cfg_app_nome` (`nome`),
     UNIQUE KEY `cfg_app_uuid` (`uuid`),
@@ -447,7 +447,20 @@ CREATE TABLE `cfg_pushmessage`
 
 
 
+DROP TABLE IF EXISTS `cfg_entity_change`;
 
-
+CREATE TABLE `cfg_entity_change`
+(
+    `id`               bigint(20) AUTO_INCREMENT NOT NULL,
+    `entity_class`     varchar(200)              NOT NULL,
+    `entity_id`        bigint(20) NOT NULL,
+    `changing_user_id` bigint(20) NOT NULL,
+    `changed_at`       datetime   NOT NULL,
+    `changes`          TEXT NOT NULL,
+    PRIMARY KEY (`id`),
+    KEY `K_cfg_entity_change_entity_class` (`entity_class`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8
+  COLLATE = utf8_swedish_ci;
 
 
