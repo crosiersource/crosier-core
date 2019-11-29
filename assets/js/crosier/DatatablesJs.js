@@ -9,46 +9,53 @@ import 'datatables';
 class DatatablesJs {
 
     static makeDatatableJs(listId, columns, params) {
-        $(document).ready(function () {
 
-            // declaro antes para poder sobreescrever ali com o extent, no caso de querer mudar alguma coisa (ex.: movimentacaoRecorrentesList.js)
-            let defaultParams = {
-                paging: true,
-                serverSide: true,
-                stateSave: true,
-                ajax: {
-                    'url': $(listId).data('listajaxurl'),
-                    'type': 'POST',
-                    'data': function (data) {
-                        data.formPesquisar = $('#formPesquisar').serialize()
-                    }
-                },
-                searching: false,
-                columns: columns,
-                language: {
-                    "url": "/build/static/datatables-Portuguese-Brasil.json"
-                },
-                order: [[columns.length - 1, "desc"]]
-            };
 
-            // console.dir(defaultParams);
+        // declaro antes para poder sobreescrever ali com o extent, no caso de querer mudar alguma coisa (ex.: movimentacaoRecorrentesList.js)
+        let defaultParams = {
+            paging: true,
+            serverSide: true,
+            stateSave: true,
+            ajax: {
+                'url': $(listId).data('listajaxurl'),
+                'type': 'POST',
+                'data': function (data) {
+                    data.formPesquisar = $('#formPesquisar').serialize()
+                }
+            },
+            searching: false,
+            columns: columns,
+            language: {
+                "url": "/build/static/datatables-Portuguese-Brasil.json"
+            },
+            order: [[columns.length - 1, "desc"]]
+        };
 
-            $.extend(defaultParams, params);
+        // console.dir(defaultParams);
 
-            let datatable = $(listId).DataTable(defaultParams);
+        $.extend(defaultParams, params);
 
-            datatable.on('preDraw', function () {
-                console.log('preDraw');
-            });
-
-            datatable.on('draw', function () {
-                $('[data-toggle="tooltip"]').tooltip();
-                CrosierMasks.maskAll();
+        let datatable = $(listId).on('preXhr.dt', function (e, settings, processing) {
+            console.log('foi preXhr');
+            if (processing) {
                 Pace.restart();
-                console.log('draw');
-            });
+            } else {
+                Pace.stop();
+            }
+        }).DataTable(defaultParams);
 
+        datatable.on('preDraw', function () {
+            console.log('preDraw');
         });
+
+        datatable.on('draw', function () {
+            $('[data-toggle="tooltip"]').tooltip();
+            CrosierMasks.maskAll();
+            Pace.restart();
+            console.log('draw');
+        });
+
+
     }
 
     static makeEditButton(editUrl) {
