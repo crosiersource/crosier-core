@@ -28,7 +28,7 @@ class DatatablesJs {
                 language: {
                     "url": "/build/static/datatables-Portuguese-Brasil.json"
                 },
-                order: [[ columns.length - 1, "desc" ]]
+                order: [[columns.length - 1, "desc"]]
             };
 
             // console.dir(defaultParams);
@@ -37,10 +37,15 @@ class DatatablesJs {
 
             let datatable = $(listId).DataTable(defaultParams);
 
+            datatable.on('preDraw', function () {
+                console.log('preDraw');
+            });
+
             datatable.on('draw', function () {
                 $('[data-toggle="tooltip"]').tooltip();
                 CrosierMasks.maskAll();
                 Pace.restart();
+                console.log('draw');
             });
 
         });
