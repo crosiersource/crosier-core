@@ -251,7 +251,7 @@ class CrosierBaseLayout {
             // else
 
             if (elem.data('route-url')) {
-                let $s2 = elem.select2({
+                let config = {
                     minimumInputLength: 2,
                     placeholder: '...',
                     allowClear: true,
@@ -285,7 +285,16 @@ class CrosierBaseLayout {
                         },
                         cache: true
                     }
-                });
+                };
+                if (elem.data('options')) {
+                    config.data = elem.data('options');
+                }
+                let $s2 = elem.select2(config);
+
+                if (elem.data('val')) {
+                    elem.val(elem.data('val')).trigger('change');
+                }
+
                 return;
             }
 
@@ -306,10 +315,12 @@ class CrosierBaseLayout {
             // else
 
             if (elem.data('tagsoptions')) {
-                elem.select2({
+                let $s2 = elem.select2({
                     tags: true,
-                    tokenSeparators: [','],
-                    data: elem.data('tagsoptions')
+                    tokenSeparators: [',']
+                });
+                elem.data('tagsoptions').split(',').forEach(function (t) {
+                    $s2.append(new Option(t, t, false, true)).trigger('change');
                 });
                 return;
             }
