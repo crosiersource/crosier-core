@@ -59,6 +59,5 @@ function getDatatablesColumns() {
     ];
 }
 
-console.log('oi');
 
 DatatablesJs.makeDatatableJs(listId, getDatatablesColumns());
