@@ -60,13 +60,6 @@ class LogoutHandler implements LogoutSuccessHandlerInterface
             if ($this->security->getUser()) {
                 $this->userEntityHandler->revogarApiToken($this->security->getUser());
             }
-
-            if ($this->session->has('programs_menus')) {
-                $this->session->set('programs_menus', null);
-            }
-            if ($this->session->has('crosier_menus')) {
-                $this->session->set('crosier_menus', null);
-            }
         } catch (ViewException $e) {
             $this->logger->error('Erro ao revogar apitoken');
             $this->logger->error($e->getMessage());
