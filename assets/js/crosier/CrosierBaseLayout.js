@@ -39,6 +39,17 @@ class CrosierBaseLayout {
         let $confirmationModal = $('#confirmationModal');
 
         $confirmationModal.on('show.bs.modal', function (e) {
+
+            $('#btnConfirmationModalYes', this)
+                .data('form', '')
+                .data('url', '')
+                .data('function', '')
+                .data('name', '')
+                .data('value', '')
+                .data('token', '')
+                .data('jsfunction', '')
+                .data('jsfunction-args', '');
+
             $('#btnConfirmationModalYes', this)
                 .data('form', $(e.relatedTarget).data('form'))
                 .data('url', $(e.relatedTarget).data('url'))
