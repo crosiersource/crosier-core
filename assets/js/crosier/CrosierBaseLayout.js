@@ -330,7 +330,7 @@ class CrosierBaseLayout {
                     tags: true,
                     tokenSeparators: [',']
                 });
-                elem.data('tagsoptions').split(',').forEach(function (t) {
+                String(elem.data('tagsoptions')).split(',').forEach(function (t) {
                     $s2.append(new Option(t, t, false, true)).trigger('change');
                 });
                 return;
