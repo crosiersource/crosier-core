@@ -44,20 +44,12 @@ import 'daterangepicker/daterangepicker.css';
 
 
 window.onbeforeunload = function (e) {
-    console.log('tchau');
-
     Pace.options = {ghostTime: 2500000};
-
     document.getElementById('preloader').style.display = '';
-
-
-    $('#blurriers').css('filter', 'blur(2px) grayscale(2)');
-
+    $('.blurriers').css('filter', 'blur(2px) grayscale(2)');
 };
 
-
 $(document).ready(function () {
-
 
     CrosierBaseLayout.handlePace();
 

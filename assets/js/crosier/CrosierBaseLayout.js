@@ -21,26 +21,26 @@ class CrosierBaseLayout {
      */
     static handlePace() {
 
-        $('#blurriers').css('filter', 'blur(2px)');
+        $('.blurriers').css('filter', 'blur(2px)');
 
         Pace.on('restart', function (e) {
             document.getElementById('preloader').style.display = '';
-            $('#blurriers').css('filter', 'blur(2px) grayscale(3)');
+            $('.blurriers').css('filter', 'blur(2px) grayscale(3)');
         });
 
         Pace.on('start', function (e) {
             document.getElementById('preloader').style.display = '';
-            $('#blurriers').css('filter', 'blur(2px) grayscale(3)');
+            $('.blurriers').css('filter', 'blur(2px) grayscale(3)');
         });
 
         Pace.on('hide', function (e) {
             document.getElementById('preloader').style.display = 'none';
-            $('#blurriers').css('filter', '');
+            $('.blurriers').css('filter', '');
         });
 
         $('form').submit(function (e) {
             Pace.options = {ghostTime: 2500000};
-            $('#blurriers').css('filter', 'blur(2px) grayscale(3)');
+            $('.blurriers').css('filter', 'blur(2px) grayscale(3)');
         });
     }
 
