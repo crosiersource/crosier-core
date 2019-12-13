@@ -12,6 +12,7 @@ import 'bootstrap-datepicker/js/locales/bootstrap-datepicker.pt-BR';
 import Push from "push.js";
 
 import CrosierMasks from './CrosierMasks';
+import Pace from "pace-progress";
 
 class CrosierBaseLayout {
 
@@ -19,16 +20,28 @@ class CrosierBaseLayout {
      * Ativar o pace nos submits dos forms.
      */
     static handlePace() {
-        $('form').submit(function (e) {
-            Pace.restart();
-            for (let i = 0; i < document.getElementsByClassName("blur-on-pace").length; i++) {
-                document.getElementsByClassName("blur-on-pace")[i].style.filter = 'blur(3px)';
-            }
+
+        $('#blurriers').css('filter', 'blur(2px)');
+
+        Pace.on('restart', function (e) {
+            document.getElementById('preloader').style.display = '';
+            $('#blurriers').css('filter', 'blur(2px) grayscale(3)');
         });
 
-        // $(document).ajaxStart(function () {
-        //     Pace.restart();
-        // });
+        Pace.on('start', function (e) {
+            document.getElementById('preloader').style.display = '';
+            $('#blurriers').css('filter', 'blur(2px) grayscale(3)');
+        });
+
+        Pace.on('hide', function (e) {
+            document.getElementById('preloader').style.display = 'none';
+            $('#blurriers').css('filter', '');
+        });
+
+        $('form').submit(function (e) {
+            Pace.options = {ghostTime: 2500000};
+            $('#blurriers').css('filter', 'blur(2px) grayscale(3)');
+        });
     }
 
 

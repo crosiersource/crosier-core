@@ -3,7 +3,6 @@
 import $ from 'jquery';
 
 
-
 import CustomTooltips from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 
 import 'bootstrap/dist/css/bootstrap.css';
@@ -35,7 +34,7 @@ import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css';
 
 import Hotkeys from "hotkeys-js";
 
-
+import Pace from 'pace-progress';
 
 import 'toastr/build/toastr.css'
 
@@ -44,13 +43,25 @@ import '../../static/css/crosier.css';
 import 'daterangepicker/daterangepicker.css';
 
 
+window.onbeforeunload = function (e) {
+    console.log('tchau');
+
+    Pace.options = {ghostTime: 2500000};
+
+    document.getElementById('preloader').style.display = '';
+
+
+    $('#blurriers').css('filter', 'blur(2px) grayscale(2)');
+
+};
 
 
 $(document).ready(function () {
 
-    CrosierMasks.maskAll();
 
     CrosierBaseLayout.handlePace();
+
+    CrosierMasks.maskAll();
 
     CrosierBaseLayout.handleConfirmationModal();
 
@@ -83,7 +94,6 @@ $(document).ready(function () {
     }
 
     CrosierBaseLayout.startPushForUser();
-
 
 
 });
