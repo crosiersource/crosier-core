@@ -24,19 +24,16 @@ class CrosierBaseLayout {
         $('.blurriers').css('filter', 'blur(2px)');
 
         Pace.on('restart', function (e) {
-            console.log('pace restart');
             document.getElementById('preloader').style.display = '';
             $('.blurriers').css('filter', 'blur(2px) grayscale(3)');
         });
 
         Pace.on('start', function (e) {
-            console.log('pace start');
             document.getElementById('preloader').style.display = '';
             $('.blurriers').css('filter', 'blur(2px) grayscale(3)');
         });
 
         Pace.on('hide', function (e) {
-            console.log('pace hide');
             document.getElementById('preloader').style.display = 'none';
             $('.blurriers').css('filter', '');
         });
