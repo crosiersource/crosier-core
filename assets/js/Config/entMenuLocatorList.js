@@ -4,8 +4,6 @@ import Moment from 'moment';
 
 let listId = "#entMenuLocatorList";
 
-import DatatablesJs from '../crosier/DatatablesJs';
-
 function getDatatablesColumns() {
     return [
         {

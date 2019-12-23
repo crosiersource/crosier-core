@@ -32,8 +32,6 @@ import 'datatables/media/css/jquery.dataTables.css';
 
 import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css';
 
-import Hotkeys from "hotkeys-js";
-
 import Pace from 'pace-progress';
 
 import 'toastr/build/toastr.css'
@@ -41,6 +39,7 @@ import 'toastr/build/toastr.css'
 import '../../static/css/crosier.css';
 
 import 'daterangepicker/daterangepicker.css';
+import DatatablesJs from "./DatatablesJs";
 
 
 window.onbeforeunload = function (e) {
@@ -69,12 +68,6 @@ $(document).ready(function () {
 
     CrosierBaseLayout.handleCamposCepComBtnConsulta();
 
-    Hotkeys('ctrl+m', function (event, handler) {
-        // Prevent the default refresh event under WINDOWS system
-        event.preventDefault();
-        console.dir(event);
-        $('#appMainMenu').select2('open');
-    });
 
     let $focusOnReady = $('.focusOnReady');
     if ($focusOnReady) {
@@ -92,3 +85,5 @@ $(document).ready(function () {
 
 global.$ = $; // manter isso até remover todos os <script>'s dos templates
 global.CustomTooltips = CustomTooltips; // manter isso até remover todos os <script>'s dos templates
+global.CrosierMasks = CrosierMasks;
+global.DatatablesJs = DatatablesJs;
