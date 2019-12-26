@@ -2,9 +2,6 @@
 
 import $ from 'jquery';
 
-
-import CustomTooltips from '@coreui/coreui-plugin-chartjs-custom-tooltips';
-
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap';
 import 'popper.js';
@@ -50,6 +47,8 @@ window.onbeforeunload = function (e) {
 
 $(document).ready(function () {
 
+    console.log('ready layout ini');
+
     CrosierBaseLayout.handlePace();
 
     CrosierMasks.maskAll();
@@ -80,10 +79,11 @@ $(document).ready(function () {
 
     CrosierBaseLayout.startPushForUser();
 
+    console.log('ready layout fim');
+
 
 });
 
 global.$ = $; // manter isso até remover todos os <script>'s dos templates
-global.CustomTooltips = CustomTooltips; // manter isso até remover todos os <script>'s dos templates
 global.CrosierMasks = CrosierMasks;
 global.DatatablesJs = DatatablesJs;
