@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "jquery": "3.4.1",
     "@coreui/coreui": "^2.1.12",
     "@coreui/coreui-plugin-chartjs-custom-tooltips": "^1.2.0",
     "@coreui/icons": "^0.3.0",
@@ -17,7 +18,6 @@
     "flag-icon-css": "^3.2.1",
     "fstream": "^1.0.12",
     "hotkeys-js": "^3.4.3",
-    "jquery": "^3.4.0",
     "jquery-mask-plugin": "^1.14.15",
     "jquery-maskmoney": "https://github.com/plentz/jquery-maskmoney",
     "js-yaml": "^3.13.1",
