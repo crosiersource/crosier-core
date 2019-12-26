@@ -277,7 +277,7 @@ class CrosierBaseLayout {
 
             if (elem.data('route-url')) {
                 let config = {
-                    width: 'resolve',
+                    width: '100%',
                     minimumInputLength: 2,
                     placeholder: '...',
                     allowClear: true,
@@ -328,7 +328,7 @@ class CrosierBaseLayout {
 
             if (elem.data('options')) {
                 elem.select2({
-                    width: 'resolve',
+                    width: '100%',
                     placeholder: '...',
                     allowClear: true,
                     data: elem.data('options')
@@ -343,7 +343,7 @@ class CrosierBaseLayout {
 
             if (elem.data('tagsoptions')) {
                 let $s2 = elem.select2({
-                    width: 'resolve',
+                    width: '100%',
                     tags: true,
                     tokenSeparators: [',']
                 });
@@ -363,7 +363,7 @@ class CrosierBaseLayout {
 
             if (elem.data('s2allownew')) {
                 opt = {
-                    width: 'resolve',
+                    width: '100%',
                     placeholder: '...',
                     allowClear: true,
                     tags: true,
