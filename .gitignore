@@ -34,3 +34,6 @@ yarn-error.log
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+
+
+src/Entity/uppercaseFields.json
