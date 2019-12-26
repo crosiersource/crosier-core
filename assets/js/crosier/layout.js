@@ -39,11 +39,6 @@ import 'daterangepicker/daterangepicker.css';
 import DatatablesJs from "./DatatablesJs";
 
 
-window.onbeforeunload = function (e) {
-    Pace.options = {ghostTime: 2500000};
-    document.getElementById('preloader').style.display = '';
-    $('.blurriers').css('filter', 'blur(2px) grayscale(2)');
-};
 
 $(document).ready(function () {
 
@@ -83,6 +78,13 @@ $(document).ready(function () {
 
 
 });
+
+window.onbeforeunload = function (e) {
+    Pace.options = {ghostTime: 2500000};
+    document.getElementById('preloader').style.display = '';
+    $('.blurriers').css('filter', 'blur(2px) grayscale(2)');
+};
+
 
 global.$ = $; // manter isso até remover todos os <script>'s dos templates
 global.CrosierMasks = CrosierMasks;
