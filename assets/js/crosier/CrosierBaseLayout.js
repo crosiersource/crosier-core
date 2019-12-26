@@ -218,7 +218,8 @@ class CrosierBaseLayout {
                     }
 
                     let $s2 = elem.select2({
-                        width: 'resolve',
+                        width: '100%',
+                        dropdownAutoWidth : true,
                         minimumInputLength: 2,
                         placeholder: '...',
                         allowClear: true,
@@ -278,6 +279,7 @@ class CrosierBaseLayout {
             if (elem.data('route-url')) {
                 let config = {
                     width: '100%',
+                    dropdownAutoWidth : true,
                     minimumInputLength: 2,
                     placeholder: '...',
                     allowClear: true,
@@ -329,6 +331,7 @@ class CrosierBaseLayout {
             if (elem.data('options')) {
                 elem.select2({
                     width: '100%',
+                    dropdownAutoWidth : true,
                     placeholder: '...',
                     allowClear: true,
                     data: elem.data('options')
@@ -344,6 +347,7 @@ class CrosierBaseLayout {
             if (elem.data('tagsoptions')) {
                 let $s2 = elem.select2({
                     width: '100%',
+                    dropdownAutoWidth : true,
                     tags: true,
                     tokenSeparators: [',']
                 });
@@ -359,11 +363,14 @@ class CrosierBaseLayout {
             let opt = {
                 placeholder: '...',
                 allowClear: true,
+                width: '100%',
+                dropdownAutoWidth : true,
             };
 
             if (elem.data('s2allownew')) {
                 opt = {
                     width: '100%',
+                    dropdownAutoWidth : true,
                     placeholder: '...',
                     allowClear: true,
                     tags: true,
@@ -377,11 +384,6 @@ class CrosierBaseLayout {
                     templateResult: function (data) {
                         let $result = $("<span></span>");
                         $result.text(data.text.toUpperCase());
-
-                        // if (data.newOption) {
-                        //     $result.append(" <em> *</em>");
-                        // }
-
                         return $result;
                     }
                 };
