@@ -19,6 +19,13 @@
         <env name="MERCURE_PUBLISH_URL" value="https://demo.mercure.rocks/hub"/>
         <env name="MERCURE_JWT_SECRET" value="#see https://mercure.rocks"/>
         <!-- ###- symfony/mercure-bundle ### -->
+
+        <!-- ###+ symfony/framework-bundle ### -->
+        <env name="APP_ENV" value="dev"/>
+        <env name="APP_SECRET" value="d246eb8c5bd33003e3b4d2d2ab13dd5a"/>
+        <!-- env name="TRUSTED_PROXIES" value="127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16" -->
+        <!-- env name="TRUSTED_HOSTS" value="'^localhost|example\.com$'" -->
+        <!-- ###- symfony/framework-bundle ### -->
     </php>
 
     <testsuites>
