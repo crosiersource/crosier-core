@@ -42,8 +42,6 @@ import DatatablesJs from "./DatatablesJs";
 
 $(document).ready(function () {
 
-    console.log('ready layout ini');
-
     CrosierBaseLayout.handlePace();
 
     CrosierMasks.maskAll();
@@ -73,9 +71,6 @@ $(document).ready(function () {
     }
 
     CrosierBaseLayout.startPushForUser();
-
-    console.log('ready layout fim');
-
 
 });
 
