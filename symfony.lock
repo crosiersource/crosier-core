@@ -229,9 +229,6 @@
             "config/bootstrap.php"
         ]
     },
-    "symfony/debug": {
-        "version": "v4.4.2"
-    },
     "symfony/debug-bundle": {
         "version": "4.1",
         "recipe": {

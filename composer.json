@@ -58,8 +58,7 @@
     "symfony/debug-bundle": "5.0.*",
     "symfony/web-server-bundle": "^4.4",
     "symfony/var-dumper": "5.0.*",
-    "sensiolabs/security-checker": "6.0.*",
-    "symfony/debug": "^4.4"
+    "sensiolabs/security-checker": "6.0.*"
   },
   "config": {
     "minimum-stability": "dev",
