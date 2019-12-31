@@ -13,14 +13,15 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: true
+            anonymous: ~
 
             remember_me:
+                name: 'RMMBRM'
                 secret:   '%kernel.secret%'
                 lifetime: 6048000 # 10 semanas
                 domain: "%env(CROSIER_MAINDOMAIN)%"
                 samesite: lax
-
+                httponly: false
 
             guard:
                 authenticators:
@@ -53,7 +54,6 @@ security:
         - { path: ^/build, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/bundles, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/sec/hash, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/getCrosierAssetUrl, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         # if you wanted to force EVERY URL to be protected
         - { path: ^/, roles: IS_AUTHENTICATED_REMEMBERED }
