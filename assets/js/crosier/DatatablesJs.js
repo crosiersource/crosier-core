@@ -42,7 +42,6 @@ class DatatablesJs {
         }).DataTable(defaultParams);
 
         datatable.on('draw', function () {
-            $('[data-toggle="tooltip"]').tooltip();
             CrosierMasks.maskAll();
             Pace.restart();
         });

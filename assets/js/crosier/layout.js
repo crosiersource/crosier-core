@@ -54,8 +54,6 @@ $(document).ready(function () {
 
     CrosierBaseLayout.handleSelect2();
 
-    CrosierBaseLayout.handleTooltip();
-
     CrosierBaseLayout.handleBootstrapDatepicker();
 
     CrosierBaseLayout.handleCamposCepComBtnConsulta();

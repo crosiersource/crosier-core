@@ -444,12 +444,6 @@ class CrosierBaseLayout {
 
     }
 
-    /**
-     * Ativar tooltip.
-     */
-    static handleTooltip() {
-        $('[data-toggle="tooltip"]').tooltip();
-    }
 
 
     static handleBootstrapDatepicker() {
