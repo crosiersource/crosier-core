@@ -1,18 +1,19 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
     "content-hash": "ee0bf01a0a184ce84801bea330dc0acf",
     "packages": [
         {
             "name": "crosiersource/crosierlib-base",
-            "version": "dev-master",
+            "version": "9999999-dev",
             "dist": {
                 "type": "path",
                 "url": "../crosierlib-base",
-                "reference": "53271ca01bc4a07d9745a20c4615e423170dcf2c"
+                "reference": "6908b197d4d1831bae9a33eb9bca9c9265cddf52",
+                "shasum": null
             },
             "require": {
                 "ext-bcmath": "*",
@@ -7144,6 +7145,7 @@
                 "code",
                 "zf"
             ],
+            "abandoned": "laminas/laminas-code",
             "time": "2019-12-10T19:21:15+00:00"
         },
         {
@@ -7198,6 +7200,7 @@
                 "events",
                 "zf2"
             ],
+            "abandoned": "laminas/laminas-eventmanager",
             "time": "2018-04-25T15:33:34+00:00"
         }
     ],
