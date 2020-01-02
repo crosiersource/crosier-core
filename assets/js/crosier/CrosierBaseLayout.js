@@ -345,7 +345,6 @@ class CrosierBaseLayout {
             // else
 
             if (elem[0].hasAttribute('data-tagsoptions')) {
-                console.log('sim');
                 let $s2 = elem.select2({
                     width: '100%',
                     dropdownAutoWidth : true,
