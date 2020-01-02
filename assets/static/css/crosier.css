@@ -25,6 +25,11 @@ input, select {
     text-transform: uppercase;
 }
 
+.select2-search__field {
+    text-transform: none;
+    width: 100%;
+}
+
 input[type=submit], input[type=button] {
     text-transform: none;
 }

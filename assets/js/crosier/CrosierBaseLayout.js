@@ -344,7 +344,8 @@ class CrosierBaseLayout {
 
             // else
 
-            if (elem.data('tagsoptions')) {
+            if (elem[0].hasAttribute('data-tagsoptions')) {
+                console.log('sim');
                 let $s2 = elem.select2({
                     width: '100%',
                     dropdownAutoWidth : true,
@@ -352,7 +353,10 @@ class CrosierBaseLayout {
                     tokenSeparators: [',']
                 });
                 String(elem.data('tagsoptions')).split(',').forEach(function (t) {
-                    $s2.append(new Option(t, t, false, true)).trigger('change');
+                    if (t) {
+                        t = t.toUpperCase();
+                        $s2.append(new Option(t, t, false, true)).trigger('change');
+                    }
                 });
                 return;
             }
