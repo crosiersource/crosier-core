@@ -38,3 +38,5 @@ yarn-error.log
 
 /src/Entity/uppercaseFields.json
 
+
+/templates/base.html.twig
