@@ -47,7 +47,7 @@ class ProgramController extends FormListController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      *
-     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
     public function form(Request $request, Program $program = null)
     {
@@ -66,7 +66,7 @@ class ProgramController extends FormListController
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      *
-     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
     public function list(Request $request): Response
     {
@@ -87,7 +87,7 @@ class ProgramController extends FormListController
      * @return Response
      * @throws \CrosierSource\CrosierLibBaseBundle\Exception\ViewException
      *
-     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
     public function datatablesJsList(Request $request): Response
     {
@@ -112,7 +112,7 @@ class ProgramController extends FormListController
      * @param Program $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      *
-     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
     public function delete(Request $request, Program $id): \Symfony\Component\HttpFoundation\RedirectResponse
     {

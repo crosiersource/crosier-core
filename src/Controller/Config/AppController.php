@@ -62,7 +62,7 @@ class AppController extends FormListController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      *
-     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
     public function form(Request $request, App $app = null)
     {
@@ -111,7 +111,7 @@ class AppController extends FormListController
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      *
-     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
     public function list(Request $request): Response
     {
@@ -133,7 +133,7 @@ class AppController extends FormListController
      * @return Response
      * @throws \CrosierSource\CrosierLibBaseBundle\Exception\ViewException
      *
-     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
     public function datatablesJsList(Request $request): Response
     {
@@ -147,7 +147,7 @@ class AppController extends FormListController
      * @param App $app
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      *
-     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
     public function delete(Request $request, App $app): \Symfony\Component\HttpFoundation\RedirectResponse
     {
@@ -161,7 +161,7 @@ class AppController extends FormListController
      * @param AppConfig $appConfig
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      *
-     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
     public function deleteAppConfig(Request $request, AppConfig $appConfig): \Symfony\Component\HttpFoundation\RedirectResponse
     {

@@ -86,7 +86,7 @@ class UserController extends FormListController
      * @return Response
      * @throws \CrosierSource\CrosierLibBaseBundle\Exception\ViewException
      *
-     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
     public function datatablesJsList(Request $request): Response
     {
