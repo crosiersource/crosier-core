@@ -1,0 +1,1 @@
+alter table cfg_app_config ADD CONSTRAINT `K_cfg_app_config_chave` UNIQUE KEY(chave, app_uuid);
