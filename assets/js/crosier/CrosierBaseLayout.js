@@ -364,7 +364,6 @@ class CrosierBaseLayout {
 
 
             let opt = {
-                placeholder: '...',
                 allowClear: true,
                 width: '100%',
                 dropdownAutoWidth : true,

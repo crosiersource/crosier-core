@@ -84,7 +84,7 @@ class EntMenuLocatorController extends FormListController
      * @param EntMenuLocator $entMenuLocator
      * @return RedirectResponse
      *
-     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
     public function delete(Request $request, EntMenuLocator $entMenuLocator): RedirectResponse
     {

@@ -46,7 +46,7 @@ class ConfigController extends FormListController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      *
-     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
     public function form(Request $request, Config $config = null)
     {
@@ -65,7 +65,7 @@ class ConfigController extends FormListController
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      *
-     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
     public function list(Request $request): Response
     {
@@ -86,7 +86,7 @@ class ConfigController extends FormListController
      * @return Response
      * @throws \CrosierSource\CrosierLibBaseBundle\Exception\ViewException
      *
-     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
     public function datatablesJsList(Request $request): Response
     {
@@ -100,7 +100,7 @@ class ConfigController extends FormListController
      * @param Config $config
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      *
-     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
     public function delete(Request $request, Config $config): \Symfony\Component\HttpFoundation\RedirectResponse
     {
@@ -112,7 +112,7 @@ class ConfigController extends FormListController
      * @Route("/cfg/config/select2json", name="cfg_config_select2json")
      * @return Response
      *
-     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
     public function configSelect2json(): Response
     {

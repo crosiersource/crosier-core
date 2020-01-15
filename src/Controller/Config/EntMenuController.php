@@ -54,7 +54,7 @@ class EntMenuController extends FormListController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      * @throws \Exception
      *
-     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
     public function form(Request $request, EntMenu $entMenu = null)
     {
@@ -88,7 +88,7 @@ class EntMenuController extends FormListController
      * @param Request $request
      * @param EntMenu $entMenu
      * @return Response
-     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
     public function list(Request $request, EntMenu $entMenu): Response
     {
@@ -126,7 +126,7 @@ class EntMenuController extends FormListController
      * @return Response
      * @throws \Exception
      *
-     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
     public function listPais(Request $request): Response
     {
@@ -145,7 +145,7 @@ class EntMenuController extends FormListController
      * @param EntMenu $entMenu
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      *
-     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
     public function delete(Request $request, EntMenu $entMenu): \Symfony\Component\HttpFoundation\RedirectResponse
     {
@@ -168,7 +168,7 @@ class EntMenuController extends FormListController
      * @param Request $request
      * @return Response|\Symfony\Component\HttpFoundation\RedirectResponse
      *
-     * @IsGranted({"ROLE_ADMIN"}, statusCode=403)
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
     public function saveOrdem(Request $request): JsonResponse
     {
