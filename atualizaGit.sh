@@ -10,8 +10,6 @@ echo ""
 cd $PASTA
 
 
-git checkout assets/static/fos_js_routes.json
-git checkout src/Entity/uppercaseFields.json
 git pull
 git status
 
