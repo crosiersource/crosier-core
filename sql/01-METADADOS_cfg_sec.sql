@@ -149,35 +149,6 @@ CREATE TABLE `sec_user_role`
 
 
 
-DROP TABLE IF EXISTS `cfg_config`;
-
-CREATE TABLE `cfg_config`
-(
-    `id`                 bigint(20) AUTO_INCREMENT NOT NULL,
-    `chave`              varchar(300)              NOT NULL,
-    `valor`              varchar(10000)            NOT NULL,
-    `obs`                varchar(5000) DEFAULT NULL,
-    `global`             bit(1)                    NOT NULL,
-    `estabelecimento_id` bigint(20)                NOT NULL,
-    `inserted`           datetime                  NOT NULL,
-    `updated`            datetime                  NOT NULL,
-    `user_inserted_id`   bigint(20)                NOT NULL,
-    `user_updated_id`    bigint(20)                NOT NULL,
-    `version`            int(11)       DEFAULT NULL,
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `UK_cfg_config_chave_estabelecimento` (`chave`, `estabelecimento_id`) USING BTREE,
-    KEY `K_cfg_config_estabelecimento` (`estabelecimento_id`),
-    KEY `K_cfg_config_user_inserted` (`user_inserted_id`),
-    KEY `K_cfg_config_user_updated` (`user_updated_id`),
-    CONSTRAINT `FK_cfg_config_estabelecimento` FOREIGN KEY (`estabelecimento_id`) REFERENCES `cfg_estabelecimento` (`id`),
-    CONSTRAINT `FK_cfg_config_user_updated` FOREIGN KEY (`user_updated_id`) REFERENCES `sec_user` (`id`),
-    CONSTRAINT `FK_cfg_config_user_inserted` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_swedish_ci;
-
-
-
 DROP TABLE IF EXISTS `cfg_app`;
 
 CREATE TABLE `cfg_app`
@@ -230,69 +201,6 @@ CREATE TABLE `cfg_app_config`
     CONSTRAINT `FK_cfg_app_config_app` FOREIGN KEY (`app_uuid`) REFERENCES `cfg_app` (`uuid`),
     CONSTRAINT `FK_cfg_app_config_user_inserted` FOREIGN KEY (`user_updated_id`) REFERENCES `sec_user` (`id`),
     CONSTRAINT `FK_cfg_app_config_user_updated` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_swedish_ci;
-
-
-
-DROP TABLE IF EXISTS `cfg_program`;
-
-CREATE TABLE `cfg_program`
-(
-    `id`                 bigint(20) AUTO_INCREMENT NOT NULL,
-    `uuid`               char(36)                  NOT NULL,
-    `descricao`          varchar(255)              NOT NULL,
-    `url`                varchar(2000) DEFAULT NULL,
-    `app_uuid`           char(36)                  NOT NULL,
-    `entmenu_uuid`       char(36)                  NULL,
-    `inserted`           datetime                  NOT NULL,
-    `updated`            datetime                  NOT NULL,
-    `estabelecimento_id` bigint(20)                NOT NULL,
-    `user_inserted_id`   bigint(20)                NOT NULL,
-    `user_updated_id`    bigint(20)                NOT NULL,
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `UK_cfg_program_descricao_app` (`descricao`, `app_uuid`),
-    UNIQUE KEY `UK_cfg_program_id` (`uuid`),
-    KEY `K_cfg_program_estabelecimento` (`estabelecimento_id`),
-    KEY `K_cfg_program_user_inserted` (`user_inserted_id`),
-    KEY `K_cfg_program_user_updated` (`user_updated_id`),
-    KEY `K_cfg_program_app` (`app_uuid`),
-    KEY `K_cfg_program_entmenu` (`entmenu_uuid`),
-    CONSTRAINT `FK_cfg_program_estabelecimento` FOREIGN KEY (`estabelecimento_id`) REFERENCES `cfg_estabelecimento` (`id`),
-    CONSTRAINT `FK_cfg_program_app` FOREIGN KEY (`app_uuid`) REFERENCES `cfg_app` (`uuid`),
-    CONSTRAINT `FK_cfg_program_user_inserted` FOREIGN KEY (`user_updated_id`) REFERENCES `sec_user` (`id`),
-    CONSTRAINT `FK_cfg_program_user_updated` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`),
-    CONSTRAINT `FK_cfg_program_entmenu` FOREIGN KEY (`entmenu_uuid`) REFERENCES `cfg_entmenu` (`uuid`)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_swedish_ci;
-
-
-
-DROP TABLE IF EXISTS `cfg_program_config`;
-
-CREATE TABLE `cfg_program_config`
-(
-    `id`                 bigint(20) AUTO_INCREMENT NOT NULL,
-    `chave`              varchar(255)              NOT NULL,
-    `valor`              LONGBLOB,
-    `program_id`         bigint(20)                NOT NULL,
-    `inserted`           datetime                  NOT NULL,
-    `updated`            datetime                  NOT NULL,
-    `estabelecimento_id` bigint(20)                NOT NULL,
-    `user_inserted_id`   bigint(20)                NOT NULL,
-    `user_updated_id`    bigint(20)                NOT NULL,
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `UK_cfg_program_config` (`chave`, `program_id`),
-    KEY `K_cfg_program_estabelecimento` (`estabelecimento_id`),
-    KEY `K_cfg_program_user_inserted` (`user_inserted_id`),
-    KEY `K_cfg_program_user_updated` (`user_updated_id`),
-    KEY `K_cfg_program_config_program` (`program_id`),
-    CONSTRAINT `FK_cfg_program_config_estabelecimento` FOREIGN KEY (`estabelecimento_id`) REFERENCES `cfg_estabelecimento` (`id`),
-    CONSTRAINT `FK_cfg_program_config_program` FOREIGN KEY (`program_id`) REFERENCES `cfg_program` (`id`),
-    CONSTRAINT `FK_cfg_program_config_user_inserted` FOREIGN KEY (`user_updated_id`) REFERENCES `sec_user` (`id`),
-    CONSTRAINT `FK_cfg_program_config_user_updated` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
   COLLATE = utf8_swedish_ci;

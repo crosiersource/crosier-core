@@ -114,6 +114,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
         $this->userEntityHandler->renewTokenApi($token->getUser());
 
+        $this->userEntityHandler->fixRoles($token->getUser());
+
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
