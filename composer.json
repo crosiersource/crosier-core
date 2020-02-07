@@ -56,7 +56,6 @@
     "symfony/web-profiler-bundle": "5.0.*"
   },
   "require-dev": {
-    "symfony/web-server-bundle": "^4.4",
     "symfony/var-dumper": "5.0.*",
     "sensiolabs/security-checker": "6.0.*",
     "symfony/maker-bundle": "1.*"
