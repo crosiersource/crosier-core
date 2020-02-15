@@ -47,6 +47,8 @@ class EntMenuLocatorController extends FormListController
      * @param EntMenuLocator|null $entMenuLocator
      * @return RedirectResponse|Response
      * @throws \CrosierSource\CrosierLibBaseBundle\Exception\ViewException
+     *
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
     public function form(Request $request, string $menuUUID, EntMenuLocator $entMenuLocator = null)
     {

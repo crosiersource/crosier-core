@@ -47,6 +47,8 @@ class UserController extends FormListController
      * @param User|null $user
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @throws \Exception
+     *
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
     public function form(Request $request, User $user = null)
     {
@@ -65,6 +67,8 @@ class UserController extends FormListController
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
+     *
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
     public function list(Request $request): Response
     {

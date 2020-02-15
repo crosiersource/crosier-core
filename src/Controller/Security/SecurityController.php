@@ -4,6 +4,7 @@ namespace App\Controller\Security;
 
 use CrosierSource\CrosierLibBaseBundle\Entity\Security\User;
 use CrosierSource\CrosierLibBaseBundle\EntityHandler\Security\UserEntityHandler;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,6 +36,7 @@ class SecurityController extends AbstractController
      * @Route("/login", name="login")
      * @param AuthenticationUtils $authenticationUtils
      * @return Response
+     *
      */
     public function login(AuthenticationUtils $authenticationUtils)
     {

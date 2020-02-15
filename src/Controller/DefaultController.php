@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use CrosierSource\CrosierLibBaseBundle\Controller\BaseController;
 use Psr\Log\LoggerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -60,13 +61,22 @@ class DefaultController extends BaseController
     }
 
     /**
+     * @Route("/phpinfo", name="phpinfo")
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
+     */
+    public function phpinfo(): Response
+    {
+        phpinfo();
+        return new Response('');
+    }
+
+    /**
      * @Route("/do1", name="do1")
      */
     public function doSomething()
     {
         $this->session->set('bla', 'blablabla');
         return new Response('bla setado');
-
     }
 
 
@@ -76,7 +86,6 @@ class DefaultController extends BaseController
     public function doSomething2()
     {
         return new Response('bla :' . $this->session->get('bla'));
-
     }
 
 }

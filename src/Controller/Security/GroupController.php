@@ -6,6 +6,7 @@ use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
 use CrosierSource\CrosierLibBaseBundle\Entity\Security\Group;
 use CrosierSource\CrosierLibBaseBundle\EntityHandler\Security\GroupEntityHandler;
 use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\FilterData;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -41,6 +42,8 @@ class GroupController extends FormListController
      * @param Group|null $group
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @throws \Exception
+     *
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
     public function form(Request $request, Group $group = null)
     {
@@ -58,6 +61,8 @@ class GroupController extends FormListController
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
+     *
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
     public function list(Request $request): Response
     {
@@ -77,6 +82,8 @@ class GroupController extends FormListController
      * @param Request $request
      * @return Response
      * @throws \CrosierSource\CrosierLibBaseBundle\Exception\ViewException
+     *
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
     public function datatablesJsList(Request $request): Response
     {
@@ -89,6 +96,8 @@ class GroupController extends FormListController
      * @param Request $request
      * @param Group $group
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     *
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
     public function delete(Request $request, Group $group): \Symfony\Component\HttpFoundation\RedirectResponse
     {
