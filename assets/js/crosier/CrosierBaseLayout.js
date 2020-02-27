@@ -369,7 +369,7 @@ class CrosierBaseLayout {
                 dropdownAutoWidth : true,
             };
 
-            if (elem.data('s2allownew')) {
+            if (elem.hasClass('s2allownew')) {
                 opt = {
                     width: '100%',
                     dropdownAutoWidth : true,
@@ -377,15 +377,17 @@ class CrosierBaseLayout {
                     allowClear: true,
                     tags: true,
                     createTag: function (params) {
+                        let termStr = elem.hasClass('notuppercase') ? params.term : params.term.toUpperCase();
                         return {
-                            id: params.term.toUpperCase(),
-                            text: params.term.toUpperCase(),
+                            id: termStr,
+                            text: termStr,
                             newOption: true
                         }
                     },
                     templateResult: function (data) {
+                        let termStr = elem.hasClass('notuppercase') ? data.text : data.text.toUpperCase();
                         let $result = $("<span></span>");
-                        $result.text(data.text.toUpperCase());
+                        $result.text(termStr);
                         return $result;
                     }
                 };

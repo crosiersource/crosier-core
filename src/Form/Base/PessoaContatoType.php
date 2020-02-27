@@ -56,9 +56,7 @@ class PessoaContatoType extends AbstractType
             'label' => 'Tipo',
             'choices' => $todosK,
             'attr' => [
-                'class' => 'focusOnReady autoSelect2',
-                'data-s2allownew' => 'true'
-
+                'class' => 'focusOnReady autoSelect2 s2allownew'
             ]
         ));
 
