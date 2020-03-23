@@ -25,8 +25,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class EntMenuController extends FormListController
 {
 
-    /** @var EntMenuBusiness */
-    private $entMenuBusiness;
+    private EntMenuBusiness $entMenuBusiness;
 
     /**
      * @required

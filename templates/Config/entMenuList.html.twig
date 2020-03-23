@@ -134,16 +134,16 @@
                                 {% if locators is defined %}
                                     {% for k,locator in locators.e %}
                                         <form name="ent_menu_locator" method="post"
-                                              action="{{ url('cfg_entMenuLocator_form', {'menuUUID':locator.menuUUID}) }}"></form>
+                                              action="{{ url('cfg_entMenuLocator_form', {'menuUUID':entMenu.UUID, 'entMenuLocator': locator.id}) }}">
 
                                         {% form_theme locators.form[k] 'bootstrap_4_horizontal_layout.html.twig' %}
-
-                                        {{ form_start(locators.form[k]) }}
 
                                         <tr>
                                             <td>{{ form_widget(locators.form[k].quem) }}</td>
                                             <td>{{ form_widget(locators.form[k].urlRegexp) }}</td>
                                             <td class="text-right">
+                                                {{ form_row(locators.form[k]._token) }}
+
                                                 <button type="submit" class="btn btn-sm btn-primary" value="Salvar">
                                                     <i class="fas fa-save" aria-hidden="true"></i> Salvar
                                                 </button>
@@ -157,7 +157,7 @@
                                             </td>
                                         </tr>
 
-                                        {{ form_end(locators.form[k]) }}
+                                        </form>
 
                                     {% endfor %}
                                 {% endif %}
