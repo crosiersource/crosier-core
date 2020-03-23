@@ -33,31 +33,6 @@ class EntMenuLocatorType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-//        $builder->add('menuUUID', ChoiceType::class, [
-//            'label' => 'Menu',
-//            'choices' => array_merge([null], $this->doctrine->getRepository(EntMenu::class)->getMenusPais()),
-//            'choice_label' => function (?EntMenu $entMenu) {
-//                return $entMenu ? $entMenu->getLabel() : ' ';
-//            },
-//            'required' => false,
-//            'attr' => ['class' => 'autoSelect2']
-//        ]);
-//        $builder->get('menuUUID')
-//            ->addModelTransformer(new CallbackTransformer(
-//                function (?string $menuUUID) {
-//                    if ($menuUUID) {
-//                        return $this->doctrine->getRepository(EntMenu::class)->findOneBy(['UUID' => $menuUUID]);
-//                    }
-//                    return null;
-//                },
-//                function (?EntMenu $entMenu) {
-//                    if ($entMenu) {
-//                        return $entMenu->getUUID();
-//                    }
-//                    return null;
-//                }
-//            ));
-
         $builder->add('id', HiddenType::class, [
             'required' => false,
         ]);
@@ -73,10 +48,15 @@ class EntMenuLocatorType extends AbstractType
             'attr' => ['style' => 'text-transform: none;']
         ]);
 
-
         $builder->add('urlRegexp', TextType::class, [
             'label' => 'URL (Regexp)',
             'required' => true,
+            'attr' => ['style' => 'text-transform: none;']
+        ]);
+
+        $builder->add('naoContendo', TextType::class, [
+            'label' => 'Não Contendo',
+            'required' => false,
             'attr' => ['style' => 'text-transform: none;']
         ]);
 

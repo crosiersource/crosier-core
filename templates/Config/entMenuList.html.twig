@@ -127,6 +127,7 @@
                                 <tr>
                                     <th>Quem</th>
                                     <th>URL</th>
+                                    <th title="Não Contendo">N/C</th>
                                     <th></th>
                                 </tr>
                                 </thead>
@@ -141,6 +142,7 @@
                                         <tr>
                                             <td>{{ form_widget(locators.form[k].quem) }}</td>
                                             <td>{{ form_widget(locators.form[k].urlRegexp) }}</td>
+                                            <td>{{ form_widget(locators.form[k].naoContendo) }}</td>
                                             <td class="text-right">
                                                 {{ form_row(locators.form[k]._token) }}
 
@@ -169,6 +171,7 @@
                                 <tr>
                                     <td>{{ form_widget(formEntMenuLocator.quem) }}</td>
                                     <td>{{ form_widget(formEntMenuLocator.urlRegexp) }}</td>
+                                    <td>{{ form_widget(formEntMenuLocator.naoContendo) }}</td>
                                     <td class="text-right">
                                         <button type="submit" class="btn btn-sm btn-primary" value="Salvar">
                                             <i class="fas fa-save" aria-hidden="true"></i> Salvar
