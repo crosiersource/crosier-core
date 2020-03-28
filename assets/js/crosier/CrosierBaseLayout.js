@@ -176,6 +176,178 @@ class CrosierBaseLayout {
     }
 
     /**
+     *
+     * @param elem
+     */
+    static handleSelect2IdRouteUrl(elem) {
+        $.ajax({
+                type: 'GET',
+                url: elem.data('id-route-url'),
+                async: true,
+                crossDomain: true,
+                contentType: "application/json",
+                dataType: 'json',
+                xhrFields: {
+                    withCredentials: true
+                },
+            }
+        ).done(function (results) {
+
+            if (elem.data('text-format')) {
+                results = $.map(results, function (obj) {
+                    let textt = sprintf.sprintf(elem.data('text-format'), obj);
+                    textt = textt
+                        .replace(/^null /, '')
+                        .replace(/ null$/, '')
+                        .replace(/ null /, ' ')
+                        .replace(/ - $/, '')
+                        .replace(/ -$/, '')
+                        .replace(/^\s*- /, '');
+                    obj.text = textt;
+                    return obj;
+                });
+            }
+
+            let $s2 = elem.select2({
+                width: '100%',
+                dropdownAutoWidth : true,
+                minimumInputLength: 2,
+                placeholder: '...',
+                allowClear: true,
+                data: results,
+                sorter: function (data) {
+                    return data.sort(function (a, b) {
+                        a = a.text.toLowerCase();
+                        b = b.text.toLowerCase();
+                        if (a > b) {
+                            return 1;
+                        } else if (a < b) {
+                            return -1;
+                        }
+                        return 0;
+                    });
+                },
+                ajax: {
+                    delay: 750,
+                    url: function (params) {
+                        return elem.data('route-url');
+                    },
+                    headers: {
+                        'X-Authorization': 'Bearer ' + elem.data('bearer'),
+                        'Content-Type': 'application/json'
+                    },
+                    dataType: 'json',
+                    processResults: function (data) {
+                        // Se foi passado um formato a ser aplicado...
+                        if (elem.data('text-format')) {
+                            data = $.map(data.results, function (obj) {
+                                let text = sprintf.sprintf(elem.data('text-format'), obj);
+                                text = text
+                                    .replace(/^null /, '')
+                                    .replace(/ null$/, '')
+                                    .replace(/ null /, ' ')
+                                    .replace(/ - $/, '')
+                                    .replace(/ -$/, '')
+                                    .replace(/^\s*- /, '');
+                                obj.text = text;
+                                return obj;
+                            });
+                        }
+                        return {results: data};
+                    },
+                    cache: true
+                }
+            });
+
+            $s2.val(elem.data('val')).trigger('change');
+        });
+    }
+
+    /**
+     *
+     * @param elem
+     */
+    static handleSelect2RouteUrl(elem) {
+        let config = {
+            width: '100%',
+            dropdownAutoWidth : true,
+            minimumInputLength: 2,
+            placeholder: '...',
+            allowClear: true,
+            ajax: {
+                delay: 750,
+                url: function (params) {
+                    return elem.data('route-url');
+                },
+                headers: {
+                    'X-Authorization': 'Bearer ' + elem.data('bearer'),
+                    'Content-Type': 'application/json'
+                },
+                dataType: 'json',
+                processResults: function (data) {
+                    // Se foi passado um formato a ser aplicado...
+                    if (elem.data('text-format')) {
+                        data = $.map(data.results, function (obj) {
+                            let text = sprintf.sprintf(elem.data('text-format'), obj);
+                            text = text
+                                .replace(/^null /, '')
+                                .replace(/ null$/, '')
+                                .replace(/ null /, ' ')
+                                .replace(/ - $/, '')
+                                .replace(/ -$/, '')
+                                .replace(/^\s*- /, '');
+                            obj.text = text;
+                            return obj;
+                        });
+                    }
+                    return {results: data.results};
+                },
+                cache: true
+            }
+        };
+        if (elem.data('options')) {
+            config.data = elem.data('options');
+        }
+        let $s2 = elem.select2(config);
+
+        if (elem.data('val')) {
+            elem.val(elem.data('val')).trigger('change');
+        }
+    }
+
+    /**
+     *
+     * @param elem
+     */
+    static handleSelect2Options(elem) {
+        elem.select2({
+            width: '100%',
+            dropdownAutoWidth : true,
+            placeholder: '...',
+            allowClear: true,
+            data: elem.data('options')
+        });
+        if (elem.data('val')) {
+            elem.val(elem.data('val')).trigger('change');
+        }
+    }
+
+    static handleSelect2DataTagsOptions(elem) {
+        let $s2 = elem.select2({
+            width: '100%',
+            dropdownAutoWidth : true,
+            tags: true,
+            tokenSeparators: [',']
+        });
+        String(elem.data('tagsoptions')).split(',').forEach(function (t) {
+            if (t) {
+                t = t.toUpperCase();
+                $s2.append(new Option(t, t, false, true)).trigger('change');
+            }
+        });
+    }
+
+    /**
      * Método para montar select2 automaticamente de acordo com a classe.
      */
     static handleSelect2() {
@@ -186,182 +358,26 @@ class CrosierBaseLayout {
         $.fn.select2.defaults.set("language", "pt-BR");
         $('.autoSelect2').each(function () {
             let elem = $(this);
-
-            // Se foi passado um id-route-url,
+            if (!elem.is('select')) {
+                console.log(elem.attr('id') + ' não é <select>');
+                return;
+            }
             if (elem.data('id-route-url')) {
-                $.ajax({
-                        type: 'GET',
-                        url: elem.data('id-route-url'),
-                        async: true,
-                        crossDomain: true,
-                        contentType: "application/json",
-                        dataType: 'json',
-                        xhrFields: {
-                            withCredentials: true
-                        },
-                    }
-                ).done(function (results) {
-
-                    if (elem.data('text-format')) {
-                        results = $.map(results, function (obj) {
-                            let textt = sprintf.sprintf(elem.data('text-format'), obj);
-                            textt = textt
-                                .replace(/^null /, '')
-                                .replace(/ null$/, '')
-                                .replace(/ null /, ' ')
-                                .replace(/ - $/, '')
-                                .replace(/ -$/, '')
-                                .replace(/^\s*- /, '');
-                            obj.text = textt;
-                            return obj;
-                        });
-                    }
-
-                    let $s2 = elem.select2({
-                        width: '100%',
-                        dropdownAutoWidth : true,
-                        minimumInputLength: 2,
-                        placeholder: '...',
-                        allowClear: true,
-                        data: results,
-                        sorter: function (data) {
-                            return data.sort(function (a, b) {
-                                a = a.text.toLowerCase();
-                                b = b.text.toLowerCase();
-                                if (a > b) {
-                                    return 1;
-                                } else if (a < b) {
-                                    return -1;
-                                }
-                                return 0;
-                            });
-                        },
-                        ajax: {
-                            delay: 750,
-                            url: function (params) {
-                                return elem.data('route-url');
-                            },
-                            headers: {
-                                'X-Authorization': 'Bearer ' + elem.data('bearer'),
-                                'Content-Type': 'application/json'
-                            },
-                            dataType: 'json',
-                            processResults: function (data) {
-                                // Se foi passado um formato a ser aplicado...
-                                if (elem.data('text-format')) {
-                                    data = $.map(data.results, function (obj) {
-                                        let text = sprintf.sprintf(elem.data('text-format'), obj);
-                                        text = text
-                                            .replace(/^null /, '')
-                                            .replace(/ null$/, '')
-                                            .replace(/ null /, ' ')
-                                            .replace(/ - $/, '')
-                                            .replace(/ -$/, '')
-                                            .replace(/^\s*- /, '');
-                                        obj.text = text;
-                                        return obj;
-                                    });
-                                }
-                                return {results: data};
-                            },
-                            cache: true
-                        }
-                    });
-
-                    $s2.val(elem.data('val')).trigger('change');
-                });
+                CrosierBaseLayout.handleSelect2IdRouteUrl(elem);
                 return;
-
-            }
-
-            // else
-
+            } // else
             if (elem.data('route-url')) {
-                let config = {
-                    width: '100%',
-                    dropdownAutoWidth : true,
-                    minimumInputLength: 2,
-                    placeholder: '...',
-                    allowClear: true,
-                    ajax: {
-                        delay: 750,
-                        url: function (params) {
-                            return elem.data('route-url');
-                        },
-                        headers: {
-                            'X-Authorization': 'Bearer ' + elem.data('bearer'),
-                            'Content-Type': 'application/json'
-                        },
-                        dataType: 'json',
-                        processResults: function (data) {
-                            // Se foi passado um formato a ser aplicado...
-                            if (elem.data('text-format')) {
-                                data = $.map(data.results, function (obj) {
-                                    let text = sprintf.sprintf(elem.data('text-format'), obj);
-                                    text = text
-                                        .replace(/^null /, '')
-                                        .replace(/ null$/, '')
-                                        .replace(/ null /, ' ')
-                                        .replace(/ - $/, '')
-                                        .replace(/ -$/, '')
-                                        .replace(/^\s*- /, '');
-                                    obj.text = text;
-                                    return obj;
-                                });
-                            }
-                            return {results: data.results};
-                        },
-                        cache: true
-                    }
-                };
-                if (elem.data('options')) {
-                    config.data = elem.data('options');
-                }
-                let $s2 = elem.select2(config);
-
-                if (elem.data('val')) {
-                    elem.val(elem.data('val')).trigger('change');
-                }
-
+                CrosierBaseLayout.handleSelect2RouteUrl(elem);
                 return;
-            }
-
-            // else
-
+            } // else
             if (elem.data('options')) {
-                elem.select2({
-                    width: '100%',
-                    dropdownAutoWidth : true,
-                    placeholder: '...',
-                    allowClear: true,
-                    data: elem.data('options')
-                });
-                if (elem.data('val')) {
-                    elem.val(elem.data('val')).trigger('change');
-                }
+                CrosierBaseLayout.handleSelect2Options(elem);
                 return;
-            }
-
-            // else
-
+            } // else
             if (elem[0].hasAttribute('data-tagsoptions')) {
-                let $s2 = elem.select2({
-                    width: '100%',
-                    dropdownAutoWidth : true,
-                    tags: true,
-                    tokenSeparators: [',']
-                });
-                String(elem.data('tagsoptions')).split(',').forEach(function (t) {
-                    if (t) {
-                        t = t.toUpperCase();
-                        $s2.append(new Option(t, t, false, true)).trigger('change');
-                    }
-                });
+                CrosierBaseLayout.handleSelect2DataTagsOptions(elem);
                 return;
-            }
-
-            // else
-
+            } // else
 
             let opt = {
                 allowClear: true,

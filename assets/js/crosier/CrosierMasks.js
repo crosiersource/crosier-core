@@ -31,9 +31,6 @@ class CrosierMasks {
     }
 
     static maskDecs() {
-
-        
-
         let $dec1 = $(".crsr-dec1, .decimal1");
         let $dec2 = $(".crsr-dec2, .decimal2, .crsr-money, .money, .dinheiro");
         let $dec3 = $(".crsr-dec3, .decimal3");
@@ -144,7 +141,6 @@ class CrosierMasks {
     }
 
     static maskTelefone9digitos() {
-
         // http://igorescobar.github.io/jQuery-Mask-Plugin/docs.html
         var SPMaskBehavior = function (val) {
                 return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
@@ -156,7 +152,6 @@ class CrosierMasks {
             };
 
         $('.telefone').mask(SPMaskBehavior, spOptions);
-
     }
 
     static maskAll() {
