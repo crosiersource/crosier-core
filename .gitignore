@@ -28,16 +28,10 @@ yarn-error.log
 
 /sql/sensitive*
 
-###> symfony/webpack-encore-bundle ###
-/node_modules/
-/public/build/
-npm-debug.log
-yarn-error.log
-###< symfony/webpack-encore-bundle ###
-
 
 /src/Entity/uppercaseFields.json
 
 
 /templates/base.html.twig
 
+/public/images
