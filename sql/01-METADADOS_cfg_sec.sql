@@ -260,6 +260,7 @@ CREATE TABLE `cfg_entmenu_locator`
     `menu_uuid`          char(36)                  NOT NULL,
     `url_regexp`         varchar(300)              NOT NULL,
     `quem`               varchar(300)              NOT NULL,
+    `nao_contendo`       varchar(3000),
 
     `inserted`           datetime                  NOT NULL,
     `updated`            datetime                  NOT NULL,
@@ -361,10 +362,10 @@ CREATE TABLE `cfg_entity_change`
 (
     `id`               bigint(20) AUTO_INCREMENT NOT NULL,
     `entity_class`     varchar(200)              NOT NULL,
-    `entity_id`        bigint(20) NOT NULL,
-    `changing_user_id` bigint(20) NOT NULL,
-    `changed_at`       datetime   NOT NULL,
-    `changes`          TEXT NOT NULL,
+    `entity_id`        bigint(20)                NOT NULL,
+    `changing_user_id` bigint(20)                NOT NULL,
+    `changed_at`       datetime                  NOT NULL,
+    `changes`          TEXT                      NOT NULL,
     PRIMARY KEY (`id`),
     KEY `K_cfg_entity_change_entity_class` (`entity_class`)
 ) ENGINE = InnoDB
