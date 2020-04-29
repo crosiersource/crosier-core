@@ -40,8 +40,12 @@
                         <tr>
                             <td>{{ item.label }}</td>
                             <td class="text-right">
+                                <button type="button" class="btn btn-sm btn-secondary"
+                                        onclick="window.location.href='{{ url('cfg_entMenu_list', {'entMenu': item.id}) }}'">
+                                    <i class="fas fa-cogs" aria-hidden="true"></i>
+                                </button>
                                 <button type="button" class="btn btn-sm btn-primary"
-                                        onclick="window.location.href='{{ url('cfg_entMenu_list', {entMenu: item.id}) }}'">
+                                        onclick="window.location.href='{{ url('cfg_entMenu_form', {'id': item.id}) }}'">
                                     <i class="fas fa-wrench" aria-hidden="true"></i>
                                 </button>
                             </td>
