@@ -6,8 +6,9 @@ import toastrr from "toastr";
 
 import sprintf from "sprintf-js";
 
-import 'bootstrap-datepicker';
-import 'bootstrap-datepicker/js/locales/bootstrap-datepicker.pt-BR';
+import Moment from 'moment';
+
+import 'daterangepicker';
 
 import Push from "push.js";
 
@@ -210,7 +211,7 @@ class CrosierBaseLayout {
 
             let $s2 = elem.select2({
                 width: '100%',
-                dropdownAutoWidth : true,
+                dropdownAutoWidth: true,
                 minimumInputLength: 2,
                 placeholder: '...',
                 allowClear: true,
@@ -270,7 +271,7 @@ class CrosierBaseLayout {
     static handleSelect2RouteUrl(elem) {
         let config = {
             width: '100%',
-            dropdownAutoWidth : true,
+            dropdownAutoWidth: true,
             minimumInputLength: 2,
             placeholder: '...',
             allowClear: true,
@@ -322,7 +323,7 @@ class CrosierBaseLayout {
     static handleSelect2Options(elem) {
         elem.select2({
             width: '100%',
-            dropdownAutoWidth : true,
+            dropdownAutoWidth: true,
             placeholder: '...',
             allowClear: true,
             data: elem.data('options')
@@ -335,7 +336,7 @@ class CrosierBaseLayout {
     static handleSelect2DataTagsOptions(elem) {
         let $s2 = elem.select2({
             width: '100%',
-            dropdownAutoWidth : true,
+            dropdownAutoWidth: true,
             tags: true,
             tokenSeparators: [',']
         });
@@ -382,13 +383,13 @@ class CrosierBaseLayout {
             let opt = {
                 allowClear: true,
                 width: '100%',
-                dropdownAutoWidth : true,
+                dropdownAutoWidth: true,
             };
 
             if (elem.hasClass('s2allownew')) {
                 opt = {
                     width: '100%',
-                    dropdownAutoWidth : true,
+                    dropdownAutoWidth: true,
                     placeholder: '...',
                     allowClear: true,
                     tags: true,
@@ -465,10 +466,45 @@ class CrosierBaseLayout {
     }
 
 
-
     static handleBootstrapDatepicker() {
-        $('.bootstrap-datepicker').datepicker({
-            language: 'pt-BR'
+        $('.bootstrap-datepicker').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            minYear: 1901,
+            maxYear: parseInt(Moment().format('YYYY'), 10),
+            locale: {
+                "format": "DD/MM/YYYY",
+                "separator": " - ",
+                "applyLabel": "Aplicar",
+                "cancelLabel": "Cancelar",
+                "fromLabel": "De",
+                "toLabel": "Até",
+                "customRangeLabel": "Custom",
+                "daysOfWeek": [
+                    "Dom",
+                    "Seg",
+                    "Ter",
+                    "Qua",
+                    "Qui",
+                    "Sex",
+                    "Sáb"
+                ],
+                "monthNames": [
+                    "Janeiro",
+                    "Fevereiro",
+                    "Março",
+                    "Abril",
+                    "Maio",
+                    "Junho",
+                    "Julho",
+                    "Agosto",
+                    "Setembro",
+                    "Outubro",
+                    "Novembro",
+                    "Dezembro"
+                ],
+                "firstDay": 0
+            },
         });
     }
 
