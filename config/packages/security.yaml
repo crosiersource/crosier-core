@@ -51,6 +51,8 @@ security:
     access_control:
         # but, definitely allow /login to be accessible anonymously
         - { path: ^/getCrosierAssetUrl, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/getRenderCrosierWebpackScriptTags, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/getRenderCrosierWebpackLinkTags, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/build, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/bundles, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/sec/hash, roles: IS_AUTHENTICATED_ANONYMOUSLY }

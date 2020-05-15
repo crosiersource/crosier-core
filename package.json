@@ -4,12 +4,12 @@
     "@coreui/coreui-plugin-chartjs-custom-tooltips": "^1.2.0",
     "@coreui/icons": "^0.3.0",
     "@fortawesome/fontawesome-free": "^5.10.2",
-    "@symfony/webpack-encore": "^0.27.0",
+    "@symfony/webpack-encore": "^0.30.0",
     "bootstrap": "4.4.1",
     "bootstrap-datepicker": "^1.8.0",
     "chart.js": "^2.7.3",
-    "copy-webpack-plugin": "^4.5.2",
-    "core-js": "3",
+    "copy-webpack-plugin": "^5.1.1",
+    "core-js": "^3.0.0",
     "datatables": "^1.10.18",
     "datatables.net-bs4": "^1.10.19",
     "daterangepicker": "^3.0.3",
@@ -29,15 +29,17 @@
     "pace-progress": "HubSpot/pace",
     "perfect-scrollbar": "1",
     "popper.js": "^1.14.6",
+    "push.js": "^1.0.9",
+    "regenerator-runtime": "^0.13.2",
     "sass-loader": "^7.1.0",
-    "select2": "4",
+    "select2": "^4.0.0",
     "select2-bootstrap-theme": "^0.1.0-beta.10",
     "simple-line-icons": "^2.4.1",
     "sortablejs": "^1.8.1",
     "sprintf-js": "^1.1.2",
     "summernote": "^0.8.11",
     "toastr": "^2.1.4",
-    "webpack-notifier": "^1.7.0"
+    "webpack-notifier": "^1.6.0"
   },
   "license": "UNLICENSED",
   "private": true,
@@ -45,9 +47,6 @@
     "dev-server": "encore dev-server",
     "dev": "encore dev",
     "watch": "encore dev --watch",
-    "build": "encore production"
-  },
-  "dependencies": {
-    "push.js": "^1.0.9"
+    "build": "encore production --progress"
   }
 }
