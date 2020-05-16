@@ -1,5 +1,8 @@
 {% extends '@CrosierLibBase/index.html.twig' %}
 
+{% block up_scripts %}
+    {{ encore_entry_link_tags('Config/appForm') }}
+{% endblock %}
 
 {% block page_content %}
 
@@ -50,9 +53,20 @@
                                     <td><input type="text" class="form-control notuppercase"
                                                name="appConfigs[{{ config.id }}][chave]"
                                                value="{{ config.chave }}"/></td>
-                                    <td><input type="text" class="form-control notuppercase"
-                                               name="appConfigs[{{ config.id }}][valor]"
-                                               value="{{ config.valor }}"/></td>
+                                    <td>
+                                        {% if 'json' in config.chave %}
+                                            <div class="isJson" style="width: 600px; height: 400px;"
+                                                 data-hidden-input-id="appConfigs_{{ config.id }}_valor" data-value="{{ config.valor }}"></div>
+                                            <input type="hidden" class="notuppercase"
+                                                   id="appConfigs_{{ config.id }}_valor"
+                                                   name="appConfigs[{{ config.id }}][valor]"
+                                                   value="{{ config.valor }}"/>
+                                        {% else %}
+                                            <input type="text" class="form-control notuppercase"
+                                                   name="appConfigs[{{ config.id }}][valor]"
+                                                   value="{{ config.valor }}"/>
+                                        {% endif %}
+                                    </td>
                                     <td class="text-right">
                                         <button type="button" class="btn btn-danger"
                                                 data-url="{{ url('cfg_appConfig_delete', {appConfig: config.id}) }}"
@@ -109,3 +123,6 @@
 
 {% endblock %}
 
+{% block down_scripts %}
+    {{ encore_entry_script_tags('Config/appForm') }}
+{% endblock %}

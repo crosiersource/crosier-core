@@ -48,5 +48,8 @@
     "dev": "encore dev",
     "watch": "encore dev --watch",
     "build": "encore production --progress"
+  },
+  "dependencies": {
+    "jsoneditor": "^8.6.8"
   }
 }

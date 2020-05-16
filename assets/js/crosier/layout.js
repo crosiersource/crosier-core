@@ -58,7 +58,6 @@ $(document).ready(function () {
 
     CrosierBaseLayout.handleCamposCepComBtnConsulta();
 
-
     let $focusOnReady = $('.focusOnReady');
     if ($focusOnReady) {
         if ($focusOnReady.hasClass('autoSelect2')) {
