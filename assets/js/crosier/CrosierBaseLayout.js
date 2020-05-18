@@ -15,8 +15,6 @@ import Push from "push.js";
 import CrosierMasks from './CrosierMasks';
 import Pace from "pace-progress";
 
-import JSONEditor from 'jsoneditor';
-
 
 
 class CrosierBaseLayout {
