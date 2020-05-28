@@ -39,7 +39,6 @@ import 'daterangepicker/daterangepicker.css';
 import DatatablesJs from "./DatatablesJs";
 
 
-
 $(document).ready(function () {
 
     CrosierBaseLayout.handlePace();
@@ -60,9 +59,7 @@ $(document).ready(function () {
 
     let $focusOnReady = $('.focusOnReady');
     if ($focusOnReady) {
-        if ($focusOnReady.hasClass('autoSelect2')) {
-            $focusOnReady.select2('focus');
-        } else {
+        if (!$focusOnReady.hasClass('autoSelect2')) {
             $focusOnReady.focus();
         }
     }

@@ -16,7 +16,6 @@ import CrosierMasks from './CrosierMasks';
 import Pace from "pace-progress";
 
 
-
 class CrosierBaseLayout {
 
     /**
@@ -180,12 +179,12 @@ class CrosierBaseLayout {
 
     /**
      *
-     * @param elem
+     * @param $select2
      */
-    static handleSelect2IdRouteUrl(elem) {
+    static handleSelect2IdRouteUrl($select2) {
         $.ajax({
                 type: 'GET',
-                url: elem.data('id-route-url'),
+                url: $select2.data('id-route-url'),
                 async: true,
                 crossDomain: true,
                 contentType: "application/json",
@@ -195,10 +194,9 @@ class CrosierBaseLayout {
                 },
             }
         ).done(function (results) {
-
-            if (elem.data('text-format')) {
+            if ($select2.data('text-format')) {
                 results = $.map(results, function (obj) {
-                    let textt = sprintf.sprintf(elem.data('text-format'), obj);
+                    let textt = sprintf.sprintf($select2.data('text-format'), obj);
                     textt = textt
                         .replace(/^null /, '')
                         .replace(/ null$/, '')
@@ -211,7 +209,7 @@ class CrosierBaseLayout {
                 });
             }
 
-            let $s2 = elem.select2({
+            let $s2 = $select2.select2({
                 width: '100%',
                 dropdownAutoWidth: true,
                 minimumInputLength: 2,
@@ -233,18 +231,18 @@ class CrosierBaseLayout {
                 ajax: {
                     delay: 750,
                     url: function (params) {
-                        return elem.data('route-url');
+                        return $s2.data('route-url');
                     },
                     headers: {
-                        'X-Authorization': 'Bearer ' + elem.data('bearer'),
+                        'X-Authorization': 'Bearer ' + $select2.data('bearer'),
                         'Content-Type': 'application/json'
                     },
                     dataType: 'json',
                     processResults: function (data) {
                         // Se foi passado um formato a ser aplicado...
-                        if (elem.data('text-format')) {
+                        if ($s2.data('text-format')) {
                             data = $.map(data.results, function (obj) {
-                                let text = sprintf.sprintf(elem.data('text-format'), obj);
+                                let text = sprintf.sprintf($s2.data('text-format'), obj);
                                 text = text
                                     .replace(/^null /, '')
                                     .replace(/ null$/, '')
@@ -262,15 +260,19 @@ class CrosierBaseLayout {
                 }
             });
 
-            $s2.val(elem.data('val')).trigger('change');
+            $s2.val($s2.data('val')).trigger('change');
+
+            if ($s2.hasClass('focusOnReady')) {
+                $s2.select2('focus');
+            }
         });
     }
 
     /**
      *
-     * @param elem
+     * @param $s2
      */
-    static handleSelect2RouteUrl(elem) {
+    static handleSelect2RouteUrl($s2) {
         let config = {
             width: '100%',
             dropdownAutoWidth: true,
@@ -280,18 +282,18 @@ class CrosierBaseLayout {
             ajax: {
                 delay: 750,
                 url: function (params) {
-                    return elem.data('route-url');
+                    return $s2.data('route-url');
                 },
                 headers: {
-                    'X-Authorization': 'Bearer ' + elem.data('bearer'),
+                    'X-Authorization': 'Bearer ' + $s2.data('bearer'),
                     'Content-Type': 'application/json'
                 },
                 dataType: 'json',
                 processResults: function (data) {
                     // Se foi passado um formato a ser aplicado...
-                    if (elem.data('text-format')) {
+                    if ($s2.data('text-format')) {
                         data = $.map(data.results, function (obj) {
-                            let text = sprintf.sprintf(elem.data('text-format'), obj);
+                            let text = sprintf.sprintf($s2.data('text-format'), obj);
                             text = text
                                 .replace(/^null /, '')
                                 .replace(/ null$/, '')
@@ -303,18 +305,22 @@ class CrosierBaseLayout {
                             return obj;
                         });
                     }
-                    return {results: data.results};
+                    return {results: data};
                 },
                 cache: true
             }
         };
-        if (elem.data('options')) {
-            config.data = elem.data('options');
+        if ($s2.data('options')) {
+            config.data = $s2.data('options');
         }
-        let $s2 = elem.select2(config);
+        $s2 = $s2.select2(config);
 
-        if (elem.data('val')) {
-            elem.val(elem.data('val')).trigger('change');
+        if ($s2.hasClass('focusOnReady')) {
+            $s2.select2('focus');
+        }
+
+        if ($s2.data('val')) {
+            $s2.val($s2.data('val')).trigger('change');
         }
     }
 
@@ -322,32 +328,38 @@ class CrosierBaseLayout {
      *
      * @param elem
      */
-    static handleSelect2Options(elem) {
-        elem.select2({
+    static handleSelect2Options($s2) {
+        $s2.select2({
             width: '100%',
             dropdownAutoWidth: true,
             placeholder: '...',
             allowClear: true,
-            data: elem.data('options')
+            data: $s2.data('options')
         });
-        if (elem.data('val')) {
-            elem.val(elem.data('val')).trigger('change');
+        if ($s2.data('val')) {
+            $s2.val($s2.data('val')).trigger('change');
+        }
+        if ($s2.hasClass('focusOnReady')) {
+            $s2.select2('focus');
         }
     }
 
-    static handleSelect2DataTagsOptions(elem) {
-        let $s2 = elem.select2({
+    static handleSelect2DataTagsOptions($s2) {
+        $s2.select2({
             width: '100%',
             dropdownAutoWidth: true,
             tags: true,
             tokenSeparators: [',']
         });
-        String(elem.data('tagsoptions')).split(',').forEach(function (t) {
+        String($s2.data('tagsoptions')).split(',').forEach(function (t) {
             if (t) {
                 t = t.toUpperCase();
                 $s2.append(new Option(t, t, false, true)).trigger('change');
             }
         });
+        if ($s2.hasClass('focusOnReady')) {
+            $s2.select2('focus');
+        }
     }
 
     /**
@@ -360,25 +372,29 @@ class CrosierBaseLayout {
         $.fn.select2.defaults.set("theme", "bootstrap");
         $.fn.select2.defaults.set("language", "pt-BR");
         $('.autoSelect2').each(function () {
-            let elem = $(this);
-            if (!elem.is('select')) {
-                console.log(elem.attr('id') + ' não é <select>');
+
+            let $s2 = $(this);
+
+
+            if (!$s2.is('select')) {
+                console.log($s2.attr('id') + ' não é <select>');
                 return;
             }
-            if (elem.data('id-route-url')) {
-                CrosierBaseLayout.handleSelect2IdRouteUrl(elem);
+
+            if ($s2.data('id-route-url')) {
+                CrosierBaseLayout.handleSelect2IdRouteUrl($s2);
                 return;
             } // else
-            if (elem.data('route-url')) {
-                CrosierBaseLayout.handleSelect2RouteUrl(elem);
+            if ($s2.data('route-url')) {
+                CrosierBaseLayout.handleSelect2RouteUrl($s2);
                 return;
             } // else
-            if (elem.data('options')) {
-                CrosierBaseLayout.handleSelect2Options(elem);
+            if ($s2.data('options')) {
+                CrosierBaseLayout.handleSelect2Options($s2);
                 return;
             } // else
-            if (elem[0].hasAttribute('data-tagsoptions')) {
-                CrosierBaseLayout.handleSelect2DataTagsOptions(elem);
+            if ($s2[0].hasAttribute('data-tagsoptions')) {
+                CrosierBaseLayout.handleSelect2DataTagsOptions($s2);
                 return;
             } // else
 
@@ -388,7 +404,7 @@ class CrosierBaseLayout {
                 dropdownAutoWidth: true,
             };
 
-            if (elem.hasClass('s2allownew')) {
+            if ($s2.hasClass('s2allownew')) {
                 opt = {
                     width: '100%',
                     dropdownAutoWidth: true,
@@ -396,7 +412,7 @@ class CrosierBaseLayout {
                     allowClear: true,
                     tags: true,
                     createTag: function (params) {
-                        let termStr = elem.hasClass('notuppercase') ? params.term : params.term.toUpperCase();
+                        let termStr = $s2.hasClass('notuppercase') ? params.term : params.term.toUpperCase();
                         return {
                             id: termStr,
                             text: termStr,
@@ -404,7 +420,7 @@ class CrosierBaseLayout {
                         }
                     },
                     templateResult: function (data) {
-                        let termStr = elem.hasClass('notuppercase') ? data.text : data.text.toUpperCase();
+                        let termStr = $s2.hasClass('notuppercase') ? data.text : data.text.toUpperCase();
                         let $result = $("<span></span>");
                         $result.text(termStr);
                         return $result;
@@ -412,10 +428,14 @@ class CrosierBaseLayout {
                 };
             }
 
-            let $s2 = elem.select2(opt);
+            $s2 = $s2.select2(opt);
 
-            if (elem.data('val')) {
-                elem.val(elem.data('val')).trigger('change');
+            if ($s2.data('val')) {
+                $s2.val($s2.data('val')).trigger('change');
+            }
+
+            if ($s2.hasClass('focusOnReady')) {
+                $s2.select2('focus');
             }
 
 
