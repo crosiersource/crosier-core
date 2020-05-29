@@ -254,7 +254,8 @@ class CrosierBaseLayout {
                                 return obj;
                             });
                         }
-                        return {results: data};
+                        let dataResults = data.results ? data.results : data;
+                        return {results: dataResults};
                     },
                     cache: true
                 }
@@ -305,7 +306,8 @@ class CrosierBaseLayout {
                             return obj;
                         });
                     }
-                    return {results: data};
+                    let dataResults = data.results ? data.results : data;
+                    return {results: dataResults};
                 },
                 cache: true
             }
