@@ -20,5 +20,5 @@
 {% endblock %}
 
 {% block down_scripts %}
-    <script src="{{ asset('build/Config/configList.js') }}"></script>
+    {{ encore_entry_script_tags('Config/configList') }}
 {% endblock %}
