@@ -54,7 +54,7 @@
                                                name="appConfigs[{{ config.id }}][chave]"
                                                value="{{ config.chave }}"/></td>
                                     <td>
-                                        {% if 'json' in config.chave %}
+                                        {% if 'json' in config.chave or config.isJson %}
                                             <div class="isJson" style="width: 600px; height: 400px;"
                                                  data-hidden-input-id="appConfigs_{{ config.id }}_valor" data-value="{{ config.valor }}"></div>
                                             <input type="hidden" class="notuppercase"
