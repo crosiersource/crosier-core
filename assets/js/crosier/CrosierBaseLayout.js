@@ -328,7 +328,7 @@ class CrosierBaseLayout {
 
     /**
      *
-     * @param elem
+     * @param $s2
      */
     static handleSelect2Options($s2) {
         $s2.select2({
@@ -457,8 +457,6 @@ class CrosierBaseLayout {
         );
 
         CrosierMasks.maskCEP(); // tem que remascarar depois de recriar o campo
-
-        $cepComBtnConsulta = $('.cepComBtnConsulta');
 
         $('#btnConsultaCep_' + $cepComBtnConsulta.attr('id')).click(function () {
             let $cep = $cepComBtnConsulta.val();
