@@ -185,6 +185,7 @@ CREATE TABLE `cfg_app_config`
     `id`                 bigint(20) AUTO_INCREMENT NOT NULL,
     `chave`              varchar(255)              NOT NULL,
     `valor`              LONGBLOB,
+    `is_json`            bit(1),
     `app_uuid`           char(36)                  NOT NULL,
     `inserted`           datetime                  NOT NULL,
     `updated`            datetime                  NOT NULL,
