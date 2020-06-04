@@ -3,7 +3,7 @@ DROP FUNCTION IF EXISTS JSON_IS_NULL_OR_EMPTY;
 
 DELIMITER $$
 
-CREATE FUNCTION JSON_IS_NULL_OR_EMPTY(json_data JSON,
+CREATE FUNCTION cd ..(json_data JSON,
                                   field VARCHAR(255))
     RETURNS bit(1)
     DETERMINISTIC
