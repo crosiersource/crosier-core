@@ -374,3 +374,22 @@ CREATE TABLE `cfg_entity_change`
   COLLATE = utf8_swedish_ci;
 
 
+
+DROP TABLE IF EXISTS `cfg_syslog`;
+
+CREATE TABLE `cfg_syslog`
+(
+    `id`           bigint(20) AUTO_INCREMENT NOT NULL,
+    `tipo`         varchar(50)               NOT NULL,
+    `app`          varchar(50)               NOT NULL,
+    `component`    varchar(255)              NOT NULL,
+    `act`          varchar(255)              NOT NULL,
+    `username`     varchar(90)               NOT NULL,
+    `moment`       datetime                  NOT NULL,
+    `obs`          LONGBLOB,
+    `delete_after` datetime,
+    `json_data`    JSON,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8
+  COLLATE = utf8_swedish_ci;
