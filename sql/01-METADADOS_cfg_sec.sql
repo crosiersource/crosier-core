@@ -374,3 +374,41 @@ CREATE TABLE `cfg_entity_change`
   COLLATE = utf8_swedish_ci;
 
 
+
+DROP TABLE IF EXISTS `cfg_syslog`;
+
+CREATE TABLE `cfg_syslog`
+(
+    `id`           bigint(20) AUTO_INCREMENT NOT NULL,
+    `tipo`         varchar(50)               NOT NULL,
+    `app`          varchar(50)               NOT NULL,
+    `component`    varchar(255)              NOT NULL,
+    `act`          varchar(3000)             NOT NULL,
+    `username`     varchar(90)               NOT NULL,
+    `moment`       datetime                  NOT NULL,
+    `obs`          LONGBLOB,
+    `delete_after` datetime,
+    `json_data`    JSON,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8
+  COLLATE = utf8_swedish_ci;
+
+
+-- A princípio esta tabela é criada automaticamente, mas caso aconteça algum problema, aqui está seu metadados
+CREATE TABLE `messenger_messages`
+(
+    `id`           bigint(20)                              NOT NULL AUTO_INCREMENT,
+    `body`         longtext COLLATE utf8mb4_unicode_ci     NOT NULL,
+    `headers`      longtext COLLATE utf8mb4_unicode_ci     NOT NULL,
+    `queue_name`   varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `created_at`   datetime                                NOT NULL,
+    `available_at` datetime                                NOT NULL,
+    `delivered_at` datetime DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `IDX_75EA56E0FB7336F0` (`queue_name`),
+    KEY `IDX_75EA56E0E3BD61CE` (`available_at`),
+    KEY `IDX_75EA56E016BA31DB` (`delivered_at`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_unicode_ci;
