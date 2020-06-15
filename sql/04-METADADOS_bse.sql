@@ -197,8 +197,8 @@ CREATE TABLE `bse_diautil` (
   `id` bigint(20) AUTO_INCREMENT NOT NULL,
   `dia` datetime NOT NULL,
   `descricao` varchar(40) DEFAULT NULL,
-  `comercial` bit(1) NOT NULL,
-  `financeiro` bit(1) NOT NULL,
+  `comercial` tinyint(1) NOT NULL,
+  `financeiro` tinyint(1) NOT NULL,
   `municipio_id` bigint(20) DEFAULT NULL,
 
   `inserted` datetime NOT NULL,
