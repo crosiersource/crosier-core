@@ -372,5 +372,3 @@ CREATE TABLE `cfg_entity_change`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
   COLLATE = utf8_swedish_ci;
-F
-F
