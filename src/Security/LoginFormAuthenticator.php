@@ -113,7 +113,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
         $this->userEntityHandler->fixRoles($token->getUser());
 
-        $this->syslog->save('core', self::class, 'onAuthenticationSuccess');
+        $this->syslog->info('core', self::class, 'onAuthenticationSuccess');
 
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
