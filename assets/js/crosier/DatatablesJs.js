@@ -50,7 +50,7 @@ class DatatablesJs {
     }
 
     static makeEditButton(editUrl) {
-        return '<a role="button" class="btn btn-primary btn-sm" href="' + editUrl + '">' +
+        return '<a role="button" class="btn btn-primary btn-sm" title="Editar registro" href="' + editUrl + '">' +
             '<i class="fas fa-wrench" aria-hidden="true"></i></a> ';
     }
 
