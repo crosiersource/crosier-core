@@ -52,9 +52,11 @@ class UserType extends AbstractType
                 'always_empty' => true,
                 'attr' => [
                     'class' => 'password-field',
+                    'maxlength' => 52,
                     'autocomplete' => 'new-password'
                 ]
             ],
+            'help' => 'Máximo de 52 caracteres',
             'first_options' => ['label' => 'Senha'],
             'second_options' => ['label' => 'Repita a senha'],
         ]);
