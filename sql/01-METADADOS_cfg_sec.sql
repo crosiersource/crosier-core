@@ -8,7 +8,7 @@ CREATE TABLE `cfg_estabelecimento`
     `id`               bigint(20) AUTO_INCREMENT NOT NULL,
     `codigo`           bigint(20)                NOT NULL,
     `descricao`        varchar(200)              NOT NULL,
-    `concreto`         tinyint(1)                    NOT NULL,
+    `concreto`         tinyint(1)                NOT NULL,
     `pai_id`           bigint(20) DEFAULT NULL,
 
     `updated`          datetime   DEFAULT NULL,
@@ -103,7 +103,7 @@ CREATE TABLE `sec_user`
     `email`                varchar(90)               NOT NULL,
     `password`             varchar(255) DEFAULT NULL,
     `senha`                varchar(255) DEFAULT NULL,
-    `ativo`                tinyint(1)                    NOT NULL,
+    `ativo`                tinyint(1)                NOT NULL,
     `group_id`             bigint(20)   DEFAULT NULL,
     `api_token`            varchar(255) DEFAULT NULL,
     `api_token_expires_at` datetime     DEFAULT NULL,
@@ -370,5 +370,25 @@ CREATE TABLE `cfg_entity_change`
     PRIMARY KEY (`id`),
     KEY `K_cfg_entity_change_entity_class` (`entity_class`)
 ) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8
+  COLLATE = utf8_swedish_ci;
+
+
+
+CREATE TABLE `cfg_syslog`
+(
+    `id`           bigint(20)                            NOT NULL AUTO_INCREMENT,
+    `tipo`         varchar(50) COLLATE utf8_swedish_ci   NOT NULL,
+    `app`          varchar(50) COLLATE utf8_swedish_ci   NOT NULL,
+    `component`    varchar(255) COLLATE utf8_swedish_ci  NOT NULL,
+    `act`          varchar(3000) COLLATE utf8_swedish_ci NOT NULL,
+    `username`     varchar(90) COLLATE utf8_swedish_ci   NOT NULL,
+    `moment`       datetime                              NOT NULL,
+    `obs`          longblob,
+    `delete_after` datetime DEFAULT NULL,
+    `json_data`    json     DEFAULT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 124576
   DEFAULT CHARSET = utf8
   COLLATE = utf8_swedish_ci;
