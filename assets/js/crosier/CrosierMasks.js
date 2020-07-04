@@ -109,24 +109,34 @@ class CrosierMasks {
             selectOnFocus: true
         });
 
-        $('.cpfCnpj').on('focus', function (e) {
+        let $cpfCnpj = $('.cpfCnpj');
+
+        $cpfCnpj.on('focus', function (e) {
             $(this).unmask();
         });
 
-        $('.cpfCnpj').on('blur', function (e) {
-            $(this).val($(this).val().replace(/[^\d]+/g,''));
-            if ($(this).val().length == 11) {
-                $(this).mask('000.000.000-00', {
+        function maskCpfCnpj($this) {
+            $this.val($this.val().replace(/[^\d]+/g, ''));
+            if ($this.val().length == 11) {
+                $this.mask('000.000.000-00', {
                     clearIfNotMatch: true,
                     selectOnFocus: true
                 });
-            } else if ($(this).val().length == 14) {
-                $(this).mask('00.000.000/0000-00', {
+            } else if ($this.val().length == 14) {
+                $this.mask('00.000.000/0000-00', {
                     clearIfNotMatch: true,
                     selectOnFocus: true
                 });
             }
+        }
+
+        $cpfCnpj.on('blur', function (e) {
+            maskCpfCnpj($(this));
         });
+
+        $cpfCnpj.each(function() {
+            maskCpfCnpj($(this));
+        })
     }
 
     static maskCEP() {
@@ -164,7 +174,6 @@ class CrosierMasks {
 
 
 }
-
 
 
 export default CrosierMasks;

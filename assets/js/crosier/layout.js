@@ -66,6 +66,9 @@ $(document).ready(function () {
 
     CrosierBaseLayout.startPushForUser();
 
+
+    $("input[type=text]").attr("autocomplete", "off");
+
 });
 
 window.onbeforeunload = function (e) {

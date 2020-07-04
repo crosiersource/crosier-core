@@ -331,19 +331,49 @@ class CrosierBaseLayout {
      * @param $s2
      */
     static handleSelect2Options($s2) {
-        $s2.select2({
-            width: '100%',
-            dropdownAutoWidth: true,
-            placeholder: '...',
-            allowClear: true,
-            data: $s2.data('options')
-        });
+        let opt = null;
+        if ($s2.hasClass('s2allownew')) {
+            opt = {
+                width: '100%',
+                dropdownAutoWidth: true,
+                placeholder: '...',
+                allowClear: true,
+                tags: true,
+                data: $s2.data('options'),
+                createTag: function (params) {
+                    let termStr = $s2.hasClass('notuppercase') ? params.term : params.term.toUpperCase();
+                    return {
+                        id: termStr,
+                        text: termStr,
+                        newOption: true
+                    }
+                },
+                templateResult: function (data) {
+                    let termStr = $s2.hasClass('notuppercase') ? data.text : data.text.toUpperCase();
+                    let $result = $("<span></span>");
+                    $result.text(termStr);
+                    return $result;
+                }
+            };
+        } else {
+            opt = {
+                width: '100%',
+                dropdownAutoWidth: true,
+                placeholder: '...',
+                allowClear: true,
+                data: $s2.data('options')
+            };
+        }
+        $s2 = $s2.select2(opt);
+
         if ($s2.data('val')) {
             $s2.val($s2.data('val')).trigger('change');
         }
+
         if ($s2.hasClass('focusOnReady')) {
             $s2.select2('focus');
         }
+        return $s2;
     }
 
     static handleSelect2DataTagsOptions($s2) {
@@ -392,7 +422,7 @@ class CrosierBaseLayout {
                 return;
             } // else
             if ($s2.data('options')) {
-                CrosierBaseLayout.handleSelect2Options($s2);
+                $s2 = CrosierBaseLayout.handleSelect2Options($s2);
                 return;
             } // else
             if ($s2[0].hasAttribute('data-tagsoptions')) {
@@ -453,38 +483,47 @@ class CrosierBaseLayout {
         let html = $cepComBtnConsulta.parent().html();
 
         $cepComBtnConsulta.parent().html(html +
-            '<button type="button" id="btnConsultaCep_' + $cepComBtnConsulta.attr('id') + '" data-campo-cep="' + $cepComBtnConsulta.attr('id') + '" class="btn btn-outline-success ml-2" title="Pesquisar endereço pelo CEP"><i class="fas fa-map-marked-alt"></i> Pesquisar</button>'
+            '<div class="input-group-append"><button type="button" id="btnConsultaCep_' + $cepComBtnConsulta.attr('id') + '" data-campo-cep="' + $cepComBtnConsulta.attr('id') + '" class="btn btn-outline-success" title="Pesquisar endereço pelo CEP"><i class="fas fa-map-marked-alt"></i> Pesquisar</button></div>'
         );
 
         CrosierMasks.maskCEP(); // tem que remascarar depois de recriar o campo
 
         $('#btnConsultaCep_' + $cepComBtnConsulta.attr('id')).click(function () {
-            let $cep = $cepComBtnConsulta.val();
-            $.ajax({
-                url: '/base/municipio/findEnderecoByCEP?cep=' + $cep,
-                type: 'get',
-                dataType: 'json',
-                success: function (r) {
-                    let res = JSON.parse(r);
-                    let prefixoDosCampos = $cepComBtnConsulta.data('prefixodoscampos');
-
-                    let campoLogradouro = $cepComBtnConsulta.data('campo-logradouro') ? $cepComBtnConsulta.data('campo-logradouro') : prefixoDosCampos + 'logradouro';
-                    $('input[id=' + campoLogradouro + ']').val(res.tipo_logradouro + ' ' + res.logradouro);
-
-                    let campoCidade = $cepComBtnConsulta.data('campo-cidade') ? $cepComBtnConsulta.data('campo-cidade') : prefixoDosCampos + 'cidade';
-                    $('input[id=' + campoCidade + ']').val(res.cidade);
-
-                    let campoBairro = $cepComBtnConsulta.data('campo-bairro') ? $cepComBtnConsulta.data('campo-bairro') : prefixoDosCampos + 'bairro';
-                    $('input[id=' + campoBairro + ']').val(res.bairro);
-
-                    let campoEstado = $cepComBtnConsulta.data('campo-estado') ? $cepComBtnConsulta.data('campo-estado') : prefixoDosCampos + 'estado';
-                    $('#' + campoEstado + '').val(res.uf).trigger('change');
-                }
-            });
-
+            CrosierBaseLayout.retCamposCep();
         });
+    }
 
+    static retCamposCep() {
+        let $cepComBtnConsulta = $('.cepComBtnConsulta');
+        let $cep = $cepComBtnConsulta.val();
+        $.ajax({
+            url: '/base/municipio/findEnderecoByCEP?cep=' + $cep,
+            type: 'get',
+            dataType: 'json',
+            success: function (r) {
 
+                let res = JSON.parse(r);
+                let prefixoDosCampos = $cepComBtnConsulta.data('prefixodoscampos');
+
+                let campoLogradouro = $cepComBtnConsulta.data('campo-logradouro') ? $cepComBtnConsulta.data('campo-logradouro') : prefixoDosCampos + 'logradouro';
+                $('input[id=' + campoLogradouro + ']').val(res.logradouro ? res.logradouro : '');
+
+                let campoCidade = $cepComBtnConsulta.data('campo-cidade') ? $cepComBtnConsulta.data('campo-cidade') : prefixoDosCampos + 'cidade';
+                $('input[id=' + campoCidade + ']').val(res.localidade ? res.localidade : '');
+
+                let campoBairro = $cepComBtnConsulta.data('campo-bairro') ? $cepComBtnConsulta.data('campo-bairro') : prefixoDosCampos + 'bairro';
+                $('input[id=' + campoBairro + ']').val(res.bairro ? res.bairro : '');
+
+                if (res.uf) {
+                    let campoEstado = $cepComBtnConsulta.data('campo-estado') ? $cepComBtnConsulta.data('campo-estado') : prefixoDosCampos + 'estado';
+                    let container = $('#select2-' + campoEstado + '-container')
+                    campoEstado = $('#' + campoEstado + '');
+                    campoEstado.val(res.uf).trigger('change').trigger('selection:update');
+                    container.prop('title', res.uf);
+                    container.html(res.uf);
+                }
+            }
+        });
     }
 
 
