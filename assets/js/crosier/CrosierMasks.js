@@ -31,11 +31,24 @@ class CrosierMasks {
     }
 
     static maskDecs() {
+        let $dec0 = $(".crsr-dec0, .decimal0");
         let $dec1 = $(".crsr-dec1, .decimal1");
         let $dec2 = $(".crsr-dec2, .decimal2, .crsr-money, .money, .dinheiro");
         let $dec3 = $(".crsr-dec3, .decimal3");
         let $dec4 = $(".crsr-dec4, .decimal4");
         let $dec5 = $(".crsr-dec5, .decimal5");
+
+        $dec0.maskMoney({
+            prefix: '',
+            thousands: '.',
+            decimal: ',',
+            affixesStay: true,
+            precision: 0,
+            allowZero: true,
+            allowEmpty: true,
+            selectAllOnFocus: true
+        });
+        $dec0.trigger('mask.maskMoney');
 
         $dec1.maskMoney({
             prefix: '',
@@ -96,6 +109,13 @@ class CrosierMasks {
             selectAllOnFocus: true
         });
         $dec5.trigger('mask.maskMoney');
+
+        $dec0.attr("autocomplete", "off");
+        $dec1.attr("autocomplete", "off");
+        $dec2.attr("autocomplete", "off");
+        $dec3.attr("autocomplete", "off");
+        $dec4.attr("autocomplete", "off");
+        $dec5.attr("autocomplete", "off");
 
     }
 

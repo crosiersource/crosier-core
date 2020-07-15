@@ -40,8 +40,12 @@ input[type=submit], input[type=button] {
 .decimal3,
 .dinheiro,
 .money,
+.crsr-dec0,
+.crsr-dec1,
 .crsr-dec2,
 .crsr-dec3,
+.crsr-dec4,
+.crsr-dec5,
 .crsr-money {
     text-align: right;
     text-transform: none;
