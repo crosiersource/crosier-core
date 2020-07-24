@@ -10,7 +10,6 @@ class DatatablesJs {
 
     static makeDatatableJs(listId, columns, params) {
 
-
         // declaro antes para poder sobreescrever ali com o extent, no caso de querer mudar alguma coisa (ex.: movimentacaoRecorrentesList.js)
         let defaultParams = {
             paging: true,
