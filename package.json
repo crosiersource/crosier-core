@@ -21,6 +21,7 @@
     "jquery-mask-plugin": "^1.14.15",
     "jquery-maskmoney": "https://github.com/plentz/jquery-maskmoney",
     "js-yaml": "^3.13.1",
+    "jsoneditor": "^8.6.8",
     "lodash.mergewith": "^4.6.2",
     "moment": "^2.23.0",
     "node-sass": "^4.11.0",
@@ -39,8 +40,7 @@
     "sprintf-js": "^1.1.2",
     "summernote": "^0.8.11",
     "toastr": "^2.1.4",
-    "webpack-notifier": "^1.6.0",
-    "jsoneditor": "^8.6.8"
+    "webpack-notifier": "^1.6.0"
   },
   "license": "UNLICENSED",
   "private": true,
