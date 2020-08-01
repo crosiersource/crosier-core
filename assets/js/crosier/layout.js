@@ -11,7 +11,7 @@ import 'perfect-scrollbar';
 import '@coreui/coreui';
 import '@coreui/coreui/dist/css/coreui.css';
 import '@coreui/icons/css/coreui-icons.css';
-import 'simple-line-icons/css/simple-line-icons.css';
+
 
 
 import 'select2/dist/css/select2.css';

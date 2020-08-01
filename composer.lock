@@ -67,7 +67,7 @@
             "dist": {
                 "type": "path",
                 "url": "../crosierlib-base",
-                "reference": "e79092e81dffe7b8e18899bca5bcf94b67835575",
+                "reference": "b602af39878587c6c9a3b06df24ac55ec6d761ff",
                 "shasum": null
             },
             "require": {
