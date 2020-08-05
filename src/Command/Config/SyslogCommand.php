@@ -69,7 +69,6 @@ class SyslogCommand extends Command
         } catch (DBALException $e) {
             throw new \RuntimeException('Erro ao deletar syslogs');
         }
-
     }
 
 }
