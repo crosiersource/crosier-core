@@ -46,6 +46,7 @@ class SyslogCommand extends Command
             default:
                 throw new \RuntimeException('acao n/d');
         }
+        return 1;
     }
 
     /**
