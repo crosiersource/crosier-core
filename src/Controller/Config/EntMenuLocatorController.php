@@ -13,6 +13,7 @@ use CrosierSource\CrosierLibBaseBundle\EntityHandler\Config\EntMenuLocatorEntity
 use CrosierSource\CrosierLibBaseBundle\Repository\Config\EntMenuRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -60,6 +61,8 @@ class EntMenuLocatorController extends FormListController
         $entMenuLocator = $entMenuLocator ?? new EntMenuLocator();
         $entMenuLocator->setMenuUUID($menuUUID);
 
+        $cache = new FilesystemAdapter('entmenulocator', 0, $_SERVER['CROSIER_SESSIONS_FOLDER']);
+        $cache->clear();
         return $this->doForm($request, $entMenuLocator, $parameters);
     }
 
