@@ -4,8 +4,6 @@ namespace App\Controller\Config;
 
 use App\Form\Config\EntMenuLocatorType;
 use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
-use CrosierSource\CrosierLibBaseBundle\Entity\Base\Pessoa;
-use CrosierSource\CrosierLibBaseBundle\Entity\Base\PessoaEndereco;
 use CrosierSource\CrosierLibBaseBundle\Entity\Config\EntMenu;
 use CrosierSource\CrosierLibBaseBundle\Entity\Config\EntMenuLocator;
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityId;
@@ -66,9 +64,10 @@ class EntMenuLocatorController extends FormListController
         return $this->doForm($request, $entMenuLocator, $parameters);
     }
 
-    public function handleRequestOnValid(Request $request, $entMenuLocator): void
+
+    public function handleRequestOnValid(Request $request, /** @var EntMenuLocator $entMenuLocator */ $entMenuLocator): void
     {
-        $entMenuLocator->setMenuUUID($request->get('menuUUID'));
+        $entMenuLocator->menuUUID = $request->get('menuUUID');
     }
 
 

@@ -84,12 +84,11 @@ class EntMenuController extends FormListController
     /**
      *
      * @Route("/cfg/entMenu/list/{entMenu}", name="cfg_entMenu_list", requirements={"entMenu"="\d+"})
-     * @param Request $request
      * @param EntMenu $entMenu
      * @return Response
      * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
-    public function list(Request $request, EntMenu $entMenu): Response
+    public function list(EntMenu $entMenu): Response
     {
         $dados = null;
         /** @var EntMenuRepository $repo */
@@ -121,13 +120,11 @@ class EntMenuController extends FormListController
     /**
      *
      * @Route("/cfg/entMenu/listPais/", name="cfg_entMenu_listPais")
-     * @param Request $request
      * @return Response
      * @throws \Exception
-     *
      * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
-    public function listPais(Request $request): Response
+    public function listPais(): Response
     {
         $dados = null;
         /** @var EntMenuRepository $repo */
@@ -165,7 +162,7 @@ class EntMenuController extends FormListController
      *
      * @Route("/cfg/entMenu/saveOrdem/", name="cfg_entMenu_saveOrdem")
      * @param Request $request
-     * @return Response|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return JsonResponse
      *
      * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
@@ -183,10 +180,10 @@ class EntMenuController extends FormListController
     /**
      *
      * @Route("/cfg/entMenu/clear/{entMenu}", name="cfg_entMenu_clear", defaults={"entMenu"=null}, requirements={"entMenu"="\d+"})
-     * @param Request $request
+     * @param EntMenu|null $entMenu
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function clear(Request $request, EntMenu $entMenu = null): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function clear(EntMenu $entMenu = null): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         // Remove da sessão os menus cacheados pelo BaseController
         $session = new Session();
