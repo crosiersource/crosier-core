@@ -120,6 +120,7 @@ class CrosierMasks {
     }
 
     static maskCPF_CNPJ() {
+
         $('.cpf').mask('000.000.000-00', {
             clearIfNotMatch: true,
             selectOnFocus: true
@@ -132,31 +133,15 @@ class CrosierMasks {
         let $cpfCnpj = $('.cpfCnpj');
 
         $cpfCnpj.on('focus', function (e) {
-            $(this).unmask();
+            $(this).val($(this).val().replace(/[^\d]+/g, ''));
         });
-
-        function maskCpfCnpj($this) {
-            $this.val($this.val().replace(/[^\d]+/g, ''));
-            if ($this.val().length == 11) {
-                $this.mask('000.000.000-00', {
-                    clearIfNotMatch: true,
-                    selectOnFocus: true
-                });
-            } else if ($this.val().length == 14) {
-                $this.mask('00.000.000/0000-00', {
-                    clearIfNotMatch: true,
-                    selectOnFocus: true
-                });
-            }
-        }
 
         $cpfCnpj.on('blur', function (e) {
-            maskCpfCnpj($(this));
+            $(this).val(
+                ($(this).val().length === 14 ?
+                    $(this).val().replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/g, "\$1.\$2.\$3\/\$4\-\$5") :
+                    $(this).val().replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, "\$1.\$2.\$3\-\$4")));
         });
-
-        $cpfCnpj.each(function() {
-            maskCpfCnpj($(this));
-        })
     }
 
     static maskCEP() {

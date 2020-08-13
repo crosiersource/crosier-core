@@ -483,7 +483,7 @@ class CrosierBaseLayout {
         let html = $cepComBtnConsulta.parent().html();
 
         $cepComBtnConsulta.parent().html(html +
-            '<div class="input-group-append"><button type="button" id="btnConsultaCep_' + $cepComBtnConsulta.attr('id') + '" data-campo-cep="' + $cepComBtnConsulta.attr('id') + '" class="btn btn-outline-success" title="Pesquisar endereço pelo CEP"><i class="fas fa-map-marked-alt"></i> Pesquisar</button></div>'
+            '<div class="input-group-append"><button type="button" id="btnConsultaCep_' + $cepComBtnConsulta.attr('id') + '" data-campo-cep="' + $cepComBtnConsulta.attr('id') + '" class="btn btn-outline-success" title="Pesquisar endereço pelo CEP"><i class="fas fa-map-marked-alt"></i></button></div>'
         );
 
         CrosierMasks.maskCEP(); // tem que remascarar depois de recriar o campo
