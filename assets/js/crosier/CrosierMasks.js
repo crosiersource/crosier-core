@@ -121,27 +121,53 @@ class CrosierMasks {
 
     static maskCPF_CNPJ() {
 
-        $('.cpf').mask('000.000.000-00', {
+        $('.cpf').mask('G00.000.000-00', {
             clearIfNotMatch: true,
-            selectOnFocus: true
+            selectOnFocus: true,
+            'translation': {
+                G: {pattern: /[Gg0-9]/}
+            },
         });
-        $('.cnpj').mask('00.000.000/0000-00', {
+        $('.cnpj').mask('[G0-9]0.000.000/0000-00', {
             clearIfNotMatch: true,
-            selectOnFocus: true
+            selectOnFocus: true,
+            'translation': {
+                G: {pattern: /[Gg0-9]/}
+            },
         });
 
         let $cpfCnpj = $('.cpfCnpj');
 
         $cpfCnpj.on('focus', function (e) {
-            $(this).val($(this).val().replace(/[^\d]+/g, ''));
+            let iniG = false;
+            if ($(this).val().substr(0, 1).toUpperCase() === 'G') {
+                iniG = true;
+            }
+            console.log('iniG: [' + iniG + ']');
+            let rVal = (iniG ? 'G' : '') + $(this).val().replace(/[^\d]+/g, '');
+            $(this).val(rVal);
         });
 
         $cpfCnpj.on('blur', function (e) {
-            $(this).val(
-                ($(this).val().length === 14 ?
-                    $(this).val().replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/g, "\$1.\$2.\$3\/\$4\-\$5") :
-                    $(this).val().replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, "\$1.\$2.\$3\-\$4")));
+            let val = $(this).val();
+            $(this).val(CrosierMasks.mascararCpfCnpj(val));
         });
+
+        $cpfCnpj.each(function () {
+            let val = $(this).val();
+            $(this).val(CrosierMasks.mascararCpfCnpj(val));
+        });
+    }
+
+    static mascararCpfCnpj(val) {
+        if (val.length === 14 || val.length === 11) {
+            return (
+                (val.length === 14 ?
+                    val.replace(/([Gg0-9]{1}\d{1})(\d{3})(\d{3})(\d{4})(\d{2})/g, "\$1.\$2.\$3\/\$4\-\$5") :
+                    val.replace(/([Gg0-9]{1}\d{2})(\d{3})(\d{3})(\d{2})/g, "\$1.\$2.\$3\-\$4")));
+        } else {
+            return '';
+        }
     }
 
     static maskCEP() {
