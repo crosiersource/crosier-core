@@ -143,14 +143,14 @@ class CrosierMasks {
             if ($(this).val().substr(0, 1).toUpperCase() === 'G') {
                 iniG = true;
             }
-            console.log('iniG: [' + iniG + ']');
             let rVal = (iniG ? 'G' : '') + $(this).val().replace(/[^\d]+/g, '');
             $(this).val(rVal);
         });
 
         $cpfCnpj.on('blur', function (e) {
             let val = $(this).val();
-            $(this).val(CrosierMasks.mascararCpfCnpj(val));
+            let valF = CrosierMasks.mascararCpfCnpj(val);
+            $(this).val(valF);
         });
 
         $cpfCnpj.each(function () {
@@ -160,6 +160,13 @@ class CrosierMasks {
     }
 
     static mascararCpfCnpj(val) {
+
+        let iniG = false;
+        if (val.substr(0, 1).toUpperCase() === 'G') {
+            iniG = true;
+        }
+        val = (iniG ? 'G' : '') + val.replace(/[^\d]+/g, '');
+
         if (val.length === 14 || val.length === 11) {
             return (
                 (val.length === 14 ?
