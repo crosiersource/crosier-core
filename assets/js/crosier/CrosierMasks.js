@@ -146,6 +146,7 @@ class CrosierMasks {
             console.log('iniG: [' + iniG + ']');
             let rVal = (iniG ? 'G' : '') + $(this).val().replace(/[^\d]+/g, '');
             $(this).val(rVal);
+            $(this).select();
         });
 
         $cpfCnpj.on('blur', function (e) {
