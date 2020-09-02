@@ -7,6 +7,7 @@ use CrosierSource\CrosierLibBaseBundle\Entity\Security\User;
 use CrosierSource\CrosierLibBaseBundle\EntityHandler\Security\UserEntityHandler;
 use CrosierSource\CrosierLibBaseBundle\Repository\Security\UserRepository;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
@@ -105,21 +106,23 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-        /** @var User $user */
-        $user = $token->getUser();
-        $this->userEntityHandler->save($user);
 
-        $this->userEntityHandler->renewTokenApi($token->getUser());
-
-        $this->userEntityHandler->fixRoles($token->getUser());
-
-        $this->syslog->info('core', self::class, 'onAuthenticationSuccess');
-
-        if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
-            return new RedirectResponse($targetPath);
+        try {
+            /** @var User $user */
+            $user = $token->getUser();
+            $this->userEntityHandler->save($user);
+            $this->userEntityHandler->renewTokenApi($user);
+            $this->userEntityHandler->fixRoles($user);
+            $this->syslog->info('core', self::class, 'onAuthenticationSuccess');
+            $cache = new FilesystemAdapter('entmenulocator', 0, $_SERVER['CROSIER_SESSIONS_FOLDER']);
+            $cache->clear();
+            if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
+                return new RedirectResponse($targetPath);
+            }
+            return new RedirectResponse($this->router->generate('index'));
+        } catch (\Throwable $e) {
+            throw new \RuntimeException('err');
         }
-
-        return new RedirectResponse($this->router->generate('index'));
     }
 
     protected function getLoginUrl()
