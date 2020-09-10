@@ -91,15 +91,6 @@ VALUES ('73292344-d2ca-4101-b838-1551eb8eccad', 'Menus', 'fas fa-bars', 'ENT', '
         'e290e24f-a050-4bba-8ee8-877d55242267', 3, NULL, now(), now(), 1, 1, 1, '/cfg/entMenu/listPais/', 'ROLE_ADMIN');
 
 
--- Propriedades
-DELETE
-FROM cfg_entmenu
-WHERE uuid = 'dfa4c109-1b23-415a-9110-66912bda2f61';
-INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `app_uuid`, `pai_uuid`, `ordem`, `css_style`, `inserted`,
-                           `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`, `url`, `roles`)
-VALUES ('dfa4c109-1b23-415a-9110-66912bda2f61', 'Propriedades', 'fas fa-project-diagram', 'ENT',
-        '175bd6d3-6c29-438a-9520-47fcee653cc5',
-        'e290e24f-a050-4bba-8ee8-877d55242267', 3, NULL, now(), now(), 1, 1, 1, '/cfg/prop/list/', 'ROLE_ADMIN');
 
 
 --
