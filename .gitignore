@@ -35,3 +35,5 @@ yarn-error.log
 /templates/base.html.twig
 
 /public/images
+
+/src/.preload.php
