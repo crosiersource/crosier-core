@@ -132,9 +132,10 @@
                                 <th scope="col">Id</th>
                                 <th scope="col">Tipo</th>
                                 <th scope="col">Moment</th>
+                                <th scope="col">User</th>
                                 <th scope="col">App</th>
                                 <th scope="col">Component</th>
-                                <th scope="col">User</th>
+                                <th scope="col">Action</th>
                                 <th scope="col">Obs</th>
                                 <th scope="col"></th>
                             </tr>
@@ -146,13 +147,14 @@
                                     <td>{{ r.id }}</td>
                                     <td>{{ r.tipo }}</td>
                                     <td>{{ r.moment|date('d/m/Y H:i:s') }}</td>
+                                    <td>{{ r.username }}</td>
                                     <td>{{ r.app }}</td>
                                     <td>
-                                <span title="{{ r.component }}">
-                                    {{ r.component_r }}
-                                </span>
+                                        <span title="{{ r.component }}">
+                                            {{ r.component_r }}
+                                        </span>
                                     </td>
-                                    <td>{{ r.username }}</td>
+                                    <td>{{ r.act }}</td>
                                     <td>{{ r.obs }}</td>
                                     <td class="text-right">
 
