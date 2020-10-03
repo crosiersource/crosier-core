@@ -377,16 +377,23 @@ class CrosierBaseLayout {
     }
 
     static handleSelect2DataTagsOptions($s2) {
+
         $s2.select2({
             width: '100%',
             dropdownAutoWidth: true,
             tags: true,
             tokenSeparators: [',']
         });
+        let val = String($s2.data('val')).split(',');
+
         String($s2.data('tagsoptions')).split(',').forEach(function (t) {
             if (t) {
                 t = t.toUpperCase();
-                $s2.append(new Option(t, t, false, true)).trigger('change');
+                let selected = true;
+                if (val) {
+                    selected = val && val.includes(t);
+                }
+                $s2.append(new Option(t, t, false, selected)).trigger('change');
             }
         });
         if ($s2.hasClass('focusOnReady')) {

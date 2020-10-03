@@ -50,8 +50,7 @@ Encore
     .addEntry('Config/programList', './assets/js/Config/programList.js')
     .addEntry('Config/entMenuList', './assets/js/Config/entMenuList.js')
     .addEntry('Config/entMenuLocatorList', './assets/js/Config/entMenuLocatorList.js')
-    //.addEntry('page1', './assets/js/page1.js')
-    //.addEntry('page2', './assets/js/page2.js')
+    .addEntry('Config/syslogList', './assets/js/Config/syslogList.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

@@ -1,0 +1,177 @@
+{% extends '@CrosierLibBase/base.html.twig' %}
+
+
+
+
+{% block body %}
+
+    <form action="{{ url('cfg_syslog_list') }}" method="get">
+        <div class="card">
+            <div class="card-header">
+
+                <div class="d-flex flex-wrap align-items-center">
+                    <div class="d-sm-flex text-nowrap mr-1">
+                        <h3>Syslog</h3>
+                    </div>
+                    <div class="d-sm-flex flex-nowrap ml-auto">
+
+                        <div class="form-group text-right">
+                            <label for="item_devolucao"> </label>
+                            <div class="custom-control custom-switch mt-2">
+                                <input type="checkbox" class="custom-control-input"
+                                       name="item[devolucao]" id="item_devolucao">
+                                <label class="custom-control-label"
+                                       for="item_devolucao">Auto atualiz</label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="card-body">
+
+
+                <div class="row">
+
+                    <div class="col-md-3 col-sm-12">
+                        <div class="form-group">
+                            <label for="filter_tipo">Tipo</label>
+                            <select id="filter_tipo" name="filter[tipo][]"
+                                    class="form-control autoSelect2" data-token-separators="," multiple
+                                    data-tags="true" data-placeholder="..." data-allow-clear="true"
+                                    data-val="{{ filter['tipo']|default('')|join(',') }}"
+                                    data-tagsoptions="{{ tipos|default('')|join(',') }}">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-12">
+                        <div class="form-group">
+                            <label for="filter_moment">Moment</label>
+                            <input type="text" id="filter_moment" name="filter[moment]"
+                                   data-mask="00/00/000 00:00:00 - 00/00/0000 00:00:00"
+                                   style="text-align: center"
+                                   class="form-control"
+                                   value="{{ filter['moment']|default('') }}">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-12">
+                        <div class="form-group">
+                            <label for="filter_app">App</label>
+                            <input type="text" id="filter_app" name="filter[app]"
+                                   class="form-control notuppercase"
+                                   value="{{ filter['app']|default('') }}">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-12">
+                        <div class="form-group">
+                            <label for="filter_component">Component</label>
+                            <input type="text" id="filter_component" name="filter[component]"
+                                   class="form-control notuppercase"
+                                   value="{{ filter['component']|default('') }}">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-3 col-sm-12">
+                        <div class="form-group">
+                            <label for="filter_username">Username</label>
+                            <input type="text" id="filter_username" name="filter[username]"
+                                   class="form-control notuppercase"
+                                   value="{{ filter['username']|default('') }}">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-12">
+                        <div class="form-group">
+                            <label for="filter_act">Act</label>
+                            <input type="text" id="filter_act" name="filter[act]"
+                                   class="form-control notuppercase"
+                                   value="{{ filter['act']|default('') }}">
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-sm-12">
+                        <div class="form-group">
+                            <label for="filter_obs">Obs</label>
+                            <input type="text" id="filter_obs" name="filter[obs]"
+                                   class="form-control notuppercase"
+                                   value="{{ filter['obs']|default('') }}">
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-2 col-sm-12">
+                        <div class="form-group">
+                            <label for="btnFiltrar">&nbsp;</label>
+                            <button type="submit" class="btn btn-primary btn-block" id="btnFiltrar" title="Pesquisar">
+                                <i class="fas fa-search"></i> Pesquisar
+                            </button>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+                {% if rs|default(false) %}
+                    <div class="table-responsive-sm">
+
+                        <table class="table table-sm table-striped table-hover crsr-datatable">
+
+                            <thead>
+
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col">Tipo</th>
+                                <th scope="col">Moment</th>
+                                <th scope="col">App</th>
+                                <th scope="col">Component</th>
+                                <th scope="col">User</th>
+                                <th scope="col">Obs</th>
+                                <th scope="col"></th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            {% for r in rs %}
+                                <tr>
+                                    <td>{{ r.id }}</td>
+                                    <td>{{ r.tipo }}</td>
+                                    <td>{{ r.moment|date('d/m/Y H:i:s') }}</td>
+                                    <td>{{ r.app }}</td>
+                                    <td>
+                                <span title="{{ r.component }}">
+                                    {{ r.component_r }}
+                                </span>
+                                    </td>
+                                    <td>{{ r.username }}</td>
+                                    <td>{{ r.obs }}</td>
+                                    <td class="text-right">
+
+                                    </td>
+                                </tr>
+                            {% endfor %}
+
+
+                            </tbody>
+
+                        </table>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </form>
+
+{% endblock %}
+
+{% block down_scripts %}
+    {{ encore_entry_script_tags('Config/syslogList') }}
+{% endblock %}
