@@ -65,7 +65,7 @@ class EntMenuLocatorController extends FormListController
     }
 
 
-    public function handleRequestOnValid(Request $request, /** @var EntMenuLocator $entMenuLocator */ $entMenuLocator): void
+    public function handleRequestOnValid(Request $request, /** @var EntMenuLocator $entMenuLocator */ $entMenuLocator, ?array &$params = []): void
     {
         $entMenuLocator->menuUUID = $request->get('menuUUID');
     }
