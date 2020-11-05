@@ -47,7 +47,7 @@ class SyslogController extends AbstractController
 
             $limit = 500;
             $sql = 'SELECT id, tipo, moment, app, SUBSTRING_INDEX(component,\'\\\\\',-1) AS component_r, component, username, substr(act,1,255) as act, substring(obs,1,255) as obs FROM cfg_syslog ' .
-                $where . ' ORDER BY moment DESC LIMIT ' . $limit;
+                $where . ' ORDER BY moment DESC, id DESC LIMIT ' . $limit;
             $qParams = [];
             $rs = $conn->fetchAllAssociative($sql, $qParams);
             $params['rs'] = $rs;
