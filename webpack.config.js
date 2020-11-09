@@ -39,6 +39,7 @@ Encore
     .addEntry('Base/pessoaList', './assets/js/Base/pessoaList.js')
     .addEntry('Base/categoriaPessoaList', './assets/js/Base/categoriaPessoaList.js')
     .addEntry('Base/pessoaForm', './assets/js/Base/pessoaForm.js')
+    .addEntry('Base/diaUtil_list', './assets/js/Base/diaUtil_list.js')
 
     .addEntry('Security/userList', './assets/js/Security/userList.js')
     .addEntry('Security/groupList', './assets/js/Security/groupList.js')
