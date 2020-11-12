@@ -106,7 +106,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-
         try {
             /** @var User $user */
             $user = $token->getUser();
@@ -121,6 +120,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             }
             return new RedirectResponse($this->router->generate('index'));
         } catch (\Throwable $e) {
+            $this->logger->error('Erro em onAuthenticationSuccess');
+            $this->logger->error($e->getMessage());
             throw new \RuntimeException('err');
         }
     }
