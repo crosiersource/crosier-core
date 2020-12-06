@@ -13,7 +13,7 @@ import 'daterangepicker';
 import Push from "push.js";
 
 import CrosierMasks from './CrosierMasks';
-import Pace from "pace-progress";
+import pace from "pace-js";
 
 
 class CrosierBaseLayout {
@@ -23,25 +23,34 @@ class CrosierBaseLayout {
      */
     static handlePace() {
 
+        window.paceOptions = {
+            ajax: {
+                trackMethods: ['GET', 'POST'],
+                ignoreURLs: ['getNewMessages']
+            },
+            document: true,
+            eventLag: true
+        };
+
         $('.blurriers').css('filter', 'blur(2px)');
 
-        Pace.on('restart', function (e) {
+        pace.on('restart', function (e) {
             document.getElementById('preloader').style.display = '';
             $('.blurriers').css('filter', 'blur(2px) grayscale(3)');
         });
 
-        Pace.on('start', function (e) {
+        pace.on('start', function (e) {
             document.getElementById('preloader').style.display = '';
             $('.blurriers').css('filter', 'blur(2px) grayscale(3)');
         });
 
-        Pace.on('hide', function (e) {
+        pace.on('hide', function (e) {
             document.getElementById('preloader').style.display = 'none';
             $('.blurriers').css('filter', '');
         });
 
         $('form').submit(function (e) {
-            Pace.options = {ghostTime: 2500000};
+            pace.options = {ghostTime: 2500000};
             $('.blurriers').css('filter', 'blur(2px) grayscale(3)');
         });
     }
@@ -593,7 +602,7 @@ class CrosierBaseLayout {
         if (crosierCoreUrl && at) {
             window.setInterval(function () {
 
-                Pace.ignore(
+                pace.ignore(
                     function () {
 
                         $.ajax(

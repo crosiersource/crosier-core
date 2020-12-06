@@ -29,7 +29,7 @@ import 'datatables/media/css/jquery.dataTables.css';
 
 import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css';
 
-import Pace from 'pace-progress';
+import pace from 'pace-js';
 
 import 'toastr/build/toastr.css'
 
@@ -69,7 +69,7 @@ $(document).ready(function () {
 });
 
 window.onbeforeunload = function (e) {
-    Pace.options = {ghostTime: 2500000};
+    pace.options = {ghostTime: 2500000};
     document.getElementById('preloader').style.display = '';
     $('.blurriers').css('filter', 'blur(2px) grayscale(2)');
 };
