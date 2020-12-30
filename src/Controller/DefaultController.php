@@ -10,8 +10,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class DefaultController
- * @package App\Controller
+ * @author Carlos Eduardo Pauluk
  */
 class DefaultController extends BaseController
 {
@@ -44,7 +43,7 @@ class DefaultController extends BaseController
      *
      * @Route("/", name="index")
      */
-    public function index()
+    public function index(): Response
     {
         return $this->doRender('dashboard.html.twig');
     }
@@ -52,7 +51,7 @@ class DefaultController extends BaseController
     /**
      * @Route("/logAnError", name="logAnError")
      */
-    public function logAnError()
+    public function logAnError(): Response
     {
         $this->logger->error('Um erro que não é um erro.');
         return new Response('Errou!');
@@ -68,22 +67,5 @@ class DefaultController extends BaseController
         return new Response('');
     }
 
-    /**
-     * @Route("/do1", name="do1")
-     */
-    public function doSomething()
-    {
-        $this->session->set('bla', 'blablabla');
-        return new Response('bla setado');
-    }
-
-
-    /**
-     * @Route("/do2", name="do2")
-     */
-    public function doSomething2()
-    {
-        return new Response('bla :' . $this->session->get('bla'));
-    }
 
 }

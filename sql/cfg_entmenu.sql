@@ -61,16 +61,6 @@ VALUES ('0fbcfb61-3224-4b72-a3e6-86785b21d379', 'Grupos de Usuários', 'fas fa-p
         '175bd6d3-6c29-438a-9520-47fcee653cc5', 'e290e24f-a050-4bba-8ee8-877d55242267', 5, NULL, now(), now(), 1, 1, 1,
         '/sec/group/list/', 'ROLE_ADMIN');
 
--- Programas
-DELETE
-FROM cfg_entmenu
-WHERE uuid = 'b87ebd2d-1af3-4aa9-b5e1-9d68ede111cc';
-INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `app_uuid`, `pai_uuid`, `ordem`, `css_style`, `inserted`,
-                           `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`, `url`, `roles`)
-VALUES ('b87ebd2d-1af3-4aa9-b5e1-9d68ede111cc', 'Programas', 'fas fa-microchip', 'ENT',
-        '175bd6d3-6c29-438a-9520-47fcee653cc5', 'e290e24f-a050-4bba-8ee8-877d55242267', 5, NULL, now(), now(), 1, 1, 1,
-        '/cfg/program/list/', 'ROLE_ADMIN');
-
 -- Apps
 DELETE
 FROM cfg_entmenu
