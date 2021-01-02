@@ -1,0 +1,53 @@
+<?php
+
+namespace App\Entity\{{ pacote }};
+
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use CrosierSource\CrosierLibBaseBundle\Doctrine\Annotations\NotUppercase;
+use CrosierSource\CrosierLibBaseBundle\Doctrine\Annotations\EntityHandler;
+use CrosierSource\CrosierLibBaseBundle\Entity\EntityId;
+use CrosierSource\CrosierLibBaseBundle\Entity\EntityIdTrait;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * @ApiResource(
+ *     normalizationContext={"groups"={"entity"}},
+ *     denormalizationContext={"groups"={"entity"}},
+ *
+ *     itemOperations={
+ *          "get"={"path"="/{{ nomeDoRecurso }}/{id}", "access_control"="is_granted('{{ role }}')"},
+ *          "put"={"path"="/{{ nomeDoRecurso }}/{id}", "access_control"="is_granted('{{ role }}')"},
+ *          "delete"={"path"="/{{ nomeDoRecurso }}/{id}", "access_control"="is_granted('ROLE_ADMIN')"}
+ *     },
+ *     collectionOperations={
+ *          "get"={"path"="/{{ nomeDoRecurso }}", "access_control"="is_granted('{{ role }}')"},
+ *          "post"={"path"="/{{ nomeDoRecurso }}", "access_control"="is_granted('{{ role }}')"}
+ *     },
+ *
+ *     attributes={
+ *          "pagination_items_per_page"=10,
+ *          "formats"={"jsonld", "csv"={"text/csv"}}
+ *     }
+ *
+ * )
+ * @ApiFilter(SearchFilter::class, properties={"recnum": "partial"})
+ *
+ * @ORM\Entity(repositoryClass="App\Repository\{{ pacote }}\{{ nomeDaClasse ~ 'Repository' }}")
+ * @EntityHandler(entityHandlerClass="App\EntityHandler\{{ pacote }}\{{ nomeDaClasse ~ 'EntityHandler' }}")
+ * @ORM\Table(name="{{ nomeTabela }}")
+ *
+ * @author Carlos Eduardo Pauluk
+ */
+class {{ nomeDaClasse }} implements EntityId
+{
+
+    use EntityIdTrait;
+
+    {{ campos }}
+
+
+}

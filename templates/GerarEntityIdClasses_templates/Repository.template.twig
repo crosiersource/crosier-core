@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Repository\{{ pacote }};
+
+
+use App\Entity\{{ pacote }}\{{ nomeDaClasse }};
+use CrosierSource\CrosierLibBaseBundle\Repository\FilterRepository;
+
+/**
+ * @author Carlos Eduardo Pauluk
+ */
+class {{ nomeDaClasse }}Repository extends FilterRepository
+{
+
+    public function getEntityClass(): string
+    {
+        return {{ nomeDaClasse }}::class;
+    }
+}
