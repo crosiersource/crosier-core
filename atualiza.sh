@@ -14,7 +14,7 @@ cd $PASTA
 git pull
 
 composer -v install
-yarn -v install
+yarn install
 
 echo ">>>>>>>>>>>>>>>>>>>>>>> dumping routes para json..."
 php bin/console fos:js-routing:dump --format=json --target=assets/static/fos_js_routes.json
@@ -38,7 +38,7 @@ then
   echo ">>>>>>>>>>>>>>>>>>>>>>> Com webpack ($WEBPACK_ENV)..."
   if [ "$WEBPACK_ENV" == "dev" ]
   then
-     yarn encore dev --watch --watch-poll 
+     yarn encore dev --watch --watch-poll
   else
      yarn encore prod
   fi
