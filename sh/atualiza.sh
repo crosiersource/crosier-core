@@ -1,3 +1,10 @@
+# Executar, por exemplo, com:
+# ./atualiza.sh crosier-core prod
+# ou:
+# ./atualiza.sh crosier-core dev
+# ou, para não executar os comandos do webpack-encore:
+# ./atualiza.sh crosier-core
+
 PASTA=$1
 WEBPACK_ENV=$2
 
