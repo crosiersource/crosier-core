@@ -15,11 +15,13 @@ Encore
     .setOutputPath('public/build/')
     // public path used by the web server to access the output path
     .setPublicPath('/build')
+
     .autoProvidejQuery()
-    .addPlugin(new CopyWebpackPlugin([
-        // copies to {output}/static
-        {from: './assets/static', to: 'static'}
-    ]))
+    .addPlugin(new CopyWebpackPlugin({
+        patterns: [
+            {from: "./assets/static", to: "static"},
+        ],
+    }))
     // o summmernote tem esta dependência, mas não é necessária
     .addPlugin(new webpack.IgnorePlugin(/^codemirror$/))
     // only needed for CDN's or sub-directory deploy
@@ -34,6 +36,7 @@ Encore
      * Each entry will result in one JavaScript file (e.g. app.js)
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
+    //.addEntry('main', './assets/js/main.js')
     .addEntry('crosier/layout', './assets/js/crosier/layout.js')
     .addEntry('Base/propList', './assets/js/Base/propList.js')
     .addEntry('Base/pessoaList', './assets/js/Base/pessoaList.js')
@@ -79,9 +82,20 @@ Encore
         config.useBuiltIns = 'usage';
         config.corejs = 3;
     })
+    .enableVueLoader(() => {
+    }, {
+        version: 3
+    })
 
-// enables Sass/SCSS support
-//.enableSassLoader()
+    // gives better module CSS naming in dev
+    .configureCssLoader((config) => {
+        if (!Encore.isProduction() && config.modules) {
+            config.modules.localIdentName = '[name]_[local]_[hash:base64:5]';
+        }
+    })
+
+    // enables Sass/SCSS support
+    .enableSassLoader()
 
 // uncomment if you use TypeScript
 //.enableTypeScriptLoader()

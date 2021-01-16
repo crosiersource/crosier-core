@@ -2,9 +2,7 @@
   Este arquivo deve ficar no static (não ser adicionado pelo webpack) para poder ser chamado pelos apps.
 */
 
-body {
-    display: none;
-}
+
 
 #preloader {
     -webkit-filter: blur(5px);

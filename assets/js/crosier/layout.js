@@ -7,12 +7,13 @@ import 'bootstrap';
 import 'popper.js';
 import 'perfect-scrollbar';
 
-
 import '@coreui/coreui';
 import '@coreui/coreui/dist/css/coreui.css';
-import '@coreui/icons/css/coreui-icons.css';
 
 
+import 'primevue/resources/themes/saga-blue/theme.css'; //theme
+import 'primevue/resources/primevue.min.css'; //core css
+import 'primeicons/primeicons.css';
 
 import 'select2/dist/css/select2.css';
 import 'select2';
@@ -40,6 +41,7 @@ import DatatablesJs from "./DatatablesJs";
 
 
 $(document).ready(function () {
+
 
     CrosierBaseLayout.handlePace();
 
@@ -75,6 +77,6 @@ window.onbeforeunload = function (e) {
 };
 
 
-global.$ = $; // manter isso até remover todos os <script>'s dos templates
+
 global.CrosierMasks = CrosierMasks;
 global.DatatablesJs = DatatablesJs;

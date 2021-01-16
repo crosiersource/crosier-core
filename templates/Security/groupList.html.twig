@@ -19,7 +19,6 @@
 
 {% endblock %}
 
-
 {% block down_scripts %}
-    <script src="{{ asset('build/Security/groupList.js') }}"></script>
+    {{ encore_entry_script_tags('Security/groupList') }}
 {% endblock %}
