@@ -39,7 +39,7 @@ class GerarEntityIdClassesCommand extends Command
         $this->addOption('prefixoARemover', null, InputOption::VALUE_OPTIONAL, 'Prefixo da tabela a ser removido');
         $this->addOption('pacote', 'p', InputOption::VALUE_OPTIONAL, 'Nome do Pacote');
         $this->addOption('pastaOutput', null, InputOption::VALUE_OPTIONAL, 'Pasta root onde ficarão as classes (informar path completo)');
-        $this->addOption('role', null, InputOption::VALUE_OPTIONAL, 'Role padrão (default: ROLE_USER)', 'ROLE_USER');
+        $this->addOption('role', null, InputOption::VALUE_OPTIONAL, 'Role padrão (default: ROLE_ADMIN)', 'ROLE_ADMIN');
     }
 
 
@@ -149,7 +149,7 @@ class GerarEntityIdClassesCommand extends Command
             '    * @Groups("entity")' . PHP_EOL .
             '    * @Assert\Type(type="integer")' . PHP_EOL .
             '    */' . PHP_EOL .
-            "   public ?float \$$nomeDaVariavel = null;" . PHP_EOL . PHP_EOL;
+            "   public ?int \$$nomeDaVariavel = null;" . PHP_EOL . PHP_EOL;
 
         return $str;
     }
@@ -162,14 +162,14 @@ class GerarEntityIdClassesCommand extends Command
         $nullable = $arrCampo['IS_NULLABLE'] === 'YES' ? 'true' : 'false';
         $precision = $arrCampo['NUMERIC_PRECISION'];
         $scale = $arrCampo['NUMERIC_SCALE'];
-
+// lembrar que o doctrine converte decimal para string (discussão sobre float)
         $str = PHP_EOL .
             '    /**' . PHP_EOL .
             "    * @ORM\Column(name=\"$nomeDoCampo\", type=\"decimal\", nullable=$nullable, precision=$precision, scale=$scale)" . PHP_EOL .
             '    * @Groups("entity")' . PHP_EOL .
-            '    * @Assert\Type(type="decimal")' . PHP_EOL .
+            '    * @Assert\Type(type="string")' . PHP_EOL .
             '    */' . PHP_EOL .
-            "   public ?float \$$nomeDaVariavel = null;" . PHP_EOL . PHP_EOL;
+            "   public ?string \$$nomeDaVariavel = null;" . PHP_EOL . PHP_EOL;
 
         return $str;
     }
@@ -181,10 +181,11 @@ class GerarEntityIdClassesCommand extends Command
         $nomeDoCampo = $arrCampo['COLUMN_NAME'];
         $nullable = $arrCampo['IS_NULLABLE'] === 'YES' ? 'true' : 'false';
         $assertNotNull = $arrCampo['IS_NULLABLE'] !== 'YES' ? ('    @Assert\NotNull' . PHP_EOL) : '';
+        $tipo = $datetime ? 'datetime' : 'date';
 
         $str = PHP_EOL .
             '    /**' . PHP_EOL .
-            "    * @ORM\Column(name=\"$nomeDoCampo\", type=\"string\", nullable=$nullable)" . PHP_EOL .
+            "    * @ORM\Column(name=\"$nomeDoCampo\", type=\"$tipo\", nullable=$nullable)" . PHP_EOL .
             '    * @Groups("entity")' . PHP_EOL .
             ($assertNotNull ?? '') .
             ($datetime ? '    * @Assert\DateTime' : '    * @Assert\Date') . PHP_EOL .
