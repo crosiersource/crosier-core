@@ -67,3 +67,6 @@ div.paceDiv {
     text-transform: none;
 }
 
+.c-sidebar .c-sidebar-brand {
+    background-color: white;
+}
