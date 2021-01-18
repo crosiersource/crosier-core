@@ -19,13 +19,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     denormalizationContext={"groups"={"entity"}},
  *
  *     itemOperations={
- *          "get"={"path"="/{{ nomeDoRecurso }}/{id}", "access_control"="is_granted('{{ role }}')"},
- *          "put"={"path"="/{{ nomeDoRecurso }}/{id}", "access_control"="is_granted('{{ role }}')"},
- *          "delete"={"path"="/{{ nomeDoRecurso }}/{id}", "access_control"="is_granted('ROLE_ADMIN')"}
+ *          "get"={"path"="/{{ pacote|lower }}/{{ nomeDoRecurso }}/{id}", "access_control"="is_granted('{{ role }}')"},
+ *          "put"={"path"="/{{ pacote|lower }}/{{ nomeDoRecurso }}/{id}", "access_control"="is_granted('{{ role }}')"},
+ *          "delete"={"path"="/{{ pacote|lower }}/{{ nomeDoRecurso }}/{id}", "access_control"="is_granted('ROLE_ADMIN')"}
  *     },
  *     collectionOperations={
- *          "get"={"path"="/{{ nomeDoRecurso }}", "access_control"="is_granted('{{ role }}')"},
- *          "post"={"path"="/{{ nomeDoRecurso }}", "access_control"="is_granted('{{ role }}')"}
+ *          "get"={"path"="/{{ pacote|lower }}/{{ nomeDoRecurso }}", "access_control"="is_granted('{{ role }}')"},
+ *          "post"={"path"="/{{ pacote|lower }}/{{ nomeDoRecurso }}", "access_control"="is_granted('{{ role }}')"}
  *     },
  *
  *     attributes={

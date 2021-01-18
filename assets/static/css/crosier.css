@@ -67,6 +67,14 @@ div.paceDiv {
     text-transform: none;
 }
 
+.c-main {
+    padding-top: 0;
+}
+
+.main .container-fluid {
+    padding: 0;
+}
+
 .c-sidebar .c-sidebar-brand {
     background-color: white;
 }
