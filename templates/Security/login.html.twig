@@ -18,14 +18,10 @@
                     <div class="card-body">
 
                         <div class="text-center">
-                            <h1 class="h4 text-gray-900 mb-4">
-                                <div class="mb-4 text-center">
-                                    <img class="navbar-brand-full ml-4" src="{{ getEnv('CROSIER_LOGO') }}" width="160" height="36"
-                                         alt="Crosier Logo">
-                                    <img src="{{ asset('build/static/images/CROSIER_fundotransp_400px.png') }}"
-                                         style="width: 200px; padding-bottom: 20px" alt="CROSIER"/>
-                                </div>
-                            </h1>
+                            <div class="mb-4 text-center">
+                                <img class="navbar-brand-full ml-4" src="{{ getEnv('CROSIER_LOGO') }}" width="160"
+                                     alt="Crosier Logo">
+                            </div>
                         </div>
                         <form action="{{ path('login') }}" method="post">
                             <input type="hidden" name="_csrf_token"
@@ -63,8 +59,14 @@
                             </div>
                         </form>
                         <hr>
-                        <div class="text-center">
-                            <a class="small" href="forgot-password.html">Esqueci minha senha</a>
+                        <div class="row">
+                            <div class="col-6 text-left">
+                                <a class="small" href="forgot-password.html">Esqueci minha senha</a>
+                            </div>
+                            <div class="col-6 text-right">
+                                <img src="{{ asset('build/static/images/CROSIER_fundotransp_400px.png') }}"
+                                     style="width: 100px; padding-bottom: 20px" alt="CROSIER"/>
+                            </div>
                         </div>
 
                     </div>
