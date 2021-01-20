@@ -7,7 +7,6 @@
 # ./atualizaGit.sh crosierapp-outroapp2
 ./atualizaGit.sh crosierapp-radx
 ./atualizaGit.sh crosierlib-radx
-./atualizaGit.sh crosierapp-pcp
 
 cd crosierlib-base
 composer -v install
