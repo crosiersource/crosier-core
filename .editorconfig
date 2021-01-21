@@ -13,4 +13,3 @@ insert_final_newline = false
 
 [*.{php,yaml,yml,json,twig}]
 indent_size = 4
-indent_style = space
