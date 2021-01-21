@@ -1,4 +1,4 @@
-'use strict';
+/* eslint-disable */
 
 import Sortable from 'sortablejs';
 import $ from "jquery";
