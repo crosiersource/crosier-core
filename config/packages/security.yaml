@@ -13,7 +13,8 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: ~
+            anonymous: true
+            lazy: false
 
             remember_me:
                 name: 'RMMBRM'
