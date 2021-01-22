@@ -18,7 +18,7 @@ security:
 
             remember_me:
                 name: 'RMMBRM'
-                secret:   '%kernel.secret%'
+                secret: "%env(APP_SECRET)%"
                 lifetime: 6048000 # 10 semanas
                 domain: "%env(CROSIER_MAINDOMAIN)%"
                 samesite: lax
@@ -38,7 +38,6 @@ security:
                 success_handler: App\Security\LogoutHandler
                 #invalidate_session: false
 
-            switch_user: true
 
             # activate different ways to authenticate
 

@@ -44,7 +44,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     private UserEntityHandler $userEntityHandler;
 
     private Security $security;
-
+    
     private LoggerInterface $logger;
 
     private SyslogBusiness $syslog;
