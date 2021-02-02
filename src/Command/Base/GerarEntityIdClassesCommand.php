@@ -63,7 +63,7 @@ class GerarEntityIdClassesCommand extends Command
 
 
         foreach ($tabelas as $tabela) {
-            $nomeDaTabela = $tabela['TABLE_NAME'];
+            $nomeDaTabela = $tabela['table_name'];
             $tabelaSemPrefixo = str_replace($prefixoARemover, '', $nomeDaTabela);
             $nomeDoRecurso = CaseString::snake($tabelaSemPrefixo)->kebab();
             $nomeDaClasse = CaseString::snake($tabelaSemPrefixo)->pascal();
@@ -188,7 +188,7 @@ class GerarEntityIdClassesCommand extends Command
             "    * @ORM\Column(name=\"$nomeDoCampo\", type=\"$tipo\", nullable=$nullable)" . PHP_EOL .
             '    * @Groups("entity")' . PHP_EOL .
             ($assertNotNull ?? '') .
-            ($datetime ? '    * @Assert\DateTime' : '    * @Assert\Date') . PHP_EOL .
+            '    * @Assert\Type("\DateTime")' . PHP_EOL .
             '    */' . PHP_EOL .
             "   public ?\DateTime \$$nomeDaVariavel = null;" . PHP_EOL . PHP_EOL;
 
@@ -200,7 +200,10 @@ class GerarEntityIdClassesCommand extends Command
         $nomeDaVariavel = CaseString::snake($arrCampo['COLUMN_NAME'])->camel();
         $nomeDoCampo = $arrCampo['COLUMN_NAME'];
         $nullable = $arrCampo['IS_NULLABLE'] === 'YES' ? 'true' : 'false';
-        $assertNotBlank = $arrCampo['IS_NULLABLE'] !== 'YES' ? ('    @Assert\NotBlank' . PHP_EOL) : '';
+        if ($nomeDaVariavel === 'recnum') {
+            $nullable = 'true';
+        }
+        $assertNotBlank = $nullable === 'false' ? ('    * @Assert\NotBlank' . PHP_EOL) : '';
         $length = $arrCampo['CHARACTER_MAXIMUM_LENGTH'];
         $assertLength = '    * @Assert\Length(max="' . $length . '")';
 

@@ -5,6 +5,7 @@ namespace App\Entity\{{ pacote }};
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use CrosierSource\CrosierLibBaseBundle\Doctrine\Annotations\NotUppercase;
 use CrosierSource\CrosierLibBaseBundle\Doctrine\Annotations\EntityHandler;
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityId;
@@ -15,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
- *     normalizationContext={"groups"={"entity"}},
+ *     normalizationContext={"groups"={"entity","entityId"}},
  *     denormalizationContext={"groups"={"entity"}},
  *
  *     itemOperations={
@@ -34,7 +35,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     }
  *
  * )
- * @ApiFilter(SearchFilter::class, properties={"recnum": "partial"})
+ * 
+ * @ApiFilter(OrderFilter::class, properties={"id", "updated"}, arguments={"orderParameterName"="order"})
  *
  * @ORM\Entity(repositoryClass="App\Repository\{{ pacote }}\{{ nomeDaClasse ~ 'Repository' }}")
  * @EntityHandler(entityHandlerClass="App\EntityHandler\{{ pacote }}\{{ nomeDaClasse ~ 'EntityHandler' }}")
