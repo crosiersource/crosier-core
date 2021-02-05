@@ -22,19 +22,37 @@
         <div>
           <Accordion
             :multiple="true"
-            :activeIndex="Object.keys(this.savedFilter).length > 2 ? [0] : null"
+            :activeIndex="this.isFiltered ? '[0]' : null"
           >
             <AccordionTab>
               <template #header>
                 <span>Filtrar</span>
                 <i class="pi pi-filter"></i>
               </template>
-              <slot name="filter-fields"></slot>
-              <div>
-                <InlineMessage severity="info">
-                  {{ totalRecords }} registros encontrados.
-                </InlineMessage>
-              </div>
+              <form @submit.prevent="this.$emit('handleFilter')">
+                <slot name="filter-fields"></slot>
+                <div class="row mt-3">
+                  <div class="col-3">
+                    <InlineMessage severity="info">
+                      {{ totalRecords }} registros encontrados.
+                    </InlineMessage>
+                  </div>
+                  <div class="col text-right">
+                    <Button
+                      label="Filtrar"
+                      type="submit"
+                      icon="fas fa-search"
+                      class="p-button-primary p-button-sm mr-2"
+                    />
+                    <Button
+                      label="Limpar"
+                      icon="fas fa-backspace"
+                      class="p-button-secondary p-button-sm mr-2"
+                      @click="this.$emit('clearFilter')"
+                    />
+                  </div>
+                </div>
+              </form>
             </AccordionTab>
           </Accordion>
         </div>
@@ -77,6 +95,7 @@
   </div>
   <ConfirmPopup></ConfirmPopup>
   <Toast class="mt-5" />
+  {{ this.savedFilter }}
 </template>
 
 <script>
@@ -87,8 +106,8 @@ import Button from "primevue/button";
 import ConfirmPopup from "primevue/confirmpopup";
 import InlineMessage from "primevue/inlinemessage";
 import Toast from "primevue/toast";
-import { fetchTableData } from "../services/ApiDataFetchService";
-import { deleteEntityData } from "../services/ApiDeleteService";
+import { fetchTableData } from "@/services/ApiDataFetchService";
+import { deleteEntityData } from "@/services/ApiDeleteService";
 
 export default {
   name: "CrosierList",
@@ -126,6 +145,7 @@ export default {
   data() {
     return {
       savedFilter: {},
+      isFiltered: false,
       loading: false,
       totalRecords: 0,
       tableData: null,
@@ -193,6 +213,16 @@ export default {
 
     this.totalRecords = response.data["hydra:totalItems"];
     this.tableData = response.data["hydra:member"];
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const key in this.$store.state.filterFields) {
+      if (
+        this.$store.state.filterFields[key] !== null &&
+        this.$store.state.filterFields[key] !== ""
+      )
+        this.isFiltered = true;
+    }
+
     this.loading = false;
   },
   methods: {
@@ -235,7 +265,6 @@ export default {
         filters,
       });
 
-      console.log(response.data["hydra:totalItems"]);
       this.totalRecords = response.data["hydra:totalItems"];
       this.tableData = response.data["hydra:member"];
       this.loading = false;

@@ -18,7 +18,14 @@
         </div>
       </div>
       <div class="card-body">
-        <slot></slot>
+        <form @submit.prevent="this.$emit('handleSubmitForm')">
+          <slot></slot>
+          <div class="row mt-3">
+            <div class="col text-right">
+              <Button label="Salvar" type="submit" icon="fas fa-save" />
+            </div>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -79,12 +86,11 @@ export default {
         });
         if (response.data.id) {
           this.$store.commit("setFormFields", response.data);
-          console.log(JSON.stringify(this.$store.state.formFields));
         } else {
           throw new Error("Id não encontrado.");
         }
       } catch (err) {
-        window.location.href = `/cln/recursoAloc/form`;
+        console.log(err);
       }
     }
   },
@@ -123,9 +129,8 @@ export default {
           this.showSuccess("Salvo com sucesso!");
         }
       } catch (err) {
+        this.$store.commit("setFormFields", values);
         err.inner?.forEach((element) => {
-          console.log("errrrrr");
-          console.log(element);
           this.formErrors[element.path] = element.message ?? "Valor inválido";
         });
 
