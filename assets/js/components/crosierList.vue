@@ -95,7 +95,6 @@
   </div>
   <ConfirmPopup></ConfirmPopup>
   <Toast class="mt-5" />
-  {{ this.savedFilter }}
 </template>
 
 <script>
