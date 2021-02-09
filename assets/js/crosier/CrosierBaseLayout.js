@@ -23,36 +23,36 @@ class CrosierBaseLayout {
    */
   static handlePace() {
 
-    window.paceOptions = {
-      ajax: {
-        trackMethods: ['GET', 'POST'],
-        ignoreURLs: ['getNewMessages', 'api*']
-      },
-      document: true,
-      eventLag: true
-    };
-
-    $('.blurriers').css('filter', 'blur(2px)');
-
-    pace.on('restart', function (e) {
-      document.getElementById('preloader').style.display = '';
-      $('.blurriers').css('filter', 'blur(2px) grayscale(3)');
-    });
-
-    pace.on('start', function (e) {
-      document.getElementById('preloader').style.display = '';
-      $('.blurriers').css('filter', 'blur(2px) grayscale(3)');
-    });
-
-    pace.on('hide', function (e) {
-      document.getElementById('preloader').style.display = 'none';
-      $('.blurriers').css('filter', '');
-    });
-
-    $('form:not(.notSubmit)').submit(function (e) {
-      pace.options = {ghostTime: 2500000};
-      $('.blurriers').css('filter', 'blur(2px) grayscale(3)');
-    });
+    // window.paceOptions = {
+    //   ajax: {
+    //     trackMethods: [],
+    //     ignoreURLs: ['getNewMessages', 'api*']
+    //   },
+    //   document: true,
+    //   eventLag: true
+    // };
+    //
+    // $('.blurriers').css('filter', 'blur(2px)');
+    //
+    // pace.on('restart', function (e) {
+    //   document.getElementById('preloader').style.display = '';
+    //   $('.blurriers').css('filter', 'blur(2px) grayscale(3)');
+    // });
+    //
+    // pace.on('start', function (e) {
+    //   document.getElementById('preloader').style.display = '';
+    //   $('.blurriers').css('filter', 'blur(2px) grayscale(3)');
+    // });
+    //
+    // pace.on('hide', function (e) {
+    //   document.getElementById('preloader').style.display = 'none';
+    //   $('.blurriers').css('filter', '');
+    // });
+    //
+    // $('form:not(.notSubmit)').submit(function (e) {
+    //   pace.options = {ghostTime: 2500000};
+    //   $('.blurriers').css('filter', 'blur(2px) grayscale(3)');
+    // });
 
   }
 
