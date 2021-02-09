@@ -187,6 +187,179 @@ class CrosierBaseLayout {
     });
   }
 
+
+  /**
+   * Método para montar select2 automaticamente de acordo com a classe.
+   */
+  static handleSelect2() {
+    /**
+     * Montagem dos select2 automáticos.
+     */
+    $.fn.select2.defaults.set("theme", "bootstrap");
+    $.fn.select2.defaults.set("language", "pt-BR");
+
+    $('.autoSelect2').each(function () {
+
+      let $s2 = $(this);
+
+      if (!$s2.is('select')) {
+        console.log($s2.attr('id') + ' não é <select>');
+        return;
+      }
+
+      if ($s2.data('tagsoptions')) {
+        // Cria um select2 com tags: true e já seleciona os valores que correspondam entre data-val e data-tagsoptions
+        CrosierBaseLayout.handleSelect2DataTagsOptions($s2);
+        return;
+      } // else
+      if ($s2.hasClass('s2allownew')) {
+        CrosierBaseLayout.handleSelect2CreateNewTagsOptions($s2);
+        return;
+      } // else
+      if ($s2.data('id-route-url')) {
+        CrosierBaseLayout.handleSelect2IdRouteUrl($s2);
+        return;
+      } // else
+      if ($s2.data('route-url')) {
+        CrosierBaseLayout.handleSelect2RouteUrl($s2);
+        return;
+      } // else
+      if ($s2.data('options')) {
+        $s2 = CrosierBaseLayout.handleSelect2Options($s2);
+        return;
+      } // else
+
+      $s2 = $s2.select2({
+        allowClear: true,
+        width: '100%',
+        dropdownAutoWidth: true,
+      });
+
+      if ($s2.data('val')) {
+        $s2.val($s2.data('val')).trigger('change');
+      }
+
+      if ($s2.hasClass('focusOnReady')) {
+        $s2.select2('focus');
+      }
+
+    });
+
+  }
+
+  /**
+   * Cria um select2 com tags: true e já seleciona os valores que correspondam entre data-val e data-tagsoptions
+   * @param $s2
+   */
+  static handleSelect2DataTagsOptions($s2) {
+
+    $s2.select2({
+      width: '100%',
+      dropdownAutoWidth: true,
+      tags: true,
+      tokenSeparators: [',']
+    });
+    let val = String($s2.data('val')).split(',');
+
+    String($s2.data('tagsoptions')).split(',').forEach(function (t) {
+      if (t && t !== "undefined") {
+        t = t.toUpperCase();
+        let selected = true;
+        if (val) {
+          selected = val && val.includes(t);
+        }
+        $s2.append(new Option(t, t, false, selected)).trigger('change');
+      }
+    });
+    if ($s2.hasClass('focusOnReady')) {
+      $s2.select2('focus');
+    }
+  }
+
+
+  /**
+   *
+   * @param $s2
+   */
+  static handleSelect2CreateNewTagsOptions($s2) {
+
+    let opt = {
+      width: '100%',
+      dropdownAutoWidth: true,
+      minimumInputLength: 2,
+      placeholder: '...',
+      allowClear: true,
+      tags: true,
+      createTag: function (params) {
+        let termStr = $s2.hasClass('notuppercase') ? params.term : params.term.toUpperCase();
+        if ($s2.val() && $s2.val().includes(termStr)) {
+          return null;
+        }
+        return {
+          id: termStr,
+          text: termStr,
+          newOption: true
+        }
+      },
+      templateResult: function (data) {
+        let termStr = $s2.hasClass('notuppercase') ? data.text : data.text.toUpperCase();
+        let $result = $("<span></span>");
+        $result.text(termStr);
+        return $result;
+      }
+    };
+
+    if ($s2.data('route-url')) {
+      opt.ajax = {
+        delay: 750,
+        url: function (params) {
+          return $s2.data('route-url');
+        },
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        xhrFields: {
+          withCredentials: true
+        },
+        dataType: 'json',
+        processResults: function (data) {
+          
+          // Se foi passado um formato a ser aplicado...
+          if ($s2.data('text-format')) {
+            data = $.map(data.results, function (obj) {
+              let text = sprintf.sprintf($s2.data('text-format'), obj);
+              text = text
+                .replace(/^null /, '')
+                .replace(/ null$/, '')
+                .replace(/ null /, ' ')
+                .replace(/ - $/, '')
+                .replace(/ -$/, '')
+                .replace(/^\s*- /, '');
+              obj.text = text;
+              return obj;
+            });
+          }
+          let dataResults = data.results ? data.results : data;
+          return {results: dataResults};
+        }
+      };
+    }
+
+    $s2.select2(opt);
+    let val = String($s2.data('val')).split(',');
+
+    String(val.forEach(function (t) {
+      if (t && t !== "undefined") {
+        $s2.append(new Option(t, t, true, true)).trigger('change');
+      }
+    }));
+    if ($s2.hasClass('focusOnReady')) {
+      $s2.select2('focus');
+    }
+    
+  }
+
+
   /**
    *
    * @param $select2
@@ -244,8 +417,10 @@ class CrosierBaseLayout {
             return $s2.data('route-url');
           },
           headers: {
-            'X-Authorization': 'Bearer ' + $select2.data('bearer'),
             'Content-Type': 'application/json'
+          },
+          xhrFields: {
+            withCredentials: true
           },
           dataType: 'json',
           processResults: function (data) {
@@ -279,6 +454,7 @@ class CrosierBaseLayout {
     });
   }
 
+
   /**
    *
    * @param $s2
@@ -296,8 +472,10 @@ class CrosierBaseLayout {
           return $s2.data('route-url');
         },
         headers: {
-          'X-Authorization': 'Bearer ' + $s2.data('bearer'),
           'Content-Type': 'application/json'
+        },
+        xhrFields: {
+          withCredentials: true
         },
         dataType: 'json',
         processResults: function (data) {
@@ -336,12 +514,13 @@ class CrosierBaseLayout {
     }
   }
 
+
   /**
    *
    * @param $s2
    */
   static handleSelect2Options($s2) {
-    let opt = null;
+    let opt;
     if ($s2.hasClass('s2allownew')) {
       opt = {
         width: '100%',
@@ -384,112 +563,6 @@ class CrosierBaseLayout {
       $s2.select2('focus');
     }
     return $s2;
-  }
-
-  static handleSelect2DataTagsOptions($s2) {
-
-    $s2.select2({
-      width: '100%',
-      dropdownAutoWidth: true,
-      tags: true,
-      tokenSeparators: [',']
-    });
-    let val = String($s2.data('val')).split(',');
-
-    String($s2.data('tagsoptions')).split(',').forEach(function (t) {
-      if (t) {
-        t = t.toUpperCase();
-        let selected = true;
-        if (val) {
-          selected = val && val.includes(t);
-        }
-        $s2.append(new Option(t, t, false, selected)).trigger('change');
-      }
-    });
-    if ($s2.hasClass('focusOnReady')) {
-      $s2.select2('focus');
-    }
-  }
-
-  /**
-   * Método para montar select2 automaticamente de acordo com a classe.
-   */
-  static handleSelect2() {
-    /**
-     * Montagem dos select2 automáticos.
-     */
-    $.fn.select2.defaults.set("theme", "bootstrap");
-    $.fn.select2.defaults.set("language", "pt-BR");
-    $('.autoSelect2').each(function () {
-
-      let $s2 = $(this);
-
-
-      if (!$s2.is('select')) {
-        console.log($s2.attr('id') + ' não é <select>');
-        return;
-      }
-
-      if ($s2.data('id-route-url')) {
-        CrosierBaseLayout.handleSelect2IdRouteUrl($s2);
-        return;
-      } // else
-      if ($s2.data('route-url')) {
-        CrosierBaseLayout.handleSelect2RouteUrl($s2);
-        return;
-      } // else
-      if ($s2.data('options')) {
-        $s2 = CrosierBaseLayout.handleSelect2Options($s2);
-        return;
-      } // else
-      if ($s2[0].hasAttribute('data-tagsoptions')) {
-        CrosierBaseLayout.handleSelect2DataTagsOptions($s2);
-        return;
-      } // else
-
-      let opt = {
-        allowClear: true,
-        width: '100%',
-        dropdownAutoWidth: true,
-      };
-
-      if ($s2.hasClass('s2allownew')) {
-        opt = {
-          width: '100%',
-          dropdownAutoWidth: true,
-          placeholder: '...',
-          allowClear: true,
-          tags: true,
-          createTag: function (params) {
-            let termStr = $s2.hasClass('notuppercase') ? params.term : params.term.toUpperCase();
-            return {
-              id: termStr,
-              text: termStr,
-              newOption: true
-            }
-          },
-          templateResult: function (data) {
-            let termStr = $s2.hasClass('notuppercase') ? data.text : data.text.toUpperCase();
-            let $result = $("<span></span>");
-            $result.text(termStr);
-            return $result;
-          }
-        };
-      }
-
-      $s2 = $s2.select2(opt);
-
-      if ($s2.data('val')) {
-        $s2.val($s2.data('val')).trigger('change');
-      }
-
-      if ($s2.hasClass('focusOnReady')) {
-        $s2.select2('focus');
-      }
-
-
-    });
-
   }
 
 
@@ -608,13 +681,15 @@ class CrosierBaseLayout {
 
             $.ajax(
               crosierCoreUrl + '/api/cfg/pushMessage/getNewMessages',
+
               {
-                crossDomain: true,
                 dataType: "json",
                 headers: {
-                  'X-Authorization': 'Bearer ' + at,
                   'Content-Type': 'application/json'
                 },
+                xhrFields: {
+                  withCredentials: true
+                }
               }
             ).done(function (data) {
               $.each(data, function (key, val) {
