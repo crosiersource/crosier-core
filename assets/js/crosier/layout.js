@@ -70,11 +70,11 @@ $(document).ready(function () {
 
 });
 
-window.onbeforeunload = function (e) {
-    pace.options = {ghostTime: 2500000};
-    document.getElementById('preloader').style.display = '';
-    $('.blurriers').css('filter', 'blur(2px) grayscale(2)');
-};
+// window.onbeforeunload = function (e) {
+//     pace.options = {ghostTime: 2500000};
+//     document.getElementById('preloader').style.display = '';
+//     $('.blurriers').css('filter', 'blur(2px) grayscale(2)');
+// };
 
 
 
