@@ -45,7 +45,7 @@
         "symfony/web-link": "5.2.*",
         "symfony/webpack-encore-bundle": "^1.7",
         "symfony/yaml": "5.2.*",
-        "nelmio/cors-bundle": "2.0.*",
+        "nelmio/cors-bundle": "^2.1",
         "symfony/debug-bundle": "5.2.*",
         "symfony/property-access": "5.2.*",
         "symfony/security-csrf": "5.2.*",
