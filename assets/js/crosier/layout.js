@@ -30,8 +30,6 @@ import 'datatables/media/css/jquery.dataTables.css';
 
 import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css';
 
-import pace from 'pace-js';
-
 import 'toastr/build/toastr.css'
 
 import '../../static/css/crosier.css';
@@ -42,8 +40,6 @@ import DatatablesJs from "./DatatablesJs";
 
 $(document).ready(function () {
 
-
-    CrosierBaseLayout.handlePace();
 
     CrosierMasks.maskAll();
 
@@ -69,13 +65,6 @@ $(document).ready(function () {
     CrosierBaseLayout.startPushForUser();
 
 });
-
-// window.onbeforeunload = function (e) {
-//     pace.options = {ghostTime: 2500000};
-//     document.getElementById('preloader').style.display = '';
-//     $('.blurriers').css('filter', 'blur(2px) grayscale(2)');
-// };
-
 
 
 global.CrosierMasks = CrosierMasks;

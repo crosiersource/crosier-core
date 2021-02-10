@@ -13,49 +13,9 @@ import 'daterangepicker';
 import Push from "push.js";
 
 import CrosierMasks from './CrosierMasks';
-import pace from "pace-js";
 
 
 class CrosierBaseLayout {
-
-  /**
-   * Ativar o pace nos submits dos forms.
-   */
-  static handlePace() {
-
-    // window.paceOptions = {
-    //   ajax: {
-    //     trackMethods: [],
-    //     ignoreURLs: ['getNewMessages', 'api*']
-    //   },
-    //   document: true,
-    //   eventLag: true
-    // };
-    //
-    // $('.blurriers').css('filter', 'blur(2px)');
-    //
-    // pace.on('restart', function (e) {
-    //   document.getElementById('preloader').style.display = '';
-    //   $('.blurriers').css('filter', 'blur(2px) grayscale(3)');
-    // });
-    //
-    // pace.on('start', function (e) {
-    //   document.getElementById('preloader').style.display = '';
-    //   $('.blurriers').css('filter', 'blur(2px) grayscale(3)');
-    // });
-    //
-    // pace.on('hide', function (e) {
-    //   document.getElementById('preloader').style.display = 'none';
-    //   $('.blurriers').css('filter', '');
-    // });
-    //
-    // $('form:not(.notSubmit)').submit(function (e) {
-    //   pace.options = {ghostTime: 2500000};
-    //   $('.blurriers').css('filter', 'blur(2px) grayscale(3)');
-    // });
-
-  }
-
 
   /**
    * Métodos para funcionar os confirmationModals.
@@ -323,7 +283,7 @@ class CrosierBaseLayout {
         },
         dataType: 'json',
         processResults: function (data) {
-          
+
           // Se foi passado um formato a ser aplicado...
           if ($s2.data('text-format')) {
             data = $.map(data.results, function (obj) {
@@ -356,7 +316,7 @@ class CrosierBaseLayout {
     if ($s2.hasClass('focusOnReady')) {
       $s2.select2('focus');
     }
-    
+
   }
 
 
@@ -676,51 +636,46 @@ class CrosierBaseLayout {
     if (crosierCoreUrl && at) {
       window.setInterval(function () {
 
-        pace.ignore(
-          function () {
+        $.ajax(
+          crosierCoreUrl + '/api/cfg/pushMessage/getNewMessages',
 
-            $.ajax(
-              crosierCoreUrl + '/api/cfg/pushMessage/getNewMessages',
-
-              {
-                dataType: "json",
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                xhrFields: {
-                  withCredentials: true
+          {
+            dataType: "json",
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            xhrFields: {
+              withCredentials: true
+            }
+          }
+        ).done(function (data) {
+          $.each(data, function (key, val) {
+            Push.create(val.mensagem, {
+              icon: $('link[rel="icon"]').attr('href'),
+              timeout: 8000,
+              onClick: function () {
+                if (val.url) {
+                  let win = window.open(val.url, '_blank');
+                  win.focus();
+                } else {
+                  window.focus();
                 }
-              }
-            ).done(function (data) {
-              $.each(data, function (key, val) {
-                Push.create(val.mensagem, {
-                  icon: $('link[rel="icon"]').attr('href'),
-                  timeout: 8000,
-                  onClick: function () {
-                    if (val.url) {
-                      let win = window.open(val.url, '_blank');
-                      win.focus();
-                    } else {
-                      window.focus();
-                    }
-                    this.close();
-                  }
-                });
-              });
-            }).fail(function (jqXHR, textStatus, errorThrown) {
-              console.log('Erro - /api/cfg/pushMessage/getNewMessages');
-              if (jqXHR) {
-                console.dir(jqXHR);
-              }
-              if (textStatus) {
-                console.dir(textStatus);
+                this.close();
               }
             });
+          });
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+          console.log('Erro - /api/cfg/pushMessage/getNewMessages');
+          if (jqXHR) {
+            console.dir(jqXHR);
           }
-        );
+          if (textStatus) {
+            console.dir(textStatus);
+          }
+        });
 
 
-      }, 10000);
+      }, 20000);
 
     }
   }
