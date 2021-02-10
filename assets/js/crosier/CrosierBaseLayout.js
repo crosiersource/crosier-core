@@ -640,6 +640,7 @@ class CrosierBaseLayout {
           crosierCoreUrl + '/api/cfg/pushMessage/getNewMessages',
 
           {
+            timeout: 3000,
             dataType: "json",
             headers: {
               'Content-Type': 'application/json'
