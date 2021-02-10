@@ -630,12 +630,10 @@ class CrosierBaseLayout {
     }
 
     let crosierCoreUrl = $('#crosierCoreUrl').data('value');
-    let at = $('#at').data('value');
 
 
-    if (crosierCoreUrl && at) {
+    if (crosierCoreUrl) {
       window.setInterval(function () {
-
         $.ajax(
           crosierCoreUrl + '/api/cfg/pushMessage/getNewMessages',
 
@@ -675,8 +673,6 @@ class CrosierBaseLayout {
             console.dir(textStatus);
           }
         });
-
-
       }, 20000);
 
     }
