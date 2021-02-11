@@ -243,7 +243,7 @@
             "dist": {
                 "type": "path",
                 "url": "../crosierlib-base",
-                "reference": "67f11adf1d3ea46cd20f94c0e25d204fce031ae0"
+                "reference": "8ed21e6a94ccb501500cb9e3944fd1e3618f3280"
             },
             "require": {
                 "api-platform/core": "^2.5",
