@@ -113,8 +113,15 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             $this->userEntityHandler->renewTokenApi($user);
             $this->userEntityHandler->fixRoles($user);
             $this->syslog->info('core', self::class, 'onAuthenticationSuccess');
-            $cache = new FilesystemAdapter('entmenulocator', 0, $_SERVER['CROSIER_SESSIONS_FOLDER']);
-            $cache->clear();
+            
+            $cache_entmenulocator = new FilesystemAdapter('entmenulocator', 0, $_SERVER['CROSIER_SESSIONS_FOLDER']);
+            $cache_entmenulocator->clear();
+
+            
+            $cacheCrosierCoreAssetExtension = new FilesystemAdapter('CrosierCoreAssetExtension', 0, $_SERVER['CROSIER_SESSIONS_FOLDER']);
+            // limpa os cachês definidos em CrosierSource\CrosierLibBaseBundle\Twig\CrosierCoreAssetExtension
+            $cacheCrosierCoreAssetExtension->clear();
+            
             if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
                 return new RedirectResponse($targetPath);
             }

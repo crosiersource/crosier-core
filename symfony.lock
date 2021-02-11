@@ -149,9 +149,6 @@
     "nikic/php-parser": {
         "version": "v4.10.4"
     },
-    "php": {                                                                                                        
-        "version": "7.4"                                                                                            
-    }, 
     "php-http/guzzle6-adapter": {
         "version": "v1.1.1"
     },

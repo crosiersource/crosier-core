@@ -1,6 +1,20 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
 
+
+
+DROP TABLE IF EXISTS `sessions`;
+
+CREATE TABLE `sessions`
+(
+    `sess_id`       VARBINARY(128)   NOT NULL PRIMARY KEY,
+    `sess_data`     BLOB             NOT NULL,
+    `sess_lifetime` INTEGER UNSIGNED NOT NULL,
+    `sess_time`     INTEGER UNSIGNED NOT NULL
+) COLLATE utf8mb4_bin,
+  ENGINE = InnoDB;
+
+
 DROP TABLE IF EXISTS `cfg_estabelecimento`;
 
 CREATE TABLE `cfg_estabelecimento`

@@ -631,15 +631,9 @@ class CrosierBaseLayout {
 
     let crosierCoreUrl = $('#crosierCoreUrl').data('value');
 
-    window.ttt = false;
 
     if (crosierCoreUrl) {
       window.setInterval(function () {
-        if (!window.ttt) {
-          console.log('nonono');
-          return;
-        }
-        console.log('sisisi');
         $.ajax(
           crosierCoreUrl + '/api/cfg/pushMessage/getNewMessages',
 
