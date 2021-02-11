@@ -631,22 +631,28 @@ class CrosierBaseLayout {
 
     let crosierCoreUrl = $('#crosierCoreUrl').data('value');
 
+    window.ttt = false;
 
     if (crosierCoreUrl) {
       window.setInterval(function () {
+        if (!window.ttt) {
+          console.log('nonono');
+          return;
+        }
+        console.log('sisisi');
         $.ajax(
           crosierCoreUrl + '/api/cfg/pushMessage/getNewMessages',
 
           {
+            async: true,
             crossDomain: true,
-            timeout: 3000,
             dataType: "json",
             headers: {
               'Content-Type': 'application/json'
             },
             xhrFields: {
               withCredentials: true
-            }
+            },
           }
         ).done(function (data) {
           $.each(data, function (key, val) {
@@ -673,7 +679,7 @@ class CrosierBaseLayout {
             console.dir(textStatus);
           }
         });
-      }, 20000);
+      }, 5000);
 
     }
   }

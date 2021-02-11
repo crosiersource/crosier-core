@@ -14,7 +14,7 @@ security:
             security: false
         main:
             anonymous: true
-            lazy: true
+            lazy: false
 
             remember_me:
                 name: 'RMMBRM'
@@ -49,7 +49,7 @@ security:
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
-    access_control:
+    access_control: 
         # but, definitely allow /login to be accessible anonymously
         - { path: ^/getCrosierAssetUrl, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/getRenderCrosierWebpackScriptTags, roles: IS_AUTHENTICATED_ANONYMOUSLY }
