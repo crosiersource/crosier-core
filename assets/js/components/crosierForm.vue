@@ -122,7 +122,6 @@ export default {
             JSON.stringify(validated)
           );
         }
-
         if ([200, 201].includes(response.status)) {
           this.$store.commit("setFormFields", response.data);
           window.history.pushState("form", "id", `?id=${response.data.id}`);
@@ -137,7 +136,6 @@ export default {
         this.$store.commit("setFormErrors", this.formErrors);
 
         this.showError("Não foi possível salvar!");
-        console.log(err.message);
       }
     },
     redirectForm(id = "") {

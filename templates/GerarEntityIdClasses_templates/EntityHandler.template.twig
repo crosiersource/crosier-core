@@ -4,6 +4,7 @@ namespace App\EntityHandler\{{ pacote }};
 
 use App\Entity\{{ pacote }}\{{ nomeDaClasse }};
 use CrosierSource\CrosierLibBaseBundle\EntityHandler\EntityHandler;
+use CrosierSource\CrosierLibBaseBundle\Utils\StringUtils\StringUtils;
 
 /**
  * @author Carlos Eduardo Pauluk
@@ -14,6 +15,17 @@ class {{ nomeDaClasse }}EntityHandler extends EntityHandler
     public function getEntityClass(): string
     {
         return {{ nomeDaClasse }}::class;
+    }
+    
+    /**
+     * @param {{ nomeDaClasse }} ${{ nomeDaClasse|lower }}
+     * @return mixed|void
+     */
+    public function beforeSave(${{ nomeDaClasse|lower }})
+    {
+        if (!${{ nomeDaClasse|lower }}->recnum) {
+            ${{ nomeDaClasse|lower }}->recnum = StringUtils::guidv4();
+        }
     }
 
 }

@@ -1,0 +1,19 @@
+    /**
+     * @Groups("entity")
+     * @SerializedName("{{ nomeDaVariavel }}")
+     */
+    public function get{{ nomeDaVariavel_ucfirst }}Formatted(): float
+    {
+        return (float)$this->{{ nomeDaVariavel }};
+    }
+    
+    /**
+     * @Groups("entity")
+     * @SerializedName("{{ nomeDaVariavel }}")
+     * @param float ${{ nomeDaVariavel }}
+     */
+    public function set{{ nomeDaVariavel_ucfirst }}Formatted(float ${{ nomeDaVariavel }})
+    {
+        $this->{{ nomeDaVariavel }} = ${{ nomeDaVariavel }};
+    }
+

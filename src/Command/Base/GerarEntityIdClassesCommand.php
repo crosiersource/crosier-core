@@ -23,6 +23,8 @@ class GerarEntityIdClassesCommand extends Command
 
     private ParameterBagInterface $params;
 
+    private array $camposDecimais = [];
+
     public function __construct(EntityManagerInterface $doctrine, Environment $twig, ParameterBagInterface $params)
     {
         $this->doctrine = $doctrine;
@@ -61,9 +63,11 @@ class GerarEntityIdClassesCommand extends Command
 
         $sql_campos = 'SELECT *  FROM information_schema.columns WHERE table_schema = :dbName and table_name = :tableName order by ordinal_position';
 
-
+        
         foreach ($tabelas as $tabela) {
+            $this->camposDecimais = [];
             $nomeDaTabela = $tabela['table_name'];
+            $output->writeln('Gerando para ' . $nomeDaTabela);
             $tabelaSemPrefixo = str_replace($prefixoARemover, '', $nomeDaTabela);
             $nomeDoRecurso = CaseString::snake($tabelaSemPrefixo)->kebab();
             $nomeDaClasse = CaseString::snake($tabelaSemPrefixo)->pascal();
@@ -88,6 +92,16 @@ class GerarEntityIdClassesCommand extends Command
                     'role' => $role,
                     'campos' => $blocoCampos
                 ]);
+
+            foreach ($this->camposDecimais as $campoDecimal) {
+                $entity .= $this->twig->render('/GerarEntityIdClasses_templates/getter_setter_campoDecimal.twig',
+                    [
+                        'nomeDaVariavel' => $campoDecimal,
+                        'nomeDaVariavel_ucfirst' => ucfirst($campoDecimal)
+                    ]);
+            }
+
+            $entity .= '}';
 
 
             @mkdir($pastaOutput . '/src/Entity/' . $pacote . '/', 0777, true);
@@ -145,10 +159,10 @@ class GerarEntityIdClassesCommand extends Command
 
         $str = PHP_EOL .
             '    /**' . PHP_EOL .
-            "    * @ORM\Column(name=\"$nomeDoCampo\", type=\"integer\", nullable=$nullable)" . PHP_EOL .
-            '    * @Groups("entity")' . PHP_EOL .
-            '    * @Assert\Type(type="integer")' . PHP_EOL .
-            '    */' . PHP_EOL .
+            "     * @ORM\Column(name=\"$nomeDoCampo\", type=\"integer\", nullable=$nullable)" . PHP_EOL .
+            '     * @Groups("entity")' . PHP_EOL .
+            '     * @Assert\Type(type="integer")' . PHP_EOL .
+            '     */' . PHP_EOL .
             "   public ?int \$$nomeDaVariavel = null;" . PHP_EOL . PHP_EOL;
 
         return $str;
@@ -159,16 +173,16 @@ class GerarEntityIdClassesCommand extends Command
     {
         $nomeDaVariavel = CaseString::snake($arrCampo['COLUMN_NAME'])->camel();
         $nomeDoCampo = $arrCampo['COLUMN_NAME'];
+        $this->camposDecimais[] = $nomeDaVariavel;
         $nullable = $arrCampo['IS_NULLABLE'] === 'YES' ? 'true' : 'false';
         $precision = $arrCampo['NUMERIC_PRECISION'];
         $scale = $arrCampo['NUMERIC_SCALE'];
 // lembrar que o doctrine converte decimal para string (discussão sobre float)
         $str = PHP_EOL .
             '    /**' . PHP_EOL .
-            "    * @ORM\Column(name=\"$nomeDoCampo\", type=\"decimal\", nullable=$nullable, precision=$precision, scale=$scale)" . PHP_EOL .
-            '    * @Groups("entity")' . PHP_EOL .
-            '    * @Assert\Type(type="string")' . PHP_EOL .
-            '    */' . PHP_EOL .
+            "     * @ORM\Column(name=\"$nomeDoCampo\", type=\"decimal\", nullable=$nullable, precision=$precision, scale=$scale)" . PHP_EOL .
+            '     * @Assert\Type(type="string")' . PHP_EOL .
+            '     */' . PHP_EOL .
             "   public ?string \$$nomeDaVariavel = null;" . PHP_EOL . PHP_EOL;
 
         return $str;
@@ -185,11 +199,11 @@ class GerarEntityIdClassesCommand extends Command
 
         $str = PHP_EOL .
             '    /**' . PHP_EOL .
-            "    * @ORM\Column(name=\"$nomeDoCampo\", type=\"$tipo\", nullable=$nullable)" . PHP_EOL .
-            '    * @Groups("entity")' . PHP_EOL .
+            "     * @ORM\Column(name=\"$nomeDoCampo\", type=\"$tipo\", nullable=$nullable)" . PHP_EOL .
+            '     * @Groups("entity")' . PHP_EOL .
             ($assertNotNull ?? '') .
-            '    * @Assert\Type("\DateTime")' . PHP_EOL .
-            '    */' . PHP_EOL .
+            '     * @Assert\Type("\DateTime")' . PHP_EOL .
+            '     */' . PHP_EOL .
             "   public ?\DateTime \$$nomeDaVariavel = null;" . PHP_EOL . PHP_EOL;
 
         return $str;
@@ -203,19 +217,20 @@ class GerarEntityIdClassesCommand extends Command
         if ($nomeDaVariavel === 'recnum') {
             $nullable = 'true';
         }
-        $assertNotBlank = $nullable === 'false' ? ('    * @Assert\NotBlank' . PHP_EOL) : '';
+        $assertNotBlank = $nullable === 'false' ? ('     * @Assert\NotBlank' . PHP_EOL) : '';
         $length = $arrCampo['CHARACTER_MAXIMUM_LENGTH'];
-        $assertLength = '    * @Assert\Length(max="' . $length . '")';
+        $assertLength = '     * @Assert\Length(max="' . $length . '")';
 
 
         $str = PHP_EOL .
             '    /**' . PHP_EOL .
-            "    * @ORM\Column(name=\"$nomeDoCampo\", type=\"string\", nullable=$nullable, length=$length)" . PHP_EOL .
-            '    * @Groups("entity")' . PHP_EOL .
+            "     * @ORM\Column(name=\"$nomeDoCampo\", type=\"string\", nullable=$nullable, length=$length)" . PHP_EOL .
+            '     * @Groups("entity")' . PHP_EOL .
             ($assertNotBlank ?? '') .
+            ($nomeDaVariavel === 'recnum' ? '     * @NotUppercase()' . PHP_EOL : '') .
             $assertLength . PHP_EOL .
-            '    * @Assert\Type(type="string")' . PHP_EOL .
-            '    */' . PHP_EOL .
+            '     * @Assert\Type(type="string")' . PHP_EOL .
+            '     */' . PHP_EOL .
             "   public ?string \$$nomeDaVariavel = null;" . PHP_EOL . PHP_EOL;
 
         return $str;
@@ -228,18 +243,18 @@ class GerarEntityIdClassesCommand extends Command
         $nullable = $arrCampo['IS_NULLABLE'] === 'YES' ? 'true' : 'false';
         $assertNotBlank = $arrCampo['IS_NULLABLE'] !== 'YES' ? ('    @Assert\NotBlank' . PHP_EOL) : '';
         $length = $arrCampo['CHARACTER_MAXIMUM_LENGTH'];
-        $assertLength = '    * @Assert\Length(max="' . $length . '")';
+        $assertLength = '     * @Assert\Length(max="' . $length . '")';
 
 
         $str = PHP_EOL .
             '    /**' . PHP_EOL .
-            "    * @ORM\Column(name=\"$nomeDoCampo\", type=\"string\", nullable=$nullable, length=$length)" . PHP_EOL .
-            '    * @Groups("entity")' . PHP_EOL .
-            '    * @NotUppercase()' . PHP_EOL .
+            "     * @ORM\Column(name=\"$nomeDoCampo\", type=\"string\", nullable=$nullable, length=$length)" . PHP_EOL .
+            '     * @Groups("entity")' . PHP_EOL .
+            '     * @NotUppercase()' . PHP_EOL .
             ($assertNotBlank ?? '') .
             $assertLength . PHP_EOL .
-            '    * @Assert\Type(type="string")' . PHP_EOL .
-            '    */' . PHP_EOL .
+            '     * @Assert\Type(type="string")' . PHP_EOL .
+            '     */' . PHP_EOL .
             "   public ?string \$$nomeDaVariavel = null;" . PHP_EOL . PHP_EOL;
 
         return $str;

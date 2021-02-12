@@ -6,12 +6,13 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
-use CrosierSource\CrosierLibBaseBundle\Doctrine\Annotations\NotUppercase;
 use CrosierSource\CrosierLibBaseBundle\Doctrine\Annotations\EntityHandler;
+use CrosierSource\CrosierLibBaseBundle\Doctrine\Annotations\NotUppercase;
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityId;
 use CrosierSource\CrosierLibBaseBundle\Entity\EntityIdTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -37,6 +38,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * )
  * 
  * @ApiFilter(OrderFilter::class, properties={"id", "updated"}, arguments={"orderParameterName"="order"})
+ * @ApiFilter(SearchFilter::class, properties={"recnum": "partial", "id": "exact"})
  *
  * @ORM\Entity(repositoryClass="App\Repository\{{ pacote }}\{{ nomeDaClasse ~ 'Repository' }}")
  * @EntityHandler(entityHandlerClass="App\EntityHandler\{{ pacote }}\{{ nomeDaClasse ~ 'EntityHandler' }}")
@@ -51,5 +53,3 @@ class {{ nomeDaClasse }} implements EntityId
 
     {{ campos }}
 
-
-}

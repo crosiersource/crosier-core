@@ -29,7 +29,10 @@
                 <span>Filtrar</span>
                 <i class="pi pi-filter"></i>
               </template>
-              <form @submit.prevent="this.$emit('handleFilter')">
+              <form
+                @submit.prevent="this.$emit('handleFilter')"
+                class="notSubmit"
+              >
                 <slot name="filter-fields"></slot>
                 <div class="row mt-3">
                   <div class="col-3">
