@@ -79,3 +79,28 @@ div.paceDiv {
     background-color: white;
 }
 
+
+.menuLateral-ent-pai {
+  background-color: #616161;
+}
+
+.menuLateral-ent-filho {
+  background-color: #424242;
+}
+
+.menuLateral-ent-neto {
+  background-color: #212121;
+}
+
+
+.menuLateral-dropdown-pai {
+  background-color: #546E7A;
+}
+
+.menuLateral-dropdown-filho {
+  background-color: #34474F;
+}
+
+.c-sidebar .c-sidebar-nav-link:hover, .c-sidebar .c-sidebar-nav-dropdown-toggle:hover {
+  background-color: darkslategrey;
+}
