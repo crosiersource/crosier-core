@@ -18,17 +18,27 @@
         </div>
       </div>
       <div class="card-body">
+        <ProgressBar
+          mode="indeterminate"
+          :style="
+            'height: .5em; margin-bottom: 10px; display: ' +
+            (desabilitado ? '' : 'none')
+          "
+        />
         <form @submit.prevent="this.$emit('handleSubmitForm')">
-          <slot></slot>
-          <div class="row mt-3">
-            <div class="col text-right">
-              <Button label="Salvar" type="submit" icon="fas fa-save" />
+          <fieldset :disabled="desabilitado">
+            <slot></slot>
+            <div class="row mt-3">
+              <div class="col text-right">
+                <Button label="Salvar" type="submit" icon="fas fa-save" />
+              </div>
             </div>
-          </div>
+          </fieldset>
         </form>
       </div>
     </div>
   </div>
+  <CrosierBlock :desabilitado="this.desabilitado" />
   <Toast class="mt-5" />
 </template>
 
@@ -38,12 +48,16 @@ import Toast from "primevue/toast";
 import { postEntityData } from "@/services/ApiPostService";
 import { putEntityData } from "@/services/ApiPutService";
 import { fetchTableData } from "@/services/ApiDataFetchService";
+import ProgressBar from "primevue/progressbar";
+import CrosierBlock from "./crosierBlock";
 
 export default {
   name: "CrosierForm",
   components: {
+    CrosierBlock,
     Button,
     Toast,
+    ProgressBar,
   },
   props: {
     titulo: {
@@ -70,9 +84,11 @@ export default {
   data() {
     return {
       formErrors: {},
+      desabilitado: false,
     };
   },
   async mounted() {
+    this.desabilitado = true;
     // verify if id is set.
     // and if found the id then set the register in the store
     // the stored fields are reflected in the form
@@ -93,9 +109,11 @@ export default {
         console.log(err);
       }
     }
+    this.desabilitado = false;
   },
   methods: {
     async submitForm() {
+      this.desabilitado = true;
       // local const values receive stored fields that are prefetched or that is typed by users
       // formErrors are setted empty to clean.
       // call yup validator, and if is valid than make an api call (post or put, depedding of id is setted or not)
@@ -137,6 +155,7 @@ export default {
 
         this.showError("Não foi possível salvar!");
       }
+      this.desabilitado = false;
     },
     redirectForm(id = "") {
       window.location.href = `form${id ? `?id=${id}` : ""}`;
