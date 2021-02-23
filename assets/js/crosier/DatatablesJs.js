@@ -47,7 +47,7 @@ class DatatablesJs {
   }
 
   static makeDeleteButton(deleteUrl, csrfTokenDelete) {
-    return '<button type="button" class="btn btn-danger btn-sm" data-url="' + deleteUrl + '" ' +
+    return '<button type="button" class="btn btn-danger btn-sm" title="Deletar registro" data-url="' + deleteUrl + '" ' +
       'data-token="' + csrfTokenDelete + '" data-target="#confirmationModal" data-toggle="modal">' +
       '<i class="fa fa-trash" aria-hidden="true"></i></button> ';
   }
