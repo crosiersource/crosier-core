@@ -1,3 +1,8 @@
+SET FOREIGN_KEY_CHECKS = 0;
+
+TRUNCATE TABLE `bse_uf`;
+TRUNCATE TABLE `bse_municipio`;
+
 INSERT INTO `bse_uf` (`id`, `sigla`, `nome`, `codigo_IBGE`, `inserted`, `updated`, `user_inserted_id`, `user_updated_id`, `estabelecimento_id`)
 VALUES (1, 'RO', 'RONDÔNIA', 11, '2018-08-04 09:43:57', '2018-08-04 09:43:57', 1, 1, 1),
        (2, 'AC', 'ACRE', 12, '2018-08-04 09:44:08', '2018-08-04 09:44:08', 1, 1, 1),
