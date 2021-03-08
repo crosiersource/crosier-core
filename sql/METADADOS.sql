@@ -1,6 +1,24 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
 
+DROP TABLE IF EXISTS `messenger_messages`;
+CREATE TABLE `messenger_messages`
+(
+    `id`           bigint(20)                              NOT NULL AUTO_INCREMENT,
+    `body`         longtext COLLATE utf8mb4_unicode_ci     NOT NULL,
+    `headers`      longtext COLLATE utf8mb4_unicode_ci     NOT NULL,
+    `queue_name`   varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `created_at`   datetime                                NOT NULL,
+    `available_at` datetime                                NOT NULL,
+    `delivered_at` datetime DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `IDX_75EA56E0FB7336F0` (`queue_name`),
+    KEY `IDX_75EA56E0E3BD61CE` (`available_at`),
+    KEY `IDX_75EA56E016BA31DB` (`delivered_at`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 6
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_unicode_ci;
 
 
 DROP TABLE IF EXISTS `sessions`;
@@ -549,3 +567,7 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+
+
+
