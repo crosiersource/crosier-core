@@ -407,6 +407,8 @@ CREATE TABLE `cfg_entity_change`
 
 
 
+DROP TABLE IF EXISTS `cfg_syslog`;
+
 CREATE TABLE `cfg_syslog`
 (
     `id`           bigint(20)                            NOT NULL AUTO_INCREMENT,
