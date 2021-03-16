@@ -60,7 +60,8 @@
         "symfony/security-csrf": "5.2.*",
         "symfony/swiftmailer-bundle": "^3.1",
         "crosiersource/crosierlib-base": "@dev",
-        "nelmio/cors-bundle": "^2.1"
+        "nelmio/cors-bundle": "^2.1",
+        "symfony/rate-limiter": "5.2.*"
     },
     "require-dev": {
         "symfony/browser-kit": "^5.2",

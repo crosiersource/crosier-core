@@ -4,7 +4,7 @@
         "@babel/preset-typescript": "^7.0.0",
         "@coreui/coreui": "^3.4.0",
         "@coreui/icons": "^1.0.1",
-        "@fortawesome/fontawesome-free": "^5.10.2",
+        "@fortawesome/fontawesome-free": "^5",
         "@fullcalendar/core": "^5.5.0",
         "@fullcalendar/daygrid": "^5.5.0",
         "@fullcalendar/interaction": "^5.5.0",

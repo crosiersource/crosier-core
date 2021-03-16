@@ -1,4 +1,5 @@
 security:
+    enable_authenticator_manager: true
     encoders:
         CrosierSource\CrosierLibBaseBundle\Entity\Security\User:
             algorithm: auto
@@ -13,7 +14,13 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: true
+            # configuring the maximum login attempts (per minute)
+            login_throttling:
+                max_attempts: 3
+
+            # redirect anonymous users to the login page
+            entry_point: App\Security\LoginFormAuthenticator
+
             lazy: false
 
             remember_me:
@@ -25,13 +32,14 @@ security:
                 httponly: false
                 always_remember_me: true
 
+            custom_authenticators:
+                - App\Security\LoginFormAuthenticator
+
             guard:
                 authenticators:
-                - App\Security\LoginFormAuthenticator
-                - App\Security\APIAuthenticator
+                    - App\Security\APIAuthenticator
 
-                # redirect anonymous users to the login page
-                entry_point: App\Security\LoginFormAuthenticator
+
 
             logout:
                 path: logout
@@ -49,15 +57,15 @@ security:
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
-    access_control: 
+    access_control:
         # but, definitely allow /login to be accessible anonymously
-        - { path: ^/getCrosierAssetUrl, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/getRenderCrosierWebpackScriptTags, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/getRenderCrosierWebpackLinkTags, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/build, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/bundles, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/sec/hash, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/getCrosierAssetUrl, roles: PUBLIC_ACCESS }
+        - { path: ^/getRenderCrosierWebpackScriptTags, roles: PUBLIC_ACCESS }
+        - { path: ^/getRenderCrosierWebpackLinkTags, roles: PUBLIC_ACCESS }
+        - { path: ^/build, roles: PUBLIC_ACCESS }
+        - { path: ^/bundles, roles: PUBLIC_ACCESS }
+        - { path: ^/sec/hash, roles: PUBLIC_ACCESS }
+        - { path: ^/login, roles: PUBLIC_ACCESS }
         # if you wanted to force EVERY URL to be protected
         - { path: ^/, roles: IS_AUTHENTICATED_REMEMBERED }
         # - { path: ^/admin, roles: ROLE_ADMIN }
