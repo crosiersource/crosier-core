@@ -33,12 +33,7 @@ security:
 
             custom_authenticators:
                 - App\Security\LoginFormAuthenticator
-
-            guard:
-                authenticators:
-                    - App\Security\APIAuthenticator
-
-
+                - App\Security\APIAuthenticator
 
             logout:
                 path: logout
