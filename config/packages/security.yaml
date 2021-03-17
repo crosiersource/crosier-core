@@ -18,7 +18,6 @@ security:
             login_throttling:
                 max_attempts: 3
 
-            # redirect anonymous users to the login page
             entry_point: App\Security\LoginFormAuthenticator
 
             lazy: false

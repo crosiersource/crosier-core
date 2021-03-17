@@ -8,4 +8,4 @@ services:
 
   #CrosierSource\CrosierLibBaseBundle\:
   #  resource: ../../src
-  test.App\Repository\Base\DiaUtilRepository: '@App\Repository\Base\DiaUtilRepository'
+  #test.App\Repository\Base\DiaUtilRepository: '@App\Repository\Base\DiaUtilRepository'

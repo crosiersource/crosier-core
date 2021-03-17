@@ -4,9 +4,9 @@ namespace App\Security;
 
 use CrosierSource\CrosierLibBaseBundle\Entity\Security\User;
 use CrosierSource\CrosierLibBaseBundle\EntityHandler\Security\UserEntityHandler;
-use CrosierSource\CrosierLibBaseBundle\Repository\Security\UserRepository;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,8 +38,6 @@ use Symfony\Component\Security\Http\Util\TargetPathTrait;
 class LoginFormAuthenticator extends AbstractAuthenticator implements AuthenticationEntryPointInterface
 {
     use TargetPathTrait;
-
-    private UserRepository $userRepository;
 
     private RouterInterface $router;
 
@@ -108,16 +106,20 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
             $cache_entmenulocator = new FilesystemAdapter('entmenulocator', 0, $_SERVER['CROSIER_SESSIONS_FOLDER']);
             $cache_entmenulocator->clear();
 
-
             $cacheCrosierCoreAssetExtension = new FilesystemAdapter('CrosierCoreAssetExtension', 0, $_SERVER['CROSIER_SESSIONS_FOLDER']);
             // limpa os cachês definidos em CrosierSource\CrosierLibBaseBundle\Twig\CrosierCoreAssetExtension
             $cacheCrosierCoreAssetExtension->clear();
 
+            if ($request->getSession()->get('uri_to_redirect_after_login')) {
+                $uri = $request->getSession()->get('uri_to_redirect_after_login');
+                $request->getSession()->set('uri_to_redirect_after_login', null);
+                return new RedirectResponse($uri);
+            }
             return new RedirectResponse($this->router->generate('index'));
         } catch (\Throwable $e) {
             $this->logger->error('Erro em onAuthenticationSuccess');
             $this->logger->error($e->getMessage());
-            throw new \RuntimeException('err');
+            throw new \RuntimeException('LoginFormAuthenticator - erro');
         }
     }
 
@@ -179,6 +181,12 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
 
     public function start(Request $request, AuthenticationException $authException = null)
     {
-        return new RedirectResponse('/login');
+        if (strpos($request->getPathInfo(), '/api') === FALSE) {
+            $request->getSession()->set('uri_to_redirect_after_login', $request->getUri());
+            return new RedirectResponse('/login');
+        } else {
+            return new JsonResponse(['msg' => 'not logged']);
+        }
+        
     }
 }

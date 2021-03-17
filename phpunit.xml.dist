@@ -1,47 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- https://phpunit.de/manual/current/en/appendixes.configuration.html -->
+<!-- https://phpunit.readthedocs.io/en/latest/configuration.html -->
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/6.5/phpunit.xsd"
          backupGlobals="false"
          colors="true"
-         bootstrap="./config/bootstrap.php">
-    <php>
-        <ini name="error_reporting" value="-1"/>
-        <env name="KERNEL_CLASS" value="Tests\TestingKernel"/>
-        <env name="APP_ENV" value="test"/>
-        <env name="APP_DEBUG" value="1"/>
-        <env name="APP_SECRET" value="s$cretf0rt3st"/>
-        <env name="SHELL_VERBOSITY" value="-1"/>
-        <!-- define your env variables for the test env here -->
+         bootstrap="config/bootstrap.php"
+>
+  <php>
+    <ini name="error_reporting" value="-1"/>
+<env name="KERNEL_CLASS" value="Tests\TestingKernel"/>
+    <server name="APP_ENV" value="test" force="true"/>
+    <server name="SHELL_VERBOSITY" value="-1"/>
+    <server name="SYMFONY_PHPUNIT_REMOVE" value=""/>
+    <server name="SYMFONY_PHPUNIT_VERSION" value="9.0"/>
+    <server name="SYMFONY_DEPRECATIONS_HELPER" value="weak"/>
+  </php>
 
-        <!-- ###+ symfony/mercure-bundle ### -->
-        <env name="MERCURE_PUBLISH_URL" value="https://demo.mercure.rocks/hub"/>
-        <env name="MERCURE_JWT_SECRET" value="#see https://mercure.rocks"/>
-        <!-- ###- symfony/mercure-bundle ### -->
+  <testsuites>
+    <testsuite name="Project Test Suite">
+      <directory>tests</directory>
+    </testsuite>
+  </testsuites>
 
-        <!-- ###+ symfony/framework-bundle ### -->
-        <env name="APP_ENV" value="dev"/>
-        <env name="APP_SECRET" value="d246eb8c5bd33003e3b4d2d2ab13dd5a"/>
-        <!-- env name="TRUSTED_PROXIES" value="127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16" -->
-        <!-- env name="TRUSTED_HOSTS" value="'^localhost|example\.com$'" -->
-        <!-- ###- symfony/framework-bundle ### -->
-    </php>
-
-    <testsuites>
-        <testsuite name="Project Test Suite">
-            <directory>tests</directory>
-        </testsuite>
-    </testsuites>
-
-    <filter>
-        <whitelist>
-            <directory>src</directory>
-        </whitelist>
-    </filter>
-
-    <listeners>
-        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener"/>
-    </listeners>
-
+  
+  <listeners>
+    <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener"/>
+  </listeners>
 </phpunit>
