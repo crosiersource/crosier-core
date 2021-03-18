@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6252dc287b451431ab3cdceb96f10863",
+    "content-hash": "d5626d8f7481ba11ec9b12a706088fdf",
     "packages": [
         {
             "name": "api-platform/core",
@@ -239,11 +239,17 @@
         },
         {
             "name": "crosiersource/crosierlib-base",
-            "version": "dev-master",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/crosiersource/crosierlib-base.git",
+                "reference": "ad64213e02ef4f7ca59a7fe5cf8fbc77daf37f0f"
+            },
             "dist": {
-                "type": "path",
-                "url": "../crosierlib-base",
-                "reference": "e5102676bc635dcc9454adc277568e3402cbdbd9"
+                "type": "zip",
+                "url": "https://api.github.com/repos/crosiersource/crosierlib-base/zipball/ad64213e02ef4f7ca59a7fe5cf8fbc77daf37f0f",
+                "reference": "ad64213e02ef4f7ca59a7fe5cf8fbc77daf37f0f",
+                "shasum": ""
             },
             "require": {
                 "api-platform/core": "2.6.2",
@@ -262,6 +268,7 @@
                 "symfony/cache": "5.2.*",
                 "symfony/console": "5.2.*",
                 "symfony/debug-bundle": "5.2.*",
+                "symfony/dotenv": "^5.2",
                 "symfony/form": "5.2.*",
                 "symfony/monolog-bundle": "^3.0",
                 "symfony/orm-pack": "2.*",
@@ -269,6 +276,9 @@
                 "symfony/serializer-pack": "^1",
                 "symfony/validator": "5.2.*",
                 "symfony/webpack-encore-bundle": "^1.7"
+            },
+            "require-dev": {
+                "symfony/phpunit-bridge": "^5.2"
             },
             "type": "symfony-bundle",
             "extra": {
@@ -282,11 +292,7 @@
                     "CrosierSource\\CrosierLibBaseBundle\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Tests\\": "tests/"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -296,10 +302,11 @@
                     "email": "carlospauluk@gmail.com"
                 }
             ],
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
+            "support": {
+                "issues": "https://github.com/crosiersource/crosierlib-base/issues",
+                "source": "https://github.com/crosiersource/crosierlib-base/tree/v1.0.0"
+            },
+            "time": "2021-03-17T21:00:43+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -9772,9 +9779,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "crosiersource/crosierlib-base": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
