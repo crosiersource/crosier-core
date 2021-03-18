@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d5626d8f7481ba11ec9b12a706088fdf",
+    "content-hash": "a2b2939bbd7f90c90d40a0a7d41b9865",
     "packages": [
         {
             "name": "api-platform/core",
@@ -239,16 +239,16 @@
         },
         {
             "name": "crosiersource/crosierlib-base",
-            "version": "v1.0.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/crosiersource/crosierlib-base.git",
-                "reference": "ad64213e02ef4f7ca59a7fe5cf8fbc77daf37f0f"
+                "reference": "499b8565be94d5e583f41d547fb48f9efcda01ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/crosiersource/crosierlib-base/zipball/ad64213e02ef4f7ca59a7fe5cf8fbc77daf37f0f",
-                "reference": "ad64213e02ef4f7ca59a7fe5cf8fbc77daf37f0f",
+                "url": "https://api.github.com/repos/crosiersource/crosierlib-base/zipball/499b8565be94d5e583f41d547fb48f9efcda01ee",
+                "reference": "499b8565be94d5e583f41d547fb48f9efcda01ee",
                 "shasum": ""
             },
             "require": {
@@ -280,6 +280,7 @@
             "require-dev": {
                 "symfony/phpunit-bridge": "^5.2"
             },
+            "default-branch": true,
             "type": "symfony-bundle",
             "extra": {
                 "symfony": {
@@ -304,9 +305,9 @@
             ],
             "support": {
                 "issues": "https://github.com/crosiersource/crosierlib-base/issues",
-                "source": "https://github.com/crosiersource/crosierlib-base/tree/v1.0.0"
+                "source": "https://github.com/crosiersource/crosierlib-base/tree/master"
             },
-            "time": "2021-03-17T21:00:43+00:00"
+            "time": "2021-03-18T19:02:17+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -9779,7 +9780,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "crosiersource/crosierlib-base": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
