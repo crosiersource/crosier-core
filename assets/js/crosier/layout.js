@@ -1,71 +1,11 @@
-/* eslint-disable */
+import "bootstrap/dist/css/bootstrap.css";
+import "popper.js";
 
-import $ from 'jquery';
+import "primevue/resources/themes/saga-blue/theme.css"; // theme
+import "primevue/resources/primevue.min.css"; // core css
+import "primeicons/primeicons.css";
 
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap';
-import 'popper.js';
-import 'perfect-scrollbar';
+import "../../static/css/crosier.css";
 
-import '@coreui/coreui';
-import '@coreui/coreui/dist/css/coreui.css';
-
-
-import 'primevue/resources/themes/saga-blue/theme.css'; //theme
-import 'primevue/resources/primevue.min.css'; //core css
-import 'primeicons/primeicons.css';
-
-import 'select2/dist/css/select2.css';
-import 'select2';
-import 'select2/dist/js/i18n/pt-BR.js';
-import 'select2-bootstrap-theme/dist/select2-bootstrap.css';
-
-import CrosierBaseLayout from './CrosierBaseLayout';
-
-import CrosierMasks from '../crosier/CrosierMasks';
-
-import 'datatables.net-bs4/css/dataTables.bootstrap4.css';
-import 'datatables/media/css/jquery.dataTables.css';
-
-
-import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css';
-
-import 'toastr/build/toastr.css'
-
-import '../../static/css/crosier.css';
-
-import 'daterangepicker/daterangepicker.css';
-import DatatablesJs from "./DatatablesJs";
-
-
-$(document).ready(function () {
-
-
-    CrosierMasks.maskAll();
-
-    CrosierBaseLayout.handleConfirmationModal();
-
-    CrosierBaseLayout.handleFlashMessages();
-
-    CrosierBaseLayout.handleBootstrapNavTabs();
-
-    CrosierBaseLayout.handleSelect2();
-
-    CrosierBaseLayout.handleBootstrapDatepicker();
-
-    CrosierBaseLayout.handleCamposCepComBtnConsulta();
-
-    let $focusOnReady = $('.focusOnReady');
-    if ($focusOnReady) {
-        if (!$focusOnReady.hasClass('autoSelect2')) {
-            $focusOnReady.focus();
-        }
-    }
-
-    CrosierBaseLayout.startPushForUser();
-
-});
-
-
-global.CrosierMasks = CrosierMasks;
-global.DatatablesJs = DatatablesJs;
+import "@coreui/coreui";
+import "@coreui/coreui/dist/css/coreui.css";

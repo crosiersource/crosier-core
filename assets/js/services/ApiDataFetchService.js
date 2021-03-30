@@ -27,9 +27,6 @@ export async function fetchTableData({
       queryFilter += `&${key}=${filters[key]}`;
   }
 
-  console.log(
-    `${apiResource}${queryPage}${queryRows}${queryFilter}${queryOrder}`
-  );
   return axios.get(
     `${apiResource}${queryPage}${queryRows}${queryFilter}${queryOrder}`,
     params

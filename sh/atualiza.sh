@@ -23,9 +23,6 @@ git pull
 composer -v install
 yarn install
 
-echo ">>>>>>>>>>>>>>>>>>>>>>> dumping routes para json..."
-php bin/console fos:js-routing:dump --format=json --target=assets/static/fos_js_routes.json
-
 echo ">>>>>>>>>>>>>>>>>>>>>>> limpando cache..."
 php bin/console cache:clear
 

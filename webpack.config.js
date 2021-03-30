@@ -25,23 +25,9 @@ Encore
   }))
   // --------------------------------------------
   .addEntry('crosier/layout', './assets/js/crosier/layout.js')
-  .addEntry('Base/propList', './assets/js/Base/propList.js')
-  .addEntry('Base/pessoaList', './assets/js/Base/pessoaList.js')
-  .addEntry('Base/categoriaPessoaList', './assets/js/Base/categoriaPessoaList.js')
-  .addEntry('Base/pessoaForm', './assets/js/Base/pessoaForm.js')
-  .addEntry('Base/diaUtil_list', './assets/js/Base/diaUtil_list.js')
+  .addEntry("Config/App/app_form", "./assets/js/apps/Config/App/app_form.js")
+  .addEntry("Config/App/app_list", "./assets/js/apps/Config/App/app_list.js")
 
-  .addEntry('Security/userList', './assets/js/Security/userList.js')
-  .addEntry('Security/groupList', './assets/js/Security/groupList.js')
-  .addEntry('Security/roleList', './assets/js/Security/roleList.js')
-
-  .addEntry('Config/configList', './assets/js/Config/configList.js')
-  .addEntry('Config/appList', './assets/js/Config/appList.js')
-  .addEntry('Config/appForm', './assets/js/Config/appForm.js')
-  .addEntry('Config/programList', './assets/js/Config/programList.js')
-  .addEntry('Config/entMenuList', './assets/js/Config/entMenuList.js')
-  .addEntry('Config/entMenuLocatorList', './assets/js/Config/entMenuLocatorList.js')
-  .addEntry('Config/syslogList', './assets/js/Config/syslogList.js')
   // --------------------------------------------
   .splitEntryChunks()
   .enableSingleRuntimeChunk()
