@@ -67,5 +67,4 @@ class DefaultController extends BaseController
         return new Response('');
     }
 
-
 }

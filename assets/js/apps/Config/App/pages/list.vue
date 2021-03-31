@@ -9,34 +9,19 @@
     @handleFilter="this.handleFilter"
   >
     <template v-slot:columns>
-      <column field="id" header="id" :sortable="true"></column>
-      <column field="descricao" header="Descricao" :sortable="true"></column>
-      <column field="ativo" header="Ativo" :sortable="true">
-        <template #body="slotProps">
-          <span
-            v-if="slotProps.data.ativo === true"
-            class="badge badge-success"
-          >
-            Sim
-          </span>
-          <span
-            v-if="slotProps.data.ativo === false"
-            class="badge badge-danger"
-          >
-            Não
-          </span>
-        </template>
-      </column>
+      <column field="id" header="Id"></column>
+      <column field="UUID" header="UUID"></column>
+      <column field="nome" header="Nome" :sortable="true"></column>
       <column field="updated" header="" :sortable="true">
         <template class="text-right" #body="slotProps">
           <div class="row d-flex justify-content-end">
-            <button
+            <Button
               icon="pi pi-pencil"
               class="mr-2 p-button-rounded p-button-sm p-button-info dt-sm-bt"
               v-tooltip="'Editar'"
               @click="this.$refs.list.redirectForm(slotProps.data.id)"
             />
-            <button
+            <Button
               icon="pi pi-trash"
               class="mr-2 p-button-rounded p-button-sm p-button-danger dt-sm-bt"
               v-tooltip="'Deletar'"
@@ -56,14 +41,14 @@
 
 <script>
 import CrosierList from "@/components/crosierList";
-import button from "primevue/button";
+import Button from "primevue/button";
 import Column from "primevue/column";
 
 export default {
   components: {
     CrosierList,
     Column,
-    button,
+    Button,
   },
   data() {
     return {

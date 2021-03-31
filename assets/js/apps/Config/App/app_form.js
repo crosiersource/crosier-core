@@ -1,8 +1,10 @@
 import { createApp } from "vue";
 import PrimeVue from "primevue/config";
+import Tooltip from "primevue/tooltip";
 import ToastService from "primevue/toastservice";
 import { createStore } from "vuex";
 import { fetchTableData } from "@/services/ApiDataFetchService";
+import ConfirmationService from "primevue/confirmationservice";
 import Page from "./pages/form";
 import "primeflex/primeflex.css";
 import "primevue/resources/themes/bootstrap4-light-blue/theme.css"; // theme
@@ -18,21 +20,30 @@ app.use(ToastService);
 const store = createStore({
   state() {
     return {
-      formFields: {
-        id: null,
-        descricao: null,
-        ativo: null,
-        jsonData: null,
-      },
-      formErrors: [],
+      formApp: {},
+      formAppErrors: {},
+      formAppConfig: {},
+      formAppConfigErrors: {},
+      displayFormAppConfigModal: false,
     };
   },
-  mutations: {
-    setFormFields(state, newFormFields) {
-      state.formFields = newFormFields;
+  getters: {
+    getFormApp(state) {
+      return state.formApp;
     },
-    setFormErrors(state, newFormErrors) {
-      state.formErrors = newFormErrors;
+    getFormAppErrors(state) {
+      return state.formAppErrors;
+    },
+    getFormAppConfig(state) {
+      return state.formAppConfig;
+    },
+    getFormAppConfigErrors(state) {
+      return state.formAppConfigErrors;
+    },
+  },
+  mutations: {
+    set(state, data) {
+      state[data.attr] = data.vals;
     },
     async loadData(state, { id, apiResource, storeName = "" }) {
       if (id) {
@@ -55,5 +66,7 @@ const store = createStore({
 });
 
 app.use(store);
+app.use(ConfirmationService);
+app.directive("tooltip", Tooltip);
 
 app.mount("#app");

@@ -2,30 +2,14 @@
   Este arquivo deve ficar no static (não ser adicionado pelo webpack) para poder ser chamado pelos apps.
 */
 
-
-
-#preloader {
-    -webkit-filter: blur(5px);
-    -moz-filter: blur(5px);
-    -o-filter: blur(5px);
-    -ms-filter: blur(5px);
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 1999;
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-    background: rgba(255, 255, 255, 0.5);
+html {
+  font-size: 14px;
 }
+
+
 
 input, select {
     text-transform: uppercase;
-}
-
-.select2-search__field {
-    text-transform: none;
-    width: 100%;
 }
 
 input[type=submit], input[type=button] {
@@ -47,15 +31,6 @@ input[type=submit], input[type=button] {
 .crsr-money {
     text-align: right;
     text-transform: none;
-}
-
-
-div.paceDiv {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-
-    display: none;
 }
 
 .lowercase,

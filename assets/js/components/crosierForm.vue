@@ -1,5 +1,5 @@
 <template>
-  <div v-if="withoutCard">
+  <div v-if="this.withoutCard">
     <ProgressBar
       mode="indeterminate"
       :style="
@@ -11,9 +11,10 @@
       <fieldset :disabled="desabilitado">
         <slot></slot>
         <slot name="formChilds"></slot>
-        <div class="row mt-3">
+        <div class="row mt-3" v-if="!this.withoutSaveButton">
           <div class="col text-right">
             <Button
+              style="width: 12rem"
               label="Salvar"
               type="submit"
               icon="fas fa-save"
@@ -55,9 +56,10 @@
             <fieldset :disabled="desabilitado">
               <slot></slot>
               <slot name="formChilds"></slot>
-              <div class="row mt-3">
+              <div class="row mt-3" v-if="!this.withoutSaveButton">
                 <div class="col text-right">
                   <Button
+                    style="width: 12rem"
                     label="Salvar"
                     type="submit"
                     icon="fas fa-save"
@@ -113,6 +115,10 @@ export default {
       required: true,
     },
     withoutCard: {
+      type: Boolean,
+      required: false,
+    },
+    withoutSaveButton: {
       type: Boolean,
       required: false,
     },
