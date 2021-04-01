@@ -183,4 +183,30 @@ class AppController extends FormListController
     }
 
 
+
+
+    /**
+     * @Route("/config/app/form", name="config_app_form")
+     */
+    public function formVue(): Response
+    {
+        $params = [
+            'jsEntry' => 'Config/App/app_form'
+        ];
+        return $this->doRender('@CrosierLibBase/vue-app-page.html.twig', $params);
+    }
+
+    /**
+     * @Route("/config/app/list", name="config_app_list")
+     */
+    public function listVue(): Response
+    {
+        $params = [
+            'jsEntry' => 'Config/App/app_list'
+        ];
+        return $this->doRender('@CrosierLibBase/vue-app-page.html.twig', $params);
+    }
+    
+
+
 }

@@ -154,14 +154,6 @@ export default {
     };
   },
   async mounted() {
-    // set loading true for wait the response of prefetching data
-    // get filters if its setted in the queries of url as saved_filter
-    // or get filters of localstorage if it is setted
-    // and store the filters
-    // than get the localstorage of primevue datatables
-    // with this is possible to recover pages and sort properties
-    // with filter, order, and sort recovered from url or from localstorage
-    // we make the request (prefetch) to api passing all as params
     this.loading = true;
 
     const uri = window.location.search.substring(1);
