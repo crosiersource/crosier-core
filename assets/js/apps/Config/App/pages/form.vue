@@ -8,22 +8,32 @@
             <h6 v-if="subtitulo">{{ this.subtitulo }}</h6>
           </div>
           <div class="d-sm-flex flex-nowrap ml-auto">
-            <Button
-              class="p-button-help p-button-text"
-              icon="pi pi-arrow-left"
-              label="voltar pra lista"
-              @click="this.redirectList()"
-            />
+            <a
+              type="button"
+              class="btn btn-info"
+              href="/config/app/form"
+              title="Novo"
+            >
+              <i class="fas fa-file" aria-hidden="true"></i>
+            </a>
+            <a
+              role="button"
+              class="btn btn-outline-secondary"
+              href="/config/app/list"
+              title="Listar"
+            >
+              <i class="fas fa-list"></i>
+            </a>
           </div>
         </div>
       </div>
       <div class="card-body">
         <CrosierForm
-          storeName="formApp"
+          formDataName="formApp"
           :withoutCard="true"
           :apiResource="this.baseApi"
           :listUrl="'/config/app/list'"
-          :schemaValidator="this.schemaValidator"
+          :schemaValidator="this.yupValidator"
           :titulo="this.titulo"
           :subtitulo="this.subtitulo"
           @handleSubmitForm="this.handleSubmitForm()"
@@ -37,7 +47,7 @@
                   class="form-control"
                   id="id"
                   type="text"
-                  v-model="this.$store.getters.getFormApp.id"
+                  v-model="this.formApp.id"
                   disabled
                 />
               </div>
@@ -47,16 +57,14 @@
               <InputText
                 :class="
                   'form-control notuppercase ' +
-                  (this.$store.getters.getFormAppErrors.nome
-                    ? 'is-invalid'
-                    : '')
+                  (this.formAppErrors['nome'] ? 'is-invalid' : '')
                 "
                 id="nome"
                 type="text"
-                v-model="this.$store.getters.getFormApp.nome"
+                v-model="this.formApp['nome']"
               />
               <div class="invalid-feedback">
-                {{ this.$store.getters.getFormAppErrors.nome }}
+                {{ this.formAppErrors["nome"] }}
               </div>
             </div>
           </div>
@@ -66,58 +74,63 @@
               <InputText
                 :class="
                   'form-control notuppercase ' +
-                  (this.$store.getters.getFormAppErrors.UUID
-                    ? 'is-invalid'
-                    : '')
+                  (this.formAppErrors.UUID ? 'is-invalid' : '')
                 "
                 id="UUID"
                 type="text"
-                v-model="this.$store.getters.getFormApp.UUID"
+                v-model="this.formApp.UUID"
               />
               <div class="invalid-feedback">
-                {{ this.$store.getters.getFormAppErrors.UUID }}
+                {{ this.formAppErrors.UUID }}
               </div>
             </div>
           </div>
         </CrosierForm>
 
-        <appConfigs v-if="this.$store.getters.getFormApp.UUID"></appConfigs>
+        <appConfigs v-if="this.formApp.id"></appConfigs>
       </div>
     </div>
   </div>
 
-  <pre>{{ this.$store.state }}</pre>
+  <pre>{{ this.$root }}</pre>
 </template>
 
 <script>
 import InputText from "primevue/inputtext";
 import * as yup from "yup";
 import CrosierForm from "@/components/crosierForm";
+import Button from "primevue/button";
 import appConfigs from "./appConfigs";
 
 export default {
   name: "app_form",
-  components: { CrosierForm, InputText, appConfigs },
+  components: { CrosierForm, InputText, appConfigs, Button },
   async mounted() {
-    this.schemaValidator = yup.object().shape({
-      nome: yup.string().required().typeError(),
-      UUID: yup.string().required().typeError(),
-    });
+    this.formApp = {
+      nome: null,
+      UUID: null,
+    };
+    this.formAppErrors = { ...this.formApp };
+    this.yupValidator = { ...this.formApp };
+    this.yupValidator.nome = yup.string().required().typeError();
+    // this.yupValidator.UUID = yup.string().required().typeError();
+    this.yupValidator = yup.object().shape(this.yupValidator);
   },
   data() {
     return {
       titulo: "Aplicativo",
       subtitulo: "Configurações",
       baseApi: "/api/core/config/app",
-      formErrors: [],
-      schemaValidator: {},
+      formApp: [],
+      formAppErrors: [],
+      formAppConfig: [],
+      formAppConfigErrors: [],
+      displayFormAppConfigModal: false,
+      yupValidator: {},
     };
   },
   methods: {
-    async handleSubmitForm() {
-      await this.$refs.form.submitForm(this.$store.state.formApp);
-      this.formFields = this.$store.state.formFields;
-    },
+    async handleSubmitForm() {},
   },
 };
 </script>

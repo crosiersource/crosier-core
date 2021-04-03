@@ -1,7 +1,7 @@
 <template>
   <Dialog
     :header="'Configuração de App'"
-    v-model:visible="this.$store.state.displayFormAppConfigModal"
+    v-model:visible="this.$root.displayFormAppConfigModal"
     :style="{ width: '55vw', height: '60vh' }"
     :modal="true"
     ref="dialog"
@@ -13,9 +13,7 @@
       @handleSubmitForm="this.handleSubmitFormPaciente()"
       @closeModal="handleCloseForm"
       ref="formAppConfig"
-      storeName="formAppConfig"
-      setStoreName="setFormAppConfig"
-      setStoreErrorsName="setFormAppConfigErrors"
+      formDataName="appConfig"
       :notLoadOnMount="true"
     >
       <div class="row">
@@ -25,10 +23,10 @@
             class="form-control notuppercase"
             id="id"
             type="text"
-            v-model="this.$store.getters.getFormAppConfig.chave"
+            v-model="this.$root.formAppConfig.chave"
           />
           <div class="invalid-feedback">
-            {{ this.$store.getters.getFormAppConfigErrors.chave }}
+            {{ this.$root.formAppConfigErrors.chave }}
           </div>
         </div>
 
@@ -37,7 +35,7 @@
             name="isJson"
             :binary="true"
             :value="true"
-            v-model="this.$store.getters.getFormAppConfig.isJson"
+            v-model="this.$root.formAppConfig.isJson"
           />
         </div>
       </div>
@@ -48,12 +46,12 @@
 
           <vue-json-editor
             v-if="this.isJson"
-            :value="this.$store.getters.getFormAppConfig.valor"
-            v-model="this.$store.getters.getFormAppConfig.valor"
+            :value="this.$root.formAppConfig.valor"
+            v-model="this.$root.formAppConfig.valor"
             :expandedOnStart="true"
             @json-change="
               (value) => {
-                this.$store.getters.getFormAppConfig.valor = value;
+                this.$root.formAppConfig.valor = value;
               }
             "
           ></vue-json-editor>
@@ -63,7 +61,7 @@
             class="form-control notuppercase"
             id="valor"
             type="text"
-            v-model="this.$store.getters.getFormAppConfig.valor"
+            v-model="this.$root.formAppConfig.valor"
           />
         </div>
       </div>
@@ -81,8 +79,6 @@
       </div>
     </CrosierForm>
   </Dialog>
-
-  <pre>{{ this.stored_formFields }}</pre>
 </template>
 
 <script>
@@ -106,20 +102,18 @@ export default {
   data() {},
   computed: {
     isJson() {
+      console.log(`typeof: ${typeof this.$root.formAppConfig.isJson}`);
+      console.log(this.$root.formAppConfig.isJson);
       console.log(
-        `typeof: ${typeof this.$store.getters.getFormAppConfig.isJson}`
+        this.$root.formAppConfig.isJson ||
+          this.$root.formAppConfig.chave.includes("json")
       );
-      console.log(this.$store.getters.getFormAppConfig.isJson);
-      console.log(
-        this.$store.getters.getFormAppConfig.isJson ||
-          this.$store.getters.getFormAppConfig.chave.includes("json")
-      );
-      if (typeof this.$store.getters.getFormAppConfig.isJson !== "boolean") {
+      if (typeof this.$root.formAppConfig.isJson !== "boolean") {
         return false;
       }
       return (
-        this.$store.getters.getFormAppConfig.isJson ||
-        this.$store.getters.getFormAppConfig.chave.includes("json")
+        this.$root.formAppConfig.isJson ||
+        this.$root.formAppConfig.chave.includes("json")
       );
     },
   },

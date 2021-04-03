@@ -92,13 +92,8 @@ export default {
       },
     };
 
-    console.log(
-      "aqui: " +
-        `${this.baseApi}?appUUID=${this.$store.getters.getFormApp.UUID}`
-    );
-
     const response = await axios.get(
-      `${this.baseApi}?appUUID=${this.$store.getters.getFormApp.UUID}`,
+      `${this.baseApi}?appUUID=${this.$root.formApp.UUID}`,
       params
     );
 
@@ -114,8 +109,8 @@ export default {
         apiResource: `/api/core/config/appConfig/${id}`,
       });
       if (response.data) {
-        this.$store.state.formAppConfig = response.data;
-        this.$store.state.displayFormAppConfigModal = true;
+        this.$root.formAppConfig = response.data;
+        this.$root.displayFormAppConfigModal = true;
       } else {
         this.$toast.add({
           severity: "error",

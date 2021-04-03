@@ -7,7 +7,7 @@
         (desabilitado ? '' : 'none')
       "
     />
-    <form @submit.prevent="this.submitForm">
+    <form @submit.prevent="this.$emit('handleSubmitForm')">
       <fieldset :disabled="desabilitado">
         <slot></slot>
         <slot name="formChilds"></slot>
@@ -35,15 +35,6 @@
               <h6 v-if="subtitulo">{{ this.subtitulo }}</h6>
             </div>
             <div class="d-sm-flex flex-nowrap ml-auto">
-              <a
-                v-if="this.formUrl"
-                type="button"
-                class="btn btn-info"
-                href="{{this.formUrl}}"
-                title="Novo"
-              >
-                <i class="fas fa-file" aria-hidden="true"></i>
-              </a>
               <Button
                 class="p-button-help p-button-text"
                 icon="pi pi-arrow-left"
@@ -61,7 +52,7 @@
               (desabilitado ? '' : 'none')
             "
           />
-          <form @submit.prevent="this.submitForm">
+          <form @submit.prevent="this.$emit('handleSubmitForm')">
             <fieldset :disabled="desabilitado">
               <slot></slot>
               <slot name="formChilds"></slot>
@@ -91,7 +82,6 @@ import Button from "primevue/button";
 import Toast from "primevue/toast";
 import { postEntityData } from "@/services/ApiPostService";
 import { putEntityData } from "@/services/ApiPutService";
-import { fetchTableData } from "@/services/ApiDataFetchService";
 import ProgressBar from "primevue/progressbar";
 import CrosierBlock from "./crosierBlock";
 
@@ -116,10 +106,6 @@ export default {
       type: String,
       required: false,
     },
-    formUrl: {
-      type: String,
-      required: false,
-    },
     apiResource: {
       type: String,
       required: true,
@@ -134,6 +120,18 @@ export default {
     },
     withoutSaveButton: {
       type: Boolean,
+      required: false,
+    },
+    storeName: {
+      type: String,
+      required: false,
+    },
+    setStoreName: {
+      type: String,
+      required: false,
+    },
+    setStoreErrorsName: {
+      type: String,
       required: false,
     },
     hasDependents: {
@@ -152,11 +150,6 @@ export default {
       type: Boolean,
       required: false,
     },
-    // nome da chave do array no componente raiz que conterá os valores dos campos
-    formDataName: {
-      type: String,
-      required: true,
-    },
   },
   data() {
     return {
@@ -165,24 +158,23 @@ export default {
     };
   },
   async mounted() {
+    // verify if id is set.
+    // and if found the id then set the register in the store
+    // the stored fields are reflected in the form
+    // else if not found then redirected to empty form
     this.desabilitado = true;
     if (!this.notLoadOnMount) {
       const uri = window.location.search.substring(1);
       const params = new URLSearchParams(uri);
-      const id = params.get("id");
-      if (id) {
-        try {
-          const response = await fetchTableData({
-            apiResource: `${this.apiResource}/${id}}`,
-          });
-
-          if (response.data["@id"]) {
-            this.$root[this.formDataName] = response.data;
-          } else {
-            throw new Error("Id não encontrado.");
-          }
-        } catch (err) {
-          console.log(err);
+      if (params.get("id")) {
+        await this.$store.commit("loadData", {
+          id: params.get("id"),
+          apiResource: this.apiResource,
+          storeName: this.storeName || "formFields",
+          hasDependents: this.hasDependents,
+        });
+        if (this.hasDependents) {
+          this.$store.commit("setDependentsId", params.get("id"));
         }
       }
     }
@@ -192,27 +184,33 @@ export default {
   methods: {
     async submitForm() {
       this.desabilitado = true;
+      // local const values receive stored fields that are prefetched or that is typed by users
+      // formErrors are setted empty to clean.
+      // call yup validator, and if is valid than make an api call (post or put, depedding of id is setted or not)
+      // if response ok than store the values of response and redirect to edit form with id setted in the url
+      // if yup validation fails then set the errors on store (that is auto reflected in the form)
+      const values = this.storeName
+        ? this.$store.state[this.storeName]
+        : this.$store.state.formFields;
 
       // inicializa os erros como vazio.
       this.formErrors = [];
+      this.$store.commit(this.setStoreErrorsName || "setFormErrors", []);
 
       // tenta fazer a validação dos campos do yup,
       // caso algum não passe distapa um erro que é tratado no catch.
       try {
-        const validated = await this.schemaValidator.validate(
-          this.$root[this.formDataName],
-          {
-            abortEarly: false,
-          }
-        );
+        const validated = await this.schemaValidator.validate(values, {
+          abortEarly: false,
+        });
 
         // verifica se o @id do formulário esta setado, se sim então a requisição é
         // put(atualização), senão:
         // post(criação).
         let response;
-        if (this.$root[this.formDataName]["@id"]) {
+        if (values["@id"]) {
           response = await putEntityData(
-            this.$root[this.formDataName]["@id"],
+            values["@id"],
             JSON.stringify(validated)
           );
         } else {
@@ -225,13 +223,23 @@ export default {
         // caso o retorno da api seja de sucesso
         if ([200, 201].includes(response.status)) {
           // armazena os novos dados no store correspondente.
-          this.$root[this.formDataName] = response.data;
+          this.$store.commit(
+            this.setStoreName || "setFormFields",
+            response.data
+          );
 
           // verifica se é necessário atualizar o id da url
           // só é necessário caso o formulário seja de apenas uma entidade
           // ou o formulário seja da entidade principal.
           if (!this.notSetUrlId) {
             window.history.pushState("form", "id", `?id=${response.data.id}`);
+          }
+
+          // se o formulário em questão é o principal e existem dependentes
+          // chama a funcção para informar aos stores dependentes o @id recebido
+          // e vincular à entidade principal.
+          if (this.hasDependents) {
+            this.$store.commit("setDependentsId", response.data.id);
           }
 
           // emite a mensagem de sucesso.
@@ -250,14 +258,20 @@ export default {
         // mostramos o erro no console.log
         console.log(err);
 
+        // retornamos os valores ao store para que o formulário não fique vazio
+        this.$store.commit(this.setStoreName || "setFormFields", values);
+
         // percorremos os campos com erros do yup para obter a mensagem do erro,
         // caso exista, senão usamos a mensagem padrão.
         err.inner?.forEach((element) => {
           this.formErrors[element.path] = element.message ?? "Valor inválido";
         });
-        console.log(this.formErrors);
-        console.log("kkkkk " + `${this.formDataName}Errors`);
-        this.$root.formAppErrors = { ...this.formErrors };
+
+        // salvamos as mensagens de erro no store correspondente
+        this.$store.commit(
+          this.setStoreErrorsName || "setFormErrors",
+          this.formErrors
+        );
 
         // emitimos a mensagem de erro.
         this.showError("Não foi possível salvar!");
