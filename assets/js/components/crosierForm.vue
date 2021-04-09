@@ -36,20 +36,24 @@
             </div>
             <div class="d-sm-flex flex-nowrap ml-auto">
               <a
-                v-if="this.formUrl"
+                v-show="this.formUrl"
                 type="button"
-                class="btn btn-info"
-                href="{{this.formUrl}}"
+                class="btn btn-info mr-2"
+                :href="this.formUrl"
                 title="Novo"
               >
                 <i class="fas fa-file" aria-hidden="true"></i>
               </a>
-              <Button
-                class="p-button-help p-button-text"
-                icon="pi pi-arrow-left"
-                label="voltar pra lista"
-                @click="this.redirectList()"
-              />
+
+              <a
+                v-show="this.listUrl"
+                role="button"
+                class="btn btn-outline-secondary"
+                :href="this.listUrl"
+                title="Listar"
+              >
+                <i class="fas fa-list"></i>
+              </a>
             </div>
           </div>
         </div>
@@ -126,41 +130,47 @@ export default {
     },
     schemaValidator: {
       type: Object,
-      required: true,
+      required: false,
+      default: null,
     },
     withoutCard: {
       type: Boolean,
       required: false,
+      default: false,
     },
     withoutSaveButton: {
       type: Boolean,
       required: false,
-    },
-    hasDependents: {
-      type: Boolean,
-      required: false,
+      default: false,
     },
     notLoadOnMount: {
       type: Boolean,
       required: false,
+      default: false,
     },
     notSetUrlId: {
       type: Boolean,
       required: false,
+      default: false,
     },
     disabledSubmit: {
       type: Boolean,
       required: false,
+      default: false,
     },
-    // nome da chave do array no componente raiz que conterá os valores dos campos
-    formDataName: {
+    storeName: {
       type: String,
-      required: true,
+      required: false,
+      default: "formFields",
+    },
+    hasDependents: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
   data() {
     return {
-      formErrors: {},
       desabilitado: false,
     };
   },
@@ -175,9 +185,12 @@ export default {
           const response = await fetchTableData({
             apiResource: `${this.apiResource}/${id}}`,
           });
-
           if (response.data["@id"]) {
-            this.$root[this.formDataName] = response.data;
+            this.$store.commit(this.commitFormFields, response.data);
+            if (this.hasDependents) {
+              // se this.hasDependents === true, é necessário criar uma action chamada hasDependents
+              await this.$store.dispatch("hasDependents", response.data);
+            }
           } else {
             throw new Error("Id não encontrado.");
           }
@@ -189,30 +202,46 @@ export default {
 
     this.desabilitado = false;
   },
+  computed: {
+    formFields() {
+      return this.$store.getters[this.storeName];
+    },
+    commitFormFields() {
+      return `set${this.storeName
+        .charAt(0)
+        .toUpperCase()}${this.storeName.slice(1)}`;
+    },
+    commitFormErrors() {
+      return `set${this.storeName
+        .charAt(0)
+        .toUpperCase()}${this.storeName.slice(1)}Errors`;
+    },
+  },
   methods: {
     async submitForm() {
       this.desabilitado = true;
 
-      // inicializa os erros como vazio.
-      this.formErrors = [];
-
       // tenta fazer a validação dos campos do yup,
-      // caso algum não passe distapa um erro que é tratado no catch.
+      // caso algum não passe dispara um erro que é tratado no catch.
       try {
-        const validated = await this.schemaValidator.validate(
-          this.$root[this.formDataName],
-          {
+        this.$store.commit(this.commitFormErrors, []);
+
+        let validated;
+        if (this.schemaValidator) {
+          validated = await this.schemaValidator.validate(this.formFields, {
             abortEarly: false,
-          }
-        );
+          });
+        } else {
+          validated = this.formFields;
+        }
 
         // verifica se o @id do formulário esta setado, se sim então a requisição é
         // put(atualização), senão:
         // post(criação).
         let response;
-        if (this.$root[this.formDataName]["@id"]) {
+        if (this.formFields["@id"]) {
           response = await putEntityData(
-            this.$root[this.formDataName]["@id"],
+            this.formFields["@id"],
             JSON.stringify(validated)
           );
         } else {
@@ -225,7 +254,13 @@ export default {
         // caso o retorno da api seja de sucesso
         if ([200, 201].includes(response.status)) {
           // armazena os novos dados no store correspondente.
-          this.$root[this.formDataName] = response.data;
+
+          this.$store.commit(this.commitFormFields, response.data);
+
+          if (this.hasDependents) {
+            // se this.hasDependents === true, é necessário criar uma action chamada hasDependents
+            await this.$store.dispatch("hasDependents", response.data);
+          }
 
           // verifica se é necessário atualizar o id da url
           // só é necessário caso o formulário seja de apenas uma entidade
@@ -235,32 +270,27 @@ export default {
           }
 
           // emite a mensagem de sucesso.
-          this.showSuccess("Salvo com sucesso!");
+          this.showSuccess("Registro salvo com sucesso!");
 
           // emite o evento de data saved e caso seja capturado pelo componente que montou o
-          // crosierForm, esse pode atualizar os dados de acordo com oque foi retornado sem
+          // crosierForm, esse pode atualizar os dados de acordo com o que foi retornado sem
           // precisar de uma nova requisição.
           this.$emit("dataSaved", response.data);
-
-          // emite o evento para fechar o modal
-          this.$emit("closeModal");
         }
       } catch (err) {
+        console.log(err.inner);
         // em caso de não passar na validação do yup
-        // mostramos o erro no console.log
-        console.log(err);
-
         // percorremos os campos com erros do yup para obter a mensagem do erro,
         // caso exista, senão usamos a mensagem padrão.
+        const errors = [];
         err.inner?.forEach((element) => {
-          this.formErrors[element.path] = element.message ?? "Valor inválido";
+          errors[element.path] = element.message ?? "Valor inválido";
         });
-        console.log(this.formErrors);
-        console.log("kkkkk " + `${this.formDataName}Errors`);
-        this.$root.formAppErrors = { ...this.formErrors };
+
+        this.$store.commit(this.commitFormErrors, errors);
 
         // emitimos a mensagem de erro.
-        this.showError("Não foi possível salvar!");
+        this.showError("Ocorreu um erro ao salvar!");
       }
       this.desabilitado = false;
     },
@@ -270,9 +300,6 @@ export default {
     redirectList() {
       window.location.href = this.listUrl;
     },
-    // onJsonChange(value) {
-    //   this.stored_formFields.jsonData = value;
-    // },
     showSuccess(message) {
       this.$toast.add({
         severity: "success",

@@ -8,13 +8,15 @@
             <h6 v-if="subtitulo">{{ subtitulo }}</h6>
           </div>
           <div class="d-sm-flex flex-nowrap ml-auto">
-            <Button
-              class="p-button-help p-button-text"
-              icon="pi pi-file"
-              label="Novo"
-              v-tooltip="'Cadastrar novo'"
-              @click="this.redirectForm()"
-            />
+            <a
+              v-show="this.formUrl"
+              type="button"
+              class="btn btn-info"
+              :href="this.formUrl"
+              title="Novo"
+            >
+              <i class="fas fa-file" aria-hidden="true"></i>
+            </a>
           </div>
         </div>
       </div>
@@ -80,6 +82,10 @@
           :rowsPerPageOptions="[5, 10, 25, 50, 1000]"
           currentPageReportTemplate="Exibindo do {first}° até {last}° de
            {totalRecords} registros."
+          v-model:selection="this.selectedItems"
+          dataKey="id"
+          @row-select="onSelectChange"
+          @row-unselect="onSelectChange"
         >
           <template #footer>
             <div style="text-align: right">
@@ -110,6 +116,7 @@ import InlineMessage from "primevue/inlinemessage";
 import Toast from "primevue/toast";
 import { fetchTableData } from "@/services/ApiDataFetchService";
 import { deleteEntityData } from "@/services/ApiDeleteService";
+import listSelectStore from "../store/listSelectStore";
 
 export default {
   name: "CrosierList",
@@ -151,6 +158,7 @@ export default {
       loading: false,
       totalRecords: 0,
       tableData: null,
+      selectedItems: [],
     };
   },
   async mounted() {
@@ -263,6 +271,9 @@ export default {
       this.tableData = response.data["hydra:member"];
       this.loading = false;
     },
+    redirectForm(id = "") {
+      window.location.href = `form${id ? `?id=${id}` : ""}`;
+    },
     async onPage(event) {
       await this.lazyFetch(event);
     },
@@ -320,9 +331,6 @@ export default {
         },
       });
     },
-    redirectForm(id = "") {
-      window.location.href = `form${id ? `?id=${id}` : ""}`;
-    },
     showSuccess(message) {
       this.$toast.add({
         severity: "success",
@@ -341,6 +349,15 @@ export default {
     },
     exportCSV() {
       this.$refs.dt.exportCSV();
+    },
+    // eslint-disable-next-line no-unused-vars
+    onSelectChange(e) {
+      listSelectStore.dispatch("updateSelectedRows", this.selectedItems);
+    },
+  },
+  computed: {
+    stored_selectedItems() {
+      return listSelectStore.state.selectedItems.length;
     },
   },
 };

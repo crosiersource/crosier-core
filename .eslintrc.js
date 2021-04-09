@@ -25,6 +25,6 @@ module.exports = {
     "implicit-arrow-linebreak": "off",
     "import/prefer-default-export": "off",
     "prettier/prettier": ["error", { singleQuote: false, endOfLine: "auto" }],
-    "max-len": ["error", { code: 80, comments: 120 }],
+    "max-len": ["error", { code: 120, comments: 120 }],
   },
 };

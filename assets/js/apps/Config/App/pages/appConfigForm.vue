@@ -1,80 +1,77 @@
 <template>
   <Dialog
     :header="'Configuração de App'"
-    v-model:visible="this.$root.displayFormAppConfigModal"
-    :style="{ width: '55vw', height: '60vh' }"
+    v-model:visible="this.$store.state.displayFormAppConfigModal"
+    :style="{ width: '55vw' }"
     :modal="true"
     ref="dialog"
   >
     <CrosierForm
+      :notSetUrlId="true"
       :withoutCard="true"
-      :withoutSaveButton="true"
       :apiResource="'/api/core/config/appConfig'"
-      @handleSubmitForm="this.handleSubmitFormPaciente()"
-      @closeModal="handleCloseForm"
+      :schemaValidator="this.yupValidator"
       ref="formAppConfig"
-      formDataName="appConfig"
+      formFieldsName="formFieldsAppConfig"
       :notLoadOnMount="true"
     >
       <div class="row">
         <div class="col-sm-8 col-12">
-          <label v-bind:for="name">Chave</label>
-          <InputText
-            class="form-control notuppercase"
-            id="id"
-            type="text"
-            v-model="this.$root.formAppConfig.chave"
-          />
-          <div class="invalid-feedback">
-            {{ this.$root.formAppConfigErrors.chave }}
+          <div class="form-group">
+            <label v-bind:for="name">Chave</label>
+            <InputText
+              class="form-control notuppercase"
+              id="chave"
+              type="text"
+              v-model="this.formFieldsAppConfig.chave"
+            />
+            <div class="invalid-feedback">
+              {{ this.formFieldsAppConfigErrors.chave }}
+            </div>
           </div>
         </div>
 
         <div class="col-sm-4 col-12">
-          <Checkbox
-            name="isJson"
-            :binary="true"
-            :value="true"
-            v-model="this.$root.formAppConfig.isJson"
-          />
+          <div class="form-group">
+            <SelectButton
+              v-model="this.formFieldsAppConfig.isJson"
+              :options="[
+                { label: 'JSON', value: true },
+                { label: 'Texto', value: false },
+              ]"
+              optionLabel="label"
+              optionValue="value"
+            />
+          </div>
         </div>
       </div>
 
       <div class="row">
         <div class="col-12">
-          <label v-bind:for="name">Valor</label>
+          <div class="form-group">
+            <label v-bind:for="valor">Valor</label>
 
-          <vue-json-editor
-            v-if="this.isJson"
-            :value="this.$root.formAppConfig.valor"
-            v-model="this.$root.formAppConfig.valor"
-            :expandedOnStart="true"
-            @json-change="
-              (value) => {
-                this.$root.formAppConfig.valor = value;
-              }
-            "
-          ></vue-json-editor>
+            <vueJsonEditor
+              id="valor"
+              v-show="this.isJson"
+              :value="this.formFieldsAppConfig.valor"
+              v-model="this.formFieldsAppConfig.valor"
+              :expandedOnStart="true"
+              @json-change="
+                (value) => {
+                  this.formFieldsAppConfig.valor = value;
+                }
+              "
+            />
 
-          <InputText
-            v-if="!this.isJson"
-            class="form-control notuppercase"
-            id="valor"
-            type="text"
-            v-model="this.$root.formAppConfig.valor"
-          />
-        </div>
-      </div>
-
-      <div class="row mt-3">
-        <div class="col text-right">
-          <Button
-            style="width: 12rem"
-            label="Salvar"
-            type="submit"
-            icon="fas fa-save"
-            v-if="!this.disabledSubmit"
-          />
+            <InputText
+              v-show="!this.isJson"
+              class="form-control notuppercase"
+              id="valor"
+              type="text"
+              v-model="this.formFieldsAppConfig.valor"
+            />
+          </div>
         </div>
       </div>
     </CrosierForm>
@@ -82,53 +79,52 @@
 </template>
 
 <script>
-import Button from "primevue/button";
 import Dialog from "primevue/dialog";
 import InputText from "primevue/inputtext";
-import Checkbox from "primevue/checkbox";
 import CrosierForm from "@/components/crosierForm";
+import SelectButton from "primevue/selectbutton";
 import vueJsonEditor from "vue-json-editor";
+import * as yup from "yup";
 
 export default {
   name: "appConfigForm",
   components: {
-    Button,
     Dialog,
     CrosierForm,
     InputText,
-    Checkbox,
+    SelectButton,
     vueJsonEditor,
   },
-  data() {},
+  data() {
+    return {
+      yupValidator: {},
+      isJsonValues: [
+        { label: "JSON", value: true },
+        { label: "Texto", value: false },
+      ],
+    };
+  },
+  mounted() {
+    this.yupValidator = yup.object().shape({
+      chave: yup.string().required().typeError(),
+      valor: yup.string().required().typeError(),
+    });
+  },
   computed: {
+    formFieldsAppConfig() {
+      return this.$store.state.formFieldsAppConfig;
+    },
+    formFieldsAppConfigErrors() {
+      return this.$store.state.formFieldsAppConfigErrors;
+    },
     isJson() {
-      console.log(`typeof: ${typeof this.$root.formAppConfig.isJson}`);
-      console.log(this.$root.formAppConfig.isJson);
-      console.log(
-        this.$root.formAppConfig.isJson ||
-          this.$root.formAppConfig.chave.includes("json")
-      );
-      if (typeof this.$root.formAppConfig.isJson !== "boolean") {
+      if (typeof this.formFieldsAppConfig.isJson !== "boolean") {
         return false;
       }
       return (
-        this.$root.formAppConfig.isJson ||
-        this.$root.formAppConfig.chave.includes("json")
+        this.formFieldsAppConfig.isJson ||
+        this.formFieldsAppConfig.chave?.includes("json")
       );
-    },
-  },
-  methods: {
-    async handleOpenForm() {
-      this.displayModal = true;
-    },
-    handleCloseForm() {
-      this.displayModal = false;
-    },
-    async handleSubmitForm() {
-      await this.$refs.form.submitForm();
-    },
-    async handleSubmitFormPaciente() {
-      await this.$refs.formPaciente.submitForm();
     },
   },
 };

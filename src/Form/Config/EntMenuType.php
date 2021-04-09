@@ -72,29 +72,21 @@ class EntMenuType extends AbstractType
             ]
         ]);
 
+        $rsApps = $this->doctrine->getRepository(App::class)->findAll();
+        $choicesApps = [];
+        /** @var App $app */
+        foreach ($rsApps as $app) {
+            $choicesApps[$app->getNome()] = $app->getUUID();
+        }
+        
         $builder->add('appUUID', ChoiceType::class, [
             'label' => 'App',
-            'choices' => array_merge([null], $this->doctrine->getRepository(App::class)->findAll()),
-            'choice_label' => function (?App $app) {
-                return $app ? $app->getNome() : ' ';
-            },
+            'choices' => $choicesApps,
             'required' => true,
             'attr' => [
                 'class' => 'autoSelect2'
             ]
         ]);
-        $builder->get('appUUID')
-            ->addModelTransformer(new CallbackTransformer(
-                function (?string $appUUID) {
-                    if ($appUUID) {
-                        return $this->doctrine->getRepository(App::class)->findOneBy(['UUID' => $appUUID]);
-                    }
-                    return null;
-                },
-                function (?App $app) {
-                    return $app ? $app->getUUID() : null;
-                }
-            ));
 
         $builder->add('paiUUID', ChoiceType::class, [
             'label' => 'Pai',

@@ -1,9 +1,20 @@
 <template>
   <ConfirmPopup></ConfirmPopup>
   <div class="card mt-2">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-md-8 card-title h3">Configurações</div>
+        <div class="col-md-4 text-right">
+          <Button
+            icon="fas fa-file"
+            class="mr-2 p-button-rounded p-button-sm p-button-info dt-sm-bt"
+            v-tooltip="'Novo'"
+            @click="this.novoAppConfig()"
+          />
+        </div>
+      </div>
+    </div>
     <div class="card-body">
-      <h5 class="card-title h5">Configurações</h5>
-
       <table class="table table-striped table-hover display compact">
         <thead>
           <tr>
@@ -19,14 +30,14 @@
               <vue-json-editor
                 readonly="readonly"
                 style="width: 600px; height: 400px"
-                v-if="r.isJson || r.chave.includes('json')"
+                v-if="this.exibeJson(r)"
                 :value="r.valor"
                 :expandedOnStart="true"
               />
 
               <InputText
                 readonly="readonly"
-                v-if="!r.isJson"
+                v-if="!this.exibeJson(r)"
                 class="form-control notuppercase"
                 id="valor"
                 type="text"
@@ -80,7 +91,7 @@ export default {
       loading: false,
       tableData: null,
       totalRecords: 0,
-      appConfigsFormDatas: {},
+      appConfigsFormFieldss: {},
     };
   },
   async mounted() {
@@ -93,7 +104,7 @@ export default {
     };
 
     const response = await axios.get(
-      `${this.baseApi}?appUUID=${this.$root.formApp.UUID}`,
+      `${this.baseApi}?appUUID=${this.formFieldsApp.UUID}`,
       params
     );
 
@@ -101,21 +112,34 @@ export default {
     this.tableData = response.data["hydra:member"];
     this.loading = false;
   },
+  computed: {
+    formFieldsApp() {
+      return this.$store.state.formFieldsApp;
+    },
+  },
   methods: {
     fetchTableData,
-
+    exibeJson(r) {
+      return r?.isJson || r?.chave?.includes("json");
+    },
+    novoAppConfig() {
+      this.$store.commit("setFormFieldsAppConfig", {
+        appUUID: this.formFieldsApp.UUID,
+      });
+      this.$store.state.displayFormAppConfigModal = true;
+    },
     async editarAppConfig(id) {
       const response = await fetchTableData({
         apiResource: `/api/core/config/appConfig/${id}`,
       });
       if (response.data) {
-        this.$root.formAppConfig = response.data;
-        this.$root.displayFormAppConfigModal = true;
+        this.$store.commit("setFormFieldsAppConfig", response.data);
+        this.$store.state.displayFormAppConfigModal = true;
       } else {
         this.$toast.add({
           severity: "error",
           summary: "Mensagem de erro",
-          detail: "Errooooooo",
+          detail: "Erro",
           life: 3000,
         });
       }
@@ -123,7 +147,7 @@ export default {
     deletarAppConfig(event, id) {
       this.$confirm.require({
         target: event.currentTarget,
-        message: `Are you sure you want to proceed o ${id}?`,
+        message: `Confirmar deleção do reggistro?`,
         icon: "pi pi-exclamation-triangle",
         accept: () => {
           // callback to execute when user confirms the action

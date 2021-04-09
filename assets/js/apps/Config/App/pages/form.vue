@@ -29,15 +29,11 @@
       </div>
       <div class="card-body">
         <CrosierForm
-          formDataName="formApp"
+          storeName="formFieldsApp"
           :withoutCard="true"
           :apiResource="this.baseApi"
           :listUrl="'/config/app/list'"
           :schemaValidator="this.yupValidator"
-          :titulo="this.titulo"
-          :subtitulo="this.subtitulo"
-          @handleSubmitForm="this.handleSubmitForm()"
-          ref="form"
         >
           <div class="row">
             <div class="col-12 col-md-3">
@@ -47,90 +43,86 @@
                   class="form-control"
                   id="id"
                   type="text"
-                  v-model="this.formApp.id"
+                  v-model="this.formFieldsApp.id"
                   disabled
                 />
               </div>
             </div>
             <div class="col-12 col-md-9">
-              <label v-bind:for="nome">Nome</label>
-              <InputText
-                :class="
-                  'form-control notuppercase ' +
-                  (this.formAppErrors['nome'] ? 'is-invalid' : '')
-                "
-                id="nome"
-                type="text"
-                v-model="this.formApp['nome']"
-              />
-              <div class="invalid-feedback">
-                {{ this.formAppErrors["nome"] }}
+              <div class="form-group">
+                <label v-bind:for="nome">Nome</label>
+                <InputText
+                  :class="
+                    'form-control notuppercase ' +
+                    (this.formFieldsAppErrors['nome'] ? 'is-invalid' : '')
+                  "
+                  id="nome"
+                  type="text"
+                  v-model="this.formFieldsApp['nome']"
+                />
+                <div class="invalid-feedback">
+                  {{ this.formFieldsAppErrors["nome"] }}
+                </div>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-12">
-              <label for="UUID">UUID</label>
-              <InputText
-                :class="
-                  'form-control notuppercase ' +
-                  (this.formAppErrors.UUID ? 'is-invalid' : '')
-                "
-                id="UUID"
-                type="text"
-                v-model="this.formApp.UUID"
-              />
-              <div class="invalid-feedback">
-                {{ this.formAppErrors.UUID }}
+              <div class="form-group">
+                <label for="UUID">UUID</label>
+                <InputText
+                  :class="
+                    'form-control notuppercase ' +
+                    (this.formFieldsAppErrors.UUID ? 'is-invalid' : '')
+                  "
+                  id="UUID"
+                  type="text"
+                  v-model="this.formFieldsApp.UUID"
+                />
+                <div class="invalid-feedback">
+                  {{ this.formFieldsAppErrors.UUID }}
+                </div>
               </div>
             </div>
           </div>
         </CrosierForm>
 
-        <appConfigs v-if="this.formApp.id"></appConfigs>
+        <appConfigs v-if="this.formFieldsApp.id"></appConfigs>
       </div>
     </div>
   </div>
 
-  <pre>{{ this.$root }}</pre>
+  <pre>{{ this.$store.state }}</pre>
 </template>
 
 <script>
 import InputText from "primevue/inputtext";
 import * as yup from "yup";
 import CrosierForm from "@/components/crosierForm";
-import Button from "primevue/button";
 import appConfigs from "./appConfigs";
 
 export default {
   name: "app_form",
-  components: { CrosierForm, InputText, appConfigs, Button },
-  async mounted() {
-    this.formApp = {
-      nome: null,
-      UUID: null,
-    };
-    this.formAppErrors = { ...this.formApp };
-    this.yupValidator = { ...this.formApp };
-    this.yupValidator.nome = yup.string().required().typeError();
-    // this.yupValidator.UUID = yup.string().required().typeError();
-    this.yupValidator = yup.object().shape(this.yupValidator);
-  },
+  components: { CrosierForm, InputText, appConfigs },
   data() {
     return {
-      titulo: "Aplicativo",
-      subtitulo: "Configurações",
+      titulo: "App",
       baseApi: "/api/core/config/app",
-      formApp: [],
-      formAppErrors: [],
-      formAppConfig: [],
-      formAppConfigErrors: [],
-      displayFormAppConfigModal: false,
       yupValidator: {},
     };
   },
-  methods: {
-    async handleSubmitForm() {},
+  async mounted() {
+    this.yupValidator = yup.object().shape({
+      nome: yup.string().required().typeError(),
+    });
+  },
+  computed: {
+    formFieldsApp() {
+      return this.$store.getters.formFieldsApp;
+    },
+    formFieldsAppErrors() {
+      return this.$store.state.formFieldsAppErrors;
+    },
   },
 };
 </script>
