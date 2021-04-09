@@ -21,6 +21,7 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
@@ -71,7 +72,10 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
             throw new InvalidCsrfTokenException();
         }
 
-        return new Passport(new UserBadge($username), new PasswordCredentials($plaintextPassword));
+        return new Passport(
+            new UserBadge($username),
+            new PasswordCredentials($plaintextPassword),
+            [new RememberMeBadge()]);
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
@@ -187,6 +191,8 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
         } else {
             return new JsonResponse(['msg' => 'not logged']);
         }
-        
+
     }
+
+
 }

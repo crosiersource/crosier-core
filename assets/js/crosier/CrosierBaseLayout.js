@@ -629,6 +629,10 @@ class CrosierBaseLayout {
       });
     }
 
+    if (!Push.Permission.has()) {
+      return;
+    }
+
     let crosierCoreUrl = $('#crosierCoreUrl').data('value');
 
 
