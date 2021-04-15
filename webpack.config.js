@@ -25,6 +25,7 @@ Encore
   }))
   // --------------------------------------------
   .addEntry('crosier/layout', './assets/js/crosier/layout.js')
+  .addEntry('crosier/layout-vue', './assets/js/crosier/layout-vue.js')
   .addEntry('Base/diaUtil_list', './assets/js/Base/diaUtil_list.js')
 
   .addEntry('Security/userList', './assets/js/Security/userList.js')
