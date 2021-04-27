@@ -1,71 +1,49 @@
-/* eslint-disable */
+import $ from "jquery";
 
-import $ from 'jquery';
+import "./layout-base";
 
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap';
-import 'popper.js';
-import 'perfect-scrollbar';
+import "select2";
+import "select2/dist/js/i18n/pt-BR.js";
 
-import '@coreui/coreui';
-import '@coreui/coreui/dist/css/coreui.css';
-
-
-import 'primevue/resources/themes/saga-blue/theme.css'; //theme
-import 'primevue/resources/primevue.min.css'; //core css
-import 'primeicons/primeicons.css';
-
-import 'select2/dist/css/select2.css';
-import 'select2';
-import 'select2/dist/js/i18n/pt-BR.js';
-import 'select2-bootstrap-theme/dist/select2-bootstrap.css';
-
-import CrosierBaseLayout from './CrosierBaseLayout';
-
-import CrosierMasks from '../crosier/CrosierMasks';
-
-import 'datatables.net-bs4/css/dataTables.bootstrap4.css';
-import 'datatables/media/css/jquery.dataTables.css';
-
-
-import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css';
-
-import 'toastr/build/toastr.css'
-
-import '../../static/css/crosier.css';
-
-import 'daterangepicker/daterangepicker.css';
+import CrosierBaseLayout from "./CrosierBaseLayout";
+import CrosierMasks from "./CrosierMasks";
 import DatatablesJs from "./DatatablesJs";
 
+import "primevue/resources/themes/saga-blue/theme.css"; // theme
+import "primevue/resources/primevue.min.css"; // core css
+import "primeicons/primeicons.css";
+import "select2-bootstrap-theme/dist/select2-bootstrap.css";
+import "select2/dist/css/select2.css";
+import "datatables.net-bs4/css/dataTables.bootstrap4.css";
+import "datatables/media/css/jquery.dataTables.css";
+import "bootstrap-datepicker/dist/css/bootstrap-datepicker3.css";
+import "toastr/build/toastr.css";
+import "daterangepicker/daterangepicker.css";
 
-$(document).ready(function () {
+$(document).ready(function init() {
+  CrosierMasks.maskAll();
 
+  CrosierBaseLayout.handleConfirmationModal();
 
-    CrosierMasks.maskAll();
+  CrosierBaseLayout.handleFlashMessages();
 
-    CrosierBaseLayout.handleConfirmationModal();
+  CrosierBaseLayout.handleBootstrapNavTabs();
 
-    CrosierBaseLayout.handleFlashMessages();
+  CrosierBaseLayout.handleSelect2();
 
-    CrosierBaseLayout.handleBootstrapNavTabs();
+  CrosierBaseLayout.handleBootstrapDatepicker();
 
-    CrosierBaseLayout.handleSelect2();
+  CrosierBaseLayout.handleCamposCepComBtnConsulta();
 
-    CrosierBaseLayout.handleBootstrapDatepicker();
-
-    CrosierBaseLayout.handleCamposCepComBtnConsulta();
-
-    let $focusOnReady = $('.focusOnReady');
-    if ($focusOnReady) {
-        if (!$focusOnReady.hasClass('autoSelect2')) {
-            $focusOnReady.focus();
-        }
+  const $focusOnReady = $(".focusOnReady");
+  if ($focusOnReady) {
+    if (!$focusOnReady.hasClass("autoSelect2")) {
+      $focusOnReady.focus();
     }
+  }
 
-    CrosierBaseLayout.startPushForUser();
-
+  CrosierBaseLayout.startPushForUser();
 });
-
 
 global.CrosierMasks = CrosierMasks;
 global.DatatablesJs = DatatablesJs;

@@ -116,7 +116,6 @@ class CrosierMasks {
         $dec3.attr("autocomplete", "off");
         $dec4.attr("autocomplete", "off");
         $dec5.attr("autocomplete", "off");
-
     }
 
     static maskCPF_CNPJ() {
@@ -211,8 +210,6 @@ class CrosierMasks {
         CrosierMasks.maskCEP();
     }
 
-
 }
-
 
 export default CrosierMasks;

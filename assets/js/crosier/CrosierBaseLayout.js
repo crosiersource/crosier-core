@@ -9,7 +9,6 @@ import sprintf from "sprintf-js";
 import Moment from 'moment';
 
 import 'daterangepicker';
-
 import Push from "push.js";
 
 import CrosierMasks from './CrosierMasks';
@@ -578,45 +577,49 @@ class CrosierBaseLayout {
 
 
   static handleBootstrapDatepicker() {
-    $('.bootstrap-datepicker').daterangepicker({
-      singleDatePicker: true,
-      showDropdowns: true,
-      minYear: 1901,
-      maxYear: parseInt(Moment().format('YYYY'), 10),
-      locale: {
-        "format": "DD/MM/YYYY",
-        "separator": " - ",
-        "applyLabel": "Aplicar",
-        "cancelLabel": "Cancelar",
-        "fromLabel": "De",
-        "toLabel": "Até",
-        "customRangeLabel": "Custom",
-        "daysOfWeek": [
-          "Dom",
-          "Seg",
-          "Ter",
-          "Qua",
-          "Qui",
-          "Sex",
-          "Sáb"
-        ],
-        "monthNames": [
-          "Janeiro",
-          "Fevereiro",
-          "Março",
-          "Abril",
-          "Maio",
-          "Junho",
-          "Julho",
-          "Agosto",
-          "Setembro",
-          "Outubro",
-          "Novembro",
-          "Dezembro"
-        ],
-        "firstDay": 0
-      },
-    });
+    try {
+      $('.bootstrap-datepicker').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+        minYear: 1901,
+        maxYear: parseInt(Moment().format('YYYY'), 10),
+        locale: {
+          "format": "DD/MM/YYYY",
+          "separator": " - ",
+          "applyLabel": "Aplicar",
+          "cancelLabel": "Cancelar",
+          "fromLabel": "De",
+          "toLabel": "Até",
+          "customRangeLabel": "Custom",
+          "daysOfWeek": [
+            "Dom",
+            "Seg",
+            "Ter",
+            "Qua",
+            "Qui",
+            "Sex",
+            "Sáb"
+          ],
+          "monthNames": [
+            "Janeiro",
+            "Fevereiro",
+            "Março",
+            "Abril",
+            "Maio",
+            "Junho",
+            "Julho",
+            "Agosto",
+            "Setembro",
+            "Outubro",
+            "Novembro",
+            "Dezembro"
+          ],
+          "firstDay": 0
+        },
+      });
+    } catch (e) {
+      console.log(e);
+    }
   }
 
 
