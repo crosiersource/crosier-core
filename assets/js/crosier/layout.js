@@ -12,8 +12,8 @@ import DatatablesJs from "./DatatablesJs";
 import "primevue/resources/themes/saga-blue/theme.css"; // theme
 import "primevue/resources/primevue.min.css"; // core css
 import "primeicons/primeicons.css";
-import "select2-bootstrap-theme/dist/select2-bootstrap.css";
 import "select2/dist/css/select2.css";
+import "select2-bootstrap-theme/dist/select2-bootstrap.css";
 import "datatables.net-bs4/css/dataTables.bootstrap4.css";
 import "datatables/media/css/jquery.dataTables.css";
 import "bootstrap-datepicker/dist/css/bootstrap-datepicker3.css";
