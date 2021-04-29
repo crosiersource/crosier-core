@@ -20,7 +20,7 @@ cd $PASTA
 
 git pull
 
-composer -v install
+composer install
 yarn install
 
 echo ">>>>>>>>>>>>>>>>>>>>>>> dumping routes para json..."
