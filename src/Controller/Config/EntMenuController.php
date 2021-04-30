@@ -77,6 +77,11 @@ class EntMenuController extends FormListController
         /** @var EntMenuRepository $repoEntMenu */
         $repoEntMenu = $this->getDoctrine()->getRepository(EntMenu::class);
         $repoEntMenu->fillTransients($entMenu);
+        
+        if ($entMenu && $entMenu->getId() && $request->get('importYaml')) {
+            $yaml = $request->get('importYaml');
+            $this->entMenuBusiness->recreateFromYaml($entMenu, $yaml);
+        }
 
         return $this->doForm($request, $entMenu, $parameters);
     }
@@ -90,7 +95,6 @@ class EntMenuController extends FormListController
      */
     public function list(EntMenu $entMenu): Response
     {
-        $dados = null;
         /** @var EntMenuRepository $repo */
         $repo = $this->getDoctrine()->getRepository(EntMenu::class);
         $dados = $repo->makeTree($entMenu);
@@ -114,6 +118,8 @@ class EntMenuController extends FormListController
             ['action' => $this->generateUrl('cfg_entMenuLocator_form', ['menuUUID' => $entMenu->getUUID()])])
             ->createView();
 
+        $params['export'] = $repo->exportMenuEntries($entMenu);
+        
         return $this->doRender('Config/entMenuList.html.twig', $params);
     }
 

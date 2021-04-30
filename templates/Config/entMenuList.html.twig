@@ -47,11 +47,15 @@
                     <li class="nav-item">
                         <a class="nav-link active" id="cabecalho-tab" data-toggle="tab" href="#cabecalho"
                            role="tab"
-                           aria-controls="home" aria-selected="true">Menu</a>
+                           aria-controls="cabecalho" aria-selected="true">Menu</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="locators-tab" data-toggle="tab" href="#locators" role="tab"
-                           aria-controls="profile" aria-selected="false">Localizadores</a>
+                           aria-controls="locators" aria-selected="false">Localizadores</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="export-tab" data-toggle="tab" href="#export" role="tab"
+                           aria-controls="export" aria-selected="false">Exportar</a>
                     </li>
                 </ul>
 
@@ -188,7 +192,16 @@
                     </div>
 
 
-                </div>
+                    <div class="tab-pane fade show" id="export" role="tabpanel"
+                         aria-labelledby="export-tab">
+
+                        <div class="container" style="margin-bottom: 50px">
+                            
+                            <textarea style="width: 100%; font-family: monospace; font-size: smaller" rows="18" readonly>{{ export }}</textarea>
+
+
+                        </div>
+                    </div>
 
                 <div class="row">
                     <div class="col-12">&nbsp;</div>

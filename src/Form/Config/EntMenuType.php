@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -131,6 +132,15 @@ class EntMenuType extends AbstractType
             'label' => 'Roles',
             'help' => 'Separadas por vírgulas',
             'required' => false,
+        ]);
+
+        $builder->add('yaml', TextareaType::class, [
+            'label' => 'Yaml',
+            'required' => false,
+            'attr' => [
+                'style' => 'text-transform: none;',
+                'rows' => '20',
+            ]
         ]);
 
 

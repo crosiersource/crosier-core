@@ -265,7 +265,7 @@ CREATE TABLE `cfg_entmenu`
     UNIQUE KEY `UK_cfg_entmenu_uuid` (`uuid`),
 
     KEY `K_cfg_entmenu_pai` (`pai_uuid`),
-    CONSTRAINT `FK_cfg_entmenu_pai` FOREIGN KEY (`pai_uuid`) REFERENCES `cfg_entmenu` (`uuid`),
+    CONSTRAINT `FK_cfg_entmenu_pai` FOREIGN KEY (`pai_uuid`) REFERENCES `cfg_entmenu` (`uuid`) ON UPDATE CASCADE ON DELETE CASCADE,
 
     KEY `K_cfg_entmenu_app` (`app_uuid`),
     CONSTRAINT `FK_cfg_entmenu_app` FOREIGN KEY (`app_uuid`) REFERENCES `cfg_app` (`uuid`),
