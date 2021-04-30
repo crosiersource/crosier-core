@@ -50,8 +50,8 @@ input[type=submit], input[type=button] {
   padding: 0;
 }
 
-.c-sidebar .c-sidebar-brand {
-  background-color: white;
+.c-sidebar-brand {
+  background-color: white !important;
 }
 
 

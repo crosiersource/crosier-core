@@ -1,7 +1,5 @@
 import $ from "jquery";
 
-import "./layout-base";
-
 import "select2";
 import "select2/dist/js/i18n/pt-BR.js";
 
@@ -19,6 +17,8 @@ import "datatables/media/css/jquery.dataTables.css";
 import "bootstrap-datepicker/dist/css/bootstrap-datepicker3.css";
 import "toastr/build/toastr.css";
 import "daterangepicker/daterangepicker.css";
+
+import "./layout-base";
 
 $(document).ready(function init() {
   CrosierMasks.maskAll();
