@@ -78,8 +78,8 @@ class EntMenuController extends FormListController
         $repoEntMenu = $this->getDoctrine()->getRepository(EntMenu::class);
         $repoEntMenu->fillTransients($entMenu);
         
-        if ($entMenu && $entMenu->getId() && $request->get('importYaml')) {
-            $yaml = $request->get('importYaml');
+        if ($entMenu && $entMenu->getId() && $request->get('ent_menu') && ($request->get('ent_menu')['yaml'] ?? false)) {
+            $yaml = $request->get('ent_menu')['yaml'];
             $this->entMenuBusiness->recreateFromYaml($entMenu, $yaml);
         }
 

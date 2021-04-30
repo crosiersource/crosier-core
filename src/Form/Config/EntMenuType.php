@@ -138,7 +138,7 @@ class EntMenuType extends AbstractType
             'label' => 'Yaml',
             'required' => false,
             'attr' => [
-                'style' => 'text-transform: none;',
+                'style' => 'text-transform: none; font-family: monospace; font-size: smaller;',
                 'rows' => '20',
             ]
         ]);
