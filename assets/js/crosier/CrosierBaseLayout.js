@@ -4,7 +4,7 @@ import $ from 'jquery';
 
 import toastrr from "toastr";
 
-toastrr.options.timeOut = 0;
+
 toastrr.options.extendedTimeOut = 0;
 toastrr.options.progressBar = true;
 toastrr.options.showEasing = 'swing';
