@@ -54,7 +54,8 @@ class DefaultController extends BaseController
     public function logAnError(): Response
     {
         $this->logger->error('Um erro que não é um erro.');
-        return new Response('Errou!');
+        $this->addFlash('error', 'Errou!');
+        return $this->doRender('dashboard.html.twig');
     }
 
     /**

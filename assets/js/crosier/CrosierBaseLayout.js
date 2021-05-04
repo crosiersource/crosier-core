@@ -4,6 +4,11 @@ import $ from 'jquery';
 
 import toastrr from "toastr";
 
+toastrr.options.extendedTimeOut = 0;
+toastrr.options.progressBar = true;
+toastrr.options.closeButton = true;
+
+
 import sprintf from "sprintf-js";
 
 import Moment from 'moment';

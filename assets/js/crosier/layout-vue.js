@@ -1,4 +1,12 @@
-import "./layout-base";
+import "bootstrap";
+import "popper.js";
+import "perfect-scrollbar";
+import "@coreui/coreui";
+
+import "../../static/css/crosier.css";
+import "bootstrap/dist/css/bootstrap.css";
+import "@coreui/coreui/dist/css/coreui.css";
+
 import "primevue/resources/themes/saga-blue/theme.css"; // theme
 import "primevue/resources/primevue.min.css"; // core css
 import "primeicons/primeicons.css";

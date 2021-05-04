@@ -1,5 +1,10 @@
 import $ from "jquery";
 
+import "bootstrap";
+import "popper.js";
+import "perfect-scrollbar";
+import "@coreui/coreui";
+
 import "select2";
 import "select2/dist/js/i18n/pt-BR.js";
 
@@ -18,7 +23,9 @@ import "bootstrap-datepicker/dist/css/bootstrap-datepicker3.css";
 import "toastr/build/toastr.css";
 import "daterangepicker/daterangepicker.css";
 
-import "./layout-base";
+import "../../static/css/crosier.css";
+import "bootstrap/dist/css/bootstrap.css";
+import "@coreui/coreui/dist/css/coreui.css";
 
 $(document).ready(function init() {
   CrosierMasks.maskAll();
