@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -46,6 +47,10 @@ class EntMenuType extends AbstractType
         $builder->add('label', TextType::class, [
             'label' => 'Label',
             'attr' => ['style' => 'text-transform: none;']
+        ]);
+
+        $builder->add('ordem', IntegerType::class, [
+            'label' => 'Ordem',
         ]);
 
 

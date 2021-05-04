@@ -63,22 +63,22 @@ class EntMenuController extends FormListController
             'formView' => 'Config/entMenuForm.html.twig',
             'formPageTitle' => 'Entrada de Menu'
         ];
-        if (!$entMenu) {
-            $entMenu = new EntMenu();
-        }
-        $pai = $request->query->get('pai');
-        if ($pai) {
-            /** @var EntMenu $pai */
-            $pai = $this->getDoctrine()->getRepository(EntMenu::class)->find($pai);
-            $entMenu->setPaiUUID($pai->getUUID());
-            $parameters['pai'] = $request->get('pai');
-            $parameters['routeParams']['pai'] = $parameters['pai'];
-        }
-        /** @var EntMenuRepository $repoEntMenu */
         $repoEntMenu = $this->getDoctrine()->getRepository(EntMenu::class);
         $repoEntMenu->fillTransients($entMenu);
-        
-        if ($entMenu && $entMenu->getId() && $request->get('ent_menu') && ($request->get('ent_menu')['yaml'] ?? false)) {
+        $paiId = $request->query->get('pai');
+        if (!$entMenu) {
+            $entMenu = new EntMenu();
+            
+            /** @var EntMenu $pai */
+            $pai = $this->getDoctrine()->getRepository(EntMenu::class)->find($paiId);
+            $entMenu->setPaiUUID($pai->getUUID());
+        } else {
+            if ($entMenu->getPai()->getId() !== (int)$paiId) {
+                return $this->redirectToRoute('cfg_entMenu_form', ['id' => $entMenu->getId(), 'pai' => $entMenu->getPai()->getId()]);
+            }            
+        }
+
+        if ($entMenu->getId() && $request->get('ent_menu') && ($request->get('ent_menu')['yaml'] ?? false)) {
             $yaml = $request->get('ent_menu')['yaml'];
             $this->entMenuBusiness->recreateFromYaml($entMenu, $yaml);
         }
@@ -119,7 +119,7 @@ class EntMenuController extends FormListController
             ->createView();
 
         $params['export'] = $repo->exportMenuEntries($entMenu);
-        
+
         return $this->doRender('Config/entMenuList.html.twig', $params);
     }
 
