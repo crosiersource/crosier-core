@@ -15,6 +15,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 use Symfony\Component\Security\Core\Exception\TooManyLoginAttemptsAuthenticationException;
 use Symfony\Component\Security\Core\Security;
@@ -64,6 +65,11 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
         $csrfToken = $request->request->get('_csrf_token');
         $username = $request->request->get('username');
         $plaintextPassword = $request->request->get('password');
+        
+        $user = $this->userEntityHandler->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $username]);
+        if ($user && !$user->getIsActive()) {
+            throw new CustomUserMessageAuthenticationException('Usuário inativo');
+        }
 
         $request->getSession()->set(Security::LAST_USERNAME, $username);
 
@@ -186,7 +192,10 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
     public function start(Request $request, AuthenticationException $authException = null)
     {
         if (strpos($request->getPathInfo(), '/api') === FALSE) {
-            $request->getSession()->set('uri_to_redirect_after_login', $request->getUri());
+            if (!$request->getSession()->get('uri_to_redirect_after_login')) {
+                // pois pode ter sido setado em outro app
+                $request->getSession()->set('uri_to_redirect_after_login', $request->getUri());
+            }
             return new RedirectResponse('/login');
         } else {
             return new JsonResponse(['msg' => 'not logged']);
