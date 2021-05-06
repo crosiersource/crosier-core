@@ -63,19 +63,20 @@ class EntMenuController extends FormListController
             'formView' => 'Config/entMenuForm.html.twig',
             'formPageTitle' => 'Entrada de Menu'
         ];
+        
         $repoEntMenu = $this->getDoctrine()->getRepository(EntMenu::class);
-        $repoEntMenu->fillTransients($entMenu);
+
         $paiId = $request->query->get('pai');
         if (!$entMenu) {
             $entMenu = new EntMenu();
-            
             /** @var EntMenu $pai */
-            $pai = $this->getDoctrine()->getRepository(EntMenu::class)->find($paiId);
+            $pai = $repoEntMenu->find($paiId);
             $entMenu->setPaiUUID($pai->getUUID());
-        } else {
-            if ($entMenu->getPai()->getId() !== (int)$paiId) {
-                return $this->redirectToRoute('cfg_entMenu_form', ['id' => $entMenu->getId(), 'pai' => $entMenu->getPai()->getId()]);
-            }            
+        }
+        $repoEntMenu->fillTransients($entMenu);
+
+        if ($entMenu->getPai()->getId() !== (int)$paiId) {
+            return $this->redirectToRoute('cfg_entMenu_form', ['id' => $entMenu->getId(), 'pai' => $entMenu->getPai()->getId()]);
         }
 
         if ($entMenu->getId() && $request->get('ent_menu') && ($request->get('ent_menu')['yaml'] ?? false)) {
@@ -132,7 +133,6 @@ class EntMenuController extends FormListController
      */
     public function listPais(): Response
     {
-        $dados = null;
         /** @var EntMenuRepository $repo */
         $repo = $this->getDoctrine()->getRepository(EntMenu::class);
         $dados = $repo->getMenusPais();
