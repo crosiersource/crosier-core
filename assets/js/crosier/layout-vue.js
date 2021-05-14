@@ -16,7 +16,6 @@ import "cleave.js/dist/addons/cleave-phone.br.js";
 
 document.addEventListener("DOMContentLoaded", function onDOMContentLoaded() {
   document.querySelectorAll(".crsr-date").forEach(function format(el) {
-    console.log(el);
     // eslint-disable-next-line no-new
     new Cleave(el, {
       date: true,
