@@ -75,7 +75,7 @@ class EntMenuController extends FormListController
         }
         $repoEntMenu->fillTransients($entMenu);
 
-        if ($entMenu->getPai()->getId() !== (int)$paiId) {
+        if ($entMenu->getPai() && ($entMenu->getPai()->getId() !== (int)$paiId)) {
             return $this->redirectToRoute('cfg_entMenu_form', ['id' => $entMenu->getId(), 'pai' => $entMenu->getPai()->getId()]);
         }
 
