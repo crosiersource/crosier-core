@@ -24,6 +24,8 @@ INSERT INTO sec_group(id, groupname, estabelecimento_id, updated, inserted, user
 VALUES (1, 'ADMIN', 1, now(), now(), 1, 1);
 INSERT INTO sec_role(id, role, descricao, estabelecimento_id, updated, inserted, user_inserted_id, user_updated_id)
 VALUES (1, 'ROLE_ADMIN', '', 1, now(), now(), 1, 1);
+INSERT INTO sec_role(id, role, descricao, estabelecimento_id, updated, inserted, user_inserted_id, user_updated_id)
+VALUES (2, 'ROLE_ALLOWED_TO_SWITCH', '', 1, now(), now(), 1, 1);
 INSERT INTO sec_group_role(group_id, role_id)
 VALUES (1, 1);
 INSERT INTO sec_user_role(user_id, role_id)
