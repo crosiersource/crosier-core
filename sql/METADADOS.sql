@@ -1,6 +1,22 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
 
+CREATE TABLE `cfg_entity_change`
+(
+    `id`               bigint(20)                           NOT NULL AUTO_INCREMENT,
+    `entity_class`     varchar(200) COLLATE utf8_swedish_ci NOT NULL,
+    `entity_id`        bigint(20)                           NOT NULL,
+    `changing_user_id` bigint(20)                           NOT NULL,
+    `changed_at`       datetime                             NOT NULL,
+    `changes`          longtext COLLATE utf8mb4_unicode_ci  NOT NULL,
+    `obs`              varchar(500)                         NULL,
+    PRIMARY KEY (`id`),
+    KEY `K_cfg_entity_change_entity_class` (`entity_class`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_unicode_ci;
+
+
 DROP TABLE IF EXISTS `messenger_messages`;
 CREATE TABLE `messenger_messages`
 (
@@ -16,7 +32,6 @@ CREATE TABLE `messenger_messages`
     KEY `IDX_75EA56E0E3BD61CE` (`available_at`),
     KEY `IDX_75EA56E016BA31DB` (`delivered_at`)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 6
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci;
 
