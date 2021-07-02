@@ -1,6 +1,8 @@
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Atualizando crosier-core"
 cd crosier-core/
-composer -v update crosiersource/*
+git add composer.lock
+git commit -m "composer update crosiersource/*"
+git push
 echo ""
 echo ""
 git status
@@ -11,7 +13,9 @@ cd ..
 
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Atualizando crosierapp-radx"
 cd crosierapp-radx/
-composer -v update crosiersource/*
+git add composer.lock
+git commit -m "composer update crosiersource/*"
+git push
 echo ""
 echo ""
 git status
@@ -30,7 +34,9 @@ for app in "${projetos[@]}"
 do
   echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Atualizando $app"
   cd $app
-  composer -v update crosiersource/*
+  git add composer.lock
+  git commit -m "composer update crosiersource/*"
+  git push
   echo ""
   echo ""
   git status
