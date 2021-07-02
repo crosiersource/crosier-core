@@ -21,18 +21,24 @@ echo ""
 
 cd ..
 
-app=crosierapp-xxx
+projetos=(
+"crosierapp-xxx"
+)
 
-echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Atualizando $app"
-cd $app
-composer -v update crosiersource/*
-echo ""
-echo ""
-git status
-echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
-echo ""
-echo ""
-cd ..
+
+for app in "${projetos[@]}"
+do
+  echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Atualizando $app"
+  cd $app
+  composer -v update crosiersource/*
+  echo ""
+  echo ""
+  git status
+  echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+  echo ""
+  echo ""
+  cd ..
+done
 
 
 
