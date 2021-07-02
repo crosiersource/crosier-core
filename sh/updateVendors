@@ -1,13 +1,24 @@
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Atualizando crosier-core"
 cd crosier-core/
 composer -v update crosiersource/*
+echo ""
+echo ""
 git status
+echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+echo ""
+echo ""
 cd ..
 
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Atualizando crosierapp-radx"
 cd crosierapp-radx/
 composer -v update crosiersource/*
+echo ""
+echo ""
 git status
+echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+echo ""
+echo ""
+
 cd ..
 
 app=crosierapp-xxx
@@ -15,7 +26,12 @@ app=crosierapp-xxx
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Atualizando $app"
 cd $app
 composer -v update crosiersource/*
+echo ""
+echo ""
 git status
+echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+echo ""
+echo ""
 cd ..
 
 
