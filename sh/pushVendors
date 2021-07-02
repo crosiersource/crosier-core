@@ -1,0 +1,45 @@
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Atualizando crosier-core"
+cd crosier-core/
+composer -v update crosiersource/*
+echo ""
+echo ""
+git status
+echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+echo ""
+echo ""
+cd ..
+
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Atualizando crosierapp-radx"
+cd crosierapp-radx/
+composer -v update crosiersource/*
+echo ""
+echo ""
+git status
+echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+echo ""
+echo ""
+
+cd ..
+
+projetos=(
+"crosierapp-xxx"
+)
+
+
+for app in "${projetos[@]}"
+do
+  echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Atualizando $app"
+  cd $app
+  composer -v update crosiersource/*
+  echo ""
+  echo ""
+  git status
+  echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+  echo ""
+  echo ""
+  cd ..
+done
+
+
+
+
