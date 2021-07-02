@@ -1,0 +1,23 @@
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Atualizando crosier-core"
+cd crosier-core/
+composer -v update crosiersource/*
+git status
+cd ..
+
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Atualizando crosierapp-radx"
+cd crosierapp-radx/
+composer -v update crosiersource/*
+git status
+cd ..
+
+app=crosierapp-xxx
+
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Atualizando $app"
+cd $app
+composer -v update crosiersource/*
+git status
+cd ..
+
+
+
+
