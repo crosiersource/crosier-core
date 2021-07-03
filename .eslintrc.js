@@ -15,6 +15,16 @@ module.exports = {
     "plugin:prettier/recommended",
   ],
   rules: {
+    "prefer-destructuring": [
+      "error",
+      {
+        array: false,
+        object: false,
+      },
+      {
+        enforceForRenamedProperties: false,
+      },
+    ],
     "no-param-reassign": "off",
     "no-plusplus": "off",
     "no-console": "off",
@@ -25,6 +35,6 @@ module.exports = {
     "implicit-arrow-linebreak": "off",
     "import/prefer-default-export": "off",
     "prettier/prettier": ["error", { singleQuote: false, endOfLine: "auto" }],
-    "max-len": ["error", { code: 120, comments: 120 }],
+    "max-len": ["error", { code: 140, comments: 140 }],
   },
 };
