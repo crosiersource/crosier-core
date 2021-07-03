@@ -1,10 +1,9 @@
 <template>
-  <crosier-list
-    :titulo="titulo"
-    :apiResource="'/api/ekt/fat-d200/'"
-    :columns="columns"
-    formUrl="form"
+  <CrosierListS
+    titulo="Syslog"
+    apiResource="/api/core/config/syslog"
     ref="list"
+    :filters="this.filters"
     @clearFilter="this.clearFilter"
     @handleFilter="this.handleFilter"
   >
@@ -12,99 +11,212 @@
       <div class="form-row">
         <div class="col-md-2">
           <label for="id">ID</label>
-          <InputText class="form-control" id="id" type="text" v-model="this.filterFields.id" />
+          <InputText
+            class="form-control"
+            id="id"
+            type="text"
+            v-model="this.filters.id"
+          />
         </div>
         <div class="col-md-7">
-          <label for="nome">Nome</label>
-          <InputText class="form-control" id="nome" type="text" v-model="this.filterFields.nome" />
+          <div class="form-group">
+            <label for="tipo">Tipo</label>
+            <MultiSelect
+              class="form-control"
+              id="tipo"
+              v-model="this.filters.tipo"
+              optionLabel="tipo"
+              optionValue="tipo"
+              :options="this.options.tipo"
+              display="chip"
+            />
+          </div>
         </div>
         <div class="col-md-3">
-          <label for="cpf">CPF</label>
-
-          <InputMask class="form-control" id="cpf" type="text" mask="?999.999.999-99" v-model="this.filterFields.cpf" />
+          <div class="form-group">
+            <label for="app">App</label>
+            <MultiSelect
+              class="form-control"
+              id="app"
+              v-model="this.filters.app"
+              optionLabel="app"
+              optionValue="app"
+              :options="this.options.app"
+              display="chip"
+            />
+          </div>
+        </div>
+        <div class="col-md-3">
+          <label for="app">Component</label>
+          <InputText
+            class="form-control"
+            id="component"
+            type="text"
+            v-model="this.filters.component"
+          />
+        </div>
+        <div class="col-md-3">
+          <label for="app">Act</label>
+          <InputText
+            class="form-control"
+            id="act"
+            type="text"
+            v-model="this.filters.act"
+          />
+        </div>
+        <div class="col-md-3">
+          <label for="app">Username</label>
+          <InputText
+            class="form-control"
+            id="username"
+            type="text"
+            v-model="this.filters.username"
+          />
+        </div>
+        <div class="col-md-3">
+          <label for="momentIni">Desde</label>
+          <InputText
+            class="form-control"
+            id="momentIni"
+            type="text"
+            v-model="this.filters.momentIni"
+          />
+        </div>
+        <div class="col-md-3">
+          <label for="momentFim">Até</label>
+          <InputText
+            class="form-control"
+            id="momentFim"
+            type="text"
+            v-model="this.filters.momentFim"
+          />
+        </div>
+        <div class="col-md-3">
+          <label for="obs">Obs</label>
+          <InputText
+            class="form-control"
+            id="obs"
+            type="text"
+            v-model="this.filters.obs"
+          />
         </div>
       </div>
     </template>
     <template v-slot:columns>
-      <Column field="id" header="id" :sortable="true"></Column>
-      <Column field="nome" header="Cliente" :sortable="true"></Column>
-      <Column field="dtAgendamento" header="Dt Agendamento" :sortable="true">
+      <Column
+        field="moment"
+        header="Moment"
+        :sortable="true"
+        headerStyle="width: 15%"
+      >
         <template class="text-right" #body="slotProps">
-          {{ this.moment(slotProps.data.emissao).format("DD/MM/YYYY") }}
+          {{ this.moment(slotProps.data.moment).format("DD/MM/YYYY HH:mm:ss") }}
+          <br />
+          <span class="badge badge-secondary">{{ slotProps.data.id }}</span>
         </template>
       </Column>
-      <Column field="updated" header="" :sortable="true">
-        <template class="text-right" #body="slotProps">
-          <div class="row d-flex justify-content-end">
-            <Button
-              icon="pi pi-pencil"
-              class="mr-2 p-button-rounded p-button-sm p-button-info dt-sm-bt"
-              v-tooltip="'Editar'"
-              @click="this.$refs.list.redirectForm(slotProps.data.id)"
-            />
-            <Button
-              icon="pi pi-trash"
-              class="mr-2 p-button-rounded p-button-sm p-button-danger dt-sm-bt"
-              v-tooltip="'Deletar'"
-              @click="this.$refs.list.delete($event, slotProps.data.id)"
-            />
+      <Column field="app" header="Log">
+        <template #body="slotProps">
+          <div class="float-left">
+            <b>{{ slotProps.data.act }}</b>
+            <br />
+            <span style="font-size: small; color: lightblue"
+              >{{ slotProps.data.app }}:{{ slotProps.data.component }}</span
+            >
+            <hr />
+            <span style="font-size: smaller">{{ slotProps.data.obs }}</span>
           </div>
-          <div class="row mt-1 d-flex justify-content-end">
-            <span v-if="slotProps.data.updated" class="badge badge-info">
-              {{ new Date(slotProps.data.updated).toLocaleString() }}
-            </span>
+          <div class="text-right">
+            <span class="badge badge-info"
+              ><i class="fas fa-user"></i> {{ slotProps.data.username }}</span
+            ><br />
+            <span
+              v-show="slotProps.data.tipo === 'debug'"
+              class="badge badge-danger"
+              ><i class="fas fa-bug"></i> debug</span
+            >
+            <span
+              v-show="slotProps.data.tipo === 'info'"
+              class="badge badge-info"
+              ><i class="fas fa-info"></i> info</span
+            >
+            <br />
+            <button
+              type="button"
+              class="btn btn-sm btn-primary"
+              @click="this.showDialog(slotProps.data.id)"
+            >
+              <i class="fas fa-file" aria-hidden="true"></i> Abrir
+            </button>
           </div>
         </template>
       </Column>
     </template>
-  </crosier-list>
+  </CrosierListS>
+  <syslogForm />
 </template>
 
 <script>
-import CrosierList from "@/components/crosierList";
-import Button from "primevue/button";
+import CrosierListS from "@/components/crosierListS";
 import Column from "primevue/column";
 import InputText from "primevue/inputtext";
-import InputMask from "primevue/inputmask";
+import MultiSelect from "primevue/multiselect";
 import moment from "moment";
+import axios from "axios";
+import syslogForm from "./form";
 
 export default {
-  name: "profissional_list",
   components: {
-    Button,
-    CrosierList,
+    CrosierListS,
     Column,
     InputText,
-    InputMask,
+    MultiSelect,
+    syslogForm,
   },
   data() {
     return {
       tableData: [],
-      columns: [],
-      titulo: "Pré-Vendas",
       searchTerm: null,
-      filterFields: {
+      filters: {
         id: null,
-        nome: null,
-        cpf: null,
+        tipo: null,
+        app: null,
+        component: null,
+        act: null,
+        momentIni: null,
+        momentFim: null,
+        username: null,
+        obs: null,
+      },
+      options: {
+        tipo: null,
+        app: null,
+        component: null,
+        username: null,
       },
     };
   },
-  mounted() {
-    this.filterFields = this.$store.state.filterFields;
+
+  async mounted() {
+    const rsTipo = await axios.get(`/cfg/syslog/getDistinct?campo=tipo`);
+    this.options.tipo = rsTipo.data.DATA.distincts;
+
+    const rsApp = await axios.get(`/cfg/syslog/getDistinct?campo=app`);
+    this.options.app = rsApp.data.DATA.distincts;
   },
+
   methods: {
-    async handleFilter() {
-      this.$store.commit("setFilterFields", this.filterFields);
-      await this.$refs.list.onFilter();
-    },
-    async clearFilter() {
-      this.filterFields = {};
-      this.$store.commit("setFilterFields", this.filterFields);
-      await this.$refs.list.onFilter();
-    },
     moment(date) {
       return moment(date);
+    },
+    async showDialog(id) {
+      this.$store.state.loading = true;
+      const rs = await axios.get(`/api/core/config/syslog/${id}`);
+      rs.data.moment = new Date(rs.data.moment);
+      this.$store.state.syslog = rs.data;
+      console.log(rs.data);
+      this.$store.state.displayDialog = true;
+      this.$store.state.loading = false;
     },
   },
 };

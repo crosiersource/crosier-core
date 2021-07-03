@@ -1,212 +1,147 @@
 <template>
-  <CrosierListS
-    titulo="Syslog"
-    apiResource="/api/core/config/syslog"
-    ref="list"
-    :filters="this.filters"
-    @clearFilter="this.clearFilter"
-    @handleFilter="this.handleFilter"
+  <Dialog
+    header="Syslog"
+    v-model:visible="this.$store.state.displayDialog"
+    modal="true"
   >
-    <template v-slot:filter-fields>
-      <div class="form-row">
-        <div class="col-md-2">
-          <label for="id">ID</label>
-          <InputText
-            class="form-control"
-            id="id"
-            type="text"
-            v-model="this.filters.id"
-          />
-        </div>
-        <div class="col-md-7">
-          <div class="form-group">
-            <label for="tipo">Tipo</label>
-            <MultiSelect
-              class="form-control"
-              id="tipo"
-              v-model="this.filters.tipo"
-              optionLabel="tipo"
-              optionValue="tipo"
-              :options="this.options.tipo"
-              display="chip"
-            />
+    <div class="container">
+      <div class="card" style="margin-bottom: 50px">
+        <div class="card-body">
+          <div class="form-row">
+            <div class="col-md-2">
+              <div class="form-group">
+                <label for="id">ID</label>
+                <InputText
+                  class="form-control"
+                  id="id"
+                  type="text"
+                  v-model="this.syslog.id"
+                  disabled
+                />
+              </div>
+            </div>
+            <div class="col-md-10">
+              <div class="form-group">
+                <label for="moment">Moment</label>
+                <Calendar
+                  class="form-control"
+                  id="moment"
+                  dateFormat="dd/mm/yy"
+                  hourFormat="24"
+                  :showTime="true"
+                  v-model="this.syslog.moment"
+                  disabled
+                />
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label for="app">App</label>
-            <MultiSelect
-              class="form-control"
-              id="app"
-              v-model="this.filters.app"
-              optionLabel="app"
-              optionValue="app"
-              :options="this.options.app"
-              display="chip"
-            />
+          <div class="form-row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="id">Tipo</label>
+                <InputText
+                  class="form-control notuppercase"
+                  id="tipo"
+                  type="text"
+                  v-model="this.syslog.tipo"
+                  disabled
+                />
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="form-group">
+                <label for="id">App</label>
+                <InputText
+                  class="form-control notuppercase"
+                  id="app"
+                  type="text"
+                  v-model="this.syslog.app"
+                  disabled
+                />
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="col-md-3">
-          <label for="app">Component</label>
-          <InputText
-            class="form-control"
-            id="component"
-            type="text"
-            v-model="this.filters.component"
-          />
-        </div>
-        <div class="col-md-3">
-          <label for="app">Act</label>
-          <InputText
-            class="form-control"
-            id="act"
-            type="text"
-            v-model="this.filters.act"
-          />
-        </div>
-        <div class="col-md-3">
-          <label for="app">Username</label>
-          <InputText
-            class="form-control"
-            id="username"
-            type="text"
-            v-model="this.filters.username"
-          />
-        </div>
-        <div class="col-md-3">
-          <label for="momentIni">Desde</label>
-          <InputText
-            class="form-control"
-            id="momentIni"
-            type="text"
-            v-model="this.filters.momentIni"
-          />
-        </div>
-        <div class="col-md-3">
-          <label for="momentFim">Até</label>
-          <InputText
-            class="form-control"
-            id="momentFim"
-            type="text"
-            v-model="this.filters.momentFim"
-          />
-        </div>
-        <div class="col-md-3">
-          <label for="obs">Obs</label>
-          <InputText
-            class="form-control"
-            id="obs"
-            type="text"
-            v-model="this.filters.obs"
-          />
+          <div class="form-row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="id">Component</label>
+                <InputText
+                  class="form-control notuppercase"
+                  id="component"
+                  type="text"
+                  v-model="this.syslog.component"
+                  disabled
+                />
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label for="id">Usuário</label>
+                <InputText
+                  class="form-control notuppercase"
+                  id="username"
+                  type="text"
+                  v-model="this.syslog.username"
+                  disabled
+                />
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="id">Act</label>
+                <Textarea
+                  class="form-control notuppercase"
+                  rows="5"
+                  id="act"
+                  type="text"
+                  v-model="this.syslog.act"
+                  disabled
+                />
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="id">Obs</label>
+                <Textarea
+                  class="form-control notuppercase"
+                  rows="10"
+                  cols="140"
+                  id="obs"
+                  type="text"
+                  v-model="this.syslog.obs"
+                  disabled
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </template>
-    <template v-slot:columns>
-      <Column
-        field="moment"
-        header="Moment"
-        :sortable="true"
-        headerStyle="width: 15%"
-      >
-        <template class="text-right" #body="slotProps">
-          {{ this.moment(slotProps.data.moment).format("DD/MM/YYYY hh:mm:ss") }}
-          <br />
-          <span class="badge badge-secondary">{{ slotProps.data.id }}</span>
-        </template>
-      </Column>
-      <Column field="app" header="Log">
-        <template #body="slotProps">
-          <div class="float-left">
-            <b>{{ slotProps.data.act }}</b>
-            <br />
-            <span style="font-size: small; color: lightblue"
-              >{{ slotProps.data.app }}:{{ slotProps.data.component }}</span
-            >
-            <hr />
-            <span style="font-size: smaller">{{ slotProps.data.obs }}</span>
-          </div>
-          <div class="text-right">
-            <span class="badge badge-info"
-              ><i class="fas fa-user"></i> {{ slotProps.data.username }}</span
-            ><br />
-            <span
-              v-show="slotProps.data.tipo === 'debug'"
-              class="badge badge-danger"
-              ><i class="fas fa-bug"></i> debug</span
-            >
-            <span
-              v-show="slotProps.data.tipo === 'info'"
-              class="badge badge-info"
-              ><i class="fas fa-info"></i> info</span
-            >
-            <br />
-            <button type="button" class="btn btn-sm btn-primary">
-              <i class="fas fa-file" aria-hidden="true"></i> Abrir
-            </button>
-          </div>
-        </template>
-      </Column>
-    </template>
-  </CrosierListS>
+    </div>
+  </Dialog>
 </template>
 
 <script>
-import CrosierListS from "@/components/crosierListS";
-import Column from "primevue/column";
+import Dialog from "primevue/dialog";
 import InputText from "primevue/inputtext";
-import MultiSelect from "primevue/multiselect";
-import moment from "moment";
-import axios from "axios";
+import Textarea from "primevue/textarea";
+import Calendar from "primevue/calendar";
 
 export default {
   components: {
-    CrosierListS,
-    Column,
+    Dialog,
     InputText,
-    MultiSelect,
+    Textarea,
+    Calendar,
   },
-  data() {
-    return {
-      tableData: [],
-      searchTerm: null,
-      filters: {
-        id: null,
-        tipo: null,
-        app: null,
-        component: null,
-        act: null,
-        momentIni: null,
-        momentFim: null,
-        username: null,
-        obs: null,
-      },
-      options: {
-        tipo: null,
-        app: null,
-        component: null,
-        username: null,
-      },
-    };
-  },
-  async mounted() {
-    const rsTipo = await axios.get(`/cfg/syslog/getDistinct?campo=tipo`);
-    this.options.tipo = rsTipo.data.DATA.distincts;
 
-    const rsApp = await axios.get(`/cfg/syslog/getDistinct?campo=app`);
-    this.options.app = rsApp.data.DATA.distincts;
-  },
-  methods: {
-    moment(date) {
-      return moment(date);
+  computed: {
+    syslog() {
+      return this.$store.state.syslog;
     },
   },
 };
 </script>
-
-<style>
-.dt-sm-bt {
-  height: 30px !important;
-  width: 30px !important;
-}
-</style>

@@ -3,13 +3,13 @@ SET FOREIGN_KEY_CHECKS = 0;
 
 CREATE TABLE `cfg_entity_change`
 (
-    `id`               bigint(20)                           NOT NULL AUTO_INCREMENT,
-    `entity_class`     varchar(200) COLLATE utf8_swedish_ci NOT NULL,
-    `entity_id`        bigint(20)                           NOT NULL,
-    `changing_user_id` bigint(20)                           NOT NULL,
-    `changed_at`       datetime                             NOT NULL,
-    `changes`          longtext COLLATE utf8mb4_unicode_ci  NOT NULL,
-    `obs`              varchar(500)                         NULL,
+    `id`               bigint(20)   NOT NULL AUTO_INCREMENT,
+    `entity_class`     varchar(200) NOT NULL,
+    `entity_id`        bigint(20)   NOT NULL,
+    `changing_user_id` bigint(20)   NOT NULL,
+    `changed_at`       datetime     NOT NULL,
+    `changes`          longtext     NOT NULL,
+    `obs`              varchar(500) NULL,
     PRIMARY KEY (`id`),
     KEY `K_cfg_entity_change_entity_class` (`entity_class`)
 ) ENGINE = InnoDB
@@ -20,17 +20,17 @@ CREATE TABLE `cfg_entity_change`
 DROP TABLE IF EXISTS `messenger_messages`;
 CREATE TABLE `messenger_messages`
 (
-    `id`           bigint(20)                              NOT NULL AUTO_INCREMENT,
-    `body`         longtext COLLATE utf8mb4_unicode_ci     NOT NULL,
-    `headers`      longtext COLLATE utf8mb4_unicode_ci     NOT NULL,
-    `queue_name`   varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-    `created_at`   datetime                                NOT NULL,
-    `available_at` datetime                                NOT NULL,
+    `id`           bigint(20)   NOT NULL AUTO_INCREMENT,
+    `body`         longtext     NOT NULL,
+    `headers`      longtext     NOT NULL,
+    `queue_name`   varchar(255) NOT NULL,
+    `created_at`   datetime     NOT NULL,
+    `available_at` datetime     NOT NULL,
     `delivered_at` datetime DEFAULT NULL,
     PRIMARY KEY (`id`),
-    KEY `IDX_75EA56E0FB7336F0` (`queue_name`),
-    KEY `IDX_75EA56E0E3BD61CE` (`available_at`),
-    KEY `IDX_75EA56E016BA31DB` (`delivered_at`)
+    KEY `messenger_messages_queue_name` (`queue_name`),
+    KEY `messenger_messages_available_at` (`available_at`),
+    KEY `messenger_messages_delivered_at` (`delivered_at`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci;
@@ -68,7 +68,7 @@ CREATE TABLE `cfg_estabelecimento`
     CONSTRAINT `FK_cfg_estabelecimento_pai` FOREIGN KEY (`pai_id`) REFERENCES `cfg_estabelecimento` (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
-  COLLATE = utf8_swedish_ci;
+  COLLATE = utf8mb4_unicode_ci;
 
 
 
@@ -94,7 +94,7 @@ CREATE TABLE `sec_group`
     CONSTRAINT `FK_sec_group_user_inserted` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
-  COLLATE = utf8_swedish_ci;
+  COLLATE = utf8mb4_unicode_ci;
 
 
 
@@ -121,7 +121,7 @@ CREATE TABLE `sec_role`
     CONSTRAINT `FK_sec_role_estabelecimento` FOREIGN KEY (`estabelecimento_id`) REFERENCES `cfg_estabelecimento` (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
-  COLLATE = utf8_swedish_ci;
+  COLLATE = utf8mb4_unicode_ci;
 
 
 DROP TABLE IF EXISTS `sec_group_role`;
@@ -136,7 +136,7 @@ CREATE TABLE `sec_group_role`
     CONSTRAINT `FK_sec_group_role_group` FOREIGN KEY (`group_id`) REFERENCES `sec_group` (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
-  COLLATE = utf8_swedish_ci;
+  COLLATE = utf8mb4_unicode_ci;
 
 
 
@@ -175,7 +175,7 @@ CREATE TABLE `sec_user`
     CONSTRAINT `FK_sec_user_group` FOREIGN KEY (`group_id`) REFERENCES `sec_group` (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
-  COLLATE = utf8_swedish_ci;
+  COLLATE = utf8mb4_unicode_ci;
 
 
 
@@ -192,7 +192,7 @@ CREATE TABLE `sec_user_role`
     CONSTRAINT `FK_sec_user_role_user` FOREIGN KEY (`role_id`) REFERENCES `sec_role` (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
-  COLLATE = utf8_swedish_ci;
+  COLLATE = utf8mb4_unicode_ci;
 
 
 
@@ -221,7 +221,7 @@ CREATE TABLE `cfg_app`
     CONSTRAINT `FK_cfg_app_user_updated` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
-  COLLATE = utf8_swedish_ci;
+  COLLATE = utf8mb4_unicode_ci;
 
 
 
@@ -251,7 +251,7 @@ CREATE TABLE `cfg_app_config`
     CONSTRAINT `FK_cfg_app_config_user_updated` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
-  COLLATE = utf8_swedish_ci;
+  COLLATE = utf8mb4_unicode_ci;
 
 
 
@@ -295,7 +295,7 @@ CREATE TABLE `cfg_entmenu`
     CONSTRAINT `FK_cfg_entmenu_user_updated` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
-  COLLATE = utf8_swedish_ci;
+  COLLATE = utf8mb4_unicode_ci;
 
 
 
@@ -332,7 +332,7 @@ CREATE TABLE `cfg_entmenu_locator`
     CONSTRAINT `FK_cfg_entmenu_locator_user_updated` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
-  COLLATE = utf8_swedish_ci;
+  COLLATE = utf8mb4_unicode_ci;
 
 
 
@@ -340,16 +340,16 @@ DROP TABLE IF EXISTS `cfg_stored_viewinfo`;
 
 CREATE TABLE `cfg_stored_viewinfo`
 (
-    `id`                 bigint(20)                           NOT NULL AUTO_INCREMENT,
-    `view_name`          varchar(300) COLLATE utf8_swedish_ci NOT NULL,
-    `view_info`          varchar(15000)                       NOT NULL,
-    `user_id`            bigint(20)                           NOT NULL,
+    `id`                 bigint(20)     NOT NULL AUTO_INCREMENT,
+    `view_name`          varchar(300)   NOT NULL,
+    `view_info`          varchar(15000) NOT NULL,
+    `user_id`            bigint(20)     NOT NULL,
 
-    `estabelecimento_id` bigint(20)                           NOT NULL,
-    `inserted`           datetime                             NOT NULL,
-    `updated`            datetime                             NOT NULL,
-    `user_inserted_id`   bigint(20)                           NOT NULL,
-    `user_updated_id`    bigint(20)                           NOT NULL,
+    `estabelecimento_id` bigint(20)     NOT NULL,
+    `inserted`           datetime       NOT NULL,
+    `updated`            datetime       NOT NULL,
+    `user_inserted_id`   bigint(20)     NOT NULL,
+    `user_updated_id`    bigint(20)     NOT NULL,
 
     PRIMARY KEY (`id`),
     UNIQUE KEY `UK_cfg_stored_viewinfo` (`user_id`, `view_name`),
@@ -363,7 +363,7 @@ CREATE TABLE `cfg_stored_viewinfo`
     CONSTRAINT `FK_cfg_stored_viewinfo_user_updated` FOREIGN KEY (`user_updated_id`) REFERENCES `sec_user` (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
-  COLLATE = utf8_swedish_ci;
+  COLLATE = utf8mb4_unicode_ci;
 
 
 
@@ -400,7 +400,7 @@ CREATE TABLE `cfg_pushmessage`
 
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
-  COLLATE = utf8_swedish_ci;
+  COLLATE = utf8mb4_unicode_ci;
 
 
 
@@ -418,7 +418,7 @@ CREATE TABLE `cfg_entity_change`
     KEY `K_cfg_entity_change_entity_class` (`entity_class`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
-  COLLATE = utf8_swedish_ci;
+  COLLATE = utf8mb4_unicode_ci;
 
 
 
@@ -426,21 +426,27 @@ DROP TABLE IF EXISTS `cfg_syslog`;
 
 CREATE TABLE `cfg_syslog`
 (
-    `id`           bigint(20)                            NOT NULL AUTO_INCREMENT,
-    `tipo`         varchar(50) COLLATE utf8_swedish_ci   NOT NULL,
-    `app`          varchar(50) COLLATE utf8_swedish_ci   NOT NULL,
-    `component`    varchar(255) COLLATE utf8_swedish_ci  NOT NULL,
-    `act`          varchar(3000) COLLATE utf8_swedish_ci NOT NULL,
-    `username`     varchar(90) COLLATE utf8_swedish_ci   NOT NULL,
-    `moment`       datetime                              NOT NULL,
+    `id`           bigint(20)    NOT NULL AUTO_INCREMENT,
+    `tipo`         varchar(50)   NOT NULL,
+    `app`          varchar(50)   NOT NULL,
+    `component`    varchar(255)  NOT NULL,
+    `act`          varchar(3000) NOT NULL,
+    `username`     varchar(90)   NOT NULL,
+    `moment`       datetime      NOT NULL,
     `obs`          longblob,
     `delete_after` datetime DEFAULT NULL,
     `json_data`    json     DEFAULT NULL,
+
+    KEY cfg_syslog_tipo (`tipo`),
+    KEY cfg_syslog_app (`app`),
+    KEY cfg_syslog_component (`component`),
+    KEY cfg_syslog_username (`username`),
+    KEY cfg_syslog_moment (`moment`),
+
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 124576
   DEFAULT CHARSET = utf8
-  COLLATE = utf8_swedish_ci;
+  COLLATE = utf8mb4_unicode_ci;
 
 
 
@@ -469,7 +475,7 @@ CREATE TABLE `bse_municipio`
     CONSTRAINT `FK_bse_municipio_estabelecimento` FOREIGN KEY (`estabelecimento_id`) REFERENCES `cfg_estabelecimento` (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
-  COLLATE = utf8_swedish_ci;
+  COLLATE = utf8mb4_unicode_ci;
 
 
 
@@ -499,7 +505,7 @@ CREATE TABLE `bse_uf`
     CONSTRAINT `FK_bse_uf_estabelecimento` FOREIGN KEY (`estabelecimento_id`) REFERENCES `cfg_estabelecimento` (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
-  COLLATE = utf8_swedish_ci;
+  COLLATE = utf8mb4_unicode_ci;
 
 
 
@@ -529,7 +535,7 @@ CREATE TABLE `bse_diautil`
     CONSTRAINT `FK_bse_dia_util_estabelecimento` FOREIGN KEY (`estabelecimento_id`) REFERENCES `cfg_estabelecimento` (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
-  COLLATE = utf8_swedish_ci;
+  COLLATE = utf8mb4_unicode_ci;
 
 
 -- Função que verifica se um valor dentro de um campo JSON é nulo ou vazio (MySQL 5.7)

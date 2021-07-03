@@ -70,20 +70,6 @@ export default {
       },
     };
   },
-  mounted() {
-    this.filterFields = this.$store.state.filterFields;
-  },
-  methods: {
-    async handleFilter() {
-      this.$store.commit("setFilterFields", this.filterFields);
-      await this.$refs.list.onFilter();
-    },
-    async clearFilter() {
-      this.filterFields = {};
-      this.$store.commit("setFilterFields", this.filterFields);
-      await this.$refs.list.onFilter();
-    },
-  },
 };
 </script>
 

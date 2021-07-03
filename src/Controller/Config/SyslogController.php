@@ -2,59 +2,77 @@
 
 namespace App\Controller\Config;
 
-use CrosierSource\CrosierLibBaseBundle\Exception\ViewException;
+use CrosierSource\CrosierLibBaseBundle\Controller\BaseController;
+use CrosierSource\CrosierLibBaseBundle\Utils\ExceptionUtils\ExceptionUtils;
 use Doctrine\DBAL\Connection;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @author Carlos Eduardo Pauluk
  */
-class SyslogController extends AbstractController
+class SyslogController extends BaseController
 {
 
     /**
-     *
-     * @Route("/cfg/syslog/list", name="cfg_syslog_list")
-     * @param Request $request
-     *
-     * @param Connection $conn
-     * @return \Symfony\Component\HttpFoundation\Response
-     * @IsGranted("ROLE_ADMIN", statusCode=403)
+     * @Route("/cfg/syslog/list", name="config_syslog_list")
      */
-    public function list(Request $request, Connection $conn)
+    public function listVue(): Response
     {
-        $params = [];
-        $params['filter'] = [];
-        $params['tipos'] = ['debug', 'info', 'error'];
+        $params = [
+            'jsEntry' => 'Config/Syslog/list'
+        ];
+        return $this->doRender('@CrosierLibBase/vue-app-page.html.twig', $params);
+    }
 
+
+    /**
+     * @Route("/cfg/syslog/getDistinct", methods={"GET", "HEAD"}, name="config_syslog_getDistinct")
+     */
+    public function getDistinct(Request $request, Connection $conn): JsonResponse
+    {
         try {
-            $where = '';
-            $filter = $request->get('filter');
-            if ($filter['tipo'] ?? false) {
-                $where .= ' WHERE tipo IN (';
-                foreach ($filter['tipo'] as $tipo) {
-                    if (!in_array($tipo, ['INFO','ERROR','DEBUG'])) {
-                        throw new ViewException('tipo n/d INFO,ERROR,DEBUG');
-                    }
-                    $where .= '\'' . strtolower($tipo) . '\',';
-                }
-                $where = substr($where, 0, -1) . ')';
-                $params['filter']['tipo'] = $filter['tipo'];
+            $campo = str_replace(' ', '', $request->get('campo'));
+            if (!$campo) {
+                $r = [
+                    'RESULT' => 'ERR',
+                    'MSG' => 'campo n/d'
+                ];
+                return new JsonResponse($r, 400);
             }
 
-            $limit = 500;
-            $sql = 'SELECT id, tipo, moment, app, SUBSTRING_INDEX(component,\'\\\\\',-1) AS component_r, component, username, substr(act,1,255) as act, substring(obs,1,255) as obs FROM cfg_syslog ' .
-                $where . ' ORDER BY moment DESC, id DESC LIMIT ' . $limit;
-            $qParams = [];
-            $rs = $conn->fetchAllAssociative($sql, $qParams);
-            $params['rs'] = $rs;
-        } catch (\Throwable $e) {
-            $this->addFlash('error', 'Erro ao pesquisar syslog');
-        }
+            $rsDistincts = $conn->fetchAllAssociative('SELECT distinct(' . $campo . ') FROM cfg_syslog ORDER BY ' . $campo, ['campo' => $campo]);
 
-        return $this->render('Config/syslogList.html.twig', $params);
+            if (!$rsDistincts) {
+                $r = [
+                    'RESULT' => 'ERR',
+                    'MSG' => 'Erro ao retornar consulta - getDistinct'
+                ];
+                return new JsonResponse($r, 400);
+            }
+
+            return new JsonResponse(
+                [
+                    'RESULT' => 'OK',
+                    'MSG' => 'Executado com sucesso',
+                    'DATA' => [
+                        'distincts' => $rsDistincts,
+                    ]
+                ]
+            );
+        } catch (\Throwable $e) {
+            $msg = ExceptionUtils::treatException($e);
+            if (!$msg) {
+                $msg = 'Erro - getDistinct';
+            }
+            $r = [
+                'RESULT' => 'ERR',
+                'MSG' => $msg
+            ];
+            return new JsonResponse($r);
+        }
     }
+
 }
