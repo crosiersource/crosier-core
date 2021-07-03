@@ -1,12 +1,5 @@
 <template>
   <div v-if="this.withoutCard">
-    <ProgressBar
-      mode="indeterminate"
-      :style="
-        'height: .5em; margin-bottom: 10px; display: ' +
-        (desabilitado ? '' : 'none')
-      "
-    />
     <form @submit.prevent="this.submitForm">
       <fieldset :disabled="desabilitado">
         <slot></slot>

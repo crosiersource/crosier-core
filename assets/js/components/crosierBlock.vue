@@ -1,13 +1,20 @@
 <template>
-  <div v-if="desabilitado" class="block"></div>
+  <ProgressBar mode="indeterminate" :style="'height: .5em; margin-bottom: 10px; display: ' + (loading ? '' : 'none')" />
+  <div v-show="loading" class="block" id="crosierBlockDiv"></div>
 </template>
 
 <script>
+import ProgressBar from "primevue/progressbar";
+
 export default {
+  components: {
+    ProgressBar,
+  },
   props: {
-    desabilitado: {
+    loading: {
       type: Boolean,
       required: true,
+      default: true,
     },
   },
 };
@@ -15,6 +22,7 @@ export default {
 
 <style lang="scss" scoped>
 .block {
+  z-index: 999999;
   height: 100%;
   width: 100%;
   position: fixed;

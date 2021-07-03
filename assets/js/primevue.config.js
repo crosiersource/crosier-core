@@ -1,6 +1,9 @@
-/* eslint-disable */
+// eslint-disable-next-line no-unused-vars
+
 const options = {
   locale: {
+    accept: "Sim",
+    reject: "Não",
     dayNames: [
       "Domingo",
       "Segunda",
@@ -45,3 +48,5 @@ const options = {
     // ...
   },
 };
+
+export default options;

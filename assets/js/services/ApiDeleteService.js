@@ -1,10 +1,12 @@
 import axios from "axios";
 
-export async function deleteEntityData({ apiResource }) {
-  const params = {
+export async function deleteEntityData(apiResource) {
+  return axios.delete(apiResource, {
     headers: {
       "Content-Type": "application/ld+json",
     },
-  };
-  return axios.delete(`${apiResource}`, params);
+    validateStatus(status) {
+      return status < 500;
+    },
+  });
 }

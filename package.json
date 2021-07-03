@@ -22,7 +22,8 @@
         "axios": "^0.21.0",
         "cleave.js": "^1.6.0",
         "primeflex": "^2.0.0",
-        "yup": "^0.32.9"
+        "yup": "^0.32.9",
+        "moment": "^2.23.0"
     },
     "devDependencies": {
         "jquery-mask-plugin": "^1.14.15",
@@ -63,7 +64,6 @@
         "jsoneditor": "^8.6.8",
         "lodash.mergewith": "^4.6.2",
         "mitt": "^2.1.0",
-        "moment": "^2.23.0",
         "node-sass": "^4.11.0",
         "numeral": "^2.0.6",
         "prettier": "^2.2.1",
