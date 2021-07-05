@@ -1,6 +1,6 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
-
+DROP TABLE IF EXISTS `cfg_entity_change`;
 CREATE TABLE `cfg_entity_change`
 (
     `id`               bigint(20)   NOT NULL AUTO_INCREMENT,
