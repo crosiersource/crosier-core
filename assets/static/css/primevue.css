@@ -1,3 +1,7 @@
+.p-component {
+  font-size: 0.85rem !important;
+}
+
 .p-inputnumber, .text-right, .p-component > input {
   text-align: right;
 }
