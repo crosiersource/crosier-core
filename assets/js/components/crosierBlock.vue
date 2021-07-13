@@ -1,5 +1,8 @@
 <template>
-  <ProgressBar mode="indeterminate" :style="'height: .5em; margin-bottom: 10px; display: ' + (loading ? '' : 'none')" />
+  <ProgressBar
+    mode="indeterminate"
+    :style="'height: .5em; margin-bottom: 10px; display: ' + (loading ? '' : 'none')"
+  />
   <div v-show="loading" class="block" id="crosierBlockDiv"></div>
 </template>
 

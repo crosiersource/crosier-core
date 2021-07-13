@@ -17,29 +17,25 @@
             >
               <i class="fas fa-file" aria-hidden="true"></i>
             </a>
+
+            <slot name="headerButtons"></slot>
           </div>
         </div>
       </div>
       <div class="card-body">
         <div>
-          <Accordion
-            :multiple="true"
-            :activeIndex="this.isFiltered ? '[0]' : null"
-          >
+          <Accordion :multiple="true" :activeIndex="this.isFiltered ? '[0]' : null">
             <AccordionTab>
               <template #header>
                 <span>Filtrar</span>
                 <i class="pi pi-filter"></i>
               </template>
-              <form
-                @submit.prevent="this.$emit('handleFilter')"
-                class="notSubmit"
-              >
+              <form @submit.prevent="this.$emit('handleFilter')" class="notSubmit">
                 <slot name="filter-fields"></slot>
                 <div class="row mt-3">
                   <div class="col-3">
                     <InlineMessage severity="info">
-                      {{ totalRecords }} registros encontrados.
+                      {{ totalRecords }} registro(s) encontrado(s).
                     </InlineMessage>
                   </div>
                   <div class="col text-right">
@@ -170,23 +166,18 @@ export default {
     // get filters
     // from query params
     this.savedFilter =
-      params.get("saved_filter") ||
-      localStorage.getItem(`filter-state${this.apiResource}`);
+      params.get("saved_filter") || localStorage.getItem(`filter-state${this.apiResource}`);
     if (this.savedFilter) {
       // save on store to reflect in form filter fields
       this.$store.commit("setFilterFields", JSON.parse(this.savedFilter));
     }
 
     // get localstorage to this resource
-    const dtStateLS = JSON.parse(
-      localStorage.getItem(`dt-state${this.apiResource}`)
-    );
+    const dtStateLS = JSON.parse(localStorage.getItem(`dt-state${this.apiResource}`));
 
     // get page
     // from localstorage
-    const page = dtStateLS
-      ? Math.ceil((dtStateLS.first + 1) / dtStateLS.rows)
-      : 1;
+    const page = dtStateLS ? Math.ceil((dtStateLS.first + 1) / dtStateLS.rows) : 1;
 
     // get rows
     // from localstorage

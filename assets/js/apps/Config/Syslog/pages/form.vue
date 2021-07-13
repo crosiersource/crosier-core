@@ -1,9 +1,5 @@
 <template>
-  <Dialog
-    header="Syslog"
-    v-model:visible="this.$store.state.displayDialog"
-    modal="true"
-  >
+  <Dialog header="Syslog" v-model:visible="this.$store.state.displayDialog" modal="true">
     <div class="container">
       <div class="card" style="margin-bottom: 50px">
         <div class="card-body">

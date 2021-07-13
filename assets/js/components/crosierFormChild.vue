@@ -12,10 +12,7 @@
     <slot name="form"></slot>
     <ProgressBar
       mode="indeterminate"
-      :style="
-        'height: .5em; margin-bottom: 10px; display: ' +
-        (desabilitado ? '' : 'none')
-      "
+      :style="'height: .5em; margin-bottom: 10px; display: ' + (desabilitado ? '' : 'none')"
     />
     <form @submit.prevent="this.$emit('handleSubmitFormChild')">
       <fieldset :disabled="desabilitado">
@@ -91,7 +88,10 @@ export default {
           apiResource: `${this.apiResource}/${this.entityId}`,
         });
         if (response.data.id) {
-          this.$store.commit("setFormFields", response.data);
+          this.$store.commit("setFormChilds", {
+            child: this.storeNameEntity,
+            newFormChilds: response.data,
+          });
         } else {
           throw new Error("Id não encontrado.");
         }
@@ -129,10 +129,7 @@ export default {
             JSON.stringify(validated)
           );
         } else {
-          response = await postEntityData(
-            this.apiResource,
-            JSON.stringify(validated)
-          );
+          response = await postEntityData(this.apiResource, JSON.stringify(validated));
         }
         if ([200, 201].includes(response.status)) {
           this.$store.commit("setFormFields", response.data);
@@ -158,8 +155,7 @@ export default {
         this.formErrorsChilds = {};
 
         err.inner?.forEach((element) => {
-          this.formErrorsChilds[element.path] =
-            element.message ?? "Valor inválido";
+          this.formErrorsChilds[element.path] = element.message ?? "Valor inválido";
         });
 
         this.$store.commit("setFormErrorsChilds", {

@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid">
+  <div :class="this.containerClass">
     <div class="card" style="margin-bottom: 50px">
       <div class="card-header">
         <div class="d-flex flex-wrap align-items-center">
@@ -17,16 +17,13 @@
             >
               <i class="fas fa-file" aria-hidden="true"></i>
             </a>
+            <slot name="headerButtons"></slot>
           </div>
         </div>
       </div>
       <div class="card-body">
-        <CrosierBlock :loading="this.loading" />
         <div>
-          <Accordion
-            :multiple="true"
-            :activeIndex="this.isFiltered ? '[0]' : null"
-          >
+          <Accordion :multiple="true" :activeIndex="this.isFiltered ? '[0]' : null">
             <AccordionTab>
               <template #header>
                 <span>Filtrar</span>
@@ -37,8 +34,8 @@
                 <div class="row mt-3">
                   <div class="col-3">
                     <InlineMessage severity="info">
-                      {{ totalRecords }} registro(s).
-                    </InlineMessage>
+                      {{ totalRecords }} registro(s) encontrado(s).</InlineMessage
+                    >
                   </div>
                   <div class="col text-right">
                     <Button
@@ -51,7 +48,7 @@
                       label="Limpar"
                       icon="fas fa-backspace"
                       class="p-button-secondary p-button-sm mr-2"
-                      @click="this.clearFilter()"
+                      @click="this.doClearFilters()"
                     />
                   </div>
                 </div>
@@ -59,10 +56,10 @@
             </AccordionTab>
           </Accordion>
         </div>
-        <data-table
+        <DataTable
           stateStorage="local"
-          :stateKey="'dt-state' + this.apiResource"
           class="p-datatable-sm p-datatable-striped"
+          :stateKey="this.dataTableStateKey"
           :value="tableData"
           :totalRecords="totalRecords"
           :lazy="true"
@@ -72,12 +69,12 @@
           @sort="onSort($event)"
           removableSort
           sortField="id"
-          :sortOrder="1"
+          sortOrder="1"
           ref="dt"
           paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink
            LastPageLink CurrentPageReport RowsPerPageDropdown"
           :rowsPerPageOptions="[5, 10, 25, 50, 1000]"
-          currentPageReportTemplate="{first} - {last} de {totalRecords}"
+          currentPageReportTemplate="{first}-{last} de {totalRecords}"
           v-model:selection="this.selectedItems"
           dataKey="id"
           @row-select="onSelectChange"
@@ -94,11 +91,11 @@
             </div>
           </template>
           <slot name="columns"></slot>
-        </data-table>
+        </DataTable>
       </div>
     </div>
   </div>
-  <ConfirmDialog></ConfirmDialog>
+  <ConfirmPopup></ConfirmPopup>
   <Toast class="mt-5" />
 </template>
 
@@ -106,28 +103,25 @@
 import DataTable from "primevue/datatable";
 import Accordion from "primevue/accordion";
 import AccordionTab from "primevue/accordiontab";
-import ConfirmDialog from "primevue/confirmdialog";
 import Button from "primevue/button";
+import ConfirmPopup from "primevue/confirmpopup";
 import InlineMessage from "primevue/inlinemessage";
 import Toast from "primevue/toast";
 import { fetchTableData } from "@/services/ApiDataFetchService";
 import { deleteEntityData } from "@/services/ApiDeleteService";
 import listSelectStore from "../store/listSelectStore";
-import CrosierBlock from "./crosierBlock";
 
 export default {
-  name: "CrosierList",
+  name: "CrosierListS",
   components: {
     Accordion,
     AccordionTab,
     Button,
-    ConfirmDialog,
+    ConfirmPopup,
     DataTable,
     InlineMessage,
-    CrosierBlock,
     Toast,
   },
-
   props: {
     titulo: {
       type: String,
@@ -141,18 +135,23 @@ export default {
       type: String,
       required: false,
     },
-    parentLoad: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
-    filters: {
-      type: Object,
-      required: true,
+    pesquisar: {
+      type: String,
+      required: false,
     },
     apiResource: {
       type: String,
       required: true,
+    },
+    filtersStoreName: {
+      type: String,
+      required: false,
+      default: "filters",
+    },
+    containerClass: {
+      type: String,
+      required: false,
+      default: "container-fluid",
     },
   },
 
@@ -168,37 +167,42 @@ export default {
 
   async mounted() {
     this.$store.state.loading = true;
-
+    console.log("mounted");
     const uri = window.location.search.substring(1);
     const params = new URLSearchParams(uri);
 
-    this.savedFilter =
-      params.get("saved_filter") ||
-      localStorage.getItem(`filter-state${this.apiResource}`);
+    this.savedFilter = params.get("filters") || localStorage.getItem(this.localStorageName);
     if (this.savedFilter) {
-      this.$emit("loadSavedFilters", JSON.parse(this.savedFilter));
+      console.log("tem savedFilter");
+      console.log(this.savedFilter);
+      this.$store.state[this.filtersStoreName] = JSON.parse(this.savedFilter);
+    } else {
+      console.log("NÃO tem savedFilter");
     }
-
-    const dtStateLS = JSON.parse(
-      localStorage.getItem(`dt-state${this.apiResource}`)
-    );
-
-    const page = dtStateLS
-      ? Math.ceil((dtStateLS.first + 1) / dtStateLS.rows)
-      : 1;
-
-    const rows = dtStateLS ? dtStateLS.rows : 10;
-
-    const sorterOrder = {
-      1: "ASC",
-      "-1": "DESC",
-    };
-
+    let page = 1;
+    let rows = 10;
     const order = new Map();
-    if (dtStateLS && sorterOrder[dtStateLS.sortOrder]) {
-      order.set(dtStateLS.sortField, sorterOrder[dtStateLS.sortOrder]);
+    const lsItem = localStorage.getItem(this.dataTableStateKey);
+    if (lsItem) {
+      console.log("já tem lsItem");
+      console.log(lsItem);
+      const dtStateLS = JSON.parse(lsItem);
+      page = Math.ceil((dtStateLS.first + 1) / dtStateLS.rows);
+      rows = dtStateLS.rows;
+      const sorterOrder = {
+        1: "ASC",
+        "-1": "DESC",
+      };
+
+      if (dtStateLS?.sortOrder && sorterOrder[dtStateLS.sortOrder]) {
+        order.set(dtStateLS.sortField, sorterOrder[dtStateLS.sortOrder]);
+      }
     }
 
+    console.log("fetchTableData.....");
+    console.log(this.filters);
+
+    // make request passing
     const response = await this.fetchTableData({
       apiResource: this.apiResource,
       page,
@@ -210,15 +214,9 @@ export default {
     this.totalRecords = response.data["hydra:totalItems"];
     this.tableData = response.data["hydra:member"];
 
-    // eslint-disable-next-line no-restricted-syntax
-    for (const key in this.fields) {
-      if (this.filters[key] !== null && this.filters[key] !== "")
-        this.isFiltered = true;
-    }
-
+    this.$emit("afterFilter", this.tableData);
     this.$store.state.loading = false;
   },
-
   methods: {
     fetchTableData,
     deleteEntityData,
@@ -232,10 +230,12 @@ export default {
         1: "ASC",
         "-1": "DESC",
       };
+
       const order = new Map();
       if (sorterOrder[event.sortOrder]) {
         order.set(event.sortField, sorterOrder[event.sortOrder]);
       }
+
       const response = await this.fetchTableData({
         apiResource: this.apiResource,
         page,
@@ -243,8 +243,11 @@ export default {
         order,
         filters,
       });
+
       this.totalRecords = response.data["hydra:totalItems"];
       this.tableData = response.data["hydra:member"];
+
+      this.$emit("afterFilter", this.tableData);
       this.$store.state.loading = false;
     },
 
@@ -261,25 +264,32 @@ export default {
     },
 
     async doFilter() {
-      console.log("sim");
       this.$store.state.loading = true;
+
+      // get filters
+      const filters = this.filters;
+      console.log("doFilter: ");
+      console.log(filters);
 
       // get from api
       const response = await this.fetchTableData({
         apiResource: this.apiResource,
-        filters: this.filters,
+        filters,
       });
 
       this.totalRecords = response.data["hydra:totalItems"];
       this.tableData = response.data["hydra:member"];
 
       // save filters on localstorage
-      localStorage.setItem(
-        `filter-state${this.apiResource}`,
-        JSON.stringify(this.filters)
-      );
-
+      localStorage.setItem(this.localStorageName, JSON.stringify(this.filters));
+      console.log("afterFilter no mounted");
+      this.$emit("afterFilter", this.tableData);
       this.$store.state.loading = false;
+    },
+
+    doClearFilters() {
+      this.$store.state[this.filtersStoreName] = {};
+      this.$emit("clearFilters");
     },
 
     async delete(event, id) {
@@ -297,28 +307,35 @@ export default {
               apiResource: `${this.apiResource}${id}`,
             });
             if (response.status === 204) {
-              this.$toast.add({
-                severity: "success",
-                summary: "Sucesso",
-                detail: "Registro deletado com sucesso!",
-                life: 3000,
-              });
-
+              this.showSuccess("Deletado com sucesso.");
               document.location.reload(true);
             } else {
-              throw new Error("erro");
+              this.showError("Erro ao deletar");
             }
           } catch (err) {
-            this.$toast.add({
-              severity: "error",
-              summary: "Mensagem de erro",
-              detail: "Ocorreu um erro ao deletar",
-              life: 3000,
-            });
+            this.showError("Erro ao deletar");
             console.log(err);
           }
           this.$store.state.loading = false;
         },
+      });
+    },
+
+    showSuccess(message) {
+      this.$toast.add({
+        severity: "success",
+        summary: "Mensagem de sucesso",
+        detail: message,
+        life: 3000,
+      });
+    },
+
+    showError(message) {
+      this.$toast.add({
+        severity: "error",
+        summary: "Mensagem de erro",
+        detail: message,
+        life: 3000,
       });
     },
 
@@ -332,11 +349,17 @@ export default {
     },
   },
   computed: {
-    loading() {
-      return this.$store.state.loading || this.parentLoad;
+    filters() {
+      return this.$store.state[this.filtersStoreName];
     },
     stored_selectedItems() {
       return listSelectStore.state.selectedItems.length;
+    },
+    localStorageName() {
+      return `filter-state_${this.apiResource}_${this.filtersStoreName}`;
+    },
+    dataTableStateKey() {
+      return `dataTable-state${this.apiResource}`;
     },
   },
 };

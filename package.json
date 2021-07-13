@@ -35,10 +35,8 @@
         "@fullcalendar/daygrid": "^5.5.0",
         "@fullcalendar/interaction": "^5.5.0",
         "@fullcalendar/timegrid": "^5.5.0",
-        "@symfony/stimulus-bridge": "^1.1.0",
         "@symfony/webpack-encore": "^0.33.0",
         "@vue/cli-plugin-babel": "^4.5.10",
-        "@vue/cli-plugin-eslint": "~4.5.0",
         "@vue/cli-plugin-router": "~4.5.0",
         "@vue/cli-plugin-unit-jest": "^3.8.0",
         "@vue/cli-service": "~4.5.0",
@@ -81,7 +79,11 @@
         "typescript": "^4.1.3",
         "vue-loader": "16.1.2",
         "vue-router": "^4.0.0-0",
-        "webpack-notifier": "^1.6.0"
+        "webpack-notifier": "^1.6.0",
+        "@vue/cli-plugin-eslint": "~4.5.0",
+        "@vue/eslint-config-prettier": "^6.0.0",
+        "script-loader": "^0.7.2",
+        "vue-template-compiler": "^2.6.11"
     },
     "resolutions": {
         "jquery": "3.5.1"
@@ -92,6 +94,7 @@
         "dev-server": "encore dev-server",
         "dev": "encore dev",
         "watch": "encore dev --watch",
-        "build": "encore production --progress"
+        "build": "encore production --progress",
+        "lint": "vue-cli-service lint assets"
     }
 }

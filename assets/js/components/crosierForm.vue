@@ -1,7 +1,8 @@
 <template>
+  <CrosierBlock :loading="this.desabilitado || this.parentLoad" />
   <div v-if="this.withoutCard">
     <form @submit.prevent="this.submitForm">
-      <fieldset :disabled="desabilitado">
+      <fieldset :disabled="desabilitado || parentLoad">
         <slot></slot>
         <slot name="formChilds"></slot>
         <div class="row mt-3" v-if="!this.withoutSaveButton">
@@ -55,11 +56,11 @@
             mode="indeterminate"
             :style="
               'height: .5em; margin-bottom: 10px; display: ' +
-              (desabilitado ? '' : 'none')
+              (desabilitado || parentLoad ? '' : 'none')
             "
           />
           <form @submit.prevent="this.submitForm">
-            <fieldset :disabled="desabilitado">
+            <fieldset :disabled="desabilitado || parentLoad">
               <slot></slot>
               <slot name="formChilds"></slot>
               <div class="row mt-3" v-if="!this.withoutSaveButton">
@@ -79,7 +80,7 @@
       </div>
     </div>
   </div>
-  <CrosierBlock :desabilitado="this.desabilitado" />
+
   <Toast class="mt-5" />
 </template>
 
@@ -103,7 +104,7 @@ export default {
   props: {
     titulo: {
       type: String,
-      required: true,
+      required: false,
     },
     subtitulo: {
       type: String,
@@ -141,6 +142,16 @@ export default {
       required: false,
       default: false,
     },
+    getIdFromUrl: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+    entityId: {
+      type: Number,
+      required: false,
+      default: null,
+    },
     notSetUrlId: {
       type: Boolean,
       required: false,
@@ -161,6 +172,11 @@ export default {
       required: false,
       default: false,
     },
+    parentLoad: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   data() {
     return {
@@ -168,21 +184,32 @@ export default {
     };
   },
   async mounted() {
+    // Já inicializa o objeto dos erros com os atributos certos que o objeto contém
+    this.$store.commit(this.commitFormErrors, {});
+
     this.desabilitado = true;
+
     if (!this.notLoadOnMount) {
       const uri = window.location.search.substring(1);
       const params = new URLSearchParams(uri);
-      const id = params.get("id");
+      let id = null;
+      if (this.getIdFromUrl) {
+        id = params.get("id");
+      } else {
+        id = this.entityId;
+      }
       if (id) {
         try {
           const response = await fetchTableData({
             apiResource: `${this.apiResource}/${id}}`,
           });
           if (response.data["@id"]) {
-            this.$store.commit(this.commitFormFields, response.data);
+            const afterGet = this.$emit("afterGet", response.data);
+            const data = afterGet || response.data;
+            this.$store.commit(this.commitFormFields, data);
             if (this.hasDependents) {
               // se this.hasDependents === true, é necessário criar uma action chamada hasDependents
-              await this.$store.dispatch("hasDependents", response.data);
+              await this.$store.dispatch("hasDependents", data);
             }
           } else {
             throw new Error("Id não encontrado.");
@@ -200,14 +227,10 @@ export default {
       return this.$store.getters[this.storeName];
     },
     commitFormFields() {
-      return `set${this.storeName
-        .charAt(0)
-        .toUpperCase()}${this.storeName.slice(1)}`;
+      return `set${this.storeName.charAt(0).toUpperCase()}${this.storeName.slice(1)}`;
     },
     commitFormErrors() {
-      return `set${this.storeName
-        .charAt(0)
-        .toUpperCase()}${this.storeName.slice(1)}Errors`;
+      return `set${this.storeName.charAt(0).toUpperCase()}${this.storeName.slice(1)}Errors`;
     },
   },
   methods: {
@@ -227,28 +250,25 @@ export default {
         } else {
           validated = this.formFields;
         }
-
         // verifica se o @id do formulário esta setado, se sim então a requisição é
         // put(atualização), senão:
         // post(criação).
         let response;
+        const beforeSaved = this.$emit("beforeSave", validated);
+        validated = beforeSaved || validated;
         if (this.formFields["@id"]) {
-          response = await putEntityData(
-            this.formFields["@id"],
-            JSON.stringify(validated)
-          );
+          response = await putEntityData(this.formFields["@id"], JSON.stringify(validated));
         } else {
-          response = await postEntityData(
-            this.apiResource,
-            JSON.stringify(validated)
-          );
+          response = await postEntityData(this.apiResource, JSON.stringify(validated));
         }
 
         // caso o retorno da api seja de sucesso
         if ([200, 201].includes(response.status)) {
           // armazena os novos dados no store correspondente.
 
-          this.$store.commit(this.commitFormFields, response.data);
+          const afterGet = this.$emit("afterGet", response.data);
+          const data = afterGet || response.data;
+          this.$store.commit(this.commitFormFields, data);
 
           if (this.hasDependents) {
             // se this.hasDependents === true, é necessário criar uma action chamada hasDependents
@@ -271,6 +291,7 @@ export default {
           this.$emit("dataSaved", response.data);
         }
       } catch (err) {
+        console.log(err);
         console.log(err.inner);
         // em caso de não passar na validação do yup
         // percorremos os campos com erros do yup para obter a mensagem do erro,

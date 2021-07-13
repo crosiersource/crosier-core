@@ -13,10 +13,7 @@ export const store = {
       console.log(localStoragePath);
       const loadedSelected = await localStorage.getItem(localStoragePath);
 
-      context.dispatch(
-        "updateSelectedRows",
-        JSON.parse(loadedSelected).selection
-      );
+      context.dispatch("updateSelectedRows", JSON.parse(loadedSelected).selection);
     },
 
     updateSelectedRows(context, selectedSet) {

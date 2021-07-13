@@ -24,7 +24,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="r in this.tableData">
+          <tr v-bind:key="k" v-for="(k, r) in this.tableData">
             <td>{{ r.chave }}</td>
             <td>
               <vue-json-editor
@@ -103,10 +103,7 @@ export default {
       },
     };
 
-    const response = await axios.get(
-      `${this.baseApi}?appUUID=${this.formFieldsApp.UUID}`,
-      params
-    );
+    const response = await axios.get(`${this.baseApi}?appUUID=${this.formFieldsApp.UUID}`, params);
 
     this.totalRecords = response.data["hydra:totalItems"];
     this.tableData = response.data["hydra:member"];
@@ -150,7 +147,7 @@ export default {
         message: `Confirmar deleção do reggistro?`,
         icon: "pi pi-exclamation-triangle",
         accept: () => {
-          // callback to execute when user confirms the action
+          console.log(`delete ${id}`);
         },
         reject: () => {
           // callback to execute when user rejects the action

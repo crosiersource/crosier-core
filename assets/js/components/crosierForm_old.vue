@@ -2,10 +2,7 @@
   <div v-if="this.withoutCard">
     <ProgressBar
       mode="indeterminate"
-      :style="
-        'height: .5em; margin-bottom: 10px; display: ' +
-        (desabilitado ? '' : 'none')
-      "
+      :style="'height: .5em; margin-bottom: 10px; display: ' + (desabilitado ? '' : 'none')"
     />
     <form @submit.prevent="this.$emit('handleSubmitForm')">
       <fieldset :disabled="desabilitado">
@@ -47,10 +44,7 @@
         <div class="card-body">
           <ProgressBar
             mode="indeterminate"
-            :style="
-              'height: .5em; margin-bottom: 10px; display: ' +
-              (desabilitado ? '' : 'none')
-            "
+            :style="'height: .5em; margin-bottom: 10px; display: ' + (desabilitado ? '' : 'none')"
           />
           <form @submit.prevent="this.$emit('handleSubmitForm')">
             <fieldset :disabled="desabilitado">
@@ -209,24 +203,15 @@ export default {
         // post(criação).
         let response;
         if (values["@id"]) {
-          response = await putEntityData(
-            values["@id"],
-            JSON.stringify(validated)
-          );
+          response = await putEntityData(values["@id"], JSON.stringify(validated));
         } else {
-          response = await postEntityData(
-            this.apiResource,
-            JSON.stringify(validated)
-          );
+          response = await postEntityData(this.apiResource, JSON.stringify(validated));
         }
 
         // caso o retorno da api seja de sucesso
         if ([200, 201].includes(response.status)) {
           // armazena os novos dados no store correspondente.
-          this.$store.commit(
-            this.setStoreName || "setFormFields",
-            response.data
-          );
+          this.$store.commit(this.setStoreName || "setFormFields", response.data);
 
           // verifica se é necessário atualizar o id da url
           // só é necessário caso o formulário seja de apenas uma entidade
@@ -268,10 +253,7 @@ export default {
         });
 
         // salvamos as mensagens de erro no store correspondente
-        this.$store.commit(
-          this.setStoreErrorsName || "setFormErrors",
-          this.formErrors
-        );
+        this.$store.commit(this.setStoreErrorsName || "setFormErrors", this.formErrors);
 
         // emitimos a mensagem de erro.
         this.showError("Não foi possível salvar!");

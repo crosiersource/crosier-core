@@ -2,10 +2,7 @@
   <div v-if="withoutCard">
     <ProgressBar
       mode="indeterminate"
-      :style="
-        'height: .5em; margin-bottom: 10px; display: ' +
-        (desabilitado ? '' : 'none')
-      "
+      :style="'height: .5em; margin-bottom: 10px; display: ' + (desabilitado ? '' : 'none')"
     />
     <form @submit.prevent="this.$emit('handleSubmitForm')">
       <fieldset :disabled="desabilitado">
@@ -41,10 +38,7 @@
         <div class="card-body">
           <ProgressBar
             mode="indeterminate"
-            :style="
-              'height: .5em; margin-bottom: 10px; display: ' +
-              (desabilitado ? '' : 'none')
-            "
+            :style="'height: .5em; margin-bottom: 10px; display: ' + (desabilitado ? '' : 'none')"
           />
           <form @submit.prevent="this.$emit('handleSubmitForm')">
             <fieldset :disabled="desabilitado">
@@ -145,10 +139,7 @@ export default {
         });
 
         if (response.data["@id"]) {
-          this.$store.commit(
-            this.setStoreName || "setFormFields",
-            response.data
-          );
+          this.$store.commit(this.setStoreName || "setFormFields", response.data);
           if (this.hasDependents) {
             this.$store.commit("setDependentsId", response.data.id);
           }
@@ -182,21 +173,12 @@ export default {
 
         let response;
         if (values["@id"]) {
-          response = await putEntityData(
-            values["@id"],
-            JSON.stringify(validated)
-          );
+          response = await putEntityData(values["@id"], JSON.stringify(validated));
         } else {
-          response = await postEntityData(
-            this.apiResource,
-            JSON.stringify(validated)
-          );
+          response = await postEntityData(this.apiResource, JSON.stringify(validated));
         }
         if ([200, 201].includes(response.status)) {
-          this.$store.commit(
-            this.setStoreName || "setFormFields",
-            response.data
-          );
+          this.$store.commit(this.setStoreName || "setFormFields", response.data);
           window.history.pushState("form", "id", `?id=${response.data.id}`);
           if (this.hasDependents) {
             this.$store.commit("setDependentsId", response.data.id);
@@ -210,10 +192,7 @@ export default {
           // this.formErrors[element.path] = element.message ?? "Valor inválido";
           this.formErrors[element.path] = "Valor inválido";
         });
-        this.$store.commit(
-          this.setStoreErrorsName || "setFormErrors",
-          this.formErrors
-        );
+        this.$store.commit(this.setStoreErrorsName || "setFormErrors", this.formErrors);
 
         this.showError("Não foi possível salvar!");
       }

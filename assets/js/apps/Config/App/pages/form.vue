@@ -8,12 +8,7 @@
             <h6 v-if="subtitulo">{{ this.subtitulo }}</h6>
           </div>
           <div class="d-sm-flex flex-nowrap ml-auto">
-            <a
-              type="button"
-              class="btn btn-info"
-              href="/config/app/form"
-              title="Novo"
-            >
+            <a type="button" class="btn btn-info" href="/config/app/form" title="Novo">
               <i class="fas fa-file" aria-hidden="true"></i>
             </a>
             <a

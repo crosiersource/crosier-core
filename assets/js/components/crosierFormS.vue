@@ -7,7 +7,13 @@
         <slot name="formChilds"></slot>
         <div class="row mt-3" v-if="!this.semBotaoSalvar">
           <div class="col text-right">
-            <Button style="width: 12rem" label="Salvar" type="submit" icon="fas fa-save" v-if="!this.disabledSubmit" />
+            <Button
+              style="width: 12rem"
+              label="Salvar"
+              type="submit"
+              icon="fas fa-save"
+              v-if="!this.disabledSubmit"
+            />
           </div>
         </div>
       </fieldset>
@@ -23,25 +29,46 @@
               <h6 v-if="subtitulo">{{ this.subtitulo }}</h6>
             </div>
             <div class="d-sm-flex flex-nowrap ml-auto">
-              <a v-show="this.formUrl" type="button" class="btn btn-info mr-2" :href="this.formUrl" title="Novo">
+              <a
+                v-show="this.formUrl"
+                type="button"
+                class="btn btn-info mr-2"
+                :href="this.formUrl"
+                title="Novo"
+              >
                 <i class="fas fa-file" aria-hidden="true"></i>
               </a>
 
-              <a v-show="this.listUrl" role="button" class="btn btn-outline-secondary" :href="this.listUrl" title="Listar">
+              <a
+                v-show="this.listUrl"
+                role="button"
+                class="btn btn-outline-secondary"
+                :href="this.listUrl"
+                title="Listar"
+              >
                 <i class="fas fa-list"></i>
               </a>
             </div>
           </div>
         </div>
         <div class="card-body">
-          <ProgressBar mode="indeterminate" :style="'height: .5em; margin-bottom: 10px; display: ' + (this.loading ? '' : 'none')" />
+          <ProgressBar
+            mode="indeterminate"
+            :style="'height: .5em; margin-bottom: 10px; display: ' + (this.loading ? '' : 'none')"
+          />
           <form @submit.prevent="this.$emit('submitForm')">
             <fieldset :disabled="this.loading">
               <slot></slot>
               <slot name="formChilds"></slot>
               <div class="row mt-3" v-if="!this.semBotaoSalvar">
                 <div class="col text-right">
-                  <Button style="width: 12rem" label="Salvar" type="submit" icon="fas fa-save" v-if="!this.disabledSubmit" />
+                  <Button
+                    style="width: 12rem"
+                    label="Salvar"
+                    type="submit"
+                    icon="fas fa-save"
+                    v-if="!this.disabledSubmit"
+                  />
                 </div>
               </div>
             </fieldset>

@@ -11,12 +11,7 @@
       <div class="form-row">
         <div class="col-md-2">
           <label for="id">ID</label>
-          <InputText
-            class="form-control"
-            id="id"
-            type="text"
-            v-model="this.filters.id"
-          />
+          <InputText class="form-control" id="id" type="text" v-model="this.filters.id" />
         </div>
         <div class="col-md-7">
           <div class="form-group">
@@ -57,12 +52,7 @@
         </div>
         <div class="col-md-3">
           <label for="app">Act</label>
-          <InputText
-            class="form-control"
-            id="act"
-            type="text"
-            v-model="this.filters.act"
-          />
+          <InputText class="form-control" id="act" type="text" v-model="this.filters.act" />
         </div>
         <div class="col-md-3">
           <label for="app">Username</label>
@@ -93,22 +83,12 @@
         </div>
         <div class="col-md-3">
           <label for="obs">Obs</label>
-          <InputText
-            class="form-control"
-            id="obs"
-            type="text"
-            v-model="this.filters.obs"
-          />
+          <InputText class="form-control" id="obs" type="text" v-model="this.filters.obs" />
         </div>
       </div>
     </template>
     <template v-slot:columns>
-      <Column
-        field="moment"
-        header="Moment"
-        :sortable="true"
-        headerStyle="width: 15%"
-      >
+      <Column field="moment" header="Moment" :sortable="true" headerStyle="width: 15%">
         <template class="text-right" #body="slotProps">
           {{ this.moment(slotProps.data.moment).format("DD/MM/YYYY HH:mm:ss") }}
           <br />
@@ -130,14 +110,10 @@
             <span class="badge badge-info"
               ><i class="fas fa-user"></i> {{ slotProps.data.username }}</span
             ><br />
-            <span
-              v-show="slotProps.data.tipo === 'debug'"
-              class="badge badge-danger"
+            <span v-show="slotProps.data.tipo === 'debug'" class="badge badge-danger"
               ><i class="fas fa-bug"></i> debug</span
             >
-            <span
-              v-show="slotProps.data.tipo === 'info'"
-              class="badge badge-info"
+            <span v-show="slotProps.data.tipo === 'info'" class="badge badge-info"
               ><i class="fas fa-info"></i> info</span
             >
             <br />

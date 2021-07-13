@@ -12,7 +12,7 @@ export async function submitForm({
 }) {
   console.log("ini submitForm");
   console.log(formData);
-  console.log("^^^^^^^^^^^");
+  console.log("^^^^^^^^^^");
   if (schemaValidator) {
     console.log("tem schemaValidator");
     try {
@@ -98,15 +98,21 @@ export async function submitForm({
     console.log(formData);
     return formData;
   }
+  // if (response.status >= 400 && response.status < 500) {
+  console.log("erro entre 400 e 500");
+  console.log(response);
+  const errMsg = response.data["hydra:description"] || "Ocorreu um erro ao salvar!";
+  // }
 
   // else...
   console.error("Ocorreu um erro salvar!");
+
   if (toast) {
     toast.add({
       severity: "error",
       summary: "Erro",
-      detail: "Ocorreu um erro ao salvar!",
-      life: 3000,
+      detail: errMsg,
+      life: 5000,
     });
   }
   return false;

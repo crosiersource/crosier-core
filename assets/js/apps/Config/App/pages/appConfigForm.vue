@@ -121,10 +121,7 @@ export default {
       if (typeof this.formFieldsAppConfig.isJson !== "boolean") {
         return false;
       }
-      return (
-        this.formFieldsAppConfig.isJson ||
-        this.formFieldsAppConfig.chave?.includes("json")
-      );
+      return this.formFieldsAppConfig.isJson || this.formFieldsAppConfig.chave?.includes("json");
     },
   },
 };

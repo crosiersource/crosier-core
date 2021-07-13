@@ -8,12 +8,7 @@ module.exports = {
     parser: "babel-eslint",
     sourceType: "module",
   },
-  extends: [
-    "airbnb-base",
-    "plugin:vue/vue3-essential",
-    "prettier/vue",
-    "plugin:prettier/recommended",
-  ],
+  extends: ["airbnb-base", "plugin:vue/vue3-essential", "prettier/vue", "plugin:prettier/recommended"],
   rules: {
     "prefer-destructuring": [
       "error",
@@ -35,6 +30,6 @@ module.exports = {
     "implicit-arrow-linebreak": "off",
     "import/prefer-default-export": "off",
     "prettier/prettier": ["error", { singleQuote: false, endOfLine: "auto" }],
-    "max-len": ["error", { code: 140, comments: 140 }],
+    "max-len": ["error", { code: 100, comments: 140 }],
   },
 };
