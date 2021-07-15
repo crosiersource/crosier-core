@@ -127,7 +127,7 @@ class CrosierMasks {
                 G: {pattern: /[Gg0-9]/}
             },
         });
-        $('.cnpj').mask('[G0-9]0.000.000/0000-00', {
+        $('.cnpj').mask('G0.000.000/0000-00', {
             clearIfNotMatch: true,
             selectOnFocus: true,
             'translation': {
