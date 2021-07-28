@@ -73,3 +73,22 @@ input[type=submit], input[type=button] {
 .c-sidebar .c-sidebar-nav-link:hover, .c-sidebar .c-sidebar-nav-dropdown-toggle:hover {
   background-color: darkslategrey;
 }
+
+
+.blink {
+  animation: animate 1.5s linear infinite;
+}
+
+@keyframes animate {
+  0% {
+    opacity: 0.1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+
+  100% {
+    opacity: 0.1;
+  }
+}
