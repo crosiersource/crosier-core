@@ -48,6 +48,34 @@ CREATE TABLE `sessions`
   ENGINE = InnoDB;
 
 
+DROP TABLE IF EXISTS `cfg_syslog`;
+
+CREATE TABLE `cfg_syslog`
+(
+  `id`           bigint(20)    NOT NULL AUTO_INCREMENT,
+  `tipo`         varchar(50)   NOT NULL,
+  `app`          varchar(50)   NOT NULL,
+  `component`    varchar(255)  NOT NULL,
+  `act`          varchar(3000) NOT NULL,
+  `username`     varchar(90)   NOT NULL,
+  `moment`       datetime      NOT NULL,
+  `obs`          longblob,
+  `delete_after` datetime DEFAULT NULL,
+  `json_data`    json     DEFAULT NULL,
+
+  KEY cfg_syslog_tipo (`tipo`),
+  KEY cfg_syslog_app (`app`),
+  KEY cfg_syslog_component (`component`),
+  KEY cfg_syslog_username (`username`),
+  KEY cfg_syslog_moment (`moment`),
+
+  PRIMARY KEY (`id`)
+) COLLATE utf8mb4_bin
+  ENGINE = InnoDB;
+
+
+
+
 DROP TABLE IF EXISTS `cfg_estabelecimento`;
 
 CREATE TABLE `cfg_estabelecimento`
@@ -420,33 +448,6 @@ CREATE TABLE `cfg_entity_change`
   DEFAULT CHARSET = utf8
   COLLATE = utf8mb4_unicode_ci;
 
-
-
-DROP TABLE IF EXISTS `cfg_syslog`;
-
-CREATE TABLE `cfg_syslog`
-(
-    `id`           bigint(20)    NOT NULL AUTO_INCREMENT,
-    `tipo`         varchar(50)   NOT NULL,
-    `app`          varchar(50)   NOT NULL,
-    `component`    varchar(255)  NOT NULL,
-    `act`          varchar(3000) NOT NULL,
-    `username`     varchar(90)   NOT NULL,
-    `moment`       datetime      NOT NULL,
-    `obs`          longblob,
-    `delete_after` datetime DEFAULT NULL,
-    `json_data`    json     DEFAULT NULL,
-
-    KEY cfg_syslog_tipo (`tipo`),
-    KEY cfg_syslog_app (`app`),
-    KEY cfg_syslog_component (`component`),
-    KEY cfg_syslog_username (`username`),
-    KEY cfg_syslog_moment (`moment`),
-
-    PRIMARY KEY (`id`)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8mb4_unicode_ci;
 
 
 
