@@ -40,7 +40,7 @@ CREATE TABLE `sessions`
   `sess_data`     BLOB             NOT NULL,
   `sess_lifetime` INTEGER UNSIGNED NOT NULL,
   `sess_time`     INTEGER UNSIGNED NOT NULL
-) COLLATE utf8mb4_bin,
+) ,
   ENGINE = InnoDB;
 
 
@@ -66,7 +66,7 @@ CREATE TABLE `cfg_syslog`
   KEY cfg_syslog_moment (`moment`),
 
   PRIMARY KEY (`id`)
-) COLLATE utf8mb4_bin
+)
   ENGINE = InnoDB;
 
 
