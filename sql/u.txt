@@ -1,0 +1,5 @@
+mysql_config_editor set --login-path=crosier_dev --host=localhost --user=crosier_dev --password
+
+mysql_config_editor print --all
+
+mysql --login-path=crosier_dev crosier_dev

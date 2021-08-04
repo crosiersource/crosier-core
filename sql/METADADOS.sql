@@ -40,8 +40,7 @@ CREATE TABLE `sessions`
   `sess_data`     BLOB             NOT NULL,
   `sess_lifetime` INTEGER UNSIGNED NOT NULL,
   `sess_time`     INTEGER UNSIGNED NOT NULL
-) ,
-  ENGINE = InnoDB;
+) ENGINE = InnoDB;
 
 
 DROP TABLE IF EXISTS `cfg_syslog`;
