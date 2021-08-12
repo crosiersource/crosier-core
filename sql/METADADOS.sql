@@ -54,7 +54,7 @@ CREATE TABLE `cfg_syslog`
   `act`          varchar(3000) NOT NULL,
   `username`     varchar(90)   NOT NULL,
   `moment`       datetime      NOT NULL,
-  `obs`          longblob,
+  `obs`          longtext,
   `delete_after` datetime DEFAULT NULL,
   `json_data`    json     DEFAULT NULL,
 
