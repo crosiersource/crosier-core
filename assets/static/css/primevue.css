@@ -2,6 +2,15 @@
   font-size: 0.85rem !important;
 }
 
+.p-component > .p-inputtext {
+  border-width: 0;
+}
+
+.p-inputtext {
+  padding-top: 0.2rem !important;
+  padding-bottom: 0.2rem !important;
+}
+
 .p-inputnumber, .text-right, .p-component > input {
   text-align: right;
 }
