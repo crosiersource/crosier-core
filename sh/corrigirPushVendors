@@ -1,0 +1,60 @@
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> crosierlib-base em crosier-core"
+cd crosier-core/vendor/crosiersource/crosierlib-base/
+git push
+git pull
+git status
+echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+echo ""
+echo ""
+cd ../../../../
+
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> crosierlib-base em crosierapp-radx"
+cd crosierapp-radx/vendor/crosiersource/crosierlib-base/
+git push
+git pull
+git status
+echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+echo ""
+echo ""
+
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> crosierlib-radx em crosierapp-radx"
+cd ../crosierlib-radx
+git push
+git pull
+git status
+echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+echo ""
+echo ""
+cd ../../../../
+
+
+projetos=(
+"crosierapp-xxx"
+)
+
+
+for app in "${projetos[@]}"
+do
+  echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> crosierlib-base em $app"
+  cd $app/vendor/crosiersource/crosierlib-base/
+  git push
+  git pull
+  git status
+  echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+  echo ""
+  echo ""
+  
+  echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> crosierlib-radx em $app"
+  cd ../crosierlib-radx
+  git push
+  git pull
+  git status
+  echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+  echo ""
+  echo ""
+  cd ../../../
+done
+
+
+
+
