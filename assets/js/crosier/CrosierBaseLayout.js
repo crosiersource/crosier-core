@@ -227,7 +227,7 @@ class CrosierBaseLayout {
       tags: true,
       tokenSeparators: [',']
     });
-    let val = String($s2.data('val')).split(',');
+    let val = String($s2.data('val').toUpperCase()).split(',');
 
     String($s2.data('tagsoptions')).split(',').forEach(function (t) {
       if (t && t !== "undefined") {
