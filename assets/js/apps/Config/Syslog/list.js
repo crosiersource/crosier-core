@@ -1,9 +1,9 @@
 import { createApp } from "vue";
-import primevueOptions from "@/primevue.config.js";
 import PrimeVue from "primevue/config";
 import ToastService from "primevue/toastservice";
 import Tooltip from "primevue/tooltip";
 import { createStore } from "vuex";
+import primevueOptions from "@/primevue.config.js";
 import Page from "./pages/list";
 import "primeflex/primeflex.css";
 import "primevue/resources/themes/bootstrap4-light-blue/theme.css"; // theme

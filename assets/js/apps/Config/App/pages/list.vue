@@ -40,9 +40,9 @@
 </template>
 
 <script>
-import CrosierList from "@/components/crosierList";
 import Button from "primevue/button";
 import Column from "primevue/column";
+import CrosierList from "@/components/crosierList";
 
 export default {
   components: {

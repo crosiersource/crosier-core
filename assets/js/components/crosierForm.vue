@@ -87,10 +87,10 @@
 <script>
 import Button from "primevue/button";
 import Toast from "primevue/toast";
+import ProgressBar from "primevue/progressbar";
 import { postEntityData } from "@/services/ApiPostService";
 import { putEntityData } from "@/services/ApiPutService";
 import { fetchTableData } from "@/services/ApiDataFetchService";
-import ProgressBar from "primevue/progressbar";
 import CrosierBlock from "./crosierBlock";
 
 export default {

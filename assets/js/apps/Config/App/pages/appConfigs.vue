@@ -76,10 +76,10 @@
 <script>
 import InputText from "primevue/inputtext";
 import Button from "primevue/button";
-import { fetchTableData } from "@/services/ApiDataFetchService";
 import axios from "axios";
 import ConfirmPopup from "primevue/confirmpopup";
 import vueJsonEditor from "vue-json-editor";
+import { fetchTableData } from "@/services/ApiDataFetchService";
 import appConfigForm from "./appConfigForm";
 
 export default {

@@ -133,12 +133,12 @@
 </template>
 
 <script>
-import CrosierListS from "@/components/crosierListS";
 import Column from "primevue/column";
 import InputText from "primevue/inputtext";
 import MultiSelect from "primevue/multiselect";
 import moment from "moment";
 import axios from "axios";
+import CrosierListS from "@/components/crosierListS";
 import syslogForm from "./form";
 
 export default {

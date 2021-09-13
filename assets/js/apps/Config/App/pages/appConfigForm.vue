@@ -81,10 +81,10 @@
 <script>
 import Dialog from "primevue/dialog";
 import InputText from "primevue/inputtext";
-import CrosierForm from "@/components/crosierForm";
 import SelectButton from "primevue/selectbutton";
 import vueJsonEditor from "vue-json-editor";
 import * as yup from "yup";
+import CrosierForm from "@/components/crosierForm";
 
 export default {
   name: "appConfigForm",

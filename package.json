@@ -24,7 +24,17 @@
         "vue": "^3.0.8",
         "vue-json-editor": "^1.4.3",
         "vuex": "^4.0.0-rc.2",
-        "yup": "^0.32.9"
+        "yup": "^0.32.9",
+        "@fullcalendar/core": "^5.6.0",
+        "@fullcalendar/daygrid": "^5.5.0",
+        "@fullcalendar/interaction": "^5.6.0",
+        "@fullcalendar/timegrid": "^5.6.0",
+        "chart.js": "^3.3.2",
+        "crosier-vue": "^0.3.4",
+        "deepmerge": "^4.2.2",
+        "mitt": "^2.1.0",
+        "moment-timezone": "^0.5.33",
+        "quill": "^1.3.7"
     },
     "devDependencies": {
         "jquery-mask-plugin": "^1.14.15",
@@ -32,10 +42,6 @@
         "@babel/plugin-proposal-optional-chaining": "^7.12.7",
         "@babel/preset-typescript": "^7.0.0",
         "@fortawesome/fontawesome-free": "^5",
-        "@fullcalendar/core": "^5.5.0",
-        "@fullcalendar/daygrid": "^5.5.0",
-        "@fullcalendar/interaction": "^5.5.0",
-        "@fullcalendar/timegrid": "^5.5.0",
         "@symfony/webpack-encore": "^0.33.0",
         "@vue/cli-plugin-babel": "^4.5.10",
         "@vue/cli-plugin-router": "~4.5.0",
@@ -47,7 +53,6 @@
         "babel-eslint": "^10.1.0",
         "babel-jest": "^25.0.0",
         "babel-preset-typescript-vue": "^1.1.1",
-        "chart.js": "^2.7.3",
         "copy-webpack-plugin": "^6.2.1",
         "core-js": "^3.0.0",
         "eslint": "^7.18.0",
@@ -74,7 +79,6 @@
         "simple-line-icons": "^2.4.1",
         "sortablejs": "^1.8.1",
         "sprintf-js": "^1.1.2",
-        "stimulus": "^2.0.0",
         "summernote": "^0.8.11",
         "ts-loader": "^8.0.1",
         "typescript": "^4.1.3",
@@ -84,7 +88,22 @@
         "@vue/cli-plugin-eslint": "~4.5.0",
         "@vue/eslint-config-prettier": "^6.0.0",
         "script-loader": "^0.7.2",
-        "vue-template-compiler": "^2.6.11"
+        "vue-template-compiler": "^2.6.11",
+        "blueimp-file-upload": "^10.8.0",
+        "bootstrap-datepicker": "^1.8.0",
+        "datatables": "^1.10.18",
+        "datatables.net-bs4": "^1.10.19",
+        "daterangepicker": "^3.0.3",
+        "flag-icon": "^2.5.0",
+        "flag-icon-css": "^3.2.1",
+        "google-charts": "^2.0.0",
+        "jquery": "3.5.1",
+        "jquery-ui": "^1.12.1",
+        "lightbox2": "^2.11.1",
+        "print-js": "^1.0.63",
+        "select2": "^4.0.0",
+        "select2-bootstrap-theme": "^0.1.0-beta.10",
+        "toastr": "^2.1.4"
     },
     "resolutions": {
         "jquery": "3.5.1"
@@ -93,7 +112,7 @@
     "private": true,
     "scripts": {
         "dev-server": "encore dev-server",
-        "dev": "encore dev",
+        "dev": "encore dev --progress",
         "watch": "encore dev --watch",
         "build": "encore production --progress",
         "lint": "vue-cli-service lint assets"
