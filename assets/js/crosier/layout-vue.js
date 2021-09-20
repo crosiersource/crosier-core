@@ -25,6 +25,26 @@ document.addEventListener("DOMContentLoaded", function onDOMContentLoaded() {
     });
   });
 
+  document.querySelectorAll(".crsr-datetime").forEach(function format(el) {
+    el.maxLength = 19; // 01/02/1903 12:34:56
+    // eslint-disable-next-line no-new
+    new Cleave(el, {
+      numeralPositiveOnly: true,
+      delimiters: ["/", "/", " ", ":"],
+      blocks: [2, 2, 4, 2, 2, 2],
+    });
+  });
+
+  document.querySelectorAll(".crsr-datetime-nseg").forEach(function format(el) {
+    el.maxLength = 17; // 01/02/1903 12:34
+    // eslint-disable-next-line no-new
+    new Cleave(el, {
+      numeralPositiveOnly: true,
+      delimiters: ["/", "/", " ", ":"],
+      blocks: [2, 2, 4, 2, 2],
+    });
+  });
+
   document.querySelectorAll(".telefone").forEach(function format(el) {
     // eslint-disable-next-line no-new
     new Cleave(el, {
