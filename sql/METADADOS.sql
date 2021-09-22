@@ -148,8 +148,8 @@ CREATE TABLE `sec_group_role`
   `role_id`  bigint(20) NOT NULL,
   KEY `K_sec_group_role_role` (`role_id`),
   KEY `K_sec_group_role_group` (`group_id`),
-  CONSTRAINT `FK_sec_group_role_role` FOREIGN KEY (`role_id`) REFERENCES `sec_role` (`id`),
-  CONSTRAINT `FK_sec_group_role_group` FOREIGN KEY (`group_id`) REFERENCES `sec_group` (`id`)
+  CONSTRAINT `FK_sec_group_role_role` FOREIGN KEY (`role_id`) REFERENCES `sec_role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_sec_group_role_group` FOREIGN KEY (`group_id`) REFERENCES `sec_group` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB;
 
 
@@ -186,7 +186,7 @@ CREATE TABLE `sec_user`
   CONSTRAINT `FK_sec_user_estabelecimento` FOREIGN KEY (`estabelecimento_id`) REFERENCES `cfg_estabelecimento` (`id`),
   CONSTRAINT `FK_sec_user_user_inserted` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`),
   CONSTRAINT `FK_sec_user_user_updated` FOREIGN KEY (`user_updated_id`) REFERENCES `sec_user` (`id`),
-  CONSTRAINT `FK_sec_user_group` FOREIGN KEY (`group_id`) REFERENCES `sec_group` (`id`)
+  CONSTRAINT `FK_sec_user_group` FOREIGN KEY (`group_id`) REFERENCES `sec_group` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB;
 
 
@@ -200,8 +200,8 @@ CREATE TABLE `sec_user_role`
   `updated` date DEFAULT NULL,
   KEY `K_sec_user_role_role` (`role_id`),
   KEY `K_sec_user_role_user` (`user_id`),
-  CONSTRAINT `FK_sec_user_role_role` FOREIGN KEY (`user_id`) REFERENCES `sec_user` (`id`),
-  CONSTRAINT `FK_sec_user_role_user` FOREIGN KEY (`role_id`) REFERENCES `sec_role` (`id`)
+  CONSTRAINT `FK_sec_user_role_role` FOREIGN KEY (`user_id`) REFERENCES `sec_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_sec_user_role_user` FOREIGN KEY (`role_id`) REFERENCES `sec_role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB;
 
 
@@ -250,7 +250,7 @@ CREATE TABLE `cfg_app_config`
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_cfg_app_config_chave_app` (`chave`, `app_uuid`),
   KEY `K_cfg_app_config_app` (`app_uuid`),
-  CONSTRAINT `FK_cfg_app_config_app` FOREIGN KEY (`app_uuid`) REFERENCES `cfg_app` (`uuid`),
+  CONSTRAINT `FK_cfg_app_config_app` FOREIGN KEY (`app_uuid`) REFERENCES `cfg_app` (`uuid`) ON DELETE CASCADE ON UPDATE CASCADE,
 
   KEY `K_cfg_app_config_estabelecimento` (`estabelecimento_id`),
   KEY `K_cfg_app_config_user_inserted` (`user_inserted_id`),
