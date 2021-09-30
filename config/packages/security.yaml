@@ -38,6 +38,7 @@ security:
                 success_handler: App\Security\LogoutHandler
                 #invalidate_session: false
 
+            switch_user: true
 
             # activate different ways to authenticate
 
