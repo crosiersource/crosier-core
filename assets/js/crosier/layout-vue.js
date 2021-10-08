@@ -45,6 +45,16 @@ document.addEventListener("DOMContentLoaded", function onDOMContentLoaded() {
     });
   });
 
+  document.querySelectorAll(".crsr-date-periodo").forEach(function format(el) {
+    el.maxLength = 23; // 01/02/1903 12:34:56
+    // eslint-disable-next-line no-new
+    new Cleave(el, {
+      numeralPositiveOnly: true,
+      delimiters: ["/", "/", " - ", "/", "/"],
+      blocks: [2, 2, 4, 2, 2, 4],
+    });
+  });
+
   document.querySelectorAll(".telefone").forEach(function format(el) {
     // eslint-disable-next-line no-new
     new Cleave(el, {
