@@ -65,5 +65,33 @@ document.addEventListener("DOMContentLoaded", function onDOMContentLoaded() {
     });
   });
 
+  document.querySelectorAll(".cnpj").forEach(function format(el) {
+    if (el instanceof HTMLInputElement) {
+      // eslint-disable-next-line no-new
+      new Cleave(el, {
+        delimiters: [".", ".", "/", "-"],
+        blocks: [2, 3, 3, 4, 2],
+        numericOnly: true,
+        delimiterLazyShow: true,
+      });
+    } else {
+      el.innerHTML = el.innerHTML.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/g, "$1.$2.$3/$4-$5");
+    }
+  });
+
+  document.querySelectorAll(".cpf").forEach(function format(el) {
+    if (el instanceof HTMLInputElement) {
+      // eslint-disable-next-line no-new
+      new Cleave(el, {
+        delimiters: [".", ".", "-"],
+        blocks: [3, 3, 3, 2],
+        numericOnly: true,
+        delimiterLazyShow: true,
+      });
+    } else {
+      el.innerHTML = el.innerHTML.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, "$1.$2.$3-$4");
+    }
+  });
+
   // eslint-disable-next-line no-new
 });
