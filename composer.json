@@ -53,15 +53,13 @@
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0",
         "friendsofsymfony/jsrouting-bundle": "^2.2",
-        "symfony/orm-pack": "*",
-        "symfony/serializer-pack": "*",
-        "symfony/twig-pack": "*",
         "symfony/webpack-encore-bundle": "^1.7",
         "symfony/security-csrf": "5.2.*",
         "symfony/swiftmailer-bundle": "^3.1",
         "crosiersource/crosierlib-base": "@dev",
         "nelmio/cors-bundle": "^2.1",
-        "symfony/rate-limiter": "5.2.*"
+        "symfony/rate-limiter": "5.2.*",
+        "doctrine/doctrine-migrations-bundle": "^3.1"
     },
     "require-dev": {
         "symfony/browser-kit": "^5.2",
@@ -72,9 +70,7 @@
         "symfony/stopwatch": "^5.2",
         "symfony/var-dumper": "^5.2",
         "symfony/web-profiler-bundle": "^5.2",
-        "symfony/debug-pack": "*",
-        "symfony/profiler-pack": "*",
-        "symfony/test-pack": "*"
+        "phpunit/phpunit": "^9.5"
     },
     "config": {
         "minimum-stability": "dev",

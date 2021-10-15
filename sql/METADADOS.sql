@@ -11,6 +11,8 @@ CREATE TABLE `cfg_entity_change`
   `changes`          longtext     NOT NULL,
   `obs`              varchar(500) NULL,
   PRIMARY KEY (`id`),
+  KEY `cfg_entity_change_entity` (`entity_class`, `entity_id`),
+  KEY `cfg_entity_change_changed_at` (`changed_at`),
   KEY `K_cfg_entity_change_entity_class` (`entity_class`)
 ) ENGINE = InnoDB;
 
