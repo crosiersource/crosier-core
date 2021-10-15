@@ -4,6 +4,8 @@ namespace App\Security;
 
 use CrosierSource\CrosierLibBaseBundle\Entity\Security\User;
 use CrosierSource\CrosierLibBaseBundle\EntityHandler\Security\UserEntityHandler;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -120,12 +122,12 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
             // limpa os cachês definidos em CrosierSource\CrosierLibBaseBundle\Twig\CrosierCoreAssetExtension
             $cacheCrosierCoreAssetExtension->clear();
 
-            if ($request->getSession()->get('uri_to_redirect_after_login')) {
-                $uri = $request->getSession()->get('uri_to_redirect_after_login');
-                $request->getSession()->set('uri_to_redirect_after_login', null);
-                return new RedirectResponse($uri);
-            }
-            return new RedirectResponse($this->router->generate('index'));
+
+            $uriToRedirectAfterLogin = $request->getSession()->get('uri_to_redirect_after_login');
+            $request->getSession()->set('uri_to_redirect_after_login', null);
+            
+            $landingUrl = $this->getLandingUrl($user, $uriToRedirectAfterLogin); 
+            return new RedirectResponse($landingUrl);
         } catch (\Throwable $e) {
             $this->logger->error('Erro em onAuthenticationSuccess');
             $this->logger->error($e->getMessage());
@@ -133,6 +135,50 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
         }
     }
 
+    
+    private function getLandingUrl(User $user, ?string $uriToRedirectAfterLogin = null) {
+        try {
+            $conn = $this->userEntityHandler->getDoctrine()->getConnection();
+            
+            $rsRootUrlCrosierCore = $conn->fetchAssociative(
+                'SELECT valor FROM cfg_app_config WHERE chave = :chave AND app_uuid IN (SELECT uuid FROM cfg_app WHERE nome = :appNome)',
+                [
+                    'chave' => 'URL_' . $_SERVER['CROSIER_ENV'],
+                    'appNome' => 'crosier-core'
+                ]);
+            $rootUrlCrosierCore = $rsRootUrlCrosierCore['valor'] . '/';
+
+            if ($uriToRedirectAfterLogin && $uriToRedirectAfterLogin !== $rootUrlCrosierCore) {
+                return $uriToRedirectAfterLogin;
+            }
+            
+            
+            $rsLandingApp = $conn->fetchAssociative(
+                'SELECT valor FROM cfg_app_config WHERE chave = :chave AND app_uuid IN (SELECT uuid FROM cfg_app WHERE nome = \'crosier-core\')',
+                ['chave' => 'landing_apps.json']);
+            if ($rsLandingApp['valor'] ?? null) {
+                $landingApps = json_decode($rsLandingApp['valor'], true);
+                if ($landingApps['landing_app_por_user'][$user->getUsername()] ?? null
+                    || $landingApps['landing_app']) {
+
+                    $landingAppNome = $landingApps['landing_app_por_user'][$user->getUsername()] ?? $landingApps['landing_app'];
+
+                    $rsUrl = $conn->fetchAssociative(
+                        'SELECT valor FROM cfg_app_config WHERE chave = :chave AND app_uuid IN (SELECT uuid FROM cfg_app WHERE nome = :appNome)',
+                        [
+                            'chave' => 'URL_' . $_SERVER['CROSIER_ENV'],
+                            'appNome' => $landingAppNome
+                        ]);
+                    return $rsUrl['valor'];
+                }
+            }
+        } catch (Exception $e) {
+            $this->logger->error('Erro em getLandingUrl');
+            $this->logger->error($e->getMessage());
+        }
+        return null;
+    }
+    
 
     /**
      * @required
