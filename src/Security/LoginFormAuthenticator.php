@@ -4,6 +4,7 @@ namespace App\Security;
 
 use CrosierSource\CrosierLibBaseBundle\Entity\Security\User;
 use CrosierSource\CrosierLibBaseBundle\EntityHandler\Security\UserEntityHandler;
+use CrosierSource\CrosierLibBaseBundle\Exception\ViewException;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Psr\Log\LoggerInterface;
@@ -135,7 +136,10 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
         }
     }
 
-    
+
+    /**
+     * @throws ViewException
+     */
     private function getLandingUrl(User $user, ?string $uriToRedirectAfterLogin = null) {
         try {
             $conn = $this->userEntityHandler->getDoctrine()->getConnection();
@@ -172,11 +176,13 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
                     return $rsUrl['valor'];
                 }
             }
+            return $rootUrlCrosierCore;
         } catch (Exception $e) {
             $this->logger->error('Erro em getLandingUrl');
             $this->logger->error($e->getMessage());
+            throw new ViewException('Erro em getLandingUrl', 0, $e);
         }
-        return null;
+        
     }
     
 
