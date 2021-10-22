@@ -1,5 +1,6 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
+DROP TABLE IF EXISTS `rememberme_token`;
 CREATE TABLE `rememberme_token`
 (
   `series`   char(88) UNIQUE PRIMARY KEY NOT NULL,
