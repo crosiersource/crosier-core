@@ -78,6 +78,7 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": {
+            "crosiersource/*": "source",
             "*": "dist"
         },
         "sort-packages": true
