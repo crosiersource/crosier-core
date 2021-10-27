@@ -27,6 +27,7 @@
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.4",
         "doctrine/doctrine-migrations-bundle": "^3.2",
+        "doctrine/orm": "^2.10",
         "dompdf/dompdf": "^0",
         "econea/nusoap": "^0.9.7",
         "friendsofsymfony/jsrouting-bundle": "^2.2",
