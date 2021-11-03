@@ -1,11 +1,18 @@
 import "bootstrap";
-import "popper.js";
-import "perfect-scrollbar";
-import "@coreui/coreui";
-
-import "../../static/css/crosier.css";
-import "../../static/css/primevue.css";
 import "bootstrap/dist/css/bootstrap.css";
+import "popper.js";
+
+import "simplebar/dist/simplebar.css";
+import "simplebar/dist/simplebar";
+
+import "@coreui/coreui/dist/js/coreui.bundle";
+import "@coreui/utils/dist/coreui-utils";
+import "@coreui/utils/dist/coreui-utils.common";
+
+import Sidebar from "@coreui/coreui/js/src/sidebar";
+
+import "../../static/css/primevue.css";
+
 import "@coreui/coreui/dist/css/coreui.css";
 
 import "primevue/resources/themes/saga-blue/theme.css"; // theme
@@ -14,6 +21,9 @@ import "primeicons/primeicons.css";
 
 import Cleave from "cleave.js";
 import "cleave.js/dist/addons/cleave-phone.br.js";
+
+import "../../static/css/crosier.css";
+import "../../static/css/_layout.scss";
 
 document.addEventListener("DOMContentLoaded", function onDOMContentLoaded() {
   document.querySelectorAll(".crsr-date").forEach(function format(el) {
@@ -95,3 +105,5 @@ document.addEventListener("DOMContentLoaded", function onDOMContentLoaded() {
 
   // eslint-disable-next-line no-new
 });
+
+global.Sidebar = Sidebar;

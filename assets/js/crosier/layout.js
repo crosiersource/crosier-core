@@ -3,9 +3,18 @@ import $ from "jquery";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import "popper.js";
-import "perfect-scrollbar";
 
-import "@coreui/coreui";
+import "simplebar/dist/simplebar.css";
+import "simplebar/dist/simplebar";
+
+import "@coreui/coreui/dist/js/coreui.bundle";
+import "@coreui/utils/dist/coreui-utils";
+import "@coreui/utils/dist/coreui-utils.common";
+
+import Sidebar from "@coreui/coreui/js/src/sidebar";
+
+import "../../static/css/primevue.css";
+
 import "@coreui/coreui/dist/css/coreui.css";
 
 import "select2";
@@ -24,6 +33,7 @@ import "toastr/build/toastr.css";
 import "daterangepicker/daterangepicker.css";
 
 import "../../static/css/crosier.css";
+import "../../static/css/_layout.scss";
 
 $(document).ready(function init() {
   CrosierMasks.maskAll();
@@ -52,3 +62,4 @@ $(document).ready(function init() {
 
 global.CrosierMasks = CrosierMasks;
 global.DatatablesJs = DatatablesJs;
+global.Sidebar = Sidebar;

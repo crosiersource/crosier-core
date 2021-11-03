@@ -50,7 +50,7 @@ input[type=submit], input[type=button] {
   padding: 0;
 }
 
-.c-sidebar-brand {
+.sidebar-brand {
   background-color: white !important;
 }
 
@@ -91,4 +91,12 @@ input[type=submit], input[type=button] {
   100% {
     opacity: 0.1;
   }
+}
+
+
+.wrapper {
+  width: 100%;
+  @include ltr-rtl("padding-left", var(--cui-sidebar-occupy-start, 0));
+  will-change: auto;
+  @include transition(padding .15s);
 }
