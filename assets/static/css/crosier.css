@@ -3,10 +3,12 @@
 */
 
 html {
-  font-size: 14px;
+  font-size: 0.9rem !important;
 }
 
-
+.input-group-text {
+  font-size: 0.85rem !important;
+}
 
 input, select {
   text-transform: uppercase;
