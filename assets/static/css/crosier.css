@@ -56,23 +56,40 @@ input[type=submit], input[type=button] {
 
 
 
-
 .menuLateral-ent-neto {
-  background-color: #212121;
-}
-
-
-.menuLateral-dropdown-pai {
-  background-color: #546E7A;
+  background-color: #566c90 !important;
 }
 
 .menuLateral-dropdown-filho {
-  background-color: #34474F;
+  background-color: #495b7a !important;
 }
 
-.c-sidebar .c-sidebar-nav-link:hover, .c-sidebar .c-sidebar-nav-dropdown-toggle:hover {
-  background-color: darkslategrey;
+/*.menuLateral-dropdown-filho.show {*/
+/*  background-color: #7c8fb0 !important;*/
+/*}*/
+
+.menuLateral-ent-filho {
+  background-color: #495b7a !important;
 }
+
+/*.nav-group.menuLateral-dropdown-pai.show {*/
+/*  background-color: #4e6283 !important;*/
+/*}*/
+
+.menuLateral-dropdown-pai {
+  background-color: #3c4b64 !important;
+}
+
+.menuLateral {
+  background-color: #3c4b64 !important;
+}
+
+
+
+
+
+
+
 
 
 .blink {
