@@ -37,12 +37,12 @@ Encore
   .addEntry('Config/entMenuList', './assets/js/Config/entMenuList.js')
   .addEntry('Config/entMenuLocatorList', './assets/js/Config/entMenuLocatorList.js')
   .addEntry('Config/syslogList', './assets/js/Config/syslogList.js')
-  // --------------------------------------------
-
+  
   .addEntry("Config/App/app_form", "./assets/js/apps/Config/App/app_form.js")
   .addEntry("Config/App/app_list", "./assets/js/apps/Config/App/app_list.js")
   .addEntry("Config/Syslog/list", "./assets/js/apps/Config/Syslog/list.js")
 
+  // --------------------------------------------
 
   .splitEntryChunks()
   .enableSingleRuntimeChunk()
