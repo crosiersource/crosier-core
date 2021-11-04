@@ -2,9 +2,6 @@ import "bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import "popper.js";
 
-import "simplebar/dist/simplebar.css";
-import "simplebar/dist/simplebar";
-
 import "@coreui/coreui/dist/js/coreui.bundle";
 import "@coreui/utils/dist/coreui-utils";
 import "@coreui/utils/dist/coreui-utils.common";
@@ -24,6 +21,9 @@ import "cleave.js/dist/addons/cleave-phone.br.js";
 
 import "../../styles/crosier.css";
 import "../../styles/_layout.scss";
+
+import "simplebar/dist/simplebar";
+import "simplebar/dist/simplebar.css";
 
 document.addEventListener("DOMContentLoaded", function onDOMContentLoaded() {
   document.querySelectorAll(".crsr-date").forEach(function format(el) {

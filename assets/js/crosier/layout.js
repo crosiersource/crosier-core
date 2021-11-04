@@ -7,9 +7,6 @@ import "popper.js";
 import "@coreui/coreui";
 import "@coreui/coreui/dist/css/coreui.css";
 
-import "simplebar/dist/simplebar.css";
-import "simplebar/dist/simplebar";
-
 import "@coreui/coreui/dist/js/coreui.bundle";
 import "@coreui/utils/dist/coreui-utils";
 import "@coreui/utils/dist/coreui-utils.common";
@@ -35,6 +32,9 @@ import "daterangepicker/daterangepicker.css";
 
 import "../../styles/crosier.css";
 import "../../styles/_layout.scss";
+
+import "simplebar/dist/simplebar";
+import "simplebar/dist/simplebar.css";
 
 $(document).ready(function init() {
   CrosierMasks.maskAll();
