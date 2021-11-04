@@ -2,15 +2,15 @@ import "bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import "popper.js";
 
-import "@coreui/coreui/dist/js/coreui.bundle";
+import "@coreui/coreui";
+import "@coreui/coreui/dist/css/coreui.css";
+
 import "@coreui/utils/dist/coreui-utils";
 import "@coreui/utils/dist/coreui-utils.common";
 
 import Sidebar from "@coreui/coreui/js/src/sidebar";
 
 import "../../styles/primevue.css";
-
-import "@coreui/coreui/dist/css/coreui.css";
 
 import "primevue/resources/themes/saga-blue/theme.css"; // theme
 import "primevue/resources/primevue.min.css"; // core css

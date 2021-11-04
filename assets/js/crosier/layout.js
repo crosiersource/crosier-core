@@ -7,7 +7,6 @@ import "popper.js";
 import "@coreui/coreui";
 import "@coreui/coreui/dist/css/coreui.css";
 
-import "@coreui/coreui/dist/js/coreui.bundle";
 import "@coreui/utils/dist/coreui-utils";
 import "@coreui/utils/dist/coreui-utils.common";
 
