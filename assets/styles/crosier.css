@@ -119,3 +119,12 @@ input[type=submit], input[type=button] {
   will-change: auto;
   @include transition(padding .15s);
 }
+
+
+/*#toast-container {*/
+/*  background-color: darkred !important;*/
+/*}*/
+
+/*#toast-container > div {*/
+/*  opacity: 1 !important; */
+/*}*/

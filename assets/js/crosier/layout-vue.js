@@ -11,7 +11,7 @@ import "@coreui/utils/dist/coreui-utils.common";
 
 import Sidebar from "@coreui/coreui/js/src/sidebar";
 
-import "../../static/css/primevue.css";
+import "../../styles/primevue.css";
 
 import "@coreui/coreui/dist/css/coreui.css";
 
@@ -22,8 +22,8 @@ import "primeicons/primeicons.css";
 import Cleave from "cleave.js";
 import "cleave.js/dist/addons/cleave-phone.br.js";
 
-import "../../static/css/crosier.css";
-import "../../static/css/_layout.scss";
+import "../../styles/crosier.css";
+import "../../styles/_layout.scss";
 
 document.addEventListener("DOMContentLoaded", function onDOMContentLoaded() {
   document.querySelectorAll(".crsr-date").forEach(function format(el) {

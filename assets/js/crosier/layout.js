@@ -4,6 +4,9 @@ import "bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import "popper.js";
 
+import "@coreui/coreui";
+import "@coreui/coreui/dist/css/coreui.css";
+
 import "simplebar/dist/simplebar.css";
 import "simplebar/dist/simplebar";
 
@@ -13,9 +16,7 @@ import "@coreui/utils/dist/coreui-utils.common";
 
 import Sidebar from "@coreui/coreui/js/src/sidebar";
 
-import "../../static/css/primevue.css";
-
-import "@coreui/coreui/dist/css/coreui.css";
+import "../../styles/primevue.css";
 
 import "select2";
 import "select2/dist/js/i18n/pt-BR.js";
@@ -29,11 +30,11 @@ import "select2-bootstrap-theme/dist/select2-bootstrap.css";
 import "datatables.net-bs4/css/dataTables.bootstrap4.css";
 import "datatables/media/css/jquery.dataTables.css";
 import "bootstrap-datepicker/dist/css/bootstrap-datepicker3.css";
-import "toastr/build/toastr.css";
+
 import "daterangepicker/daterangepicker.css";
 
-import "../../static/css/crosier.css";
-import "../../static/css/_layout.scss";
+import "../../styles/crosier.css";
+import "../../styles/_layout.scss";
 
 $(document).ready(function init() {
   CrosierMasks.maskAll();
