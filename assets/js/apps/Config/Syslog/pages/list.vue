@@ -1,12 +1,5 @@
 <template>
-  <CrosierListS
-    titulo="Syslog"
-    apiResource="/api/core/config/syslog"
-    ref="list"
-    :filters="this.filters"
-    @clearFilter="this.clearFilter"
-    @handleFilter="this.handleFilter"
-  >
+  <CrosierListS titulo="Log do Sistema" apiResource="/api/core/config/syslog" ref="dt">
     <template v-slot:filter-fields>
       <div class="form-row">
         <div class="col-md-2">
@@ -138,6 +131,7 @@ import InputText from "primevue/inputtext";
 import MultiSelect from "primevue/multiselect";
 import moment from "moment";
 import axios from "axios";
+import { mapGetters, mapMutations } from "vuex";
 import CrosierListS from "@/components/crosierListS";
 import syslogForm from "./form";
 
@@ -152,18 +146,6 @@ export default {
   data() {
     return {
       tableData: [],
-      searchTerm: null,
-      filters: {
-        id: null,
-        tipo: null,
-        app: null,
-        component: null,
-        act: null,
-        momentIni: null,
-        momentFim: null,
-        username: null,
-        obs: null,
-      },
       options: {
         tipo: null,
         app: null,
@@ -182,9 +164,12 @@ export default {
   },
 
   methods: {
+    ...mapMutations(["setLoading"]),
+
     moment(date) {
       return moment(date);
     },
+
     async showDialog(id) {
       this.$store.state.loading = true;
       const rs = await axios.get(`/api/core/config/syslog/${id}`);
@@ -194,6 +179,10 @@ export default {
       this.$store.state.displayDialog = true;
       this.$store.state.loading = false;
     },
+  },
+
+  computed: {
+    ...mapGetters({ filters: "getFilters" }),
   },
 };
 </script>

@@ -55,7 +55,7 @@ class SyslogCommand extends Command
     public function deletarAntigos(OutputInterface $output)
     {
         $conn = $this->doctrine->getConnection();
-        $rDias = $conn->fetchAll('SELECT valor FROM cfg_app_config WHERE app_uuid = :appUUID AND chave = :chave',
+        $rDias = $conn->fetchAllAssociative('SELECT valor FROM cfg_app_config WHERE app_uuid = :appUUID AND chave = :chave',
             [
                 'appUUID' => $_SERVER['CROSIERAPP_UUID'],
                 'chave' => 'syslog.manter_por_x_dias'
@@ -66,8 +66,8 @@ class SyslogCommand extends Command
         }
 
         try {
-            $conn->executeUpdate('DELETE FROM cfg_syslog WHERE moment < DATE_SUB(NOW(),INTERVAL ' . (int)$rDias[0]['valor'] . ' DAY)');
-        } catch (DBALException $e) {
+            $conn->executeStatement('DELETE FROM cfg_syslog WHERE moment < DATE_SUB(NOW(),INTERVAL ' . (int)$rDias[0]['valor'] . ' DAY)');
+        } catch (\Throwable $e) {
             throw new \RuntimeException('Erro ao deletar syslogs');
         }
     }

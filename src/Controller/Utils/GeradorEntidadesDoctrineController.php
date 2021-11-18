@@ -3,6 +3,7 @@
 namespace App\Controller\Utils;
 
 use CrosierSource\CrosierLibBaseBundle\Controller\BaseController;
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\PDOStatement;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,9 +27,10 @@ class GeradorEntidadesDoctrineController extends BaseController
     public function generateDoctrineEntity(Request $request): Response
     {
         $table = $request->get('table');
-        /** @var PDOStatement $r */
-        $r = $this->getDoctrine()->getConnection()->query('DESC ' . $table);
-        $colunas = $r->fetchAll();
+        /** @var Connection $conn */
+        $conn = $this->getDoctrine()->getConnection();
+        $r = $conn->executeQuery('DESC ' . $table);
+        $colunas = $r->fetchAllAssociative();
         $nGerados = '';
 
 
