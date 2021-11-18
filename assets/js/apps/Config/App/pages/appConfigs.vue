@@ -79,7 +79,7 @@ import Button from "primevue/button";
 import axios from "axios";
 import ConfirmPopup from "primevue/confirmpopup";
 import vueJsonEditor from "vue-json-editor";
-import { fetchTableData } from "@/services/ApiDataFetchService";
+import { api } from "crosier-vue";
 import appConfigForm from "./appConfigForm";
 
 export default {
@@ -115,7 +115,6 @@ export default {
     },
   },
   methods: {
-    fetchTableData,
     exibeJson(r) {
       return r?.isJson || r?.chave?.includes("json");
     },
@@ -126,7 +125,7 @@ export default {
       this.$store.state.displayFormAppConfigModal = true;
     },
     async editarAppConfig(id) {
-      const response = await fetchTableData({
+      const response = await api.get({
         apiResource: `/api/core/config/appConfig/${id}`,
       });
       if (response.data) {

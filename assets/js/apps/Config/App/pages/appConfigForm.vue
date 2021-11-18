@@ -6,7 +6,7 @@
     :modal="true"
     ref="dialog"
   >
-    <CrosierForm
+    <CrosierFormS
       :notSetUrlId="true"
       :withoutCard="true"
       :apiResource="'/api/core/config/appConfig'"
@@ -74,7 +74,7 @@
           </div>
         </div>
       </div>
-    </CrosierForm>
+    </CrosierFormS>
   </Dialog>
 </template>
 
@@ -84,7 +84,7 @@ import InputText from "primevue/inputtext";
 import SelectButton from "primevue/selectbutton";
 import vueJsonEditor from "vue-json-editor";
 import * as yup from "yup";
-import CrosierForm from "@/components/crosierForm";
+import { CrosierFormS } from "crosier-vue";
 
 export default {
   name: "appConfigForm",

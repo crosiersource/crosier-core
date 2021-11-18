@@ -1,5 +1,5 @@
 <template>
-  <crosier-list
+  <CrosierListS
     :titulo="titulo"
     :apiResource="'/api/core/config/app/'"
     :columns="columns"
@@ -36,17 +36,17 @@
         </template>
       </column>
     </template>
-  </crosier-list>
+  </CrosierListS>
 </template>
 
 <script>
 import Button from "primevue/button";
 import Column from "primevue/column";
-import CrosierList from "@/components/crosierList";
+import { CrosierListS } from "crosier-vue";
 
 export default {
   components: {
-    CrosierList,
+    CrosierListS,
     Column,
     Button,
   },

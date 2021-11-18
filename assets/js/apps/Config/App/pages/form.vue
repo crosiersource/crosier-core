@@ -23,7 +23,7 @@
         </div>
       </div>
       <div class="card-body">
-        <CrosierForm
+        <CrosierFormS
           storeName="formFieldsApp"
           :withoutCard="true"
           :apiResource="this.baseApi"
@@ -80,7 +80,7 @@
               </div>
             </div>
           </div>
-        </CrosierForm>
+        </CrosierFormS>
 
         <appConfigs v-if="this.formFieldsApp.id"></appConfigs>
       </div>
@@ -93,12 +93,12 @@
 <script>
 import InputText from "primevue/inputtext";
 import * as yup from "yup";
-import CrosierForm from "@/components/crosierForm";
+import { CrosierFormS } from "crosier-vue";
 import appConfigs from "./appConfigs";
 
 export default {
   name: "app_form",
-  components: { CrosierForm, InputText, appConfigs },
+  components: { CrosierFormS, InputText, appConfigs },
   data() {
     return {
       titulo: "App",

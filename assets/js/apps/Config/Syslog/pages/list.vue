@@ -1,12 +1,14 @@
 <template>
-  <CrosierListS titulo="Log do Sistema" apiResource="/api/core/config/syslog" ref="dt">
+  <CrosierListS
+    titulo="Log do Sistema"
+    apiResource="/api/core/config/syslog"
+    ref="dt"
+    @beforeFilter="this.beforeFilter"
+  >
     <template v-slot:filter-fields>
       <div class="form-row">
-        <div class="col-md-2">
-          <label for="id">ID</label>
-          <InputText class="form-control" id="id" type="text" v-model="this.filters.id" />
-        </div>
-        <div class="col-md-7">
+        <CrosierInputInt id="id" col="3" label="ID" v-model="this.filters.id" />
+        <div class="col-md-3">
           <div class="form-group">
             <label for="tipo">Tipo</label>
             <MultiSelect
@@ -34,52 +36,38 @@
             />
           </div>
         </div>
-        <div class="col-md-3">
-          <label for="app">Component</label>
-          <InputText
-            class="form-control"
-            id="component"
-            type="text"
-            v-model="this.filters.component"
-          />
-        </div>
-        <div class="col-md-3">
-          <label for="app">Act</label>
-          <InputText class="form-control" id="act" type="text" v-model="this.filters.act" />
-        </div>
-        <div class="col-md-3">
-          <label for="app">Username</label>
-          <InputText
-            class="form-control"
-            id="username"
-            type="text"
-            v-model="this.filters.username"
-          />
-        </div>
-        <div class="col-md-3">
-          <label for="momentIni">Desde</label>
-          <InputText
-            class="form-control"
-            id="momentIni"
-            type="text"
-            v-model="this.filters.momentIni"
-          />
-        </div>
-        <div class="col-md-3">
-          <label for="momentFim">Até</label>
-          <InputText
-            class="form-control"
-            id="momentFim"
-            type="text"
-            v-model="this.filters.momentFim"
-          />
-        </div>
-        <div class="col-md-3">
-          <label for="obs">Obs</label>
-          <InputText class="form-control" id="obs" type="text" v-model="this.filters.obs" />
-        </div>
+        <CrosierInputText
+          id="component"
+          col="3"
+          label="Component"
+          v-model="this.filters.component"
+        />
+      </div>
+      <div class="form-row">
+        <CrosierInputText id="act" col="5" label="Action" v-model="this.filters.act" />
+        <CrosierInputText id="obs" col="7" label="Obs" v-model="this.filters.obs" />
+      </div>
+      <div class="form-row">
+        <CrosierInputText id="username" col="4" label="Usuário" v-model="this.filters.username" />
+        <CrosierCalendar
+          label="Desde"
+          id="moment_after"
+          :showTime="true"
+          :showSeconds="true"
+          col="4"
+          v-model="this.filters['moment[after]']"
+        />
+        <CrosierCalendar
+          label="Até"
+          id="moment_before"
+          :showTime="true"
+          :showSeconds="true"
+          col="4"
+          v-model="this.filters['moment[before]']"
+        />
       </div>
     </template>
+
     <template v-slot:columns>
       <Column field="moment" header="Moment" :sortable="true" headerStyle="width: 15%">
         <template class="text-right" #body="slotProps">
@@ -127,21 +115,22 @@
 
 <script>
 import Column from "primevue/column";
-import InputText from "primevue/inputtext";
 import MultiSelect from "primevue/multiselect";
 import moment from "moment";
 import axios from "axios";
 import { mapGetters, mapMutations } from "vuex";
-import CrosierListS from "@/components/crosierListS";
+import { CrosierListS, CrosierCalendar, CrosierInputText, CrosierInputInt } from "crosier-vue";
 import syslogForm from "./form";
 
 export default {
   components: {
     CrosierListS,
     Column,
-    InputText,
+    CrosierInputText,
+    CrosierInputInt,
     MultiSelect,
     syslogForm,
+    CrosierCalendar,
   },
   data() {
     return {
@@ -168,6 +157,15 @@ export default {
 
     moment(date) {
       return moment(date);
+    },
+
+    beforeFilter() {
+      this.filters["moment[after]"] = this.filters["moment[after]"]
+        ? `${moment(this.filters["moment[after]"]).format("YYYY-MM-DD")}T00:00:00-03:00`
+        : null;
+      this.filters["moment[before]"] = this.filters["moment[before]"]
+        ? `${moment(this.filters["moment[before]"]).format("YYYY-MM-DD")}T23:59:59-03:00`
+        : null;
     },
 
     async showDialog(id) {

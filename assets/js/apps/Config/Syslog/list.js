@@ -36,6 +36,12 @@ const store = createStore({
     },
 
     setFilters(state, filters) {
+      state.filters["moment[after]"] = state.filters["moment[after]"]
+        ? new Date(state.filters["moment[after]"])
+        : null;
+      state.filters["moment[before]"] = state.filters["moment[before]"]
+        ? new Date(state.filters["moment[before]"])
+        : null;
       state.filters = filters;
     },
   },
