@@ -11,8 +11,14 @@
   padding-bottom: 0.2rem !important;
 }
 
-.p-inputnumber, .text-right {
+.p-inputnumber, .text-right, .p-inputnumber-input {
+  padding-left: 0 !important;
   text-align: right;
+}
+
+.p-autocomplete-input.p-inputtext.p-component.form-control {
+  border: none;
+  height: auto;
 }
 
 .p-progressbar {
