@@ -66,8 +66,8 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
     public function authenticate(Request $request): PassportInterface
     {
         $csrfToken = $request->request->get('_csrf_token');
-        $username = $request->request->get('username');
-        $plaintextPassword = $request->request->get('password');
+        $username = mb_strtolower(trim($request->request->get('username')));
+        $plaintextPassword = trim($request->request->get('password'));
         
         $user = $this->userEntityHandler->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $username]);
         if ($user && !$user->getIsActive()) {
