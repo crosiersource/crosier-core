@@ -34,7 +34,8 @@
         "vue": "^3.0.8",
         "vue-json-editor": "^1.4.3",
         "vuex": "^4.0.0-rc.2",
-        "yup": "^0.32.9"
+        "yup": "^0.32.9",
+        "push.js": "^1.0.9"
     },
     "devDependencies": {
         "@babel/plugin-proposal-optional-chaining": "^7.12.7",
@@ -86,7 +87,6 @@
         "prettier": "^2.2.1",
         "print-js": "^1.0.63",
         "prismjs": "^1.15.0",
-        "push.js": "^1.0.9",
         "regenerator-runtime": "^0.13.2",
         "sass": "^1.32.4",
         "sass-loader": "^10.1.1",

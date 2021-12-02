@@ -24,8 +24,10 @@ import "../../styles/_layout.scss";
 
 import "simplebar/dist/simplebar";
 import "simplebar/dist/simplebar.css";
+import Push from "push.js";
+import axios from "axios";
 
-document.addEventListener("DOMContentLoaded", function onDOMContentLoaded() {
+document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".crsr-date").forEach(function format(el) {
     // eslint-disable-next-line no-new
     new Cleave(el, {
@@ -35,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function onDOMContentLoaded() {
     });
   });
 
-  document.querySelectorAll(".crsr-datetime").forEach(function format(el) {
+  document.querySelectorAll(".crsr-datetime").forEach((el) => {
     el.maxLength = 19; // 01/02/1903 12:34:56
     // eslint-disable-next-line no-new
     new Cleave(el, {
@@ -45,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function onDOMContentLoaded() {
     });
   });
 
-  document.querySelectorAll(".crsr-datetime-nseg").forEach(function format(el) {
+  document.querySelectorAll(".crsr-datetime-nseg").forEach((el) => {
     el.maxLength = 17; // 01/02/1903 12:34
     // eslint-disable-next-line no-new
     new Cleave(el, {
@@ -55,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function onDOMContentLoaded() {
     });
   });
 
-  document.querySelectorAll(".crsr-date-periodo").forEach(function format(el) {
+  document.querySelectorAll(".crsr-date-periodo").forEach((el) => {
     el.maxLength = 23; // 01/02/1903 12:34:56
     // eslint-disable-next-line no-new
     new Cleave(el, {
@@ -65,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function onDOMContentLoaded() {
     });
   });
 
-  document.querySelectorAll(".telefone").forEach(function format(el) {
+  document.querySelectorAll(".telefone").forEach((el) => {
     // eslint-disable-next-line no-new
     new Cleave(el, {
       phone: true,
@@ -75,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function onDOMContentLoaded() {
     });
   });
 
-  document.querySelectorAll(".cnpj").forEach(function format(el) {
+  document.querySelectorAll(".cnpj").forEach((el) => {
     if (el instanceof HTMLInputElement) {
       // eslint-disable-next-line no-new
       new Cleave(el, {
@@ -89,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function onDOMContentLoaded() {
     }
   });
 
-  document.querySelectorAll(".cpf").forEach(function format(el) {
+  document.querySelectorAll(".cpf").forEach((el) => {
     if (el instanceof HTMLInputElement) {
       // eslint-disable-next-line no-new
       new Cleave(el, {
@@ -102,8 +104,41 @@ document.addEventListener("DOMContentLoaded", function onDOMContentLoaded() {
       el.innerHTML = el.innerHTML.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, "$1.$2.$3-$4");
     }
   });
-
-  // eslint-disable-next-line no-new
 });
+
+if (!Push.Permission.has()) {
+  Push.Permission.request(
+    () => {},
+    () => {
+      console.log("Push.Permission.DENIED");
+    }
+  );
+}
+
+if (Push.Permission.has()) {
+  window.setInterval(async () => {
+    const rsMessages = await axios.get("/api/cfg/pushMessage/getNewMessages");
+
+    if (rsMessages?.status === 200) {
+      rsMessages.data.forEach((val) => {
+        Push.create(val.mensagem, {
+          // icon: $('link[rel="icon"]').attr("href"),
+          timeout: 8000,
+          onClick() {
+            if (val.url) {
+              const win = window.open(val.url, "_blank");
+              win.focus();
+            } else {
+              window.focus();
+            }
+            this.close();
+          },
+        });
+      });
+    } else {
+      console.error("Erro - /api/cfg/pushMessage/getNewMessages");
+    }
+  }, 10000);
+}
 
 global.Sidebar = Sidebar;

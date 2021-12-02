@@ -173,7 +173,6 @@ export default {
       const rs = await axios.get(`/api/core/config/syslog/${id}`);
       rs.data.moment = new Date(rs.data.moment);
       this.$store.state.syslog = rs.data;
-      console.log(rs.data);
       this.$store.state.displayDialog = true;
       this.$store.state.loading = false;
     },

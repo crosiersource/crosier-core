@@ -145,9 +145,7 @@ export default {
         target: event.currentTarget,
         message: `Confirmar deleção do reggistro?`,
         icon: "pi pi-exclamation-triangle",
-        accept: () => {
-          console.log(`delete ${id}`);
-        },
+        accept: () => {},
         reject: () => {
           // callback to execute when user rejects the action
         },

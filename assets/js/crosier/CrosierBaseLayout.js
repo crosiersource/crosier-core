@@ -171,7 +171,7 @@ class CrosierBaseLayout {
       let $s2 = $(this);
 
       if (!$s2.is('select')) {
-        console.log($s2.attr('id') + ' não é <select>');
+        console.error($s2.attr('id') + ' não é <select>');
         return;
       }
 
@@ -627,9 +627,9 @@ class CrosierBaseLayout {
         },
       });
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
-    
+
     try {
       $('.bootstrap-datepicker-periodo').daterangepicker(
         {
@@ -680,12 +680,13 @@ class CrosierBaseLayout {
         }
       );
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   }
 
 
   static startPushForUser() {
+    console.debug('startPushForUser');
 
     if (!Push.Permission.has()) {
       Push.Permission.request(function () {
@@ -698,53 +699,48 @@ class CrosierBaseLayout {
       return;
     }
 
-    let crosierCoreUrl = $('#crosierCoreUrl').data('value');
+    window.setInterval(function () {
+      $.ajax(
+        '/api/cfg/pushMessage/getNewMessages',
 
-
-    if (crosierCoreUrl) {
-      window.setInterval(function () {
-        $.ajax(
-          crosierCoreUrl + '/api/cfg/pushMessage/getNewMessages',
-
-          {
-            async: true,
-            crossDomain: true,
-            dataType: "json",
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            xhrFields: {
-              withCredentials: true
-            },
-          }
-        ).done(function (data) {
-          $.each(data, function (key, val) {
-            Push.create(val.mensagem, {
-              icon: $('link[rel="icon"]').attr('href'),
-              timeout: 8000,
-              onClick: function () {
-                if (val.url) {
-                  let win = window.open(val.url, '_blank');
-                  win.focus();
-                } else {
-                  window.focus();
-                }
-                this.close();
+        {
+          async: true,
+          crossDomain: true,
+          dataType: "json",
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          xhrFields: {
+            withCredentials: true
+          },
+        }
+      ).done(function (data) {
+        $.each(data, function (key, val) {
+          Push.create(val.mensagem, {
+            // icon: $('link[rel="icon"]').attr('href'),
+            timeout: 8000,
+            onClick: function () {
+              if (val.url) {
+                let win = window.open(val.url, '_blank');
+                win.focus();
+              } else {
+                window.focus();
               }
-            });
+              this.close();
+            }
           });
-        }).fail(function (jqXHR, textStatus, errorThrown) {
-          console.log('Erro - /api/cfg/pushMessage/getNewMessages');
-          if (jqXHR) {
-            console.dir(jqXHR);
-          }
-          if (textStatus) {
-            console.dir(textStatus);
-          }
         });
-      }, 5000);
+      }).fail(function (jqXHR, textStatus, errorThrown) {
+        console.error('Erro - /api/cfg/pushMessage/getNewMessages');
+        if (jqXHR) {
+          console.dir(jqXHR);
+        }
+        if (textStatus) {
+          console.dir(textStatus);
+        }
+      });
+    }, 10000);
 
-    }
   }
 
 }
