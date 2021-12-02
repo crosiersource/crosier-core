@@ -12,7 +12,6 @@ CREATE TABLE `rememberme_token`
 
 
 
-
 DROP TABLE IF EXISTS `cfg_entity_change`;
 CREATE TABLE `cfg_entity_change`
 (
@@ -39,7 +38,7 @@ CREATE TABLE `messenger_messages`
   `queue_name`   varchar(255) NOT NULL,
   `created_at`   datetime     NOT NULL,
   `available_at` datetime     NOT NULL,
-  `delivered_at` datetime DEFAULT NULL,
+  `delivered_at` datetime,
   PRIMARY KEY (`id`),
   KEY `messenger_messages_queue_name` (`queue_name`),
   KEY `messenger_messages_available_at` (`available_at`),
@@ -70,8 +69,8 @@ CREATE TABLE `cfg_syslog`
   `username`     varchar(90)   NOT NULL,
   `moment`       datetime      NOT NULL,
   `obs`          longtext,
-  `delete_after` datetime DEFAULT NULL,
-  `json_data`    json     DEFAULT NULL,
+  `delete_after` datetime,
+  `json_data`    json,
 
   KEY cfg_syslog_tipo (`tipo`),
   KEY cfg_syslog_app (`app`),
@@ -93,12 +92,12 @@ CREATE TABLE `cfg_estabelecimento`
   `codigo`           bigint(20)                NOT NULL,
   `descricao`        varchar(200)              NOT NULL,
   `concreto`         tinyint(1)                NOT NULL,
-  `pai_id`           bigint(20) DEFAULT NULL,
+  `pai_id`           bigint(20),
 
-  `updated`          datetime   DEFAULT NULL,
-  `inserted`         datetime   DEFAULT NULL,
-  `user_inserted_id` bigint(20) DEFAULT NULL,
-  `user_updated_id`  bigint(20) DEFAULT NULL,
+  `updated`          datetime,
+  `inserted`         datetime,
+  `user_inserted_id` bigint(20),
+  `user_updated_id`  bigint(20),
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_cfg_estabelecimento_codigo` (`codigo`),
   KEY `K_cfg_estabelecimento_pai` (`pai_id`),
@@ -177,20 +176,20 @@ CREATE TABLE `sec_user`
   `username`             varchar(90)               NOT NULL,
   `nome`                 varchar(90)               NOT NULL,
   `email`                varchar(90)               NOT NULL,
-  `password`             varchar(255) DEFAULT NULL,
-  `senha`                varchar(255) DEFAULT NULL,
+  `password`             varchar(255),
+  `senha`                varchar(255),
   `ativo`                tinyint(1)                NOT NULL,
-  `group_id`             bigint(20)   DEFAULT NULL,
-  `api_token`            varchar(255) DEFAULT NULL,
-  `api_token_expires_at` datetime     DEFAULT NULL,
-  `session_id`           varchar(200) DEFAULT NULL,
+  `group_id`             bigint(20),
+  `api_token`            varchar(255),
+  `api_token_expires_at` datetime,
+  `session_id`           varchar(200),
 
   `estabelecimento_id`   bigint(20)                NOT NULL,
   `inserted`             datetime                  NOT NULL,
   `updated`              datetime                  NOT NULL,
   `user_inserted_id`     bigint(20)                NOT NULL,
   `user_updated_id`      bigint(20)                NOT NULL,
-  `version`              int(11)      DEFAULT NULL,
+  `version`              int(11),
 
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_sec_user_username_estabelecimento` (`username`, `estabelecimento_id`) USING BTREE,
@@ -212,7 +211,7 @@ CREATE TABLE `sec_user_role`
 (
   `user_id` bigint(20) NOT NULL,
   `role_id` bigint(20) NOT NULL,
-  `updated` date DEFAULT NULL,
+  `updated` date,
   KEY `K_sec_user_role_role` (`role_id`),
   KEY `K_sec_user_role_user` (`user_id`),
   CONSTRAINT `FK_sec_user_role_role` FOREIGN KEY (`user_id`) REFERENCES `sec_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -228,7 +227,7 @@ CREATE TABLE `cfg_app`
   `id`                 bigint(20) AUTO_INCREMENT NOT NULL,
   `uuid`               char(36)                  NOT NULL,
   `nome`               varchar(300)              NOT NULL,
-  `obs`                varchar(5000) DEFAULT NULL,
+  `obs`                varchar(5000),
 
   `inserted`           datetime                  NOT NULL,
   `updated`            datetime                  NOT NULL,
@@ -285,13 +284,13 @@ CREATE TABLE `cfg_entmenu`
   `uuid`               char(36)                  NOT NULL,
   `app_uuid`           char(36)                  NOT NULL,
   `label`              varchar(255)              NOT NULL,
-  `icon`               varchar(50)   DEFAULT NULL,
+  `icon`               varchar(50),
   `tipo`               varchar(50)               NOT NULL,
-  `pai_uuid`           char(36)      DEFAULT NULL,
+  `pai_uuid`           char(36),
   `ordem`              int(11)                   NOT NULL,
-  `css_style`          varchar(2000) DEFAULT NULL,
-  `url`                varchar(2000) DEFAULT NULL,
-  `roles`              varchar(2000) DEFAULT NULL,
+  `css_style`          varchar(2000),
+  `url`                varchar(2000),
+  `roles`              varchar(2000),
 
   `inserted`           datetime                  NOT NULL,
   `updated`            datetime                  NOT NULL,
@@ -389,13 +388,14 @@ CREATE TABLE `cfg_pushmessage`
 (
   `id`                   bigint(20) AUTO_INCREMENT NOT NULL,
   `mensagem`             varchar(200)              NOT NULL,
-  `url`                  varchar(2000) DEFAULT NULL,
-  `user_destinatario_id` bigint(20)    DEFAULT NULL,
-  `dt_envio`             datetime      DEFAULT NULL,
-  `dt_notif`             datetime      DEFAULT NULL,
-  `dt_abert`             datetime      DEFAULT NULL,
+  `url`                  varchar(2000),
+  `user_destinatario_id` bigint(20),
+  `dt_envio`             datetime                  NOT NULL,
+  `dt_notif`             datetime,
+  `dt_abert`             datetime,
+  `dt_validade`          datetime,
 
-  `params`               varchar(5000) DEFAULT NULL,
+  `params`               varchar(5000),
 
   `inserted`             datetime                  NOT NULL,
   `updated`              datetime                  NOT NULL,
@@ -439,16 +439,16 @@ CREATE TABLE `bse_municipio`
 (
   `id`                 bigint(20) AUTO_INCREMENT NOT NULL,
   `municipio_codigo`   int(11)                   NOT NULL,
-  `municipio_nome`     varchar(200) DEFAULT NULL,
-  `uf_nome`            varchar(200) DEFAULT NULL,
-  `uf_sigla`           varchar(2)   DEFAULT NULL,
+  `municipio_nome`     varchar(200),
+  `uf_nome`            varchar(200),
+  `uf_sigla`           varchar(2),
 
   `inserted`           datetime                  NOT NULL,
   `updated`            datetime                  NOT NULL,
   `estabelecimento_id` bigint(20)                NOT NULL,
   `user_inserted_id`   bigint(20)                NOT NULL,
   `user_updated_id`    bigint(20)                NOT NULL,
-  `version`            int(11)      DEFAULT NULL,
+  `version`            int(11),
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_bse_municipio` (`uf_sigla`, `municipio_nome`),
   KEY `K_bse_municipio_estabelecimento` (`estabelecimento_id`),
@@ -474,7 +474,7 @@ CREATE TABLE `bse_uf`
   `estabelecimento_id` bigint(20)                NOT NULL,
   `user_inserted_id`   bigint(20)                NOT NULL,
   `user_updated_id`    bigint(20)                NOT NULL,
-  `version`            int(11) DEFAULT NULL,
+  `version`            int(11),
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_bse_uf_sigla` (`sigla`),
   UNIQUE KEY `UK_bse_uf_nome` (`nome`),
@@ -494,17 +494,17 @@ CREATE TABLE `bse_diautil`
 (
   `id`                 bigint(20) AUTO_INCREMENT NOT NULL,
   `dia`                datetime                  NOT NULL,
-  `descricao`          varchar(40) DEFAULT NULL,
+  `descricao`          varchar(40),
   `comercial`          tinyint(1)                NOT NULL,
   `financeiro`         tinyint(1)                NOT NULL,
-  `municipio_id`       bigint(20)  DEFAULT NULL,
+  `municipio_id`       bigint(20),
 
   `inserted`           datetime                  NOT NULL,
   `updated`            datetime                  NOT NULL,
   `estabelecimento_id` bigint(20)                NOT NULL,
   `user_inserted_id`   bigint(20)                NOT NULL,
   `user_updated_id`    bigint(20)                NOT NULL,
-  `version`            int(11)     DEFAULT NULL,
+  `version`            int(11),
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_bse_dia_util` (`dia`, `municipio_id`),
   KEY `K_bse_dia_util_estabelecimento` (`estabelecimento_id`),
@@ -516,3 +516,4 @@ CREATE TABLE `bse_diautil`
 ) ENGINE = InnoDB;
 
 
+# ALTER TABLE cfg_pushmessage ADD `dt_validade` datetime AFTER dt_abert;
