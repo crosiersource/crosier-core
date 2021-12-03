@@ -686,16 +686,11 @@ class CrosierBaseLayout {
 
 
   static startPushForUser() {
-    console.debug('startPushForUser');
-
     if (!Push.Permission.has()) {
       Push.Permission.request(function () {
       }, function () {
         console.log('Push.Permission.DENIED')
       });
-    }
-
-    if (!Push.Permission.has()) {
       return;
     }
 
@@ -704,6 +699,7 @@ class CrosierBaseLayout {
         '/api/cfg/pushMessage/getNewMessages',
 
         {
+          timeout: 7000,
           async: true,
           crossDomain: true,
           dataType: "json",

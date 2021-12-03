@@ -117,7 +117,7 @@ if (!Push.Permission.has()) {
 
 if (Push.Permission.has()) {
   window.setInterval(async () => {
-    const rsMessages = await axios.get("/api/cfg/pushMessage/getNewMessages");
+    const rsMessages = await axios.get("/api/cfg/pushMessage/getNewMessages", { timeout: 7000 });
 
     if (rsMessages?.status === 200) {
       rsMessages.data.forEach((val) => {
