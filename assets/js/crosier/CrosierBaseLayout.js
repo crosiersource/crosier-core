@@ -714,7 +714,7 @@ class CrosierBaseLayout {
         $.each(data, function (key, val) {
           Push.create(val.mensagem, {
             // icon: $('link[rel="icon"]').attr('href'),
-            timeout: 8000,
+            requireInteraction: true,
             onClick: function () {
               if (val.url) {
                 let win = window.open(val.url, '_blank');

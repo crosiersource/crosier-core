@@ -123,7 +123,7 @@ if (Push.Permission.has()) {
       rsMessages.data.forEach((val) => {
         Push.create(val.mensagem, {
           // icon: $('link[rel="icon"]').attr("href"),
-          timeout: 8000,
+          requireInteraction: true,
           onClick() {
             if (val.url) {
               const win = window.open(val.url, "_blank");
