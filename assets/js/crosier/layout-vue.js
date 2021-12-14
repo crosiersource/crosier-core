@@ -119,7 +119,7 @@ if (Push.Permission.has()) {
   window.setInterval(async () => {
     const rsMessages = await axios.get("/api/cfg/pushMessage/getNewMessages", { timeout: 7000 });
 
-    if (rsMessages?.status === 200) {
+    if (rsMessages?.status === 200 && Array.isArray(rsMessages?.data)) {
       rsMessages.data.forEach((val) => {
         Push.create(val.mensagem, {
           // icon: $('link[rel="icon"]').attr("href"),
