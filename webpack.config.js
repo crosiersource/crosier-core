@@ -41,6 +41,8 @@ Encore
   .addEntry("Config/App/app_form", "./assets/js/apps/Config/App/app_form.js")
   .addEntry("Config/App/app_list", "./assets/js/apps/Config/App/app_list.js")
   .addEntry("Config/Syslog/list", "./assets/js/apps/Config/Syslog/list.js")
+  
+  .addEntry("config/pushMessages/assinatura", "./assets/js/apps/Config/PushMessages/assinatura.js")
 
   // --------------------------------------------
 

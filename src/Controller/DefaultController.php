@@ -57,5 +57,16 @@ class DefaultController extends BaseController
         return new Response('');
     }
 
+    /**
+     * @Route("/v/{vuePage}", name="v_vuaPage", requirements={"vuePage"=".+"})
+     */
+    public function vuePage($vuePage): Response
+    {
+        $params = [
+            'jsEntry' => $vuePage
+        ];
+        return $this->doRender('@CrosierLibBase/vue-app-page.html.twig', $params);
+    }
+
 
 }
