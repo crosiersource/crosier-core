@@ -79,7 +79,17 @@ INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `app_uuid`, `pai_uui
                            `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`, `url`, `roles`)
 VALUES ('e290e24f-a050-4bba-8ee8-877d55242267', 'Configurações', 'fas fa-cogs', 'DROPDOWN',
         '175bd6d3-6c29-438a-9520-47fcee653cc5',
-        '71d1456b-3a9f-4589-8f71-42bbf6c91a3e', 999, NULL, now(), now(), 1, 1, 1, '', 'ROLE_ADMIN');
+        '71d1456b-3a9f-4589-8f71-42bbf6c91a3e', 999, NULL, now(), now(), 1, 1, 1, '', '');
+
+-- Listas de Mensagens
+DELETE
+FROM cfg_entmenu
+WHERE uuid = '55b8894c-06b1-4d5e-8480-ad2a0150bfa6';
+INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `app_uuid`, `pai_uuid`, `ordem`, `css_style`, `inserted`,
+                           `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`, `url`, `roles`)
+VALUES ('2ee7abac-5e5e-11ec-a0f4-2b076214d3ab', 'Listas de Mensagens', 'fas fa-volume-up', 'ENT',
+        '175bd6d3-6c29-438a-9520-47fcee653cc5', 'e290e24f-a050-4bba-8ee8-877d55242267', 0, NULL, now(), now(), 1, 1, 1,
+        '/v/config/pushMessages/assinatura', '');
 
 
 -- Usuários
