@@ -252,4 +252,49 @@ class GeradorEntidadesDoctrineController extends BaseController
     }
 
 
+
+    /**
+     * @Route("/helpGenSettersGettersFormatted", name="helpGenSettersGettersFormatted")
+     */
+    public function helpGenSettersGettersFormatted(Request $request): Response {
+        $campos = explode(',', $request->get('campos'));
+        $entity = $request->get('entity');
+        $codigo =
+            '
+    /**
+     * Para aceitar tanto em string quanto em double.
+     * @Groups(":::entity")
+     * @SerializedName(":::campo")
+     * @return float
+     */
+    public function get:::fucampoFormatted(): float
+    {
+        return (float)$this->:::campo;
+    }
+
+    /**
+     * Para aceitar tanto em string quanto em double.
+     * @Groups(":::entity")
+     * @SerializedName(":::campo")
+     * @param float $:::campo
+     */
+    public function set:::fucampoFormatted(float $:::campo)
+    {
+        $this->:::campo = $:::campo;
+    }
+    
+    
+';
+        $r = '';
+
+        foreach ($campos as $campo) {
+            $r .= str_replace([':::entity', ':::campo', ':::fucampo'],
+                [$entity, $campo, ucfirst($campo)],
+                $codigo);
+
+        }
+        return new Response('<pre>' . $r);
+    }
+    
+
 }

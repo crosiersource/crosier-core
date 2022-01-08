@@ -3,8 +3,6 @@
 namespace App\Controller;
 
 use CrosierSource\CrosierLibBaseBundle\Controller\BaseController;
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Exception;
 use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
