@@ -150,7 +150,7 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
                     'chave' => 'URL_' . $_SERVER['CROSIER_ENV'],
                     'appNome' => 'crosier-core'
                 ]);
-            $rootUrlCrosierCore = $rsRootUrlCrosierCore['valor'] . '/';
+            $rootUrlCrosierCore = ($rsRootUrlCrosierCore['valor'] ?? '') . '/';
 
             if ($uriToRedirectAfterLogin && $uriToRedirectAfterLogin !== $rootUrlCrosierCore) {
                 return $uriToRedirectAfterLogin;

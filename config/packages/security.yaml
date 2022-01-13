@@ -53,6 +53,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # but, definitely allow /login to be accessible anonymously
+        - { path: ^/nosec, roles: PUBLIC_ACCESS }
         - { path: ^/getCrosierAssetUrl, roles: PUBLIC_ACCESS }
         - { path: ^/getRenderCrosierWebpackScriptTags, roles: PUBLIC_ACCESS }
         - { path: ^/getRenderCrosierWebpackLinkTags, roles: PUBLIC_ACCESS }
