@@ -1,0 +1,180 @@
+<template>
+  <Toast position="bottom-right" class="mt-5" />
+  <CrosierFormS listUrl="/v/sec/user/list" @submitForm="this.submitForm" titulo="Usuário">
+    <div class="form-row">
+      <CrosierInputInt label="Id" col="2" id="id" v-model="this.fields.id" :disabled="true" />
+
+      <CrosierInputText
+        label="Usuário"
+        col="4"
+        id="nome"
+        inputClass="lowercase"
+        v-model="this.fields.username"
+        :error="this.formErrors.username"
+      />
+
+      <CrosierInputText
+        label="Nome"
+        col="6"
+        id="nome"
+        v-model="this.fields.nome"
+        :error="this.formErrors.nome"
+      />
+    </div>
+
+    <div class="form-row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="password1">Senha</label>
+          <div class="input-group">
+            <Password
+              :class="'form-control ' + (this.error ? 'is-invalid' : '')"
+              id="this.id"
+              v-model="this.fields.password"
+              weakLabel="Fraco"
+              mediumLabel="Médio"
+              strongLabel="Forte"
+              :toggleMask="true"
+            />
+          </div>
+          <div class="invalid-feedbackk blink" v-show="this.formErrors.password">
+            {{ this.formErrors.password }}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="password1">Repita a Senha</label>
+          <div class="input-group">
+            <Password
+              :class="'form-control ' + (this.error ? 'is-invalid' : '')"
+              id="this.id"
+              v-model="this.fields.password2"
+              weakLabel="Fraco"
+              mediumLabel="Médio"
+              strongLabel="Forte"
+              :toggleMask="true"
+            />
+          </div>
+          <div class="invalid-feedbackk blink" v-show="this.formErrors.password2">
+            {{ this.formErrors.password2 }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <CrosierInputEmail col="5" label="E-mail" id="email" v-model="this.fields.email" />
+
+      <CrosierDropdownBoolean
+        label="Ativo"
+        col="3"
+        id="isActive"
+        v-model="this.fields.isActive"
+        :error="this.formErrors.isActive"
+      />
+
+      <CrosierDropdownEntity
+        col="4"
+        v-model="this.fields.group"
+        entity-uri="/api/sec/group"
+        optionLabel="groupname"
+        :optionValue="null"
+        :orderBy="{ groupname: 'ASC' }"
+        label="Grupo"
+        id="group"
+        @change="this.onChangeGroup"
+      />
+    </div>
+
+    <RolesList v-if="this.fields.id" />
+  </CrosierFormS>
+</template>
+
+<script>
+import Toast from "primevue/toast";
+import * as yup from "yup";
+import {
+  CrosierFormS,
+  CrosierInputInt,
+  submitForm,
+  CrosierInputText,
+  CrosierInputEmail,
+  CrosierDropdownBoolean,
+  CrosierDropdownEntity,
+} from "crosier-vue";
+import { mapGetters, mapMutations } from "vuex";
+import Password from "primevue/password";
+import RolesList from "./roles_list";
+
+export default {
+  components: {
+    Toast,
+    CrosierFormS,
+    RolesList,
+    CrosierInputText,
+    CrosierInputInt,
+    CrosierInputEmail,
+    CrosierDropdownBoolean,
+    CrosierDropdownEntity,
+    Password,
+  },
+
+  data() {
+    return {
+      criarVincularFields: false,
+      schemaValidator: {},
+    };
+  },
+
+  async mounted() {
+    this.setLoading(true);
+
+    this.$store.dispatch("loadData");
+    this.schemaValidator = yup.object().shape({
+      username: yup.string().required().typeError(),
+    });
+
+    this.setLoading(false);
+  },
+
+  methods: {
+    ...mapMutations(["setLoading", "setFields", "setFieldsErrors"]),
+
+    async submitForm() {
+      this.setLoading(true);
+      await submitForm({
+        apiResource: "/api/sec/user",
+        schemaValidator: this.schemaValidator,
+        $store: this.$store,
+        formDataStateName: "fields",
+        $toast: this.$toast,
+        fnBeforeSave: (formData) => {
+          formData.group = formData.group["@id"];
+          if (formData.userRoles) {
+            formData.userRoles = formData.userRoles ? formData.userRoles.map((e) => e["@id"]) : [];
+          }
+        },
+      });
+      this.setLoading(false);
+    },
+
+    async onChangeGroup() {
+      this.$nextTick(() => {
+        this.fields.userRoles = this.fields.group.roles;
+      });
+    },
+  },
+
+  computed: {
+    ...mapGetters({ fields: "getFields", formErrors: "getFieldsErrors" }),
+  },
+};
+</script>
+<style>
+.p-password-input {
+  text-transform: none !important;
+  width: 100% !important;
+}
+</style>

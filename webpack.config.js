@@ -44,6 +44,15 @@ Encore
   
   .addEntry("cfg/pushMessages/assinatura", "./assets/js/apps/Config/PushMessages/assinatura.js")
 
+  .addEntry("sec/group/form", "./assets/js/apps/Security/Group/form.js")
+  .addEntry("sec/group/list", "./assets/js/apps/Security/Group/list.js")
+
+  .addEntry("sec/role/form", "./assets/js/apps/Security/Role/form.js")
+  .addEntry("sec/role/list", "./assets/js/apps/Security/Role/list.js")
+
+  .addEntry("sec/user/form", "./assets/js/apps/Security/User/form.js")
+  .addEntry("sec/user/list", "./assets/js/apps/Security/User/list.js")
+
   // --------------------------------------------
 
   .splitEntryChunks()

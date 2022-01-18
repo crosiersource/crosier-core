@@ -69,8 +69,9 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
         $username = mb_strtolower(trim($request->request->get('username')));
         $plaintextPassword = trim($request->request->get('password'));
         
+        /** @var User $user */
         $user = $this->userEntityHandler->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $username]);
-        if ($user && !$user->getIsActive()) {
+        if ($user && !$user->isActive) {
             throw new CustomUserMessageAuthenticationException('Usuário inativo');
         }
 
