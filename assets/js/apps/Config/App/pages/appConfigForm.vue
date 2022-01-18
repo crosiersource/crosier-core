@@ -9,11 +9,9 @@
     <CrosierFormS
       :notSetUrlId="true"
       :withoutCard="true"
-      :apiResource="'/api/core/config/appConfig'"
-      :schemaValidator="this.yupValidator"
       ref="formAppConfig"
-      formFieldsName="formFieldsAppConfig"
       :notLoadOnMount="true"
+      @submitForm="this.submitForm"
     >
       <div class="row">
         <div class="col-sm-8 col-12">
@@ -23,18 +21,16 @@
               class="form-control notuppercase"
               id="chave"
               type="text"
-              v-model="this.formFieldsAppConfig.chave"
+              v-model="this.fieldsAppConfig.chave"
             />
-            <div class="invalid-feedback">
-              {{ this.formFieldsAppConfigErrors.chave }}
-            </div>
           </div>
         </div>
 
         <div class="col-sm-4 col-12">
           <div class="form-group">
             <SelectButton
-              v-model="this.formFieldsAppConfig.isJson"
+              @change="this.changeIsJson"
+              v-model="this.fieldsAppConfig.isJson"
               :options="[
                 { label: 'JSON', value: true },
                 { label: 'Texto', value: false },
@@ -52,14 +48,15 @@
             <label v-bind:for="valor">Valor</label>
 
             <vueJsonEditor
+              style="min-height: 300px"
               id="valor"
               v-show="this.isJson"
-              :value="this.formFieldsAppConfig.valor"
-              v-model="this.formFieldsAppConfig.valor"
+              :value="this.fieldsAppConfig.valor"
+              v-model="this.fieldsAppConfig.valor"
               :expandedOnStart="true"
               @json-change="
                 (value) => {
-                  this.formFieldsAppConfig.valor = value;
+                  this.fieldsAppConfig.valor = value;
                 }
               "
             />
@@ -69,7 +66,7 @@
               class="form-control notuppercase"
               id="valor"
               type="text"
-              v-model="this.formFieldsAppConfig.valor"
+              v-model="this.fieldsAppConfig.valor"
             />
           </div>
         </div>
@@ -84,17 +81,19 @@ import InputText from "primevue/inputtext";
 import SelectButton from "primevue/selectbutton";
 import vueJsonEditor from "vue-json-editor";
 import * as yup from "yup";
-import { CrosierFormS } from "crosier-vue";
+import { CrosierFormS, submitForm } from "crosier-vue";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "appConfigForm",
   components: {
     Dialog,
-    CrosierForm,
+    CrosierFormS,
     InputText,
     SelectButton,
     vueJsonEditor,
   },
+
   data() {
     return {
       yupValidator: {},
@@ -104,25 +103,61 @@ export default {
       ],
     };
   },
+
   mounted() {
     this.yupValidator = yup.object().shape({
       chave: yup.string().required().typeError(),
       valor: yup.string().required().typeError(),
     });
   },
+
+  methods: {
+    ...mapMutations(["setLoading", "setFieldsAppConfig", "setFieldsAppConfigErrors"]),
+
+    async submitForm() {
+      this.setLoading(true);
+      const rs = await submitForm({
+        apiResource: "/api/cfg/appConfig",
+        schemaValidator: this.schemaValidator,
+        $store: this.$store,
+        formDataStateName: "fieldsAppConfig",
+        $toast: this.$toast,
+        setUrlId: false,
+        fnBeforeSave: (formData) => {
+          formData.valor = formData.isJson ? JSON.stringify(formData.valor) : formData.valor;
+        },
+      });
+      if (rs?.status === 200 || rs?.status === 201) {
+        this.$store.state.displayFormAppConfigModal = false;
+        this.$store.dispatch("loadAppConfigs");
+      }
+      this.setLoading(false);
+    },
+
+    changeIsJson() {
+      this.$nextTick(() => {
+        this.fieldsAppConfig.valor = this.fieldsAppConfig.isJson
+          ? JSON.parse(this.fieldsAppConfig.valor)
+          : JSON.stringify(this.fieldsAppConfig.valor);
+      });
+    },
+  },
+
   computed: {
-    formFieldsAppConfig() {
-      return this.$store.state.formFieldsAppConfig;
-    },
-    formFieldsAppConfigErrors() {
-      return this.$store.state.formFieldsAppConfigErrors;
-    },
+    ...mapGetters({ fieldsAppConfig: "getFieldsAppConfig" }),
+
     isJson() {
-      if (typeof this.formFieldsAppConfig.isJson !== "boolean") {
+      if (typeof this.fieldsAppConfig.isJson !== "boolean") {
         return false;
       }
-      return this.formFieldsAppConfig.isJson || this.formFieldsAppConfig.chave?.includes("json");
+
+      return this.fieldsAppConfig.isJson || this.fieldsAppConfig.chave?.includes("json");
     },
   },
 };
 </script>
+<style>
+div.jsoneditor-tree {
+  min-height: 300px;
+}
+</style>

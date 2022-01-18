@@ -17,18 +17,6 @@ class SyslogController extends BaseController
 {
 
     /**
-     * @Route("/cfg/syslog/list", name="config_syslog_list")
-     */
-    public function listVue(): Response
-    {
-        $params = [
-            'jsEntry' => 'Config/Syslog/list'
-        ];
-        return $this->doRender('@CrosierLibBase/vue-app-page.html.twig', $params);
-    }
-
-
-    /**
      * @Route("/cfg/syslog/getDistinct", methods={"GET", "HEAD"}, name="config_syslog_getDistinct")
      */
     public function getDistinct(Request $request, Connection $conn): JsonResponse

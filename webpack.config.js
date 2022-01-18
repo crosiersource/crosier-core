@@ -23,31 +23,34 @@ Encore
       {from: "./assets/static", to: "static"},
     ],
   }))
+
+
   // --------------------------------------------
   .addEntry('crosier/layout', './assets/js/crosier/layout.js')
   .addEntry('crosier/layout-vue', './assets/js/crosier/layout-vue.js')
-  .addEntry('Base/diaUtil_list', './assets/js/Base/diaUtil_list.js')
 
-  .addEntry('Security/userList', './assets/js/Security/userList.js')
-  .addEntry('Security/groupList', './assets/js/Security/groupList.js')
-  .addEntry('Security/roleList', './assets/js/Security/roleList.js')
-
-  .addEntry('Config/appList', './assets/js/Config/appList.js')
-  .addEntry('Config/appForm', './assets/js/Config/appForm.js')
   .addEntry('Config/entMenuList', './assets/js/Config/entMenuList.js')
   .addEntry('Config/entMenuLocatorList', './assets/js/Config/entMenuLocatorList.js')
-  .addEntry('Config/syslogList', './assets/js/Config/syslogList.js')
   
-  .addEntry("Config/App/app_form", "./assets/js/apps/Config/App/app_form.js")
-  .addEntry("Config/App/app_list", "./assets/js/apps/Config/App/app_list.js")
-  .addEntry("Config/Syslog/list", "./assets/js/apps/Config/Syslog/list.js")
   
-  .addEntry("config/pushMessages/assinatura", "./assets/js/apps/Config/PushMessages/assinatura.js")
+  
+  // acessos pelo "/v/*"
+  .addEntry("cfg/app/form", "./assets/js/apps/Config/App/form.js")
+  .addEntry("cfg/app/list", "./assets/js/apps/Config/App/list.js")
+  .addEntry("cfg/syslog/list", "./assets/js/apps/Config/Syslog/list.js")
+  
+  .addEntry("cfg/estabelecimento/list", "./assets/js/apps/Config/Estabelecimento/list.js")
+  .addEntry("cfg/estabelecimento/form", "./assets/js/apps/Config/Estabelecimento/form.js")
+  
+  .addEntry("cfg/pushMessages/assinatura", "./assets/js/apps/Config/PushMessages/assinatura.js")
 
   // --------------------------------------------
 
   .splitEntryChunks()
-  .enableSingleRuntimeChunk()
+
+  // se deixar habilitado não funciona o datatables e o select2 (parece que começa a fazer 2 chamadas para montá-los no código)
+  .disableSingleRuntimeChunk()
+
   .cleanupOutputBeforeBuild()
   .enableBuildNotifications()
   .enableSourceMaps(!Encore.isProduction())
@@ -56,9 +59,12 @@ Encore
     config.useBuiltIns = 'usage';
     config.corejs = 3;
   })
+  .configureBabel((config) => {
+    config.plugins.push('@babel/plugin-proposal-class-properties');
+  })
   .enableVueLoader(function (options) {
     options.loaders = {
-      vue: {loader: 'babel-loader'}
+      // vue: {loader: 'babel-loader'}
     };
   }, {version: 3})
   .addAliases({

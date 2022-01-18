@@ -1,36 +1,27 @@
 <template>
   <Toast position="bottom-right" class="mt-5" />
-  <CrosierFormS listUrl="/cfg/app/list" @submitForm="this.submitForm" titulo="App">
+  <CrosierFormS listUrl="/fin/banco/list" @submitForm="this.submitForm" titulo="Banco">
     <div class="form-row">
-      <CrosierInputInt label="Id" col="3" id="id" v-model="this.fields.id" :disabled="true" />
+      <CrosierInputInt label="Id" col="2" id="id" v-model="this.fields.id" :disabled="true" />
+
+      <CrosierInputInt
+        label="Código"
+        col="2"
+        id="codigo"
+        v-model="this.fields.codigo"
+        :error="this.formErrors.codigo"
+      />
 
       <CrosierInputText
-        inputClass="lowercase"
-        label="UUID"
-        col="3"
+        label="Descrição"
+        col="5"
         id="nome"
-        v-model="this.fields.UUID"
-        :error="this.errors.UUID"
+        v-model="this.fields.descricao"
+        :error="this.formErrors.descricao"
       />
 
-      <CrosierInputText
-        label="Nome"
-        col="6"
-        id="nome"
-        v-model="this.fields.nome"
-        :error="this.errors.nome"
-      />
+      <CrosierDropdown label="Concreto" col="2" id="concreto" v-model="this.fields.concreto" />
     </div>
-    <div class="form-row">
-      <CrosierInputTextarea
-        label="Obs"
-        id="obs"
-        v-model="this.fields.obs"
-        :error="this.errors.obs"
-      />
-    </div>
-
-    <appConfigs v-if="this.fields.id"></appConfigs>
   </CrosierFormS>
 </template>
 
@@ -39,22 +30,20 @@ import Toast from "primevue/toast";
 import * as yup from "yup";
 import {
   CrosierFormS,
-  CrosierInputInt,
-  CrosierInputText,
-  CrosierInputTextarea,
   submitForm,
+  CrosierDropdown,
+  CrosierInputText,
+  CrosierInputInt,
 } from "crosier-vue";
 import { mapGetters, mapMutations } from "vuex";
-import appConfigs from "./appConfigs";
 
 export default {
   components: {
     Toast,
     CrosierFormS,
+    CrosierDropdown,
     CrosierInputText,
-    CrosierInputTextarea,
     CrosierInputInt,
-    appConfigs,
   },
 
   data() {
@@ -83,7 +72,7 @@ export default {
     async submitForm() {
       this.setLoading(true);
       await submitForm({
-        apiResource: "/api/cfg/app",
+        apiResource: "/api/fin/banco",
         schemaValidator: this.schemaValidator,
         $store: this.$store,
         formDataStateName: "fields",
@@ -97,7 +86,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters({ fields: "getFields", errors: "getFieldsErrors" }),
+    ...mapGetters({ fields: "getFields", formErrors: "getFieldsErrors" }),
   },
 };
 </script>

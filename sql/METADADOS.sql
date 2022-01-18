@@ -92,16 +92,25 @@ CREATE TABLE `cfg_estabelecimento`
   `codigo`           bigint(20)                NOT NULL,
   `descricao`        varchar(200)              NOT NULL,
   `concreto`         tinyint(1)                NOT NULL,
-  `pai_id`           bigint(20),
+  `pai_id`           bigint(20), -- não é usado,
 
   `updated`          datetime,
   `inserted`         datetime,
+  `estabelecimento_id` bigint(20)                NOT NULL,
   `user_inserted_id` bigint(20),
   `user_updated_id`  bigint(20),
+  
   PRIMARY KEY (`id`),
+  
   UNIQUE KEY `UK_cfg_estabelecimento_codigo` (`codigo`),
-  KEY `K_cfg_estabelecimento_pai` (`pai_id`),
-  CONSTRAINT `FK_cfg_estabelecimento_pai` FOREIGN KEY (`pai_id`) REFERENCES `cfg_estabelecimento` (`id`)
+  UNIQUE KEY `UK_cfg_estabelecimento_descricao` (`descricao`),
+
+  KEY `K_cfg_estabelecimento_estabelecimento` (`estabelecimento_id`),
+  KEY `K_cfg_estabelecimento_user_inserted` (`user_inserted_id`),
+  KEY `K_cfg_estabelecimento_user_updated` (`user_updated_id`),
+  CONSTRAINT `FK_cfg_estabelecimento_estabelecimento` FOREIGN KEY (`estabelecimento_id`) REFERENCES `cfg_estabelecimento` (`id`),
+  CONSTRAINT `FK_cfg_estabelecimento_user_updated` FOREIGN KEY (`user_updated_id`) REFERENCES `sec_user` (`id`),
+  CONSTRAINT `FK_cfg_estabelecimento_user_inserted` FOREIGN KEY (`user_inserted_id`) REFERENCES `sec_user` (`id`)
 ) ENGINE = InnoDB;
 
 

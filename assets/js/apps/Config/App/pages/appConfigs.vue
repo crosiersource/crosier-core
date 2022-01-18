@@ -1,21 +1,18 @@
 <template>
-  <ConfirmPopup></ConfirmPopup>
+  <ConfirmDialog></ConfirmDialog>
   <div class="card mt-2">
     <div class="card-header">
       <div class="row">
-        <div class="col-md-8 card-title h3">Configurações</div>
+        <h4 class="col-md-8 card-title">Configurações</h4>
         <div class="col-md-4 text-right">
-          <Button
-            icon="fas fa-file"
-            class="mr-2 p-button-rounded p-button-sm p-button-info dt-sm-bt"
-            v-tooltip="'Novo'"
-            @click="this.novoAppConfig()"
-          />
+          <button type="button" class="btn btn-sm btn-primary" @click="this.novoAppConfig()">
+            <i class="fas fa-file"></i>
+          </button>
         </div>
       </div>
     </div>
     <div class="card-body">
-      <table class="table table-striped table-hover display compact">
+      <table class="table table-striped display compact">
         <thead>
           <tr>
             <th scope="col">Chave</th>
@@ -23,13 +20,13 @@
             <th scope="col"></th>
           </tr>
         </thead>
-        <tbody>
-          <tr v-bind:key="k" v-for="(k, r) in this.tableData">
+        <tbody v-if="this.appConfigs">
+          <tr v-bind:key="k" v-for="(r, k) in this.appConfigs">
             <td>{{ r.chave }}</td>
-            <td>
+            <td style="height: 100%">
               <vue-json-editor
                 readonly="readonly"
-                style="width: 600px; height: 400px"
+                style="width: 100%; height: 400px"
                 v-if="this.exibeJson(r)"
                 :value="r.valor"
                 :expandedOnStart="true"
@@ -45,22 +42,28 @@
               />
             </td>
             <td class="text-right">
-              <div class="row d-flex justify-content-end">
-                <Button
-                  icon="pi pi-pencil"
-                  class="mr-2 p-button-rounded p-button-sm p-button-info dt-sm-bt"
-                  v-tooltip="'Editar'"
+              <div class="d-flex justify-content-end">
+                <a
+                  role="button"
+                  class="btn btn-primary btn-sm"
+                  title="Editar registro"
                   @click="this.editarAppConfig(r.id)"
-                />
-                <Button
-                  icon="pi pi-trash"
-                  class="mr-2 p-button-rounded p-button-sm p-button-danger dt-sm-bt"
-                  v-tooltip="'Deletar'"
-                  @click="deletarAppConfig($event, r.id)"
-                />
+                  ><i class="fas fa-wrench" aria-hidden="true"></i
+                ></a>
+                <a
+                  role="button"
+                  class="btn btn-danger btn-sm ml-1"
+                  title="Deletar registro"
+                  @click="this.deletarAppConfig(r.id)"
+                  ><i class="fas fa-trash" aria-hidden="true"></i
+                ></a>
               </div>
-              <div class="row mt-1 d-flex justify-content-end">
-                <span class="badge badge-info">
+              <div class="d-flex justify-content-end mt-1">
+                <span
+                  v-if="r.updated"
+                  class="badge badge-info"
+                  title="Última alteração do registro"
+                >
                   {{ new Date(r.updated).toLocaleString() }}
                 </span>
               </div>
@@ -68,68 +71,60 @@
           </tr>
         </tbody>
       </table>
+
+      <appConfigForm />
     </div>
   </div>
-  <appConfigForm />
 </template>
 
 <script>
-import InputText from "primevue/inputtext";
-import Button from "primevue/button";
-import axios from "axios";
-import ConfirmPopup from "primevue/confirmpopup";
+import ConfirmDialog from "primevue/confirmdialog";
 import vueJsonEditor from "vue-json-editor";
 import { api } from "crosier-vue";
+import { mapGetters, mapMutations } from "vuex";
+import InputText from "primevue/inputtext";
 import appConfigForm from "./appConfigForm";
 
 export default {
   name: "appConfigs",
-  components: { InputText, vueJsonEditor, Button, ConfirmPopup, appConfigForm },
+  components: { vueJsonEditor, ConfirmDialog, appConfigForm, InputText },
+
   data() {
     return {
-      baseApi: "/api/core/config/appConfig",
-      loading: false,
-      tableData: null,
-      totalRecords: 0,
+      baseApi: "/api/cfg/appConfig",
       appConfigsFormFieldss: {},
     };
   },
+
   async mounted() {
     this.loading = true;
 
-    const params = {
-      headers: {
-        "Content-Type": "application/json;charset=UTF-8",
-      },
-    };
+    this.$store.dispatch("loadAppConfigs");
 
-    const response = await axios.get(`${this.baseApi}?appUUID=${this.formFieldsApp.UUID}`, params);
-
-    this.totalRecords = response.data["hydra:totalItems"];
-    this.tableData = response.data["hydra:member"];
     this.loading = false;
   },
-  computed: {
-    formFieldsApp() {
-      return this.$store.state.formFieldsApp;
-    },
-  },
+
   methods: {
+    ...mapMutations(["setLoading", "setFields", "setFieldsErrors", "setFieldsAppConfig"]),
+
     exibeJson(r) {
       return r?.isJson || r?.chave?.includes("json");
     },
+
     novoAppConfig() {
-      this.$store.commit("setFormFieldsAppConfig", {
-        appUUID: this.formFieldsApp.UUID,
-      });
+      this.setFieldsAppConfig({ appUUID: this.fields.UUID });
       this.$store.state.displayFormAppConfigModal = true;
     },
+
     async editarAppConfig(id) {
       const response = await api.get({
-        apiResource: `/api/core/config/appConfig/${id}`,
+        apiResource: `/api/cfg/appConfig/${id}`,
       });
       if (response.data) {
-        this.$store.commit("setFormFieldsAppConfig", response.data);
+        response.data.valor = response.data.isJson
+          ? JSON.parse(response.data.valor)
+          : response.data.valor;
+        this.setFieldsAppConfig(response.data);
         this.$store.state.displayFormAppConfigModal = true;
       } else {
         this.$toast.add({
@@ -140,17 +135,56 @@ export default {
         });
       }
     },
-    deletarAppConfig(event, id) {
+
+    deletarAppConfig(id) {
       this.$confirm.require({
-        target: event.currentTarget,
-        message: `Confirmar deleção do reggistro?`,
+        acceptLabel: "Sim",
+        rejectLabel: "Não",
+        message: "Confirmar a operação?",
+        header: "Atenção!",
         icon: "pi pi-exclamation-triangle",
-        accept: () => {},
-        reject: () => {
-          // callback to execute when user rejects the action
+        accept: async () => {
+          this.setLoading(true);
+          try {
+            const deleteUrl = `${this.baseApi}/${id}`;
+            const rsDelete = await api.delete(deleteUrl);
+            if (!rsDelete) {
+              throw new Error("rsDelete n/d");
+            }
+            if (rsDelete?.status === 204) {
+              this.$toast.add({
+                group: "mainToast",
+                severity: "success",
+                summary: "Sucesso",
+                detail: "Registro deletado com sucesso",
+                life: 5000,
+              });
+              this.$store.dispatch("loadAppConfigs");
+            } else if (rsDelete?.data && rsDelete.data["hydra:description"]) {
+              throw new Error(`status !== 204: ${rsDelete?.data["hydra:description"]}`);
+            } else if (rsDelete?.statusText) {
+              throw new Error(`status !== 204: ${rsDelete?.statusText}`);
+            } else {
+              throw new Error("Erro ao deletar (erro n/d, status !== 204)");
+            }
+          } catch (e) {
+            console.error(e);
+            this.$toast.add({
+              group: "mainToast",
+              severity: "error",
+              summary: "Erro",
+              detail: "Ocorreu um erro ao deletar",
+              life: 5000,
+            });
+          }
+          this.setLoading(false);
         },
       });
     },
+  },
+
+  computed: {
+    ...mapGetters({ fields: "getFields", errors: "getFieldsErrors", appConfigs: "getAppConfigs" }),
   },
 };
 </script>

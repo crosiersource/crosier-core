@@ -10,8 +10,8 @@ TRUNCATE TABLE sec_group_role;
 TRUNCATE TABLE sec_user_role;
 
 
-INSERT INTO cfg_estabelecimento(id, codigo, descricao, concreto, pai_id, updated, inserted, user_inserted_id, user_updated_id)
-VALUES (1, 1, 'ADMIN', true, null, now(), now(), 1, 1);
+INSERT INTO cfg_estabelecimento(id, codigo, descricao, concreto, pai_id, updated, inserted, user_inserted_id, user_updated_id, estabelecimento_id)
+VALUES (1, 1, 'ADMIN', true, null, now(), now(), 1, 1, 1);
 
 
 -- Senha padrão: admin@123
