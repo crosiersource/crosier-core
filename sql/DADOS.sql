@@ -100,7 +100,7 @@ INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `app_uuid`, `pai_uui
                            `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`, `url`, `roles`)
 VALUES ('55b8894c-06b1-4d5e-8480-ad2a0150bfa6', 'Usuários', 'fas fa-users', 'ENT',
         '175bd6d3-6c29-438a-9520-47fcee653cc5', 'e290e24f-a050-4bba-8ee8-877d55242267', 4, NULL, now(), now(), 1, 1, 1,
-        '/sec/user/list/', 'ROLE_ADMIN');
+        '/v/sec/user/list', 'ROLE_ADMIN');
 
 -- Grupos de Usuários
 DELETE
@@ -110,7 +110,7 @@ INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `app_uuid`, `pai_uui
                            `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`, `url`, `roles`)
 VALUES ('0fbcfb61-3224-4b72-a3e6-86785b21d379', 'Grupos de Usuários', 'fas fa-people-carry', 'ENT',
         '175bd6d3-6c29-438a-9520-47fcee653cc5', 'e290e24f-a050-4bba-8ee8-877d55242267', 5, NULL, now(), now(), 1, 1, 1,
-        '/sec/group/list/', 'ROLE_ADMIN');
+        '/v/sec/group/list', 'ROLE_ADMIN');
 
 -- Apps
 DELETE
@@ -120,7 +120,7 @@ INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `app_uuid`, `pai_uui
                            `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`, `url`, `roles`)
 VALUES ('ceda07f6-a9fe-4bf8-a2cc-7bda0533d771', 'Apps', 'fas fa-object-group', 'ENT',
         '175bd6d3-6c29-438a-9520-47fcee653cc5', 'e290e24f-a050-4bba-8ee8-877d55242267', 6, NULL, now(), now(), 1, 1, 1,
-        '/cfg/app/list/', 'ROLE_ADMIN');
+        '/v/cfg/app/list', 'ROLE_ADMIN');
 
 -- Menus
 DELETE

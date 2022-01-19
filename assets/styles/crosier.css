@@ -128,23 +128,3 @@ input[type=submit], input[type=button], input[type=password] {
 /*#toast-container > div {*/
 /*  opacity: 1 !important; */
 /*}*/
-
-.p-inputtext {
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-}
-
-.p-inputtext:enabled:focus {
-  outline: 0 none !important;
-  outline-offset: 0 !important;
-  box-shadow: none !important;
-}
-
-
-.p-inputwrapper > input {
-  box-shadow: none !important;
-  border-top-style: hidden !important;
-  border-right-style: hidden !important;
-  border-left-style: hidden !important;
-  border-bottom-style: hidden !important;
-}

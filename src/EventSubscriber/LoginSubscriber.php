@@ -24,15 +24,9 @@ use Symfony\Component\Security\Http\SecurityEvents;
 class LoginSubscriber implements EventSubscriberInterface
 {
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /**
-     * @var UserEntityHandler
-     */
-    private $userEntityHandler;
+    private UserEntityHandler $userEntityHandler;
 
     public function __construct(LoggerInterface $logger, UserEntityHandler $userEntityHandler)
     {
@@ -60,7 +54,7 @@ class LoginSubscriber implements EventSubscriberInterface
             /** @var User $user */
             $user = $event->getAuthenticationToken()->getUser();
             // Se for expirar dentro de 2 semanas, já renova.
-            if ($user->getApiTokenExpiresAt() < new \DateTime('+336 hour')) {
+            if ($user->apiTokenExpiresAt < new \DateTime('+336 hour')) {
                 $this->logger->info('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Renovando o apiToken');
                 $this->userEntityHandler->renewTokenApi($user);
             }
