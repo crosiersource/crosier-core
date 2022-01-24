@@ -53,3 +53,8 @@
   border-left-style: hidden !important;
   border-bottom-style: hidden !important;
 }
+
+.p-column-resizer {
+  width: 0.2rem !important;
+  border: 1px dashed lightgrey !important;
+}

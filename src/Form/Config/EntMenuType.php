@@ -24,7 +24,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class EntMenuType extends AbstractType
 {
 
-    private $doctrine;
+    private EntityManagerInterface $doctrine;
 
     public function __construct(EntityManagerInterface $doctrine)
     {
@@ -82,9 +82,9 @@ class EntMenuType extends AbstractType
         $choicesApps = [];
         /** @var App $app */
         foreach ($rsApps as $app) {
-            $choicesApps[$app->getNome()] = $app->getUUID();
+            $choicesApps[$app->nome] = $app->UUID;
         }
-        
+
         $builder->add('appUUID', ChoiceType::class, [
             'label' => 'App',
             'choices' => $choicesApps,
@@ -98,7 +98,7 @@ class EntMenuType extends AbstractType
             'label' => 'Pai',
             'choices' => array_merge([null], $this->doctrine->getRepository(EntMenu::class)->findAll()),
             'choice_label' => function (?EntMenu $entMenu) {
-                return $entMenu ? $entMenu->getLabel() : ' ';
+                return $entMenu ? $entMenu->label : ' ';
             },
             'required' => false,
             'attr' => [
@@ -115,7 +115,7 @@ class EntMenuType extends AbstractType
                 },
                 function (?EntMenu $entMenu) {
                     if ($entMenu) {
-                        return $entMenu->getUUID();
+                        return $entMenu->UUID;
                     }
                     return null;
                 }

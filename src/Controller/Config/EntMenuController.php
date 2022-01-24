@@ -10,16 +10,16 @@ use CrosierSource\CrosierLibBaseBundle\Entity\Config\EntMenu;
 use CrosierSource\CrosierLibBaseBundle\Entity\Config\EntMenuLocator;
 use CrosierSource\CrosierLibBaseBundle\EntityHandler\Config\EntMenuEntityHandler;
 use CrosierSource\CrosierLibBaseBundle\Repository\Config\EntMenuRepository;
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class EntMenuController.
- * @package App\Controller\Config
  * @author Carlos Eduardo Pauluk
  */
 class EntMenuController extends FormListController
@@ -50,8 +50,8 @@ class EntMenuController extends FormListController
      * @Route("/cfg/entMenu/form/{id}", name="cfg_entMenu_form", defaults={"id"=null}, requirements={"id"="\d+"})
      * @param Request $request
      * @param EntMenu|null $entMenu
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
-     * @throws \Exception
+     * @return RedirectResponse|Response
+     * @throws Exception
      *
      * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
@@ -63,7 +63,7 @@ class EntMenuController extends FormListController
             'formView' => 'Config/entMenuForm.html.twig',
             'formPageTitle' => 'Entrada de Menu'
         ];
-        
+
         $repoEntMenu = $this->getDoctrine()->getRepository(EntMenu::class);
 
         $paiId = $request->query->get('pai');
@@ -71,12 +71,12 @@ class EntMenuController extends FormListController
             $entMenu = new EntMenu();
             /** @var EntMenu $pai */
             $pai = $repoEntMenu->find($paiId);
-            $entMenu->setPaiUUID($pai->getUUID());
+            $entMenu->paiUUID = $pai->UUID;
         }
         $repoEntMenu->fillTransients($entMenu);
 
-        if ($entMenu->getPai() && ($entMenu->getPai()->getId() !== (int)$paiId)) {
-            return $this->redirectToRoute('cfg_entMenu_form', ['id' => $entMenu->getId(), 'pai' => $entMenu->getPai()->getId()]);
+        if ($entMenu->pai && ($entMenu->pai->getId() !== (int)$paiId)) {
+            return $this->redirectToRoute('cfg_entMenu_form', ['id' => $entMenu->getId(), 'pai' => $entMenu->pai->getId()]);
         }
 
         if ($entMenu->getId() && $request->get('ent_menu') && ($request->get('ent_menu')['yaml'] ?? false)) {
@@ -104,19 +104,19 @@ class EntMenuController extends FormListController
 
         /** @var EntMenuRepository $repoEntMenuLocator */
         $repoEntMenuLocator = $this->getDoctrine()->getRepository(EntMenuLocator::class);
-        $locators = $repoEntMenuLocator->findBy(['menuUUID' => $entMenu->getUUID()]);
+        $locators = $repoEntMenuLocator->findBy(['menuUUID' => $entMenu->UUID]);
 
         foreach ($locators as $locator) {
             $params['locators']['e'][] = $locator;
             $params['locators']['form'][] = $this->createForm(EntMenuLocatorType::class, $locator,
-                ['action' => $this->generateUrl('cfg_entMenuLocator_form', ['menuUUID' => $entMenu->getUUID()])])
+                ['action' => $this->generateUrl('cfg_entMenuLocator_form', ['menuUUID' => $entMenu->UUID])])
                 ->createView();
         }
 
         $entMenuLocator = new EntMenuLocator();
-        $entMenuLocator->setMenuUUID($entMenu->getUUID());
+        $entMenuLocator->menuUUID = $entMenu->UUID;
         $params['formEntMenuLocator'] = $this->createForm(EntMenuLocatorType::class, $entMenuLocator,
-            ['action' => $this->generateUrl('cfg_entMenuLocator_form', ['menuUUID' => $entMenu->getUUID()])])
+            ['action' => $this->generateUrl('cfg_entMenuLocator_form', ['menuUUID' => $entMenu->UUID])])
             ->createView();
 
         $params['export'] = $repo->exportMenuEntries($entMenu);
@@ -128,7 +128,7 @@ class EntMenuController extends FormListController
      *
      * @Route("/cfg/entMenu/listPais/", name="cfg_entMenu_listPais")
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
     public function listPais(): Response
@@ -145,19 +145,19 @@ class EntMenuController extends FormListController
      * @Route("/cfg/entMenu/delete/{id}/", name="cfg_entMenu_delete", requirements={"id"="\d+"})
      * @param Request $request
      * @param EntMenu $entMenu
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      *
      * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
-    public function delete(Request $request, EntMenu $entMenu): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function delete(Request $request, EntMenu $entMenu): RedirectResponse
     {
-        if ($entMenu->getPaiUUID()) {
+        if ($entMenu->paiUUID) {
             /** @var EntMenuRepository $repoEntMenu */
             $repoEntMenu = $this->getDoctrine()->getRepository(EntMenu::class);
             $repoEntMenu->fillTransients($entMenu);
 
             $parameters['listRoute'] = 'cfg_entMenu_list';
-            $parameters['listRouteParams'] = ['pai' => $entMenu->getPai()->getId()];
+            $parameters['listRouteParams'] = ['pai' => $entMenu->pai->getId()];
         } else {
             $parameters['listRoute'] = 'cfg_entMenu_listPais';
         }
@@ -178,7 +178,7 @@ class EntMenuController extends FormListController
             $ordArr = json_decode($request->request->get('jsonSortable'));
             $this->entMenuBusiness->saveOrdem($ordArr);
             return new JsonResponse(['result' => 'OK']);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return new JsonResponse(['result' => 'ERRO']);
         }
     }
@@ -187,9 +187,9 @@ class EntMenuController extends FormListController
      *
      * @Route("/cfg/entMenu/clear/{entMenu}", name="cfg_entMenu_clear", defaults={"entMenu"=null}, requirements={"entMenu"="\d+"})
      * @param EntMenu|null $entMenu
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      */
-    public function clear(EntMenu $entMenu = null): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function clear(EntMenu $entMenu = null): RedirectResponse
     {
         // Remove da sessão os menus cacheados pelo BaseController
         $session = new Session();
