@@ -57,7 +57,7 @@ class EntMenuLocatorController extends FormListController
             'formPageTitle' => 'Entrada de Menu'
         ];
         $entMenuLocator = $entMenuLocator ?? new EntMenuLocator();
-        $entMenuLocator->setMenuUUID($menuUUID);
+        $entMenuLocator->menuUUID = $menuUUID;
 
         $cache = new FilesystemAdapter('entmenulocator', 0, $_SERVER['CROSIER_SESSIONS_FOLDER']);
         $cache->clear();
@@ -83,7 +83,7 @@ class EntMenuLocatorController extends FormListController
         /** @var EntMenuRepository $repoEntMenu */
         $repoEntMenu = $this->getDoctrine()->getRepository(EntMenu::class);
         /** @var EntMenuLocator $entMenuLocator */
-        $entMenu = $repoEntMenu->findOneBy(['UUID' => $entMenuLocator->getMenuUUID()]);
+        $entMenu = $repoEntMenu->findOneBy(['UUID' => $entMenuLocator->menuUUID]);
         return $this->redirectToRoute('cfg_entMenu_list', ['entMenu' => $entMenu->getId(), '_fragment' => 'locators']);
     }
 
@@ -111,7 +111,7 @@ class EntMenuLocatorController extends FormListController
         /** @var EntMenuRepository $repoEntMenu */
         $repoEntMenu = $this->getDoctrine()->getRepository(EntMenu::class);
         /** @var EntMenuLocator $entMenuLocator */
-        $entMenu = $repoEntMenu->findOneBy(['UUID' => $entMenuLocator->getMenuUUID()]);
+        $entMenu = $repoEntMenu->findOneBy(['UUID' => $entMenuLocator->menuUUID]);
         return $this->redirectToRoute('cfg_entMenu_list', ['entMenu' => $entMenu->getId(), '_fragment' => 'locators']);
     }
 
