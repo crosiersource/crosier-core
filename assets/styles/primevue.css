@@ -58,3 +58,12 @@
   width: 0.2rem !important;
   border: 1px dashed lightgrey !important;
 }
+
+.p-multiselect .p-multiselect-label {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.p-multiselect.p-multiselect-chip .p-multiselect-token {
+  padding: 0 0.5rem 0 0.5rem !important;
+}
