@@ -85,7 +85,7 @@ import appConfigForm from "./appConfigForm";
 
 export default {
   name: "appConfigs",
-  components: { vueJsonEditor, ConfirmDialog, appConfigForm, InputText },
+  components: { ConfirmDialog, appConfigForm, InputText },
 
   data() {
     return {
@@ -97,7 +97,7 @@ export default {
   async mounted() {
     this.loading = true;
 
-    this.$store.dispatch("loadAppConfigs");
+    await this.$store.dispatch("loadAppConfigs");
 
     this.loading = false;
   },
