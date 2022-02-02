@@ -101,8 +101,18 @@ const store = createStore({
         },
       });
       console.log(response);
+      const rs = response.data["hydra:member"].map((e) => {
+        if (e.isJson) {
+          try {
+            e.valor = JSON.stringify(JSON.parse(e.valor), null, 2);
+          } catch (err) {
+            console.error("Erro ao executar JSON.parse");
+          }
+        }
+        return e;
+      });
 
-      context.commit("setAppConfigs", response.data["hydra:member"]);
+      context.commit("setAppConfigs", rs);
     },
   },
 });

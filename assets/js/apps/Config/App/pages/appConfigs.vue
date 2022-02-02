@@ -77,7 +77,6 @@
 
 <script>
 import ConfirmDialog from "primevue/confirmdialog";
-import vueJsonEditor from "vue-json-editor";
 import { api } from "crosier-vue";
 import { mapGetters, mapMutations } from "vuex";
 import InputText from "primevue/inputtext";
@@ -119,9 +118,14 @@ export default {
         apiResource: `/api/cfg/appConfig/${id}`,
       });
       if (response.data) {
-        response.data.valor = response.data.isJson
-          ? JSON.parse(response.data.valor)
-          : response.data.valor;
+        if (response.data.isJson) {
+          try {
+            response.data.valor = JSON.parse(response.data.valor);
+          } catch (e) {
+            console.error("Erro ao executar parse para response.data.valor");
+          }
+        }
+
         this.setFieldsAppConfig(response.data);
         this.$store.state.displayFormAppConfigModal = true;
       } else {
