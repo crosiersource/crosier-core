@@ -102,7 +102,7 @@ const store = createStore({
       });
       console.log(response);
 
-      context.commit("setAppConfigs", rs);
+      context.commit("setAppConfigs", response.data["hydra:member"]);
     },
   },
 });
