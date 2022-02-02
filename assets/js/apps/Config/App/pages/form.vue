@@ -1,6 +1,6 @@
 <template>
   <Toast position="bottom-right" class="mt-5" />
-  <CrosierFormS listUrl="/cfg/app/list" @submitForm="this.submitForm" titulo="App">
+  <CrosierFormS @submitForm="this.submitForm" titulo="App">
     <div class="form-row">
       <CrosierInputInt label="Id" col="3" id="id" v-model="this.fields.id" :disabled="true" />
 
