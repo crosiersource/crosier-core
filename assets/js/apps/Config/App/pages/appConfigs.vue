@@ -5,7 +5,7 @@
       <div class="row">
         <h4 class="col-md-8 card-title">Configurações</h4>
         <div class="col-md-4 text-right">
-          <button type="button" class="btn btn-sm btn-primary" @click="this.novoAppConfig()">
+          <button type="button" class="btn btn-primary" @click="this.novoAppConfig()">
             <i class="fas fa-file"></i>
           </button>
         </div>
@@ -23,36 +23,34 @@
         <tbody v-if="this.appConfigs">
           <tr v-bind:key="k" v-for="(r, k) in this.appConfigs">
             <td>{{ r.chave }}</td>
-            <td style="height: 100%">
-              <vue-json-editor
-                readonly="readonly"
-                style="width: 100%; height: 400px"
-                v-if="this.exibeJson(r)"
-                :value="r.valor"
-                :expandedOnStart="true"
-              />
+            <td>
+              <div v-if="this.exibeJson(r)">
+                <pre>{{ r.valor }}</pre>
+              </div>
 
-              <InputText
-                readonly="readonly"
-                v-if="!this.exibeJson(r)"
-                class="form-control notuppercase"
-                id="valor"
-                type="text"
-                v-model="r.valor"
-              />
+              <div v-if="!this.exibeJson(r)">
+                <InputText
+                  readonly="readonly"
+                  v-if="!this.exibeJson(r)"
+                  class="form-control notuppercase"
+                  id="valor"
+                  type="text"
+                  v-model="r.valor"
+                />
+              </div>
             </td>
             <td class="text-right">
               <div class="d-flex justify-content-end">
                 <a
                   role="button"
-                  class="btn btn-primary btn-sm"
+                  class="btn btn-outline-primary btn-sm"
                   title="Editar registro"
                   @click="this.editarAppConfig(r.id)"
                   ><i class="fas fa-wrench" aria-hidden="true"></i
                 ></a>
                 <a
                   role="button"
-                  class="btn btn-danger btn-sm ml-1"
+                  class="btn btn-outline-danger btn-sm ml-1"
                   title="Deletar registro"
                   @click="this.deletarAppConfig(r.id)"
                   ><i class="fas fa-trash" aria-hidden="true"></i

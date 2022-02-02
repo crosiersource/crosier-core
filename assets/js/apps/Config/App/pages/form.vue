@@ -15,6 +15,7 @@
 
       <CrosierInputText
         label="Nome"
+        inputClass="lowercase"
         col="6"
         id="nome"
         v-model="this.fields.nome"
@@ -23,6 +24,7 @@
     </div>
     <div class="form-row">
       <CrosierInputTextarea
+        inputClass="notuppercase"
         label="Obs"
         id="obs"
         v-model="this.fields.obs"
