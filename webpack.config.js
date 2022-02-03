@@ -41,7 +41,7 @@ Encore
   
   .addEntry("cfg/estabelecimento/list", "./assets/js/apps/Config/Estabelecimento/list.js")
   .addEntry("cfg/estabelecimento/form", "./assets/js/apps/Config/Estabelecimento/form.js")
-  
+
   .addEntry("cfg/pushMessages/assinatura", "./assets/js/apps/Config/PushMessages/assinatura.js")
 
   .addEntry("sec/group/form", "./assets/js/apps/Security/Group/form.js")
