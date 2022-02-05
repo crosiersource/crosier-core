@@ -1,6 +1,6 @@
 <template>
   <Toast position="bottom-right" class="mt-5" />
-  <CrosierFormS listUrl="/fin/banco/list" @submitForm="this.submitForm" titulo="Banco">
+  <CrosierFormS @submitForm="this.submitForm" titulo="Estabelecimentos">
     <div class="form-row">
       <CrosierInputInt label="Id" col="2" id="id" v-model="this.fields.id" :disabled="true" />
 
@@ -72,7 +72,7 @@ export default {
     async submitForm() {
       this.setLoading(true);
       await submitForm({
-        apiResource: "/api/fin/banco",
+        apiResource: "/api/cfg/estabelecimento",
         schemaValidator: this.schemaValidator,
         $store: this.$store,
         formDataStateName: "fields",

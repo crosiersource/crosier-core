@@ -68,7 +68,7 @@ class DefaultController extends BaseController
                 'appUUID' => $_SERVER['APP_SECRET'],
                 'chave' => 'URL_' . $_SERVER['CROSIER_ENV']
             ]);
-            return $rURL['valor'];
+            return $rURL['valor'] ?? 'null';
         });
 
         $params['serverParams'] = json_encode([
