@@ -1,6 +1,7 @@
 <template>
   <Toast position="bottom-right" class="mt-5" />
-  <CrosierFormS @submitForm="this.submitForm" titulo="Estabelecimentos">
+
+  <CrosierFormS @submitForm="this.submitForm" titulo="Estabelecimento">
     <div class="form-row">
       <CrosierInputInt label="Id" col="2" id="id" v-model="this.fields.id" :disabled="true" />
 
@@ -20,7 +21,12 @@
         :error="this.formErrors.descricao"
       />
 
-      <CrosierDropdown label="Concreto" col="2" id="concreto" v-model="this.fields.concreto" />
+      <CrosierDropdownBoolean
+        label="Concreto"
+        col="3"
+        id="concreto"
+        v-model="this.fields.concreto"
+      />
     </div>
   </CrosierFormS>
 </template>
@@ -31,7 +37,7 @@ import * as yup from "yup";
 import {
   CrosierFormS,
   submitForm,
-  CrosierDropdown,
+  CrosierDropdownBoolean,
   CrosierInputText,
   CrosierInputInt,
 } from "crosier-vue";
@@ -41,7 +47,7 @@ export default {
   components: {
     Toast,
     CrosierFormS,
-    CrosierDropdown,
+    CrosierDropdownBoolean,
     CrosierInputText,
     CrosierInputInt,
   },
