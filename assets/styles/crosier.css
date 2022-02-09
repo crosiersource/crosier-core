@@ -120,6 +120,9 @@ input[type=submit], input[type=button], input[type=password] {
   @include transition(padding .15s);
 }
 
+.transparente {
+  color: transparent !important;
+}
 
 /*#toast-container {*/
 /*  background-color: darkred !important;*/
