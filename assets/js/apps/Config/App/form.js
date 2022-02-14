@@ -95,11 +95,16 @@ const store = createStore({
     },
 
     async loadAppConfigs(context) {
-      const response = await axios.get(`/api/cfg/appConfig?appUUID=${context.state.fields.UUID}`, {
-        headers: {
-          "Content-Type": "application/json;charset=UTF-8",
-        },
-      });
+      const response = await axios.get(
+        `/api/cfg/appConfig?order[chave]=ASC&rows=${9007199254740991}&appUUID=${
+          context.state.fields.UUID
+        }`,
+        {
+          headers: {
+            "Content-Type": "application/json;charset=UTF-8",
+          },
+        }
+      );
       console.log(response);
       const rs = response.data["hydra:member"].map((e) => {
         if (e.isJson) {

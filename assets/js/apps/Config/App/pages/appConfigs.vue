@@ -24,11 +24,14 @@
           <tr v-bind:key="k" v-for="(r, k) in this.appConfigs">
             <td>{{ r.chave }}</td>
             <td>
-              <div v-if="this.exibeJson(r)">
+              <div
+                style="max-width: 500px; max-height: 350px; overflow: scroll"
+                v-if="this.exibeJson(r)"
+              >
                 <pre>{{ r.valor }}</pre>
               </div>
 
-              <div v-if="!this.exibeJson(r)">
+              <div style="max-width: 500px" v-if="!this.exibeJson(r)">
                 <InputText
                   readonly="readonly"
                   v-if="!this.exibeJson(r)"
@@ -91,14 +94,6 @@ export default {
       baseApi: "/api/cfg/appConfig",
       appConfigsFormFieldss: {},
     };
-  },
-
-  async mounted() {
-    this.loading = true;
-
-    await this.$store.dispatch("loadAppConfigs");
-
-    this.loading = false;
   },
 
   methods: {
