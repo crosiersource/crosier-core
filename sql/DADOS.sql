@@ -18,18 +18,30 @@ VALUES (1, 1, 'ADMIN', true, null, now(), now(), 1, 1, 1);
 INSERT INTO sec_user(id, username, nome, email, password, ativo, group_id, estabelecimento_id, updated, inserted, user_inserted_id, user_updated_id)
 VALUES (1, 'admin', 'Admin', '', '$argon2id$v=19$m=65536,t=4,p=1$3mj2TxDtNWJsp0EkjC0bDQ$0L8SC83i3cmjGfYxet7DkmzA+/wsWUp09Yg9l7qNcBk', true, 1, 1, now(), now(), 1, 1);
 
+INSERT INTO sec_user(id, username, nome, email, password, ativo, group_id, estabelecimento_id, updated, inserted, user_inserted_id, user_updated_id)
+VALUES (2, 'uploader', 'UPLOADER', '', '', false, 1, 1, now(), now(), 1, 1);
+
 
 
 INSERT INTO sec_group(id, groupname, estabelecimento_id, updated, inserted, user_inserted_id, user_updated_id)
 VALUES (1, 'ADMIN', 1, now(), now(), 1, 1);
+
 INSERT INTO sec_role(id, role, descricao, estabelecimento_id, updated, inserted, user_inserted_id, user_updated_id)
 VALUES (1, 'ROLE_ADMIN', '', 1, now(), now(), 1, 1);
 INSERT INTO sec_role(id, role, descricao, estabelecimento_id, updated, inserted, user_inserted_id, user_updated_id)
 VALUES (2, 'ROLE_ALLOWED_TO_SWITCH', '', 1, now(), now(), 1, 1);
+INSERT INTO sec_role(id, role, descricao, estabelecimento_id, updated, inserted, user_inserted_id, user_updated_id)
+VALUES (3, 'ROLE_UPLOAD', '', 1, now(), now(), 1, 1);
+
+
 INSERT INTO sec_group_role(group_id, role_id)
 VALUES (1, 1);
+
 INSERT INTO sec_user_role(user_id, role_id)
 VALUES (1, 1);
+
+INSERT INTO sec_user_role(user_id, role_id)
+VALUES (2, 3);
 
 
 
