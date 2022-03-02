@@ -62,6 +62,7 @@ DROP TABLE IF EXISTS `cfg_syslog`;
 CREATE TABLE `cfg_syslog`
 (
   `id`           bigint(20)    NOT NULL AUTO_INCREMENT,
+  `uuid_sess`    char(36),
   `tipo`         varchar(50)   NOT NULL,
   `app`          varchar(50)   NOT NULL,
   `component`    varchar(255)  NOT NULL,
@@ -73,6 +74,7 @@ CREATE TABLE `cfg_syslog`
   `json_data`    json,
 
   KEY cfg_syslog_tipo (`tipo`),
+  KEY cfg_syslog_uuid_sess (`uuid_sess`),
   KEY cfg_syslog_app (`app`),
   KEY cfg_syslog_component (`component`),
   KEY cfg_syslog_username (`username`),
@@ -88,20 +90,20 @@ DROP TABLE IF EXISTS `cfg_estabelecimento`;
 
 CREATE TABLE `cfg_estabelecimento`
 (
-  `id`               bigint(20) AUTO_INCREMENT NOT NULL,
-  `codigo`           bigint(20)                NOT NULL,
-  `descricao`        varchar(200)              NOT NULL,
-  `concreto`         tinyint(1)                NOT NULL,
-  `pai_id`           bigint(20), -- não é usado,
+  `id`                 bigint(20) AUTO_INCREMENT NOT NULL,
+  `codigo`             bigint(20)                NOT NULL,
+  `descricao`          varchar(200)              NOT NULL,
+  `concreto`           tinyint(1)                NOT NULL,
+  `pai_id`             bigint(20), -- não é usado,
 
-  `updated`          datetime,
-  `inserted`         datetime,
+  `updated`            datetime,
+  `inserted`           datetime,
   `estabelecimento_id` bigint(20)                NOT NULL,
-  `user_inserted_id` bigint(20),
-  `user_updated_id`  bigint(20),
-  
+  `user_inserted_id`   bigint(20),
+  `user_updated_id`    bigint(20),
+
   PRIMARY KEY (`id`),
-  
+
   UNIQUE KEY `UK_cfg_estabelecimento_codigo` (`codigo`),
   UNIQUE KEY `UK_cfg_estabelecimento_descricao` (`descricao`),
 

@@ -50,7 +50,7 @@
             <vueJsonEditor
               style="min-height: 300px"
               id="valor"
-              v-show="this.isJson"
+              v-if="this.isJson"
               :value="this.fieldsAppConfig.valor"
               v-model="this.fieldsAppConfig.valor"
               :expandedOnStart="true"
@@ -62,7 +62,7 @@
             />
 
             <InputText
-              v-show="!this.isJson"
+              v-if="!this.isJson"
               class="form-control notuppercase"
               id="valor"
               type="text"
