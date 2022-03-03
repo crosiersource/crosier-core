@@ -151,7 +151,7 @@ export default {
         formDataStateName: "fields",
         $toast: this.$toast,
         fnBeforeSave: (formData) => {
-          formData.group = formData.group["@id"];
+          formData.group = formData.group ? formData.group["@id"] : null;
           if (formData.userRoles) {
             formData.userRoles = formData.userRoles ? formData.userRoles.map((e) => e["@id"]) : [];
           }
