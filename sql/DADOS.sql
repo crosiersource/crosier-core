@@ -189,6 +189,23 @@ VALUES ('73292344-d2ca-4101-b838-1551eb8eccad', 'Menus', 'fas fa-bars', 'ENT',
 
 
 
+
+
+-- Menus
+DELETE
+FROM cfg_entmenu
+WHERE uuid = '0b8a8628-a172-11ec-8c37-cf8e077e4792';
+INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `app_uuid`, `pai_uuid`, `ordem`,
+                           `css_style`, `inserted`,
+                           `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`,
+                           `url`, `roles`)
+VALUES ('0b8a8628-a172-11ec-8c37-cf8e077e4792', 'Log do Sistema', 'fas fa-book', 'ENT',
+        '175bd6d3-6c29-438a-9520-47fcee653cc5',
+        'e290e24f-a050-4bba-8ee8-877d55242267', 99, NULL, now(), now(), 1, 1, 1,
+        '/v/cfg/syslog/list', 'ROLE_ADMIN');
+
+
+
 --
 --
 --
