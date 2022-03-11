@@ -102,4 +102,11 @@ Encore
   })
 ;
 
-module.exports = Encore.getWebpackConfig();
+
+config = Encore.getWebpackConfig();
+config.watchOptions = {
+  aggregateTimeout: 1500,
+};
+
+module.exports = config;
+
