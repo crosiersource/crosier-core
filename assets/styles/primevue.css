@@ -67,3 +67,8 @@
 .p-multiselect.p-multiselect-chip .p-multiselect-token {
   padding: 0 0.5rem 0 0.5rem !important;
 }
+
+
+.p-inputtext .p-component .p-inputnumber-input .text-right {
+  max-width: 107%;
+}
