@@ -69,6 +69,7 @@
 }
 
 
-.p-inputtext .p-component .p-inputnumber-input .text-right {
-  max-width: 107%;
+
+input.p-inputtext.p-component.p-inputnumber-input {
+  max-width: 107% !important;
 }
