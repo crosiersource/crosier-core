@@ -955,10 +955,10 @@
     "@babel/helper-validator-identifier" "^7.15.7"
     to-fast-properties "^2.0.0"
 
-"@coreui/coreui@^4.0.5":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@coreui/coreui/-/coreui-4.1.0.tgz#24abbd88ead2fef0360a208ac752f2bb8e4a8f7d"
-  integrity sha512-2iMKPpxXquN3ZyL44s6Urvsnk03iw+KuJk/AKz5spSgKReUr7AM3WEiaTNFNo1/ZypB67pg0966tT22BSmgkGg==
+"@coreui/coreui@^4.1.3":
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/@coreui/coreui/-/coreui-4.1.3.tgz#dd1547e73ac3e04a2a225af2e676205980dd3ff7"
+  integrity sha512-xTHZNYy1iwqW8UKrFd82Q5XuY+iTebZ1td2aeve00MMYJHVkqoK8YW2HZsLrF8dGM8ke2HnEQBPm3rRlHFhqrg==
 
 "@coreui/icons@^2.1.0":
   version "2.1.0"
