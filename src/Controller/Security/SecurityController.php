@@ -21,10 +21,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
 
-    /**
-     * @var UserEntityHandler
-     */
-    private $userEntityHandler;
+    private UserEntityHandler $userEntityHandler;
 
     public function __construct(UserEntityHandler $userEntityHandler)
     {
@@ -39,17 +36,12 @@ class SecurityController extends AbstractController
      * @return Response
      *
      */
-    public function login(AuthenticationUtils $authenticationUtils)
+    public function login(Request $request, AuthenticationUtils $authenticationUtils): Response
     {
-
-        // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
-
-        // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
-
+        $username = $request->get('username') ?? $authenticationUtils->getLastUsername();
         return $this->render('Security/login.html.twig', array(
-            'last_username' => $lastUsername,
+            'username' => $username,
             'error' => $error
         ));
     }
