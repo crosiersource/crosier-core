@@ -25,11 +25,11 @@
     <div class="form-row">
       <div class="col-md-6">
         <div class="form-group">
-          <label for="password1">Senha</label>
+          <label for="password">Senha</label>
           <div class="input-group">
             <Password
               :class="'form-control ' + (this.error ? 'is-invalid' : '')"
-              id="this.id"
+              id="password"
               v-model="this.fields.password"
               weakLabel="Fraco"
               mediumLabel="Médio"
@@ -45,11 +45,11 @@
 
       <div class="col-md-6">
         <div class="form-group">
-          <label for="password1">Repita a Senha</label>
+          <label for="password2">Repita a Senha</label>
           <div class="input-group">
             <Password
               :class="'form-control ' + (this.error ? 'is-invalid' : '')"
-              id="this.id"
+              id="password2"
               v-model="this.fields.password2"
               weakLabel="Fraco"
               mediumLabel="Médio"
@@ -110,7 +110,6 @@ import {
   submitForm,
   CrosierInputText,
   CrosierInputEmail,
-  CrosierDropdownBoolean,
   CrosierDropdownEntity,
   CrosierInputTelefone,
   CrosierSwitch,
@@ -127,7 +126,6 @@ export default {
     CrosierInputText,
     CrosierInputInt,
     CrosierInputEmail,
-    CrosierDropdownBoolean,
     CrosierDropdownEntity,
     CrosierInputTelefone,
     CrosierSwitch,
