@@ -21,7 +21,7 @@
         "deepmerge": "^4.2.2",
         "jquery": "3.5.1",
         "mitt": "^2.1.0",
-        "moment": "^2.23.0",
+        "moment": "^2.29.2",
         "moment-timezone": "^0.5.33",
         "popper.js": "^1.14.6",
         "primeflex": "2.0.0",
