@@ -52,6 +52,11 @@ Encore
 
   .addEntry("sec/user/form", "./assets/js/apps/Security/User/form.js")
   .addEntry("sec/user/list", "./assets/js/apps/Security/User/list.js")
+  .addEntry("sec/user/confirmUser", "./assets/js/apps/Security/User/confirmUser.js")
+  .addEntry("sec/user/setPassword", "./assets/js/apps/Security/User/setPassword.js")
+  
+  
+  .addEntry("tdc", "./assets/js/apps/Base/TestesDeComponentes/form.js")
 
   // --------------------------------------------
 

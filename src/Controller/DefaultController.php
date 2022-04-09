@@ -79,6 +79,26 @@ class DefaultController extends BaseController
         return $this->doRender('@CrosierLibBase/vue-app-page.html.twig', $params);
     }
 
+    /**
+     * @Route("/vsm/{vuePage}", name="vsm_vuePage", requirements={"vuePage"=".+"})
+     */
+    public function vuePageSemMenu($vuePage): Response
+    {
+        $cache = new FilesystemAdapter($_SERVER['APP_SECRET'] . '.findValuesTagsDin', 3600, $_SERVER['CROSIER_SESSIONS_FOLDER']);
+        $coreUrl = $cache->get('v_vuePage_serverParams', function (ItemInterface $item) {
+            $rURL = $this->getDoctrine()->getConnection()->fetchAssociative('SELECT valor FROM cfg_app_config WHERE app_uuid = :appUUID AND chave = :chave', [
+                'appUUID' => $_SERVER['APP_SECRET'],
+                'chave' => 'URL_' . $_SERVER['CROSIER_ENV']
+            ]);
+            return $rURL['valor'] ?? 'null';
+        });
+        $params['serverParams'] = json_encode([
+            'coreURL' => $coreUrl,
+            'crosierLogo' => $_SERVER['CROSIER_LOGO'],
+        ]);
+        $params['jsEntry'] = $vuePage;
+        return $this->render('@CrosierLibBase/vue-app-page-semmenu.html.twig', $params);
+    }
 
     /**
      *

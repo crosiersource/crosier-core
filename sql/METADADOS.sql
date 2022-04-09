@@ -204,7 +204,13 @@ CREATE TABLE `sec_user`
   `version`              int(11),
 
   PRIMARY KEY (`id`),
+
+  UNIQUE KEY `UK_sec_user_fone` (`fone`),
+  UNIQUE KEY `UK_sec_user_email` (`email`),
+  
   UNIQUE KEY `UK_sec_user_username_estabelecimento` (`username`, `estabelecimento_id`) USING BTREE,
+  
+  
   KEY `K_sec_user_estabelecimento` (`estabelecimento_id`),
   KEY `K_sec_user_user_inserted` (`user_inserted_id`),
   KEY `K_sec_user_user_updated` (`user_updated_id`),

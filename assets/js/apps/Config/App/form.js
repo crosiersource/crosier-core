@@ -105,7 +105,6 @@ const store = createStore({
           },
         }
       );
-      console.log(response);
       const rs = response.data["hydra:member"].map((e) => {
         if (e.isJson) {
           try {

@@ -65,15 +65,10 @@
     </div>
 
     <div class="form-row">
-      <CrosierInputEmail col="5" label="E-mail" id="email" v-model="this.fields.email" />
+      <CrosierInputEmail col="4" label="E-mail" id="email" v-model="this.fields.email" />
+      <CrosierInputTelefone col="3" label="Fone" id="fone" v-model="this.fields.fone" />
 
-      <CrosierDropdownBoolean
-        label="Ativo"
-        col="3"
-        id="isActive"
-        v-model="this.fields.isActive"
-        :error="this.formErrors.isActive"
-      />
+      <CrosierSwitch label="Ativo" col="1" id="isActive" v-model="this.fields.isActive" />
 
       <CrosierDropdownEntity
         col="4"
@@ -86,6 +81,20 @@
         id="group"
         @change="this.onChangeGroup"
       />
+    </div>
+
+    <div class="row mt-3" v-if="!this.semBotaoSalvar">
+      <div class="col text-right">
+        <button
+          class="btn btn-sm btn-primary"
+          style="width: 12rem"
+          type="submit"
+          icon="fas fa-save"
+          v-if="!this.disabledSubmit"
+        >
+          <i class="fas fa-save"></i> Salvar
+        </button>
+      </div>
     </div>
 
     <RolesList v-if="this.fields.id" />
@@ -103,6 +112,8 @@ import {
   CrosierInputEmail,
   CrosierDropdownBoolean,
   CrosierDropdownEntity,
+  CrosierInputTelefone,
+  CrosierSwitch,
 } from "crosier-vue";
 import { mapGetters, mapMutations } from "vuex";
 import Password from "primevue/password";
@@ -118,6 +129,8 @@ export default {
     CrosierInputEmail,
     CrosierDropdownBoolean,
     CrosierDropdownEntity,
+    CrosierInputTelefone,
+    CrosierSwitch,
     Password,
   },
 

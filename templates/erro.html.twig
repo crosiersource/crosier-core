@@ -1,0 +1,33 @@
+{% extends '@CrosierLibBase/base.html.twig' %}
+
+{% block body %}
+
+    <div class="wrapper d-flex flex-column min-vh-100 bg-light">
+
+
+        <div class="body flex-grow-1 px-1">
+            <div class="container">
+
+                <div class="card">
+                    <img
+                            class="card-img-top"
+                            src="{{ getEnv('CROSIER_LOGO') }}"
+                            height="36"
+                            style="max-width: 220px; margin: 20px"
+                    />
+
+                    <div class="card-body">
+                        <h5 class="card-title">{{ erro|default('Erro') }}</h5>
+
+                        <small>{{ mensagem|default('Algo de errado não está certo!') }}</small>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}
