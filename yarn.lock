@@ -7591,10 +7591,6 @@ magic-string@^0.25.7:
   dependencies:
     sourcemap-codec "^1.4.4"
 
-mailjet-apiv3-php@mailjet/mailjet-apiv3-php:
-  version "0.0.0"
-  resolved "https://codeload.github.com/mailjet/mailjet-apiv3-php/tar.gz/82b7bf4a578f9c92c044e79509c81c439f219943"
-
 make-dir@^2.0.0, make-dir@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/make-dir/-/make-dir-2.1.0.tgz#5f0310e18b8be898cc07009295a30ae41e91e6f5"
