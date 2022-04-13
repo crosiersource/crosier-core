@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7fd53f719ac0cb3523fcbddcef35de56",
+    "content-hash": "bc0f4186832b0ad0b6502116466e9e5b",
     "packages": [
         {
             "name": "api-platform/core",
@@ -2809,60 +2809,6 @@
                 }
             ],
             "time": "2020-05-30T13:11:16+00:00"
-        },
-        {
-            "name": "mailjet/mailjet-apiv3-php",
-            "version": "v1.5.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mailjet/mailjet-apiv3-php.git",
-                "reference": "7b94fa629d46fa5ba3826ed4596674942944520d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mailjet/mailjet-apiv3-php/zipball/7b94fa629d46fa5ba3826ed4596674942944520d",
-                "reference": "7b94fa629d46fa5ba3826ed4596674942944520d",
-                "shasum": ""
-            },
-            "require": {
-                "guzzlehttp/guzzle": "~7.0|~6.0|~5.3",
-                "php": ">=5.4.0"
-            },
-            "require-dev": {
-                "php-coveralls/php-coveralls": "^1.0",
-                "phpunit/phpunit": "^4.8.36|^5.7"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Mailjet": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Mailjet",
-                    "email": "dev@mailjet.com",
-                    "homepage": "https://dev.mailjet.com"
-                }
-            ],
-            "description": "PHP wrapper for the Mailjet API",
-            "homepage": "https://github.com/mailjet/mailjet-apiv3-php/",
-            "keywords": [
-                "Mailjet",
-                "api",
-                "email",
-                "php",
-                "v3"
-            ],
-            "support": {
-                "issues": "https://github.com/mailjet/mailjet-apiv3-php/issues",
-                "source": "https://github.com/mailjet/mailjet-apiv3-php/tree/v1.5.1"
-            },
-            "time": "2020-12-21T16:30:15+00:00"
         },
         {
             "name": "markbaker/complex",
@@ -11208,6 +11154,44 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.10.0"
             },
             "time": "2021-03-09T10:59:23+00:00"
+        },
+        {
+            "name": "wildbit/postmark-php",
+            "version": "4.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wildbit/postmark-php.git",
+                "reference": "d27cd97a5efefa72d4ea16c2fa307c22c4e5312c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wildbit/postmark-php/zipball/d27cd97a5efefa72d4ea16c2fa307c22c4e5312c",
+                "reference": "d27cd97a5efefa72d4ea16c2fa307c22c4e5312c",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.0|^7.0",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.0.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Postmark\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "The officially supported client for Postmark (http://postmarkapp.com)",
+            "support": {
+                "issues": "https://github.com/wildbit/postmark-php/issues",
+                "source": "https://github.com/wildbit/postmark-php/tree/4.0.4"
+            },
+            "time": "2022-03-28T18:34:21+00:00"
         },
         {
             "name": "willdurand/jsonp-callback-validator",

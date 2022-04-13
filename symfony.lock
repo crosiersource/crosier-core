@@ -160,9 +160,6 @@
     "maennchen/zipstream-php": {
         "version": "2.1.0"
     },
-    "mailjet/mailjet-apiv3-php": {
-        "version": "v1.5.1"
-    },
     "markbaker/complex": {
         "version": "3.0.1"
     },
@@ -812,6 +809,9 @@
     },
     "webmozart/assert": {
         "version": "1.10.0"
+    },
+    "wildbit/postmark-php": {
+        "version": "4.0.4"
     },
     "willdurand/jsonp-callback-validator": {
         "version": "v1.1.0"

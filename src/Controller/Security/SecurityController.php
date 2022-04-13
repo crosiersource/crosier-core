@@ -11,6 +11,7 @@ use CrosierSource\CrosierLibBaseBundle\Utils\StringUtils\StringUtils;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Mailjet\Resources;
+use Postmark\PostmarkClient;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -149,33 +150,11 @@ class SecurityController extends AbstractController
 
                 $link = $_SERVER['CROSIERCORE_URL'] . '/sec/user/recuperaSenha/confirmaLink?token=' . $user->tokenRecupSenha . '&id=' . $user->getId();
 
-                $mj = new \Mailjet\Client('fec5c62214021c61c82383c4f795d59b', 'c573d747979ce033351d52f100d60771', true, ['version' => 'v3.1']);
                 $html = $this->renderView('Security/emailConfirmaAtivacao.html.twig',
                     ['link' => $link, 'email' => $user->email, 'primeiroNome' => $primeiroNome]);
-                $body = [
-                    'Messages' => [
-                        [
-                            'From' => [
-                                'Email' => "naoresponda@crosier.com.br",
-                                'Name' => "Crosier"
-                            ],
-                            'To' => [
-                                [
-                                    'Email' => $user->email,
-                                    'Name' => $user->nome,
-                                ]
-                            ],
-                            'Subject' => "Recuperação de Senha",
-                            'TextPart' => "",
-                            'HTMLPart' => $html,
-                        ]
-                    ]
-                ];
-                $response = $mj->post(Resources::$Email, ['body' => $body]);
-                if (!$response->success()) {
-                    $this->syslog->err('Erro ao enviar e-mail de recuperação de senha para ' . $user->email);
-                }
-
+                
+                $client = new PostmarkClient($_SERVER['PM_TOKEN']);
+                $client->sendEmail('mailer@crosier.com.br', $user->email, 'Recuperação de senha', $html);
             }
             return CrosierApiResponse::success();
         } catch (\Exception $e) {
@@ -276,7 +255,7 @@ class SecurityController extends AbstractController
      */
     public function testEmailAtivacao(): Response
     {
-        return $this->render('emailConfirmaAtivacao.html.twig', ['email' => 'carlospauluk@gmail.com', 'link' => 'https://www.google.com/']);
+        return $this->render('Security/emailConfirmaAtivacao.html.twig', ['email' => 'carlospauluk@gmail.com', 'link' => 'https://www.google.com/']);
     }
 
 
