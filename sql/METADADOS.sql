@@ -184,33 +184,35 @@ DROP TABLE IF EXISTS `sec_user`;
 
 CREATE TABLE `sec_user`
 (
-  `id`                   bigint(20) AUTO_INCREMENT NOT NULL,
-  `username`             varchar(90)               NOT NULL,
-  `nome`                 varchar(90)               NOT NULL,
-  `email`                varchar(90)               NOT NULL,
-  `password`             varchar(255),
-  `senha`                varchar(255),
-  `ativo`                tinyint(1)                NOT NULL,
-  `group_id`             bigint(20),
-  `api_token`            varchar(255),
-  `api_token_expires_at` datetime,
-  `session_id`           varchar(200),
+  `id`                        bigint(20) AUTO_INCREMENT NOT NULL,
+  `username`                  varchar(90)               NOT NULL,
+  `nome`                      varchar(90)               NOT NULL,
+  `email`                     varchar(90)               NOT NULL,
+  `fone`                      varchar(50) default null,
+  `token_recupsenha`          char(36)    default null,
+  `dt_valid_token_recupsenha` datetime    default null,
+  `password`                  varchar(255),
+  `ativo`                     tinyint(1)                NOT NULL,
+  `group_id`                  bigint(20),
+  `api_token`                 varchar(255),
+  `api_token_expires_at`      datetime,
+  `session_id`                varchar(200),
 
-  `estabelecimento_id`   bigint(20)                NOT NULL,
-  `inserted`             datetime                  NOT NULL,
-  `updated`              datetime                  NOT NULL,
-  `user_inserted_id`     bigint(20)                NOT NULL,
-  `user_updated_id`      bigint(20)                NOT NULL,
-  `version`              int(11),
+  `estabelecimento_id`        bigint(20)                NOT NULL,
+  `inserted`                  datetime                  NOT NULL,
+  `updated`                   datetime                  NOT NULL,
+  `user_inserted_id`          bigint(20)                NOT NULL,
+  `user_updated_id`           bigint(20)                NOT NULL,
+  `version`                   int(11),
 
   PRIMARY KEY (`id`),
 
   UNIQUE KEY `UK_sec_user_fone` (`fone`),
   UNIQUE KEY `UK_sec_user_email` (`email`),
-  
+
   UNIQUE KEY `UK_sec_user_username_estabelecimento` (`username`, `estabelecimento_id`) USING BTREE,
-  
-  
+
+
   KEY `K_sec_user_estabelecimento` (`estabelecimento_id`),
   KEY `K_sec_user_user_inserted` (`user_inserted_id`),
   KEY `K_sec_user_user_updated` (`user_updated_id`),
