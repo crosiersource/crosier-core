@@ -207,7 +207,6 @@ CREATE TABLE `sec_user`
 
   PRIMARY KEY (`id`),
 
-  UNIQUE KEY `UK_sec_user_fone` (`fone`),
   UNIQUE KEY `UK_sec_user_email` (`email`),
 
   UNIQUE KEY `UK_sec_user_username_estabelecimento` (`username`, `estabelecimento_id`) USING BTREE,
