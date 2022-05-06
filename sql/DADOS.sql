@@ -18,13 +18,13 @@ VALUES (1, 1, 'ADMIN', true, null, now(), now(), 1, 1, 1);
 -- Senha padrão: admin@123
 INSERT INTO sec_user(id, username, nome, email, password, ativo, group_id, estabelecimento_id,
                      updated, inserted, user_inserted_id, user_updated_id)
-VALUES (1, 'admin', 'Admin', '',
+VALUES (1, 'admin', 'Admin', 'admin@email.com',
         '$argon2id$v=19$m=65536,t=4,p=1$3mj2TxDtNWJsp0EkjC0bDQ$0L8SC83i3cmjGfYxet7DkmzA+/wsWUp09Yg9l7qNcBk',
         true, 1, 1, now(), now(), 1, 1);
 
 INSERT INTO sec_user(id, username, nome, email, password, ativo, group_id, estabelecimento_id,
                      updated, inserted, user_inserted_id, user_updated_id, api_token, api_token_expires_at)
-VALUES (2, 'uploader', 'UPLOADER', '', '', false, 1, 1, now(), now(), 1, 1, '999999', '2900-12-31');
+VALUES (2, 'uploader', 'UPLOADER', 'uploader@email.com', '', false, 1, 1, now(), now(), 1, 1, '999999', '2900-12-31');
 
 
 
