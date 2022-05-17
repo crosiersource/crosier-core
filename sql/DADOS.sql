@@ -24,7 +24,7 @@ VALUES (1, 'admin', 'Admin', 'admin@email.com',
 
 INSERT INTO sec_user(id, username, nome, email, password, ativo, group_id, estabelecimento_id,
                      updated, inserted, user_inserted_id, user_updated_id, api_token, api_token_expires_at)
-VALUES (2, 'uploader', 'UPLOADER', 'uploader@email.com', '', false, 1, 1, now(), now(), 1, 1, '999999', '2900-12-31');
+VALUES (2, 'uploader', 'UPLOADER', 'upload@crosier.com.br', '', false, 1, 1, now(), now(), 1, 1, '999999', '2900-12-31');
 
 
 
