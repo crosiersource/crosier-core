@@ -26,6 +26,8 @@ Encore
 
 
   // --------------------------------------------
+  .addEntry("cleanls", "./assets/js/CleanLocalStorage/cleanLocalStorage.js")
+  
   .addEntry('crosier/layout', './assets/js/crosier/layout.js')
   .addEntry('crosier/layout-vue', './assets/js/crosier/layout-vue.js')
 
