@@ -7,8 +7,12 @@
     apiResource="/api/sec/user"
     :formUrl="this.formUrl"
     ref="dt"
-    :comFiltragem="false"
+    filtrosNaSidebar
   >
+    <template v-slot:filter-fields>
+      <CrosierInputText id="username" label="Usuário" v-model="this.filters.username" />
+    </template>
+
     <template v-slot:columns>
       <Column field="id" header="Id" :sortable="true">
         <template #body="r">
@@ -60,7 +64,7 @@
 
 <script>
 import { mapGetters, mapMutations } from "vuex";
-import { CrosierListS } from "crosier-vue";
+import { CrosierListS, CrosierInputText } from "crosier-vue";
 import Column from "primevue/column";
 import Toast from "primevue/toast";
 import ConfirmDialog from "primevue/confirmdialog";
@@ -68,6 +72,7 @@ import ConfirmDialog from "primevue/confirmdialog";
 export default {
   components: {
     CrosierListS,
+    CrosierInputText,
     Column,
     Toast,
     ConfirmDialog,
