@@ -70,16 +70,6 @@ DELETE
 FROM cfg_app_config
 WHERE chave = 'URL_devlocal' AND app_uuid = '175bd6d3-6c29-438a-9520-47fcee653cc5';
 
-INSERT INTO `cfg_app_config` (id, chave, valor, is_json, app_uuid, inserted, updated,
-                              estabelecimento_id, user_inserted_id, user_updated_id)
-VALUES (null, 'URL_devlocal', 'https://core.crosier.dev', false,
-        '175bd6d3-6c29-438a-9520-47fcee653cc5', now(), now(), 1, 1, 1);
-
-
---
---
---
--- CrosierCore - MainMenu
 DELETE
 FROM cfg_entmenu
 WHERE uuid = '71d1456b-3a9f-4589-8f71-42bbf6c91a3e';
@@ -222,3 +212,13 @@ VALUES ('71d1456b-3a9f-4589-8f71-42bbf6c91a3e', '^https://core\.', '*', now(), n
 
 
 COMMIT;
+
+
+--
+--
+--
+-- CrosierCore - MainMenu
+INSERT INTO `cfg_app_config` (id, chave, valor, is_json, app_uuid, inserted, updated,
+                              estabelecimento_id, user_inserted_id, user_updated_id)
+VALUES (null, 'URL_devlocal', 'https://core.crosier.dev', false,
+        '175bd6d3-6c29-438a-9520-47fcee653cc5', now(), now(), 1, 1, 1);

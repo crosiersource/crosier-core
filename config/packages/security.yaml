@@ -5,7 +5,7 @@ security:
             algorithm: auto
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        app_user_provider:
+        users:
             entity:
                 class: CrosierSource\CrosierLibBaseBundle\Entity\Security\User
                 property: username
