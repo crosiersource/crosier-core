@@ -22,7 +22,7 @@
         "ext-soap": "*",
         "ext-zip": "*",
         "ext-zlib": "*",
-        "crosiersource/crosierlib-base": "^1.0.1",
+        "crosiersource/crosierlib-base": "1.*",
         "composer/package-versions-deprecated": "1.11.99.4",
         "dompdf/dompdf": "^1",
         "friendsofsymfony/jsrouting-bundle": "^2.2",
