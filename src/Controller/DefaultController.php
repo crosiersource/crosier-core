@@ -37,8 +37,10 @@ class DefaultController extends BaseController
         return $this->doRender('dashboard.html.twig');
     }
 
+    
     /**
      * @Route("/logAnError", name="logAnError")
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
     public function logAnError(): Response
     {
@@ -47,15 +49,6 @@ class DefaultController extends BaseController
         return $this->doRender('dashboard.html.twig');
     }
 
-    /**
-     * @Route("/phpinfo", name="phpinfo")
-     * @IsGranted("ROLE_ADMIN", statusCode=403)
-     */
-    public function phpinfo(): Response
-    {
-        phpinfo();
-        return new Response('');
-    }
 
     /**
      * @Route("/v/{vuePage}", name="v_vuePage", requirements={"vuePage"=".+"})
