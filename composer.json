@@ -24,7 +24,7 @@
         "ext-zlib": "*",
         "crosiersource/crosierlib-base": "^1.0",
         "composer/package-versions-deprecated": "1.11.99.4",
-        "dompdf/dompdf": "^1",
+        "dompdf/dompdf": "^2",
         "friendsofsymfony/jsrouting-bundle": "^2.2",
         "knplabs/knp-snappy-bundle": "^1.7",
         "nelmio/cors-bundle": "^2.1",
