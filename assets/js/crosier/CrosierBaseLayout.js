@@ -693,49 +693,50 @@ class CrosierBaseLayout {
       });
       return;
     }
+    if (1 > 2) {
+      window.setInterval(function () {
+        $.ajax(
+          '/api/cfg/pushMessage/getNewMessages',
 
-    window.setInterval(function () {
-      $.ajax(
-        '/api/cfg/pushMessage/getNewMessages',
-
-        {
-          timeout: 7000,
-          async: true,
-          crossDomain: true,
-          dataType: "json",
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          xhrFields: {
-            withCredentials: true
-          },
-        }
-      ).done(function (data) {
-        $.each(data, function (key, val) {
-          Push.create(val.mensagem, {
-            // icon: $('link[rel="icon"]').attr('href'),
-            requireInteraction: true,
-            onClick: function () {
-              if (val.url) {
-                let win = window.open(val.url, '_blank');
-                win.focus();
-              } else {
-                window.focus();
+          {
+            timeout: 7000,
+            async: true,
+            crossDomain: true,
+            dataType: "json",
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            xhrFields: {
+              withCredentials: true
+            },
+          }
+        ).done(function (data) {
+          $.each(data, function (key, val) {
+            Push.create(val.mensagem, {
+              // icon: $('link[rel="icon"]').attr('href'),
+              requireInteraction: true,
+              onClick: function () {
+                if (val.url) {
+                  let win = window.open(val.url, '_blank');
+                  win.focus();
+                } else {
+                  window.focus();
+                }
+                this.close();
               }
-              this.close();
-            }
+            });
           });
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+          console.error('Erro - /api/cfg/pushMessage/getNewMessages');
+          if (jqXHR) {
+            console.dir(jqXHR);
+          }
+          if (textStatus) {
+            console.dir(textStatus);
+          }
         });
-      }).fail(function (jqXHR, textStatus, errorThrown) {
-        console.error('Erro - /api/cfg/pushMessage/getNewMessages');
-        if (jqXHR) {
-          console.dir(jqXHR);
-        }
-        if (textStatus) {
-          console.dir(textStatus);
-        }
-      });
-    }, 10000);
+      }, 10000);
+    }
 
   }
 
