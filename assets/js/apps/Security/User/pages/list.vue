@@ -4,7 +4,7 @@
 
   <CrosierListS
     titulo="Usuários"
-    apiResource="/api/sec/user"
+    apiResource="/api/sec/user/"
     :formUrl="this.formUrl"
     ref="dt"
     filtrosNaSidebar

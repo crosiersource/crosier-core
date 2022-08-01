@@ -128,6 +128,19 @@ VALUES ('2ee7abac-5e5e-11ec-a0f4-2b076214d3ab', 'Listas de Mensagens', 'fas fa-v
 -- Usuários
 DELETE
 FROM cfg_entmenu
+WHERE uuid = '7f067f26-11a7-11ed-b763-9f8d207721c4';
+INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `app_uuid`, `pai_uuid`, `ordem`,
+                           `css_style`, `inserted`,
+                           `updated`, `estabelecimento_id`, `user_inserted_id`, `user_updated_id`,
+                           `url`, `roles`)
+VALUES ('7f067f26-11a7-11ed-b763-9f8d207721c4', 'Estabelecimentos', 'fas fa-store', 'ENT',
+        '175bd6d3-6c29-438a-9520-47fcee653cc5', 'e290e24f-a050-4bba-8ee8-877d55242267', 4, NULL,
+        now(), now(), 1, 1, 1,
+        '/v/cfg/estabelecimento/list', 'ROLE_ADMIN');
+
+-- Usuários
+DELETE
+FROM cfg_entmenu
 WHERE uuid = '55b8894c-06b1-4d5e-8480-ad2a0150bfa6';
 INSERT INTO `cfg_entmenu` (`uuid`, `label`, `icon`, `tipo`, `app_uuid`, `pai_uuid`, `ordem`,
                            `css_style`, `inserted`,

@@ -65,6 +65,19 @@
     </div>
 
     <div class="form-row">
+      <CrosierDropdownEntity
+        v-model="this.fields.estabelecimentoId"
+        entity-uri="/api/cfg/estabelecimento"
+        convertIdsToString
+        optionLabel="descricao"
+        optionValue="id"
+        :orderBy="{ descricao: 'ASC' }"
+        label="Estabelecimento"
+        id="estabelecimento"
+      />
+    </div>
+
+    <div class="form-row">
       <CrosierInputEmail col="4" label="E-mail" id="email" v-model="this.fields.email" />
       <CrosierInputTelefone col="3" label="Fone" id="fone" v-model="this.fields.fone" />
 
@@ -110,8 +123,8 @@ import {
   submitForm,
   CrosierInputText,
   CrosierInputEmail,
-  CrosierDropdownEntity,
   CrosierInputTelefone,
+  CrosierDropdownEntity,
   CrosierSwitch,
 } from "crosier-vue";
 import { mapGetters, mapMutations } from "vuex";
@@ -126,8 +139,8 @@ export default {
     CrosierInputText,
     CrosierInputInt,
     CrosierInputEmail,
-    CrosierDropdownEntity,
     CrosierInputTelefone,
+    CrosierDropdownEntity,
     CrosierSwitch,
     Password,
   },
@@ -163,6 +176,9 @@ export default {
         $toast: this.$toast,
         fnBeforeSave: (formData) => {
           formData.group = formData.group ? formData.group["@id"] : null;
+          formData.estabelecimentoId = formData.estabelecimentoId.toString();
+          delete formData.userInsertedId;
+          delete formData.userUpdatedId;
           if (formData.userRoles) {
             formData.userRoles = formData.userRoles ? formData.userRoles.map((e) => e["@id"]) : [];
           }
