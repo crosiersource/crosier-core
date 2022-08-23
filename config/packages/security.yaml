@@ -62,6 +62,7 @@ security:
         - { path: ^/sec/hash, roles: PUBLIC_ACCESS }
         - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/vsm/tdc, roles: PUBLIC_ACCESS }
+        - { path: ^/vsm/cleanls, roles: PUBLIC_ACCESS }
         - { path: ^/sec/user/recuperaSenha/*, roles: PUBLIC_ACCESS }
         - { path: ^/api/sec/user/recuperaSenha/*, roles: PUBLIC_ACCESS }
         # if you wanted to force EVERY URL to be protected
