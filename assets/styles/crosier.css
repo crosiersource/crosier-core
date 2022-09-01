@@ -35,6 +35,11 @@ input[type=submit], input[type=button], input[type=password] {
   text-transform: none;
 }
 
+
+.uppercase {
+  text-transform: uppercase;
+}
+
 .lowercase,
 .email {
   text-transform: lowercase;
