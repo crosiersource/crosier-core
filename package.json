@@ -22,7 +22,7 @@
         "jquery": "3.5.1",
         "mitt": "^2.1.0",
         "moment": "^2.29.4",
-        "moment-timezone": "^0.5.33",
+        "moment-timezone": "^0.5.35",
         "popper.js": "^1.14.6",
         "primeflex": "2.0.0",
         "primeicons": "5",
