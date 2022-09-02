@@ -242,16 +242,16 @@
         },
         {
             "name": "crosiersource/crosierlib-base",
-            "version": "v1.0.16",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/crosiersource/crosierlib-base.git",
-                "reference": "d88fadd7b7a178a7c5c2c3c41d2fac97e6b46929"
+                "reference": "5d452df3344f81c85eefb94baf850989ffd0df40"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/crosiersource/crosierlib-base/zipball/d88fadd7b7a178a7c5c2c3c41d2fac97e6b46929",
-                "reference": "d88fadd7b7a178a7c5c2c3c41d2fac97e6b46929",
+                "url": "https://api.github.com/repos/crosiersource/crosierlib-base/zipball/5d452df3344f81c85eefb94baf850989ffd0df40",
+                "reference": "5d452df3344f81c85eefb94baf850989ffd0df40",
                 "shasum": ""
             },
             "require": {
@@ -284,6 +284,7 @@
                 "symfony/mailer": "^5.3",
                 "symfony/messenger": "^5.3",
                 "symfony/monolog-bundle": "^3.1",
+                "symfony/orm-pack": "^2.2",
                 "symfony/security-bundle": "5.3.*",
                 "symfony/security-guard": "5.3.*",
                 "symfony/serializer": "5.3.*",
@@ -314,9 +315,9 @@
             ],
             "support": {
                 "issues": "https://github.com/crosiersource/crosierlib-base/issues",
-                "source": "https://github.com/crosiersource/crosierlib-base/tree/v1.0.16"
+                "source": "https://github.com/crosiersource/crosierlib-base/tree/v1.1.0"
             },
-            "time": "2022-09-01T21:53:40+00:00"
+            "time": "2022-09-02T18:20:14+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -7201,6 +7202,52 @@
                 }
             ],
             "time": "2022-01-02T09:51:59+00:00"
+        },
+        {
+            "name": "symfony/orm-pack",
+            "version": "v2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/orm-pack.git",
+                "reference": "c4728ba9ed071876f71df637c7dff0490c9252b2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/orm-pack/zipball/c4728ba9ed071876f71df637c7dff0490c9252b2",
+                "reference": "c4728ba9ed071876f71df637c7dff0490c9252b2",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/doctrine-bundle": "*",
+                "doctrine/doctrine-migrations-bundle": "*",
+                "doctrine/orm": "*",
+                "symfony/proxy-manager-bridge": "*"
+            },
+            "type": "symfony-pack",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A pack for the Doctrine ORM",
+            "support": {
+                "issues": "https://github.com/symfony/orm-pack/issues",
+                "source": "https://github.com/symfony/orm-pack/tree/v2.2.0"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2022-01-12T09:53:02+00:00"
         },
         {
             "name": "symfony/password-hasher",
