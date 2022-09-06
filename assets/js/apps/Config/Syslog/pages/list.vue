@@ -1,68 +1,57 @@
 <template>
   <CrosierListS
+    filtrosNaSidebar
     titulo="Log do Sistema"
     apiResource="/api/core/config/syslog"
     ref="dt"
     @beforeFilter="this.beforeFilter"
   >
     <template v-slot:filter-fields>
+      <CrosierInputInt id="id" label="ID" v-model="this.filters.id" />
+
+      <CrosierMultiSelect
+        label="Tipo"
+        id="tipo"
+        v-model="this.filters.tipo"
+        optionLabel="tipo"
+        optionValue="tipo"
+        :options="this.options.tipo"
+      />
+
+      <CrosierMultiSelect
+        label="App"
+        id="app"
+        v-model="this.filters.app"
+        optionLabel="app"
+        optionValue="app"
+        :options="this.options.app"
+      />
+
+      <CrosierInputText id="uuid_sess" label="UUID Sess" v-model="this.filters.uuidSess" />
+
+      <CrosierInputText id="component" label="Component" v-model="this.filters.component" />
+
+      <CrosierInputText id="act" label="Action" v-model="this.filters.act" />
+
+      <CrosierInputText id="obs" label="Obs" v-model="this.filters.obs" />
+
+      <CrosierInputText id="username" label="Usuário" v-model="this.filters.username" />
+
       <div class="form-row">
-        <CrosierInputInt id="id" col="3" label="ID" v-model="this.filters.id" />
-        <div class="col-md-3">
-          <div class="form-group">
-            <label for="tipo">Tipo</label>
-            <MultiSelect
-              class="form-control"
-              id="tipo"
-              v-model="this.filters.tipo"
-              optionLabel="tipo"
-              optionValue="tipo"
-              :options="this.options.tipo"
-              display="chip"
-            />
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label for="app">App</label>
-            <MultiSelect
-              class="form-control"
-              id="app"
-              v-model="this.filters.app"
-              optionLabel="app"
-              optionValue="app"
-              :options="this.options.app"
-              display="chip"
-            />
-          </div>
-        </div>
-        <CrosierInputText
-          id="component"
-          col="3"
-          label="Component"
-          v-model="this.filters.component"
-        />
-      </div>
-      <div class="form-row">
-        <CrosierInputText id="act" col="5" label="Action" v-model="this.filters.act" />
-        <CrosierInputText id="obs" col="7" label="Obs" v-model="this.filters.obs" />
-      </div>
-      <div class="form-row">
-        <CrosierInputText id="username" col="4" label="Usuário" v-model="this.filters.username" />
         <CrosierCalendar
           label="Desde"
           id="moment_after"
-          :showTime="true"
-          :showSeconds="true"
-          col="4"
+          showTime
+          showSeconds
+          col="6"
           v-model="this.filters['moment[after]']"
         />
         <CrosierCalendar
           label="Até"
           id="moment_before"
-          :showTime="true"
-          :showSeconds="true"
-          col="4"
+          showTime
+          showSeconds
+          col="6"
           v-model="this.filters['moment[before]']"
         />
       </div>
@@ -70,38 +59,41 @@
 
     <template v-slot:columns>
       <Column field="moment" header="Moment" :sortable="true" headerStyle="width: 15%">
-        <template class="text-right" #body="slotProps">
-          {{ this.moment(slotProps.data.moment).format("DD/MM/YYYY HH:mm:ss") }}
+        <template class="text-right" #body="r">
+          {{ this.moment(r.data.moment).format("DD/MM/YYYY HH:mm:ss") }}
           <br />
-          <span class="badge badge-secondary">{{ slotProps.data.id }}</span>
+          <span class="badge badge-secondary">{{ r.data.id }}</span>
+          <div class="small">
+            <a :href="this.getUuidSessLink(r.data.uuidSess)">{{ r.data.uuidSess }}</a>
+          </div>
         </template>
       </Column>
+
       <Column field="app" header="Log">
-        <template #body="slotProps">
+        <template #body="r">
           <div class="float-left">
-            <b>{{ slotProps.data.act }}</b>
+            <b>{{ r.data.act }}</b>
             <br />
             <span style="font-size: small; color: lightblue"
-              >{{ slotProps.data.app }}:{{ slotProps.data.component }}</span
+              >{{ r.data.app }}:{{ r.data.component }}</span
             >
             <hr />
-            <span style="font-size: smaller">{{ slotProps.data.obs }}</span>
+            <span style="font-size: smaller">{{ r.data.obs }}</span>
           </div>
           <div class="text-right">
-            <span class="badge badge-info"
-              ><i class="fas fa-user"></i> {{ slotProps.data.username }}</span
+            <span class="badge badge-info"><i class="fas fa-user"></i> {{ r.data.username }}</span
             ><br />
-            <span v-show="slotProps.data.tipo === 'debug'" class="badge badge-danger"
+            <span v-show="r.data.tipo === 'debug'" class="badge badge-danger"
               ><i class="fas fa-bug"></i> debug</span
             >
-            <span v-show="slotProps.data.tipo === 'info'" class="badge badge-info"
+            <span v-show="r.data.tipo === 'info'" class="badge badge-info"
               ><i class="fas fa-info"></i> info</span
             >
             <br />
             <button
               type="button"
               class="btn btn-sm btn-primary"
-              @click="this.showDialog(slotProps.data.id)"
+              @click="this.showDialog(r.data.id)"
             >
               <i class="fas fa-file" aria-hidden="true"></i> Abrir
             </button>
@@ -115,11 +107,16 @@
 
 <script>
 import Column from "primevue/column";
-import MultiSelect from "primevue/multiselect";
 import moment from "moment";
 import axios from "axios";
 import { mapGetters, mapMutations } from "vuex";
-import { CrosierListS, CrosierCalendar, CrosierInputText, CrosierInputInt } from "crosier-vue";
+import {
+  CrosierCalendar,
+  CrosierInputInt,
+  CrosierInputText,
+  CrosierListS,
+  CrosierMultiSelect,
+} from "crosier-vue";
 import syslogForm from "./form";
 
 export default {
@@ -128,7 +125,7 @@ export default {
     Column,
     CrosierInputText,
     CrosierInputInt,
-    MultiSelect,
+    CrosierMultiSelect,
     syslogForm,
     CrosierCalendar,
   },
@@ -175,6 +172,10 @@ export default {
       this.$store.state.syslog = rs.data;
       this.$store.state.displayDialog = true;
       this.$store.state.loading = false;
+    },
+
+    getUuidSessLink(uuidSess) {
+      return `?filters={"uuidSess":"${uuidSess}"}`;
     },
   },
 

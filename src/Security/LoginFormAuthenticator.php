@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use CrosierSource\CrosierLibBaseBundle\Business\Config\SyslogBusiness;
 use CrosierSource\CrosierLibBaseBundle\Entity\Security\User;
 use CrosierSource\CrosierLibBaseBundle\EntityHandler\Security\UserEntityHandler;
 use Doctrine\DBAL\Exception;
@@ -53,6 +54,8 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
     private Security $security;
 
     private LoggerInterface $logger;
+    
+    private SyslogBusiness $syslog;
 
 
     public function supports(Request $request): ?bool
@@ -67,9 +70,12 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
         $username = mb_strtolower(trim($request->request->get('username')));
         $plaintextPassword = trim($request->request->get('password'));
 
+        $this->syslog->info('Iniciando tentativa de login para ' . $username);
+        
         /** @var User $user */
         $user = $this->userEntityHandler->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $username]);
         if ($user && !$user->isActive) {
+            $this->syslog->info('Erro: usuário inativo');
             throw new CustomUserMessageAuthenticationException('Usuário inativo');
         }
 
@@ -77,6 +83,7 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
 
         $token = new CsrfToken('authenticate', $csrfToken);
         if (!$this->csrfTokenManager->isTokenValid($token)) {
+            $this->syslog->info('Erro: CSRF inválido');
             throw new InvalidCsrfTokenException();
         }
 
@@ -88,6 +95,7 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
+        $errMsg = null;
         if ($exception instanceof TooManyLoginAttemptsAuthenticationException) {
             $errMsg = [
                 'messageKey' => 'Login bloqueado (Causa: muitas tentativas de login)'
@@ -102,6 +110,9 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
             ];
         }
         $request->getSession()->set(Security::AUTHENTICATION_ERROR, $errMsg);
+        
+        $this->syslog->err('onAuthenticationFailure: ' . json_encode($errMsg));
+        
         return new RedirectResponse($this->router->generate('login'));
     }
 
@@ -109,6 +120,7 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         try {
+            $this->syslog->info('Login efetuado com sucesso');
             /** @var User $user */
             $user = $token->getUser();
             $this->userEntityHandler->save($user);
@@ -123,6 +135,8 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
             $cacheCrosierCoreAssetExtension->clear();
 
             $uriToRedirectAfterLogin = $request->getSession()->get('uri_to_redirect_after_login');
+
+            $this->syslog->info('Redirecionando para ' . $uriToRedirectAfterLogin);
 
             if (strpos($request->getPathInfo(), '/api') === 0) {
                 return null;
@@ -180,13 +194,11 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
             $this->logger->error($e->getMessage());
         }
         return $rootUrlCrosierCore;
-
     }
 
 
     /**
      * @required
-     * @param RouterInterface $router
      */
     public function setRouter(RouterInterface $router): void
     {
@@ -195,7 +207,6 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
 
     /**
      * @required
-     * @param CsrfTokenManagerInterface $csrfTokenManager
      */
     public function setCsrfTokenManager(CsrfTokenManagerInterface $csrfTokenManager): void
     {
@@ -204,7 +215,6 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
 
     /**
      * @required
-     * @param UserPasswordEncoderInterface $passwordEncoder
      */
     public function setPasswordEncoder(UserPasswordEncoderInterface $passwordEncoder): void
     {
@@ -213,7 +223,6 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
 
     /**
      * @required
-     * @param UserEntityHandler $userEntityHandler
      */
     public function setUserEntityHandler(UserEntityHandler $userEntityHandler): void
     {
@@ -222,7 +231,6 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
 
     /**
      * @required
-     * @param Security $security
      */
     public function setSecurity(Security $security): void
     {
@@ -231,12 +239,21 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
 
     /**
      * @required
-     * @param LoggerInterface $logger
      */
     public function setLogger(LoggerInterface $logger): void
     {
         $this->logger = $logger;
     }
+
+    /**
+     * @required
+     */
+    public function setSyslog(SyslogBusiness $syslog): void
+    {
+        $this->syslog = $syslog;
+    }
+    
+    
 
 
     public function start(Request $request, AuthenticationException $authException = null)

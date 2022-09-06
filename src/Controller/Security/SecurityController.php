@@ -33,8 +33,9 @@ class SecurityController extends AbstractController
 
     private UserEntityHandler $userEntityHandler;
 
-
     private RateLimiterFactory $anonymousApiLimiter;
+    
+    private SyslogBusiness $syslog;
 
 
     public function __construct(UserEntityHandler  $userEntityHandler,
@@ -47,21 +48,20 @@ class SecurityController extends AbstractController
     }
 
     /**
-     *
      * @Route("/login", name="login")
-     * @param AuthenticationUtils $authenticationUtils
-     * @return Response
-     *
      */
     public function login(Request $request, AuthenticationUtils $authenticationUtils): Response
     {
         $this->checkRateLimit($request);
         $error = $authenticationUtils->getLastAuthenticationError();
         $username = $request->get('username') ?? $authenticationUtils->getLastUsername();
-        return $this->render('Security/login.html.twig', array(
+        if ($error) {
+            $this->syslog->err('Erro (tela de login) : ' . json_encode($error));
+        }
+        return $this->render('Security/login.html.twig', [
             'username' => $username,
             'error' => $error
-        ));
+        ]);
     }
 
     /**
@@ -69,12 +69,12 @@ class SecurityController extends AbstractController
      */
     public function logout(): void
     {
-        // não precisa
+        $user = $this->getUser();
+        $this->syslog->info('Logout: ' . $user);
     }
 
 
     /**
-     *
      * @Route("/sec/hash", name="hash")
      * @param Request $request
      * @param UserPasswordEncoderInterface $encoder
