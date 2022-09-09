@@ -41,6 +41,9 @@ VALUES (2, 'ROLE_ALLOWED_TO_SWITCH', '', 1, now(), now(), 1, 1);
 INSERT INTO sec_role(id, role, descricao, estabelecimento_id, updated, inserted, user_inserted_id,
                      user_updated_id)
 VALUES (3, 'ROLE_UPLOAD', '', 1, now(), now(), 1, 1);
+INSERT INTO sec_role(id, role, descricao, estabelecimento_id, updated, inserted, user_inserted_id,
+                     user_updated_id)
+VALUES (4, 'ROLE_ENTITY_CHANGES', 'Pode visualizar os registros de alterações das entidades.', 1, now(), now(), 1, 1);
 
 
 INSERT INTO sec_group_role(group_id, role_id)

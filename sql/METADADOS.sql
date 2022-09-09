@@ -15,14 +15,16 @@ CREATE TABLE `rememberme_token`
 DROP TABLE IF EXISTS `cfg_entity_change`;
 CREATE TABLE `cfg_entity_change`
 (
-  `id`               bigint(20)   NOT NULL AUTO_INCREMENT,
-  `entity_class`     varchar(200) NOT NULL,
-  `entity_id`        bigint(20)   NOT NULL,
-  `changing_user_id` bigint(20)   NOT NULL,
-  `changed_at`       datetime     NOT NULL,
-  `changes`          longtext     NOT NULL,
-  `obs`              varchar(500) NULL,
-  `uuid_sess`        char(36),
+  `id`                     bigint(20)   NOT NULL AUTO_INCREMENT,
+  `entity_class`           varchar(200) NOT NULL,
+  `entity_id`              bigint(20)   NOT NULL,
+  `changing_user_id`       bigint(20)   NOT NULL,
+  `changing_user_username` varchar(255) DEFAULT NULL,
+  `changing_user_nome`     varchar(255) DEFAULT NULL,
+  `changed_at`             datetime     NOT NULL,
+  `changes`                longtext     NOT NULL,
+  `obs`                    varchar(500) NULL,
+  `uuid_sess`              char(36),
   PRIMARY KEY (`id`),
   KEY `cfg_entity_change_entity` (`entity_class`, `entity_id`),
   KEY `cfg_entity_change_changed_at` (`changed_at`),
@@ -434,8 +436,6 @@ CREATE TABLE `cfg_pushmessage`
   CONSTRAINT `FK_cfg_pushmessage_user_updated` FOREIGN KEY (`user_updated_id`) REFERENCES `sec_user` (`id`)
 
 ) ENGINE = InnoDB;
-
-
 
 
 
