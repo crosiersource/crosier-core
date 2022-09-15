@@ -246,30 +246,31 @@
 
                             <tr>
                               <td class="esd-block-text es-m-txt-c" align="center">
-                                <h2>Olá {{ primeiroNome }}!<br></h2>
+                                <h2>Olá!<br></h2>
                               </td>
                             </tr>
                             <tr>
                               <td class="esd-block-text es-m-txt-c es-p15t"
                                   align="center">
                                 <p>Recebemos uma solitação para confirmar seu cadastro em nossa
-                                  plataforma através do e-mail <strong>{{ email }}</strong>. Se
-                                  isto estiver correto,
-                                  por favor, clique no link abaixo para finalizar o processo.
-                                  Caso não saiba porque recebeu este e-mail, por favor, ignore-o.
+                                  plataforma. Se isto estiver correto, por favor, clique no link 
+                                    correspondente ao nome de usuário que deseja recuperar a senha e 
+                                    finalize o processo.
+                                  Caso não saiba porque recebeu este e-mail, por favor, ignore-o!
                                 </p>
                               </td>
                             </tr>
+                            {% for link in links %}
                             <tr>
-                              <td class="esd-block-button es-p20t es-p15b es-p10r es-p10l"
-                                  align="center"><span class="es-button-border">
-                                  
-                                  <a
-                                    class="btn fourth" style="vertical-align:middle"
-                                    href="{{ link }}"
-                                    target="_blank">Confirmar</a></span>
-                              </td>
+                                <td class="esd-block-text es-m-txt-c es-p15t"
+                                    align="center">
+                                    Para o usuário <strong>{{ link.username }}</strong> <a
+                                        href="{{ link.link }}"
+                                        target="_blank">clique aqui!</a>
+                                    <hr width="1"/>
+                                </td>
                             </tr>
+                            {% endfor %}
                             </tbody>
                           </table>
                         </td>

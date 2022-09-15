@@ -34,7 +34,7 @@ class SecurityController extends AbstractController
     private UserEntityHandler $userEntityHandler;
 
     private RateLimiterFactory $anonymousApiLimiter;
-    
+
     private SyslogBusiness $syslog;
 
 
@@ -135,24 +135,32 @@ class SecurityController extends AbstractController
         try {
             $str = $params['confirmUser'];
 
-            $rs = $conn->fetchAssociative('SELECT id FROM sec_user WHERE ativo = true AND (username = :str OR email = :str OR fone = :str)',
+            $rs = $conn->fetchAllAssociative('SELECT id FROM sec_user WHERE ativo = true AND email = :str',
                 ['str' => $str]);
 
-            if ($rs['id'] ?? false) {
-                $repoUser = $this->getDoctrine()->getRepository(User::class);
-                $user = $repoUser->find($rs['id']);
-                $user->tokenRecupSenha = StringUtils::guidv4();
-                $user->dtValidadeTokenRecupSenha = DateTimeUtils::addMinutes(null, 15);
-                $this->userEntityHandler->save($user);
+            if ($rs) {
+                foreach ($rs as $r) {
+                    $repoUser = $this->getDoctrine()->getRepository(User::class);
+                    $user = $repoUser->find($r['id']);
+                    $user->tokenRecupSenha = StringUtils::guidv4();
+                    $user->dtValidadeTokenRecupSenha = DateTimeUtils::addMinutes(null, 15);
+                    $this->userEntityHandler->save($user);
 
-                $primeiroNome = explode(' ', $user->nome)[0];
-                $primeiroNome = ucfirst(strtolower($primeiroNome));
+                    $primeiroNome = explode(' ', $user->nome)[0];
+                    $primeiroNome = ucfirst(strtolower($primeiroNome));
 
-                $link = $_SERVER['CROSIERCORE_URL'] . '/sec/user/recuperaSenha/confirmaLink?token=' . $user->tokenRecupSenha . '&id=' . $user->getId();
+                    $link = $_SERVER['CROSIERCORE_URL'] . '/sec/user/recuperaSenha/confirmaLink?token=' . $user->tokenRecupSenha . '&id=' . $user->getId();
 
+                    $links[] = [
+                        'link' => $link,
+                        'username' => $user->username,
+                        'email' => $user->email,
+                        'primeiroNome' => $primeiroNome
+                    ];
+                }
                 $html = $this->renderView('Security/emailConfirmaAtivacao.html.twig',
-                    ['link' => $link, 'email' => $user->email, 'primeiroNome' => $primeiroNome]);
-                
+                    ['links' => $links]);
+
                 $client = new PostmarkClient($_SERVER['PM_TOKEN']);
                 $client->sendEmail('mailer@crosier.com.br', $user->email, 'Recuperação de senha', $html);
             }
@@ -255,7 +263,14 @@ class SecurityController extends AbstractController
      */
     public function testEmailAtivacao(): Response
     {
-        return $this->render('Security/emailConfirmaAtivacao.html.twig', ['email' => 'carlospauluk@gmail.com', 'link' => 'https://www.google.com/']);
+        return $this->render('Security/emailConfirmaAtivacao.html.twig',
+            [
+                'links' =>
+                    [
+                        ['username' => 'carlos', 'email' => 'carlospauluk@gmail.com', 'link' => 'https://www.google.com/?q=carlos'],
+                        ['username' => 'admin', 'email' => 'carlospauluk@gmail.com', 'link' => 'https://www.google.com/?q=admin']
+                    ],
+            ]);
     }
 
 

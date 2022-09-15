@@ -44,7 +44,9 @@ VALUES (3, 'ROLE_UPLOAD', '', 1, now(), now(), 1, 1);
 INSERT INTO sec_role(id, role, descricao, estabelecimento_id, updated, inserted, user_inserted_id,
                      user_updated_id)
 VALUES (4, 'ROLE_ENTITY_CHANGES', 'Pode visualizar os registros de alterações das entidades.', 1, now(), now(), 1, 1);
-
+INSERT INTO sec_role(id, role, descricao, estabelecimento_id, updated, inserted, user_inserted_id,
+                     user_updated_id)
+VALUES (null, 'ROLE_NENHUMA', 'Role sem efeito (serve apenas para poder deixar um usuário com apenas 1 role).', 1, now(), now(), 1, 1);
 
 INSERT INTO sec_group_role(group_id, role_id)
 VALUES (1, 1);

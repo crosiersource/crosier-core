@@ -19,7 +19,7 @@
             <div v-if="!this.emailEnviadoOuNao">
               <div class="form-row">
                 <CrosierInputText
-                  label="Informe seu 'nome de usuário', e-mail ou telefone"
+                  label="Informe seu e-mail"
                   inputClass="lowercase"
                   id="confirmUser"
                   v-model="this.fields.confirmUser"
