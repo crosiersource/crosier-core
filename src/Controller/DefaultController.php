@@ -28,6 +28,7 @@ class DefaultController extends BaseController
         $this->logger = $logger;
     }
 
+    
     /**
      *
      * @Route("/", name="index")
@@ -72,6 +73,7 @@ class DefaultController extends BaseController
         return $this->doRender('@CrosierLibBase/vue-app-page.html.twig', $params);
     }
 
+    
     /**
      * @Route("/vsm/{vuePage}", name="vsm_vuePage", requirements={"vuePage"=".+"})
      */
@@ -93,6 +95,7 @@ class DefaultController extends BaseController
         return $this->render('@CrosierLibBase/vue-app-page-semmenu.html.twig', $params);
     }
 
+    
     /**
      *
      * @Route("/nosec", name="nosec", methods={"GET"})

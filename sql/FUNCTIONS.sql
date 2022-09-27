@@ -1,7 +1,9 @@
--- Script criado para ser executado via DBAL no PHP
 
 
-DROP FUNCTION IF EXISTS JSON_IS_NULL_OR_EMPTY ;
+delimiter //
+
+
+DROP FUNCTION IF EXISTS JSON_IS_NULL_OR_EMPTY //
 
 CREATE FUNCTION JSON_IS_NULL_OR_EMPTY(json_data JSON,
                                       field VARCHAR(255))
@@ -19,11 +21,11 @@ BEGIN
     return false;
 
   END IF;
-END ;
+END //
 
 
 -- Função que verifica se um valor dentro de um campo JSON é nulo ou vazio (MySQL 5.7)
-DROP FUNCTION IF EXISTS JSON_IS_NULL_OR_EMPTY_OR_ZERO ;
+DROP FUNCTION IF EXISTS JSON_IS_NULL_OR_EMPTY_OR_ZERO //
 
 
 CREATE FUNCTION JSON_IS_NULL_OR_EMPTY_OR_ZERO(json_data JSON,
@@ -44,4 +46,10 @@ BEGIN
     return false;
 
   END IF;
-END ;
+END //
+
+
+
+
+
+
