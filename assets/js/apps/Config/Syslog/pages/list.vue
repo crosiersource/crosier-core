@@ -133,7 +133,7 @@ export default {
     return {
       tableData: [],
       options: {
-        tipo: null,
+        tipo: [{ tipo: "err" }, { tipo: "info" }, { tipo: "debug" }],
         app: null,
         component: null,
         username: null,
