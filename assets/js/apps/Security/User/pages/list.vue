@@ -21,8 +21,11 @@
       </Column>
 
       <Column field="username" header="Usuário" :sortable="true"></Column>
+
       <Column field="email" header="E-mail" :sortable="true"></Column>
+
       <Column field="nome" header="Nome" :sortable="true"></Column>
+
       <Column field="isActive" header="Ativo" :sortable="true">
         <template class="text-center" #body="r">
           {{ r.data.isActive ? "Sim" : "Não" }}
