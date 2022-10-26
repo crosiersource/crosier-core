@@ -242,16 +242,16 @@
         },
         {
             "name": "crosiersource/crosierlib-base",
-            "version": "v1.3.8",
+            "version": "v1.3.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/crosiersource/crosierlib-base.git",
-                "reference": "362f25e46dd693a0f695f890cc98bee0cef1f22c"
+                "reference": "8aa0007633ac02ba23bb904a9fc56cf7a61547cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/crosiersource/crosierlib-base/zipball/362f25e46dd693a0f695f890cc98bee0cef1f22c",
-                "reference": "362f25e46dd693a0f695f890cc98bee0cef1f22c",
+                "url": "https://api.github.com/repos/crosiersource/crosierlib-base/zipball/8aa0007633ac02ba23bb904a9fc56cf7a61547cb",
+                "reference": "8aa0007633ac02ba23bb904a9fc56cf7a61547cb",
                 "shasum": ""
             },
             "require": {
@@ -316,9 +316,9 @@
             ],
             "support": {
                 "issues": "https://github.com/crosiersource/crosierlib-base/issues",
-                "source": "https://github.com/crosiersource/crosierlib-base/tree/v1.3.8"
+                "source": "https://github.com/crosiersource/crosierlib-base/tree/v1.3.9"
             },
-            "time": "2022-10-26T14:47:21+00:00"
+            "time": "2022-10-26T19:39:06+00:00"
         },
         {
             "name": "doctrine/annotations",
