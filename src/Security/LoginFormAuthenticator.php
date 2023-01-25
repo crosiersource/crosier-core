@@ -173,6 +173,7 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
             $rsLandingApp = $conn->fetchAssociative(
                 'SELECT valor FROM cfg_app_config WHERE chave = :chave AND app_uuid IN (SELECT uuid FROM cfg_app WHERE nome = \'crosier-core\')',
                 ['chave' => 'landing_apps.json']);
+            
             if ($rsLandingApp['valor'] ?? null) {
                 $landingApps = json_decode($rsLandingApp['valor'], true);
                 if ($landingApps['landing_app_por_user'][$user->getUsername()] ?? null
@@ -186,7 +187,20 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
                             'chave' => 'URL_' . $_SERVER['CROSIER_ENV'],
                             'appNome' => $landingAppNome
                         ]);
-                    return $rsUrl['valor'];
+
+                    $rsLandingUrlsPorRoles = $conn->fetchAssociative(
+                        'SELECT valor FROM cfg_app_config WHERE chave = :chave AND app_uuid IN (SELECT uuid FROM cfg_app WHERE nome = \'crosier-core\')',
+                        ['chave' => 'landing_urls_por_roles.json']);
+                    
+                    $landingUrlsPorRoles = json_decode($rsLandingUrlsPorRoles['valor'] ?? '{}', true); 
+
+                    $url = '';
+                    foreach ($landingUrlsPorRoles as $role => $url) {
+                        if (in_array($role, $user->getRoles(), true)) {
+                            break;
+                        }
+                    }
+                    return $rsUrl['valor'] . $url;
                 }
             }
         } catch (Exception $e) {
