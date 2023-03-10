@@ -259,21 +259,5 @@ class SecurityController extends AbstractController
     }
 
 
-    /**
-     * @Route("/sec/user/testEmailAtivacao", name="aprogressiva_testEmailAtivacao")
-     */
-    public function testEmailAtivacao(): Response
-    {
-        return $this->render('Security/emailConfirmaAtivacao.html.twig',
-            [
-                'links' =>
-                    [
-                        ['username' => 'carlos', 'email' => 'carlospauluk@gmail.com', 'link' => 'https://www.google.com/?q=carlos'],
-                        ['username' => 'admin', 'email' => 'carlospauluk@gmail.com', 'link' => 'https://www.google.com/?q=admin']
-                    ],
-            ]);
-    }
-
-
 }
 

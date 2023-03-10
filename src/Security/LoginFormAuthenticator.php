@@ -12,9 +12,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
@@ -47,14 +47,14 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
 
     private CsrfTokenManagerInterface $csrfTokenManager;
 
-    private UserPasswordEncoderInterface $passwordEncoder;
+    private UserPasswordHasherInterface $passwordEncoder;
 
     private UserEntityHandler $userEntityHandler;
 
     private Security $security;
 
     private LoggerInterface $logger;
-    
+
     private SyslogBusiness $syslog;
 
 
@@ -71,7 +71,7 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
         $plaintextPassword = trim($request->request->get('password'));
 
         $this->syslog->info('Iniciando tentativa de login para ' . $username);
-        
+
         /** @var User $user */
         $user = $this->userEntityHandler->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $username]);
         if ($user && !$user->isActive) {
@@ -90,7 +90,8 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
         return new Passport(
             new UserBadge($username),
             new PasswordCredentials($plaintextPassword),
-            [new RememberMeBadge()]);
+            [new RememberMeBadge()]
+        );
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
@@ -110,9 +111,9 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
             ];
         }
         $request->getSession()->set(Security::AUTHENTICATION_ERROR, $errMsg);
-        
+
         $this->syslog->err('onAuthenticationFailure: ' . json_encode($errMsg));
-        
+
         return new RedirectResponse($this->router->generate('login'));
     }
 
@@ -127,8 +128,8 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
             $this->userEntityHandler->renewTokenApi($user);
             $this->userEntityHandler->fixRoles($user);
 
-            $cache_entmenulocator = new FilesystemAdapter('entmenulocator', 0, $_SERVER['CROSIER_SESSIONS_FOLDER']);
-            $cache_entmenulocator->clear();
+            $cacheEntmenulocator = new FilesystemAdapter('entmenulocator', 0, $_SERVER['CROSIER_SESSIONS_FOLDER']);
+            $cacheEntmenulocator->clear();
 
             $cacheCrosierCoreAssetExtension = new FilesystemAdapter('CrosierCoreAssetExtension', 0, $_SERVER['CROSIER_SESSIONS_FOLDER']);
             // limpa os cachês definidos em CrosierSource\CrosierLibBaseBundle\Twig\CrosierCoreAssetExtension
@@ -138,9 +139,7 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
 
             $this->syslog->info('Redirecionando para ' . $uriToRedirectAfterLogin);
 
-            if (strpos($request->getPathInfo(), '/api') === 0) {
-                return null;
-            } else {
+            if (strpos($request->getPathInfo(), '/api') !== 0) {
                 $request->getSession()->set('uri_to_redirect_after_login', null);
                 $landingUrl = $this->getLandingUrl($user, $uriToRedirectAfterLogin);
                 return new RedirectResponse($landingUrl);
@@ -148,12 +147,28 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
         } catch (\Throwable $e) {
             $this->logger->error('Erro em onAuthenticationSuccess');
             $this->logger->error($e->getMessage());
-            // throw new \RuntimeException('LoginFormAuthenticator - erro');
         }
+        return null;
     }
 
 
-    private function getLandingUrl(User $user, ?string $uriToRedirectAfterLogin = null)
+    private function getLandingUrl(User $user, ?string $uriToRedirectAfterLogin = null): string
+    {
+        $rootUrlCrosierCore = $this->getRootUrl('crosier-core');
+        $landingUrl = "";
+        try {
+            if ($uriToRedirectAfterLogin && $uriToRedirectAfterLogin !== $rootUrlCrosierCore) {
+                return $uriToRedirectAfterLogin;
+            }
+            $landingUrl = $this->getPriorityLandingUrl($user) ?: $rootUrlCrosierCore;
+        } catch (Exception $e) {
+            $this->logger->error('Erro em getLandingUrl');
+            $this->logger->error($e->getMessage());
+        }
+        return $landingUrl;
+    }
+
+    private function getRootUrl(string $app): string
     {
         $conn = $this->userEntityHandler->getDoctrine()->getConnection();
 
@@ -161,53 +176,73 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
             'SELECT valor FROM cfg_app_config WHERE chave = :chave AND app_uuid IN (SELECT uuid FROM cfg_app WHERE nome = :appNome)',
             [
                 'chave' => 'URL_' . $_SERVER['CROSIER_ENV'],
-                'appNome' => 'crosier-core'
-            ]);
-        $rootUrlCrosierCore = ($rsRootUrlCrosierCore['valor'] ?? '') . '/';
+                'appNome' => $app,
+            ]
+        );
+        return ($rsRootUrlCrosierCore['valor'] ?? '') . '/';
+    }
 
-        try {
-            if ($uriToRedirectAfterLogin && $uriToRedirectAfterLogin !== $rootUrlCrosierCore) {
-                return $uriToRedirectAfterLogin;
-            }
 
-            $rsLandingApp = $conn->fetchAssociative(
-                'SELECT valor FROM cfg_app_config WHERE chave = :chave AND app_uuid IN (SELECT uuid FROM cfg_app WHERE nome = \'crosier-core\')',
-                ['chave' => 'landing_apps.json']);
-            
-            if ($rsLandingApp['valor'] ?? null) {
-                $landingApps = json_decode($rsLandingApp['valor'], true);
-                if ($landingApps['landing_app_por_user'][$user->getUsername()] ?? null
-                    || $landingApps['landing_app']) {
+    private function getPriorityLandingUrl(User $user): string
+    {
+        /**
+         * Modelo do landing_urls.json possível é:
+         *
+         * {
+         * "users": {
+         * "usuario01": {
+         * "app": "crosierapp-pltr",
+         * "url": "v/ranking/competidor"
+         * }
+         * },
+         * "roles": {
+         * "ROLE_PLTR_COMPETIDOR": {
+         * "app": "crosierapp-pltr",
+         * "url": "v/ranking/competidor"
+         * },
+         * "ROLE_PLTR_ADMIN": {
+         * "app": "crosierapp-pltr",
+         * "url": "v/ranking/admin"
+         * }
+         * },
+         * "*": {
+         * "app": "crosierapp-pltr",
+         * "url": ""
+         * }
+         * }
+         */
+        $landingUrls = $this->getLandingUrls();
 
-                    $landingAppNome = $landingApps['landing_app_por_user'][$user->getUsername()] ?? $landingApps['landing_app'];
+        $landingUrl = $landingUrls['users'][$user->getUsername()] ?? null;
 
-                    $rsUrl = $conn->fetchAssociative(
-                        'SELECT valor FROM cfg_app_config WHERE chave = :chave AND app_uuid IN (SELECT uuid FROM cfg_app WHERE nome = :appNome)',
-                        [
-                            'chave' => 'URL_' . $_SERVER['CROSIER_ENV'],
-                            'appNome' => $landingAppNome
-                        ]);
-
-                    $rsLandingUrlsPorRoles = $conn->fetchAssociative(
-                        'SELECT valor FROM cfg_app_config WHERE chave = :chave AND app_uuid IN (SELECT uuid FROM cfg_app WHERE nome = \'crosier-core\')',
-                        ['chave' => 'landing_urls_por_roles.json']);
-                    
-                    $landingUrlsPorRoles = json_decode($rsLandingUrlsPorRoles['valor'] ?? '{}', true); 
-
-                    $url = '';
-                    foreach ($landingUrlsPorRoles as $role => $url) {
-                        if (in_array($role, $user->getRoles(), true)) {
-                            break;
-                        }
-                    }
-                    return $rsUrl['valor'] . $url;
-                }
-            }
-        } catch (Exception $e) {
-            $this->logger->error('Erro em getLandingUrl');
-            $this->logger->error($e->getMessage());
+        if ($landingUrl) {
+            return $this->getRootUrl($landingUrl['app']) . $landingUrls['url'];
         }
-        return $rootUrlCrosierCore;
+
+        foreach ($user->getRoles() as $role) {
+            if ($landingUrls['roles'][$role] ?? false) {
+                return $this->getRootUrl($landingUrls['roles'][$role]['app']) . $landingUrls['roles'][$role]['url'];
+            }
+        }
+
+        if ($landingUrls['*'] ?? false) {
+            return $this->getRootUrl($landingUrls['*']['app']) . $landingUrls['*']['url'];
+        }
+
+        return '';
+    }
+
+    private function getLandingUrls(): array
+    {
+        $conn = $this->userEntityHandler->getDoctrine()->getConnection();
+        $rs = $conn->fetchAssociative(
+            'SELECT valor FROM cfg_app_config WHERE chave = :chave AND app_uuid IN (SELECT uuid FROM cfg_app WHERE nome = :appNome)',
+            [
+                'chave' => 'landing_urls.json',
+                'appNome' => 'crosier-core',
+            ]
+        );
+        return json_decode($rs['valor'] ?? [], true);
     }
 
 
@@ -230,7 +265,7 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
     /**
      * @required
      */
-    public function setPasswordEncoder(UserPasswordEncoderInterface $passwordEncoder): void
+    public function setPasswordEncoder(UserPasswordHasherInterface $passwordEncoder): void
     {
         $this->passwordEncoder = $passwordEncoder;
     }
@@ -266,13 +301,11 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
     {
         $this->syslog = $syslog;
     }
-    
-    
 
 
     public function start(Request $request, AuthenticationException $authException = null)
     {
-        if (strpos($request->getPathInfo(), '/api') === FALSE) {
+        if (strpos($request->getPathInfo(), '/api') === false) {
             if (!$request->getSession()->get('uri_to_redirect_after_login')) {
                 // pois pode ter sido setado em outro app
                 $request->getSession()->set('uri_to_redirect_after_login', $request->getUri());
