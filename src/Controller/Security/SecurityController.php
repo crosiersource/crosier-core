@@ -10,7 +10,6 @@ use CrosierSource\CrosierLibBaseBundle\Utils\DateTimeUtils\DateTimeUtils;
 use CrosierSource\CrosierLibBaseBundle\Utils\StringUtils\StringUtils;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
-use Mailjet\Resources;
 use Postmark\PostmarkClient;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -38,9 +37,11 @@ class SecurityController extends AbstractController
     private SyslogBusiness $syslog;
 
 
-    public function __construct(UserEntityHandler  $userEntityHandler,
-                                RateLimiterFactory $anonymousApiLimiter,
-                                SyslogBusiness     $syslog)
+    public function __construct(
+        UserEntityHandler  $userEntityHandler,
+        RateLimiterFactory $anonymousApiLimiter,
+        SyslogBusiness     $syslog
+    )
     {
         $this->userEntityHandler = $userEntityHandler;
         $this->anonymousApiLimiter = $anonymousApiLimiter;
