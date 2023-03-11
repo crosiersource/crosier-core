@@ -189,26 +189,26 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
          * Modelo do landing_urls.json possível é:
          *
          * {
-         * "users": {
-         * "usuario01": {
-         * "app": "crosierapp-pltr",
-         * "url": "v/ranking/competidor"
-         * }
-         * },
-         * "roles": {
-         * "ROLE_PLTR_COMPETIDOR": {
-         * "app": "crosierapp-pltr",
-         * "url": "v/ranking/competidor"
-         * },
-         * "ROLE_PLTR_ADMIN": {
-         * "app": "crosierapp-pltr",
-         * "url": "v/ranking/admin"
-         * }
-         * },
-         * "*": {
-         * "app": "crosierapp-pltr",
-         * "url": ""
-         * }
+         *   "users": {
+         *     "usuario01": {
+         *       "app": "crosierapp-pltr",
+         *       "url": "v/ranking/competidor"
+         *     }
+         *   },
+         *   "roles": {
+         *     "ROLE_PLTR_COMPETIDOR": {
+         *       "app": "crosierapp-pltr",
+         *       "url": "v/ranking/competidor"
+         *     },
+         *     "ROLE_PLTR_ADMIN": {
+         *       "app": "crosierapp-pltr",
+         *       "url": "v/ranking/admin"
+         *     }
+         *   },
+         *   "*": {
+         *     "app": "crosierapp-pltr",
+         *     "url": ""
+         *   }
          * }
          */
         $landingUrls = $this->getLandingUrls();
@@ -219,9 +219,11 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
             return $this->getRootUrl($landingUrl['app']) . $landingUrls['url'];
         }
 
-        foreach ($user->getRoles() as $role) {
-            if ($landingUrls['roles'][$role] ?? false) {
-                return $this->getRootUrl($landingUrls['roles'][$role]['app']) . $landingUrls['roles'][$role]['url'];
+        if ($landingUrls['roles'] ?? false) {
+            foreach ($user->getRoles() as $role) {
+                if ($landingUrls['roles'][$role] ?? false) {
+                    return $this->getRootUrl($landingUrls['roles'][$role]['app']) . $landingUrls['roles'][$role]['url'];
+                }
             }
         }
 
@@ -242,7 +244,7 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
                 'appNome' => 'crosier-core',
             ]
         );
-        return json_decode($rs['valor'] ?? [], true);
+        return json_decode($rs['valor'] ?? '[]', true);
     }
 
 
