@@ -8,8 +8,12 @@ use CrosierSource\CrosierLibBaseBundle\Business\Config\EntMenuBusiness;
 use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
 use CrosierSource\CrosierLibBaseBundle\Entity\Config\EntMenu;
 use CrosierSource\CrosierLibBaseBundle\Entity\Config\EntMenuLocator;
+use CrosierSource\CrosierLibBaseBundle\Entity\Security\User;
 use CrosierSource\CrosierLibBaseBundle\EntityHandler\Config\EntMenuEntityHandler;
+use CrosierSource\CrosierLibBaseBundle\Repository\Config\EntMenuLocatorRepository;
 use CrosierSource\CrosierLibBaseBundle\Repository\Config\EntMenuRepository;
+use CrosierSource\CrosierLibBaseBundle\Utils\APIUtils\CrosierApiResponse;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -184,7 +188,6 @@ class EntMenuController extends FormListController
     }
 
     /**
-     *
      * @Route("/cfg/entMenu/clear/{entMenu}", name="cfg_entMenu_clear", defaults={"entMenu"=null}, requirements={"entMenu"="\d+"})
      * @param EntMenu|null $entMenu
      * @return RedirectResponse
@@ -206,5 +209,27 @@ class EntMenuController extends FormListController
         return $this->redirectToRoute('cfg_entMenu_listPais');
     }
 
+    /**
+     * @Route("/api/cfg/entMenu/getMenuByUrl",
+     *     name="api_cfg_entMenu_getMenuByUrl",
+     *     methods={"HEAD","GET"})
+     */
+    public function getMenuByUrl(Request $request, EntityManagerInterface $doctrine): JsonResponse
+    {
+        try {
+            /** @var User $user */
+            $user = $this->getUser();
+            $url = $request->get('url');
+            /** @var EntMenuLocatorRepository $entMenuLocatorRepo */
+            $entMenuLocatorRepo = $doctrine->getRepository(EntMenuLocator::class);
+            $menu = $entMenuLocatorRepo->getMenuByUrl($url, $user);
+            return CrosierApiResponse::success([
+                'menu' => $menu
+            ]);
+        } catch (Exception $e) {
+            return CrosierApiResponse::error($e);
+        }
+
+    }
 
 }

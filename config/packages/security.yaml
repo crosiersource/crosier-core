@@ -3,16 +3,35 @@ security:
     encoders:
         CrosierSource\CrosierLibBaseBundle\Entity\Security\User:
             algorithm: auto
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    
     providers:
         users:
             entity:
                 class: CrosierSource\CrosierLibBaseBundle\Entity\Security\User
                 property: username
+    
     firewalls:
+        
+        login:
+            pattern: ^/api/login
+            stateless: true
+            json_login:
+                check_path: /api/login
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
+        
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        
+        api:
+            request_matcher: App\Security\ApiFirewallRequestMatcher
+            pattern: ^/api
+            stateless: true
+            jwt: ~
+        
+        
         main:
             entry_point: App\Security\LoginFormAuthenticator
 
@@ -41,18 +60,12 @@ security:
 
             switch_user: true
 
-            # activate different ways to authenticate
+        
+        
 
-            # http_basic: true
-            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
-
-            # form_login: true
-            # https://symfony.com/doc/current/security/form_login_setup.html
-
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
     access_control:
-        # but, definitely allow /login to be accessible anonymously
+        - { path: ^/api/sec/user/recuperaSenha/*, roles: PUBLIC_ACCESS }
+        - { path: ^/api/login, roles: PUBLIC_ACCESS }
         - { path: ^/nosec, roles: PUBLIC_ACCESS }
         - { path: ^/getCrosierAssetUrl, roles: PUBLIC_ACCESS }
         - { path: ^/getRenderCrosierWebpackScriptTags, roles: PUBLIC_ACCESS }
@@ -64,11 +77,8 @@ security:
         - { path: ^/vsm/tdc, roles: PUBLIC_ACCESS }
         - { path: ^/vsm/cleanls, roles: PUBLIC_ACCESS }
         - { path: ^/sec/user/recuperaSenha/*, roles: PUBLIC_ACCESS }
-        - { path: ^/api/sec/user/recuperaSenha/*, roles: PUBLIC_ACCESS }
-        # if you wanted to force EVERY URL to be protected
+        #- { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/, roles: IS_AUTHENTICATED_REMEMBERED }
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
 
     role_hierarchy:
         ROLE_ADMIN: ROLE_*

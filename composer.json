@@ -11,6 +11,7 @@
     ],
     "require": {
         "crosiersource/crosierlib-base": "^1.6",
+        "lexik/jwt-authentication-bundle": "^2.18",
         "wildbit/postmark-php": "^4.0"
     },
     "require-dev": {
