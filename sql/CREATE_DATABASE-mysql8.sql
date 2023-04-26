@@ -12,7 +12,7 @@ GRANT ALL PRIVILEGES ON crosier_logs_dev.* TO 'crosier_logs_dev'@'%';
 FLUSH PRIVILEGES;
 
 
--- dbname=crosier_pltr_dev_test
+-- dbname=crosier_dev
 -- mysql_config_editor set --login-path=$dbname --host=localhost --user=$dbname --password
 
 -- sudo touch /usr/local/bin/$dbname

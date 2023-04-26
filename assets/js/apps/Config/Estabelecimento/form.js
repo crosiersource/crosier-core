@@ -57,6 +57,7 @@ const store = createStore({
   actions: {
     async loadData(context) {
       context.commit("setLoading", true);
+
       const id = new URLSearchParams(window.location.search.substring(1)).get("id");
       if (id) {
         try {
