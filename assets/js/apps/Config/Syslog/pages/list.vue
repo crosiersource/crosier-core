@@ -158,10 +158,10 @@ export default {
 
     beforeFilter() {
       this.filters["moment[after]"] = this.filters["moment[after]"]
-        ? `${moment(this.filters["moment[after]"]).format("YYYY-MM-DD")}T00:00:00-03:00`
+        ? `${moment(this.filters["moment[after]"]).format("YYYY-MM-DDTHH:mm:ssZ")}`
         : null;
       this.filters["moment[before]"] = this.filters["moment[before]"]
-        ? `${moment(this.filters["moment[before]"]).format("YYYY-MM-DD")}T23:59:59-03:00`
+        ? `${moment(this.filters["moment[before]"]).format("YYYY-MM-DDTHH:mm:ssZ")}`
         : null;
     },
 
