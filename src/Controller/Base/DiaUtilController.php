@@ -5,13 +5,17 @@ namespace App\Controller\Base;
 use CrosierSource\CrosierLibBaseBundle\Business\Base\DiaUtilBusiness;
 use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
 use CrosierSource\CrosierLibBaseBundle\Entity\Base\DiaUtil;
+use CrosierSource\CrosierLibBaseBundle\Exception\ViewException;
 use CrosierSource\CrosierLibBaseBundle\Repository\Base\DiaUtilRepository;
 use CrosierSource\CrosierLibBaseBundle\Utils\APIUtils\CrosierApiResponse;
 use CrosierSource\CrosierLibBaseBundle\Utils\DateTimeUtils\DateTimeUtils;
 use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\FilterData;
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -36,8 +40,8 @@ class DiaUtilController extends FormListController
      *
      * @Route("/bse/diaUtil/list/", name="bse_diaUtil_list")
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @throws \Exception
+     * @return RedirectResponse|Response
+     * @throws Exception
      *
      * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
@@ -103,22 +107,18 @@ class DiaUtilController extends FormListController
     }
 
     /**
-     *
      * @Route("/bse/diaUtil/gerarDias/", name="bse_diaUtil_gerarDias")
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @throws \Exception
-     *
+     * @return JsonResponse
+     * @throws ViewException
      * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
     public function gerarDias(Request $request): JsonResponse
     {
-        $maxDia = $request->get('maxDia');
-        if (!$maxDia) {
-            throw new \RuntimeException('maxDia não informado');
-        }
-        $dtMaxDia = DateTimeUtils::parseDateStr($maxDia);
-        $this->diaUtilBusiness->gerarOuCorrigirDiasUteis($dtMaxDia);
+        $dtIni = DateTimeUtils::parseDateStr($request->get('dtIni') ?? '1970-01-01');
+        $dtFim = DateTimeUtils::parseDateStr($request->get('dtIni') ?? '2099-12-31');
+        $corrigir = $request->get('corrigir') ?? false;
+        $this->diaUtilBusiness->gerarOuCorrigirDiasUteis($dtIni, $dtFim, $corrigir);
         return CrosierApiResponse::success();
     }
 
