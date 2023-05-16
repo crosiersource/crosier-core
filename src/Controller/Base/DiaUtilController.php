@@ -6,9 +6,11 @@ use CrosierSource\CrosierLibBaseBundle\Business\Base\DiaUtilBusiness;
 use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
 use CrosierSource\CrosierLibBaseBundle\Entity\Base\DiaUtil;
 use CrosierSource\CrosierLibBaseBundle\Repository\Base\DiaUtilRepository;
+use CrosierSource\CrosierLibBaseBundle\Utils\APIUtils\CrosierApiResponse;
 use CrosierSource\CrosierLibBaseBundle\Utils\DateTimeUtils\DateTimeUtils;
 use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\FilterData;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -109,12 +111,15 @@ class DiaUtilController extends FormListController
      *
      * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
-    public function gerarDias(Request $request)
+    public function gerarDias(Request $request): JsonResponse
     {
         $maxDia = $request->get('maxDia');
+        if (!$maxDia) {
+            throw new \RuntimeException('maxDia não informado');
+        }
         $dtMaxDia = DateTimeUtils::parseDateStr($maxDia);
         $this->diaUtilBusiness->gerarOuCorrigirDiasUteis($dtMaxDia);
-
+        return CrosierApiResponse::success();
     }
 
 
