@@ -136,3 +136,8 @@ input[type=submit], input[type=button], input[type=password] {
 /*#toast-container > div {*/
 /*  opacity: 1 !important; */
 /*}*/
+
+
+.p-dialog-mask.p-component-overlay.p-component-overlay-enter {
+  z-index: 999999 !important;
+}
