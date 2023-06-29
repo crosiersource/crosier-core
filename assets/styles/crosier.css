@@ -138,6 +138,14 @@ input[type=submit], input[type=button], input[type=password] {
 /*}*/
 
 
+.p-progressbar.p-component.p-progressbar-indeterminate {
+  z-index: 2147483647 !important;
+}
+
+#crosierBlockDiv {
+  z-index: 2147483646 !important;
+}
+
 .p-dialog-mask.p-component-overlay.p-component-overlay-enter {
-  z-index: 999999 !important;
+  z-index: 2147483645 !important;
 }
