@@ -147,5 +147,5 @@ input[type=submit], input[type=button], input[type=password] {
 }
 
 .p-dialog-mask.p-component-overlay.p-component-overlay-enter {
-  z-index: 2147483645 !important;
+  z-index: 9999 !important;
 }
