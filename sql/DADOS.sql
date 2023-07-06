@@ -1,7 +1,5 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
-START TRANSACTION;
-
 TRUNCATE TABLE cfg_estabelecimento;
 TRUNCATE TABLE sec_user;
 TRUNCATE TABLE sec_group;

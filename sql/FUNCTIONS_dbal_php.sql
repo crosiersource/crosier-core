@@ -1,4 +1,4 @@
--- Script criado para ser executado via DBAL no PHP
+-- Script criado para ser executado via DBAL no PHP (nos casos dos testes)
 
 
 DROP FUNCTION IF EXISTS JSON_IS_NULL_OR_EMPTY ;
