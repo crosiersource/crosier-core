@@ -10,7 +10,6 @@ use CrosierSource\CrosierLibBaseBundle\Repository\Base\DiaUtilRepository;
 use CrosierSource\CrosierLibBaseBundle\Utils\APIUtils\CrosierApiResponse;
 use CrosierSource\CrosierLibBaseBundle\Utils\DateTimeUtils\DateTimeUtils;
 use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\FilterData;
-use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -39,9 +38,7 @@ class DiaUtilController extends FormListController
     /**
      *
      * @Route("/bse/diaUtil/list/", name="bse_diaUtil_list")
-     * @param Request $request
-     * @return RedirectResponse|Response
-     * @throws Exception
+     * @throws \Exception
      *
      * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
@@ -68,7 +65,7 @@ class DiaUtilController extends FormListController
 
 
         /** @var DiaUtilRepository $repo */
-        $repo = $this->getDoctrine()->getRepository(DiaUtil::class);
+        $repo = $this->doctrine->getRepository(DiaUtil::class);
 
         $dia = null;
         $dias = array();
@@ -120,6 +117,23 @@ class DiaUtilController extends FormListController
         $corrigir = $request->get('corrigir') ?? false;
         $this->diaUtilBusiness->gerarOuCorrigirDiasUteis($dtIni, $dtFim, $corrigir);
         return CrosierApiResponse::success();
+    }
+
+    /**
+     * @Route("/api/bse/diaUtil/obter", name="api_bse_diaUtil_obter")
+     */
+    public function obter(Request $request): JsonResponse
+    {
+        try {
+            $dt = DateTimeUtils::parseDateStr($request->get('dt'));
+            $proximo = filter_var($request->get('proximo'), FILTER_VALIDATE_BOOLEAN);
+            /** @var DiaUtilRepository $repo */
+            $repo = $this->doctrine->getRepository(DiaUtil::class);
+            $diaUtil = $repo->findDiaUtil($dt, $proximo, true, true);
+            return CrosierApiResponse::success($diaUtil);
+        } catch (\Exception $e) {
+            return CrosierApiResponse::error(null, false, 'Ocorreu um erro ao buscar o dia útil');
+        }
     }
 
 
