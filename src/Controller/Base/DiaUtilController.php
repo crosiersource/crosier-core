@@ -105,8 +105,6 @@ class DiaUtilController extends FormListController
 
     /**
      * @Route("/bse/diaUtil/gerarDias/", name="bse_diaUtil_gerarDias")
-     * @param Request $request
-     * @return JsonResponse
      * @throws ViewException
      * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
@@ -121,16 +119,20 @@ class DiaUtilController extends FormListController
 
     /**
      * @Route("/api/bse/diaUtil/obter", name="api_bse_diaUtil_obter")
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED", statusCode=403)
      */
     public function obter(Request $request): JsonResponse
     {
         try {
             $dt = DateTimeUtils::parseDateStr($request->get('dt'));
             $proximo = filter_var($request->get('proximo'), FILTER_VALIDATE_BOOLEAN);
+            $qtdeMeses = $request->get('qtdeMeses') ?? 1;
             /** @var DiaUtilRepository $repo */
             $repo = $this->doctrine->getRepository(DiaUtil::class);
-            $diaUtil = $repo->findDiaUtil($dt, $proximo, true, true);
-            return CrosierApiResponse::success($diaUtil);
+
+            $diaUtil = $repo->findDiaUtil(DateTimeUtils::incMes($dt, $qtdeMeses), $proximo, true, true, true);
+            $dia = $diaUtil->format('Y-m-d');
+            return CrosierApiResponse::success($dia);
         } catch (\Exception $e) {
             return CrosierApiResponse::error(null, false, 'Ocorreu um erro ao buscar o dia útil');
         }
