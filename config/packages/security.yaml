@@ -58,7 +58,7 @@ security:
                 success_handler: App\Security\LogoutHandler
                 #invalidate_session: false
 
-            switch_user: true
+            switch_user: { role: CAN_SWITCH_USER }
 
         
         

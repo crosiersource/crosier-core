@@ -2,102 +2,77 @@
 
 namespace App\Controller\Security;
 
-use App\Form\Security\UserType;
-use CrosierSource\CrosierLibBaseBundle\Controller\FormListController;
 use CrosierSource\CrosierLibBaseBundle\Entity\Security\User;
 use CrosierSource\CrosierLibBaseBundle\EntityHandler\Security\UserEntityHandler;
 use CrosierSource\CrosierLibBaseBundle\Exception\ViewException;
-use CrosierSource\CrosierLibBaseBundle\Utils\RepositoryUtils\FilterData;
-use Exception;
+use CrosierSource\CrosierLibBaseBundle\Utils\APIUtils\CrosierApiResponse;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class UserController.
- * @package App\Controller\Security
  * @author Carlos Eduardo Pauluk
  */
-class UserController extends FormListController
+class UserController extends AbstractController
 {
 
+    /** @required */
+    public EntityManagerInterface $doctrine;
+
     /**
-     * @required
-     * @param UserEntityHandler $entityHandler
+     * @Route("/api/sec/user/listUsersFromSameUserEmail", name="api_sec_user_listUsersFromSameUserEmail", requirements={"email"="\w+"})
      */
-    public function setEntityHandler(UserEntityHandler $entityHandler): void
+    public function listUsersFromSameUserEmail(Request $request): JsonResponse
     {
-        $this->entityHandler = $entityHandler;
+        try {
+            $email = $request->get('email');
+            $repoUser = $this->doctrine->getRepository(User::class);
+            $rs = $repoUser->getUsersByEmail($email);
+            $users = [];
+            /** @var User $user */
+            foreach ($rs as $user) {
+                $users[] = [
+                    'id' => $user->getId(),
+                    'username' => $user->username,
+                    'descricao' => $user->descricao,
+                    'descricaoMontada' => $user->getDescricaoMontada(),
+                    'email' => $user->email,
+                    'nome' => $user->nome,
+                    'fone' => $user->fone,
+                    'ativo' => $user->isActive,
+                ];
+            }
+            return CrosierApiResponse::success($users);
+        } catch (\Exception $e) {
+            return CrosierApiResponse::error($e, true);
+        }
     }
 
     /**
-     * @param array $params
-     * @return array
-     */
-    public function getFilterDatas(array $params): array
-    {
-        return [
-            new FilterData(['username', 'nome'], 'LIKE', 'username', $params)
-        ];
-    }
-
-    /**
-     *
-     * @Route("/sec/user/form/{id}", name="sec_user_form", defaults={"id"=null}, requirements={"id"="\d+"})
-     * @param Request $request
-     * @param User|null $user
-     * @return RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @throws Exception
-     *
+     * @Route("/api/sec/user/tryToDeleteAll", name="api_sec_user_tryToDeleteAll")
      * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
-    public function form(Request $request, User $user = null)
+    public function tryToDeleteAll(UserEntityHandler $userEntityHandler): JsonResponse
     {
-        $params = [
-            'formView' => 'Security/userForm.html.twig',
-            'formRoute' => 'sec_user_form',
-            'formPageTitle' => 'Usuário',
-            'typeClass' => UserType::class
-        ];
-        return $this->doForm($request, $user, $params);
-    }
-
-    /**
-     *
-     * @Route("/sec/user/list/", name="sec_user_list")
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
-     * @throws Exception
-     *
-     * @IsGranted("ROLE_ADMIN", statusCode=403)
-     */
-    public function list(Request $request): Response
-    {
-        $params = [
-            'listView' => 'Security/userList.html.twig',
-            'listRoute' => 'sec_user_list',
-            'listRouteAjax' => 'sec_user_datatablesJsList',
-            'listPageTitle' => 'Usuários do Sistema',
-            'listId' => 'userList',
-            'formRoute' => 'sec_user_form'
-        ];
-        return $this->doList($request, $params);
-    }
-
-    /**
-     *
-     * @Route("/sec/user/datatablesJsList/", name="sec_user_datatablesJsList")
-     * @param Request $request
-     * @return Response
-     * @throws ViewException
-     *
-     * @IsGranted("ROLE_ADMIN", statusCode=403)
-     */
-    public function datatablesJsList(Request $request): Response
-    {
-        return $this->doDatatablesJsList($request);
+        try {
+            $repoUser = $this->doctrine->getRepository(User::class);
+            $rs = $repoUser->findAll();
+            foreach ($rs as $user) {
+                try {
+                    $this->doctrine->getConnection()->delete('sec_user', ['id' => $user->getId()]);
+                    $msgs[] = 'Usuário ' . $user->getDescricaoMontada() . ' (' . $user->getId() . ') deletado com sucesso';
+                } catch (\Exception $e) {
+                    $msgs[] = 'Não foi possível deletar o usuário ' . $user->getDescricaoMontada() . ' (' . $user->getId() . ') pois: ' . $e->getMessage();
+                }
+            }
+            return CrosierApiResponse::success($msgs);
+        } catch (\Exception $e) {
+            return CrosierApiResponse::error($e, true);
+        }
+        
     }
 
 
