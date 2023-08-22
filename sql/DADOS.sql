@@ -30,21 +30,14 @@ INSERT INTO sec_group(id, groupname, estabelecimento_id, updated, inserted, user
                       user_updated_id)
 VALUES (1, 'ADMIN', 1, now(), now(), 1, 1);
 
-INSERT INTO sec_role(id, role, descricao, estabelecimento_id, updated, inserted, user_inserted_id,
-                     user_updated_id)
-VALUES (1, 'ROLE_ADMIN', '', 1, now(), now(), 1, 1);
-INSERT INTO sec_role(id, role, descricao, estabelecimento_id, updated, inserted, user_inserted_id,
-                     user_updated_id)
-VALUES (2, 'ROLE_ALLOWED_TO_SWITCH', '', 1, now(), now(), 1, 1);
-INSERT INTO sec_role(id, role, descricao, estabelecimento_id, updated, inserted, user_inserted_id,
-                     user_updated_id)
-VALUES (3, 'ROLE_UPLOAD', '', 1, now(), now(), 1, 1);
-INSERT INTO sec_role(id, role, descricao, estabelecimento_id, updated, inserted, user_inserted_id,
-                     user_updated_id)
-VALUES (4, 'ROLE_ENTITY_CHANGES', 'Pode visualizar os registros de alterações das entidades.', 1, now(), now(), 1, 1);
-INSERT INTO sec_role(id, role, descricao, estabelecimento_id, updated, inserted, user_inserted_id,
-                     user_updated_id)
-VALUES (null, 'ROLE_NENHUMA', 'Role sem efeito (serve apenas para poder deixar um usuário com apenas 1 role).', 1, now(), now(), 1, 1);
+INSERT INTO sec_role
+  (id, role, descricao, estabelecimento_id, updated, inserted, user_inserted_id, user_updated_id)
+VALUES 
+  (null, 'ROLE_ADMIN', 'Usuário "root" do sistema', 1, now(), now(), 1, 1),
+  (null, 'ROLE_ALLOWED_TO_SWITCH', 'Permite que o usuário alterne para qualquer outro usuário do sistema', 1, now(), now(), 1, 1),
+  (null, 'ROLE_UPLOAD', 'Permissão para enviar arquivos através da API de upload', 1, now(), now(), 1, 1),  
+  (null, 'ROLE_ENTITY_CHANGES', 'Pode visualizar os registros de alterações das entidades.', 1, now(), now(), 1, 1),
+  (null, 'ROLE_NENHUMA', 'Role sem efeito (serve apenas para poder deixar um usuário com apenas 1 role).', 1, now(), now(), 1, 1);
 
 INSERT INTO sec_group_role(group_id, role_id)
 VALUES (1, 1);

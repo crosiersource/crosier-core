@@ -11,6 +11,18 @@
   >
     <template v-slot:filter-fields>
       <CrosierInputText id="username" label="Usuário" v-model="this.filters.username" />
+      <CrosierInputEmail id="email" label="E-mail" v-model="this.filters.email" />
+      <CrosierInputText id="descricao" label="Descrição" v-model="this.filters.descricao" />
+      <CrosierDropdownBoolean
+        id="ativo"
+        label="Ativo"
+        :options="[
+          { name: '-', value: null },
+          { name: 'Sim', value: true },
+          { name: 'Não', value: false },
+        ]"
+        v-model="this.filters.isActive"
+      />
     </template>
 
     <template v-slot:columns>
@@ -25,6 +37,8 @@
       <Column field="email" header="E-mail" :sortable="true"></Column>
 
       <Column field="nome" header="Nome" :sortable="true"></Column>
+
+      <Column field="descricao" header="Descrição" :sortable="true"></Column>
 
       <Column field="isActive" header="Ativo" :sortable="true">
         <template class="text-center" #body="r">
@@ -67,7 +81,12 @@
 
 <script>
 import { mapGetters, mapMutations } from "vuex";
-import { CrosierListS, CrosierInputText } from "crosier-vue";
+import {
+  CrosierListS,
+  CrosierInputText,
+  CrosierInputEmail,
+  CrosierDropdownBoolean,
+} from "crosier-vue";
 import Column from "primevue/column";
 import Toast from "primevue/toast";
 import ConfirmDialog from "primevue/confirmdialog";
@@ -76,6 +95,8 @@ export default {
   components: {
     CrosierListS,
     CrosierInputText,
+    CrosierInputEmail,
+    CrosierDropdownBoolean,
     Column,
     Toast,
     ConfirmDialog,
@@ -95,10 +116,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.dt-sm-bt {
-  height: 30px !important;
-  width: 30px !important;
-}
-</style>

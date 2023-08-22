@@ -5,7 +5,7 @@ import { createStore } from "vuex";
 import { api } from "crosier-vue";
 import primevueOptions from "crosier-vue/src/primevue.config.js";
 import ConfirmationService from "primevue/confirmationservice";
-import Page from "./pages/form";
+import Page from "./pages/alternarUser";
 import "primeflex/primeflex.css";
 import "primevue/resources/themes/bootstrap4-light-blue/theme.css"; // theme
 import "primevue/resources/primevue.min.css"; // core css
@@ -24,14 +24,14 @@ const store = createStore({
   state() {
     return {
       loading: 0,
-      fields: {},
-      fieldsErrors: {},
+      users: null,
+      aux: { user: null },
     };
   },
   getters: {
     isLoading: (state) => state.loading > 0,
-    getFields: (state) => state.fields,
-    getFieldsErrors: (state) => state.fieldsErrors,
+    getUsers: (state) => state.users,
+    getAux: (state) => state.aux,
   },
   mutations: {
     setLoading(state, loading) {
@@ -42,34 +42,37 @@ const store = createStore({
       }
     },
 
-    setFields(state, fields) {
-      state.fields = fields;
+    setUsers(state, users) {
+      state.users = users;
     },
 
-    setFieldsErrors(state, formErrors) {
-      state.fieldsErrors = formErrors;
+    setAux(state, aux) {
+      state.aux = aux;
     },
   },
 
   actions: {
     async loadData(context) {
       context.commit("setLoading", true);
-      const id = new URLSearchParams(window.location.search.substring(1)).get("id");
-      if (id) {
-        try {
-          const response = await api.get({
-            apiResource: `/api/sec/user/${id}`,
-          });
 
-          if (response.data["@id"]) {
-            context.commit("setFields", response.data);
-          } else {
-            console.error("Id não encontrado");
-          }
-        } catch (err) {
-          console.error(err);
-        }
+      try {
+        const rsWhoami = await api.get({
+          apiResource: "/api/whoami",
+        });
+        const me = rsWhoami.data;
+
+        context.commit("setAux", { user: me.id });
+
+        const response = await api.get({
+          apiResource: `/api/sec/user/listUsersFromSameUserEmail`,
+          complement: `&email=${me.email}`,
+        });
+
+        context.commit("setUsers", response.data.DATA);
+      } catch (err) {
+        console.error(err);
       }
+
       context.commit("setLoading", false);
     },
   },

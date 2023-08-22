@@ -1,0 +1,1 @@
+ALTER TABLE sec_user DROP KEY 'UK_sec_user_email';

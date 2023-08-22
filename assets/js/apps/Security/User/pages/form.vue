@@ -23,6 +23,10 @@
     </div>
 
     <div class="form-row">
+      <CrosierInputText label="Descrição" id="descricao" v-model="this.fields.descricao" />
+    </div>
+
+    <div class="form-row">
       <div class="col-md-6">
         <div class="form-group">
           <label for="password">Senha</label>
@@ -96,7 +100,7 @@
       />
     </div>
 
-    <div class="row mt-3" v-if="!this.semBotaoSalvar">
+    <div class="row mt-3" v-if="this.fields.id">
       <div class="col text-right">
         <button
           class="btn btn-sm btn-primary"

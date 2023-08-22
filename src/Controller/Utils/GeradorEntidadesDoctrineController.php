@@ -4,7 +4,6 @@ namespace App\Controller\Utils;
 
 use CrosierSource\CrosierLibBaseBundle\Controller\BaseController;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Driver\PDOStatement;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,10 +18,7 @@ class GeradorEntidadesDoctrineController extends BaseController
 {
 
     /**
-     *
      * @Route("/utl/gerarEntidade/", name="utl_gerarEntidade")
-     * @param Request $request
-     * @return Response
      */
     public function generateDoctrineEntity(Request $request): Response
     {

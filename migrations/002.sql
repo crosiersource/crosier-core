@@ -1,0 +1,1 @@
+ALTER TABLE sec_user ADD COLUMN descricao VARCHAR(255) NULL AFTER nome;

@@ -162,9 +162,7 @@ CREATE TABLE `sec_user`
   `version`                   int(11),
 
   PRIMARY KEY (`id`),
-
-  UNIQUE KEY `UK_sec_user_email` (`email`),
-
+  
   UNIQUE KEY `UK_sec_user_username_estabelecimento` (`username`, `estabelecimento_id`) USING BTREE,
 
 
