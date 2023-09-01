@@ -20,7 +20,7 @@ final class VersionCore004 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql(file_get_contents(__DIR__ . '/003.sql'));
+        $this->addSql(file_get_contents(__DIR__ . '/004.sql'));
     }
 
     public function down(Schema $schema): void
