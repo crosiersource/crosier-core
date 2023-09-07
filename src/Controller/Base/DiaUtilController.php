@@ -138,5 +138,38 @@ class DiaUtilController extends FormListController
         }
     }
 
+    
+    /**
+     * @Route("/api/bse/diaUtil/obter3", name="api_bse_diaUtil_obter3")
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED", statusCode=403)
+     */
+    public function obter3(Request $request): JsonResponse
+    {
+        try {
+            $dt = DateTimeUtils::parseDateStr($request->get('dt'));
+            $diasEmissao = (int)$request->get('diasEmissao');
+            $diasSolicitacao = (int)$request->get('diasSolicitacao');
+            
+            /** @var DiaUtilRepository $repo */
+            $repo = $this->doctrine->getRepository(DiaUtil::class);
+
+            $dtMovimentacao = $repo->findDiaUtil(DateTimeUtils::incMes($dt, 1), true, true, true, true);
+            
+            $dtSolicitacaoBruta = DateTimeUtils::addDays($dtMovimentacao, -$diasSolicitacao);
+            $dtSolicitacao = $repo->findDiaUtil($dtSolicitacaoBruta, false, true, true, true);
+
+            $dtEmissaoBruta = DateTimeUtils::addDays($dtMovimentacao, $diasEmissao);
+            $dtEmissao = $repo->findDiaUtil($dtEmissaoBruta, false, true, true, true);
+            
+            return CrosierApiResponse::success([
+                'dtMovimentacao' => $dtMovimentacao->format('Y-m-d'),
+                'dtSolicitacao' => $dtSolicitacao->format('Y-m-d'),
+                'dtEmissao' => $dtEmissao->format('Y-m-d'),
+            ]);
+        } catch (\Exception $e) {
+            return CrosierApiResponse::error(null, false, 'Ocorreu um erro ao buscar o dia útil');
+        }
+    }
+
 
 }
