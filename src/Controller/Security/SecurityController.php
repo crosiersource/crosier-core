@@ -192,9 +192,9 @@ class SecurityController extends AbstractController
     {
         $this->checkRateLimit($request);
 
-        $this->syslog->info("Confirmando link de recuperação de senha", $token);
-        
         $token = $request->get('token');
+
+        $this->syslog->info("Confirmando link de recuperação de senha", $token);
 
         $repoUser = $this->getDoctrine()->getRepository(User::class);
         $user = $repoUser->findOneByTokenRecupSenha($token);
