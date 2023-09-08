@@ -135,6 +135,8 @@ class SecurityController extends AbstractController
 
         try {
             $str = $params['confirmUser'];
+            
+            $this->syslog->info("Iniciando 'recuperação de senha' para: " . $str);
 
             $rs = $conn->fetchAllAssociative('SELECT id FROM sec_user WHERE ativo = true AND email = :str',
                 ['str' => $str]);
@@ -151,6 +153,8 @@ class SecurityController extends AbstractController
                     $primeiroNome = ucfirst(strtolower($primeiroNome));
 
                     $link = $_SERVER['CROSIERCORE_URL'] . '/sec/user/recuperaSenha/confirmaLink?token=' . $user->tokenRecupSenha . '&id=' . $user->getId();
+                    
+                    $this->syslog->info("Link para recuperação de senha enviado para o e-mail: " . $user->email, $link);
 
                     $links[] = [
                         'link' => $link,
@@ -164,6 +168,8 @@ class SecurityController extends AbstractController
 
                 $client = new PostmarkClient($_SERVER['PM_TOKEN']);
                 $client->sendEmail('mailer@crosier.com.br', $user->email, 'Recuperação de senha', $html);
+            } else {
+                $this->syslog->info("Usuário não encontrado (ativo) para o e-mail: " . $str);
             }
             return CrosierApiResponse::success();
         } catch (\Exception $e) {
@@ -186,19 +192,24 @@ class SecurityController extends AbstractController
     {
         $this->checkRateLimit($request);
 
+        $this->syslog->info("Confirmando link de recuperação de senha", $token);
+        
         $token = $request->get('token');
 
         $repoUser = $this->getDoctrine()->getRepository(User::class);
         $user = $repoUser->findOneByTokenRecupSenha($token);
 
         if (!$user || !$user->dtValidadeTokenRecupSenha) {
+            $this->syslog->info("Token inválido: " . $token);
             return $this->render('erro.html.twig', ['msg' => 'Token inválido.']);
         }
 
         if (DateTimeUtils::diffInMinutes(new \DateTime(), $user->dtValidadeTokenRecupSenha) > 15) {
+            $this->syslog->info("Token expirado: " . $token);
             return $this->render('erro.html.twig', ['msg' => 'Token expirado.']);
         }
-
+        $this->syslog->info("Token confirmado. Usuário: " . $user->username);
+        
         return $this->render('@CrosierLibBase/vue-app-page-semmenu.html.twig', [
             'serverParams' => json_encode([
                 'crosierLogo' => $_SERVER['CROSIER_LOGO'],
