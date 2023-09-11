@@ -155,7 +155,7 @@ class DiaUtilController extends FormListController
 
             $proximo = false;
             
-            $dtMovimentacao = $repo->findDiaUtil(DateTimeUtils::incMes($dt, 1), $proximor, true, true, true);
+            $dtMovimentacao = $repo->findDiaUtil(DateTimeUtils::incMes($dt, 1), $proximo, true, true, true);
             
             $dtSolicitacaoBruta = DateTimeUtils::addDays($dtMovimentacao, -$diasSolicitacao);
             $dtSolicitacao = $repo->findDiaUtil($dtSolicitacaoBruta, false, true, true, true);
