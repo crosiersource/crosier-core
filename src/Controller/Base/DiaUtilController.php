@@ -153,7 +153,9 @@ class DiaUtilController extends FormListController
             /** @var DiaUtilRepository $repo */
             $repo = $this->doctrine->getRepository(DiaUtil::class);
 
-            $dtMovimentacao = $repo->findDiaUtil(DateTimeUtils::incMes($dt, 1), true, true, true, true);
+            $proximo = false;
+            
+            $dtMovimentacao = $repo->findDiaUtil(DateTimeUtils::incMes($dt, 1), $proximor, true, true, true);
             
             $dtSolicitacaoBruta = DateTimeUtils::addDays($dtMovimentacao, -$diasSolicitacao);
             $dtSolicitacao = $repo->findDiaUtil($dtSolicitacaoBruta, false, true, true, true);
