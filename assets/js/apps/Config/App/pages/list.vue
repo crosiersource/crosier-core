@@ -2,7 +2,7 @@
   <Toast group="mainToast" position="bottom-right" class="mb-5" />
   <ConfirmDialog />
 
-  <CrosierListS titulo="Apps" apiResource="/api/cfg/app" ref="dt">
+  <CrosierListS titulo="Apps" apiResource="/api/cfg/app" ref="dt" :comFiltragem="false">
     <template v-slot:columns>
       <column field="id" header="Id"></column>
 
