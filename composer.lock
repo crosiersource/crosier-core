@@ -177,16 +177,16 @@
         },
         {
             "name": "crosiersource/crosierlib-base",
-            "version": "v1.9.4",
+            "version": "v1.9.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/crosiersource/crosierlib-base.git",
-                "reference": "c00d8ab289027824c3b81aab00aae53282b19807"
+                "reference": "3c55bccf43985c40e8bc92b8c7aac8406c78ef63"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/crosiersource/crosierlib-base/zipball/c00d8ab289027824c3b81aab00aae53282b19807",
-                "reference": "c00d8ab289027824c3b81aab00aae53282b19807",
+                "url": "https://api.github.com/repos/crosiersource/crosierlib-base/zipball/3c55bccf43985c40e8bc92b8c7aac8406c78ef63",
+                "reference": "3c55bccf43985c40e8bc92b8c7aac8406c78ef63",
                 "shasum": ""
             },
             "require": {
@@ -259,7 +259,6 @@
                 "phpunit/phpunit": "^9.5",
                 "symfony/browser-kit": "5.4.*",
                 "symfony/css-selector": "5.4.*",
-                "symfony/debug-bundle": "5.4.*",
                 "symfony/maker-bundle": "^1.0",
                 "symfony/phpunit-bridge": "^5.4",
                 "symfony/stopwatch": "5.4.*",
@@ -290,9 +289,9 @@
             ],
             "support": {
                 "issues": "https://github.com/crosiersource/crosierlib-base/issues",
-                "source": "https://github.com/crosiersource/crosierlib-base/tree/v1.9.4"
+                "source": "https://github.com/crosiersource/crosierlib-base/tree/v1.9.7"
             },
-            "time": "2023-09-18T22:39:33+00:00"
+            "time": "2023-09-19T00:01:42+00:00"
         },
         {
             "name": "doctrine/annotations",
