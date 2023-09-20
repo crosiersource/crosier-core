@@ -62,7 +62,6 @@ input[type=submit], input[type=button], input[type=password] {
 }
 
 
-
 .menuLateral-ent-neto {
   background-color: #566c90 !important;
 }
@@ -90,13 +89,6 @@ input[type=submit], input[type=button], input[type=password] {
 .menuLateral {
   background-color: #3c4b64 !important;
 }
-
-
-
-
-
-
-
 
 
 .blink {
@@ -147,5 +139,13 @@ input[type=submit], input[type=button], input[type=password] {
 }
 
 .p-dialog-mask.p-component-overlay.p-component-overlay-enter {
-  z-index: 1006 !important;
+  z-index: 1003 !important;
+}
+
+.p-dropdown-panel.p-component {
+  z-index: 1004 !important;
+}
+
+.p-toast.p-component {
+  z-index: 99999 !important;
 }
