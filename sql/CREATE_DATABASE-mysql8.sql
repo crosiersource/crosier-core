@@ -19,5 +19,6 @@ FLUSH PRIVILEGES;
 -- sudo echo "mysql --login-path=$dbname $dbname" | sudo tee /usr/local/bin/$dbname
 -- sudo chmod a+x /usr/local/bin/$dbname
 
+-- Atenção: rodar o FUNCTIONS.sql utilizando o root
 
 
