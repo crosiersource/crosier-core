@@ -138,14 +138,21 @@ input[type=submit], input[type=button], input[type=password] {
   z-index: 2147483646 !important;
 }
 
-.p-dialog-mask.p-component-overlay.p-component-overlay-enter {
-  z-index: 1003 !important;
-}
+
 
 .p-dropdown-panel.p-component {
-  z-index: 1004 !important;
+  z-index: 1101 !important;
 }
 
 .p-toast.p-component {
   z-index: 99999 !important;
 }
+
+.p-sidebar-mask.p-sidebar-right.p-component-overlay.p-component-overlay-enter.p-sidebar-visible {
+  z-index: 1003 !important;
+}
+
+.p-dialog-mask.p-component-overlay.p-component-overlay-enter  {
+  zz-index: 1003 !important;
+}
+  
