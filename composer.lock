@@ -177,16 +177,16 @@
         },
         {
             "name": "crosiersource/crosierlib-base",
-            "version": "v1.9.12",
+            "version": "v1.9.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/crosiersource/crosierlib-base.git",
-                "reference": "679cbb9db993c6ef250e82ee4c85ee6065e37b5b"
+                "reference": "b19c7874a20639ae4d4f56e32a30bd2fbc8a6e29"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/crosiersource/crosierlib-base/zipball/679cbb9db993c6ef250e82ee4c85ee6065e37b5b",
-                "reference": "679cbb9db993c6ef250e82ee4c85ee6065e37b5b",
+                "url": "https://api.github.com/repos/crosiersource/crosierlib-base/zipball/b19c7874a20639ae4d4f56e32a30bd2fbc8a6e29",
+                "reference": "b19c7874a20639ae4d4f56e32a30bd2fbc8a6e29",
                 "shasum": ""
             },
             "require": {
@@ -289,9 +289,9 @@
             ],
             "support": {
                 "issues": "https://github.com/crosiersource/crosierlib-base/issues",
-                "source": "https://github.com/crosiersource/crosierlib-base/tree/v1.9.12"
+                "source": "https://github.com/crosiersource/crosierlib-base/tree/v1.9.14"
             },
-            "time": "2023-10-18T01:23:23+00:00"
+            "time": "2023-10-23T16:51:30+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -5365,16 +5365,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.20.2",
+            "version": "v1.21.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "a2554c7e1b669f5049c1b67bc56f13aa1c4bf7da"
+                "reference": "5529871fa173c74cf76eaeaed69c9a52e408b2c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/a2554c7e1b669f5049c1b67bc56f13aa1c4bf7da",
-                "reference": "a2554c7e1b669f5049c1b67bc56f13aa1c4bf7da",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/5529871fa173c74cf76eaeaed69c9a52e408b2c5",
+                "reference": "5529871fa173c74cf76eaeaed69c9a52e408b2c5",
                 "shasum": ""
             },
             "require": {
@@ -5410,7 +5410,7 @@
             "description": "Composer plugin for Symfony",
             "support": {
                 "issues": "https://github.com/symfony/flex/issues",
-                "source": "https://github.com/symfony/flex/tree/v1.20.2"
+                "source": "https://github.com/symfony/flex/tree/v1.21.0"
             },
             "funding": [
                 {
@@ -5426,7 +5426,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-08-04T09:02:01+00:00"
+            "time": "2023-10-22T18:04:44+00:00"
         },
         {
             "name": "symfony/form",
