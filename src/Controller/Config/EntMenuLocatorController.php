@@ -10,7 +10,6 @@ use CrosierSource\CrosierLibBaseBundle\Entity\EntityId;
 use CrosierSource\CrosierLibBaseBundle\EntityHandler\Config\EntMenuLocatorEntityHandler;
 use CrosierSource\CrosierLibBaseBundle\Repository\Config\EntMenuRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,16 +36,7 @@ class EntMenuLocatorController extends FormListController
 
     /**
      * @Route("/cfg/entMenuLocator/form/{menuUUID}/{entMenuLocator}", name="cfg_entMenuLocator_form", defaults={"entMenuLocator"=null}, requirements={"entMenuLocator"="\d+"})
-     *
-     * @ParamConverter("entMenuLocator", class="CrosierSource\CrosierLibBaseBundle\Entity\Config\EntMenuLocator", options={"mapping": {"entMenuLocator": "id"}})
-     *
-     *
-     * @param Request $request
-     * @param string $menuUUID
-     * @param EntMenuLocator|null $entMenuLocator
-     * @return RedirectResponse|Response
      * @throws \CrosierSource\CrosierLibBaseBundle\Exception\ViewException
-     *
      * @IsGranted("ROLE_ADMIN", statusCode=403)
      */
     public function form(Request $request, string $menuUUID, EntMenuLocator $entMenuLocator = null)

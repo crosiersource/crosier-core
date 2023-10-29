@@ -23,6 +23,7 @@ const store = createStore({
   state() {
     return {
       loading: 0,
+      exibirDialog: false,
       fields: {},
       fieldsErrors: {},
     };

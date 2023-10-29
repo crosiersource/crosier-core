@@ -1,5 +1,10 @@
 <template>
   <Toast position="bottom-right" class="mt-5" />
+
+  <ConfirmDialog />
+
+  <TheDialog />
+
   <div class="container">
     <div class="form-row">
       <CrosierInputInt label="Id" col="3" id="id" v-model="this.fields.id" :disabled="true" />
@@ -24,7 +29,15 @@
     </div>
 
     <div class="form-row">
-      <CrosierCurrency label="Valor" id="valorCredito2" v-model="this.valorCredito2" />
+      <CrosierCurrency label="Valorrr" id="valorCredito2" v-model="this.valorCredito2" col="11" />
+
+      <button
+        type="button"
+        @click="this.$store.state.exibirDialog = true"
+        class="btn btn-primary col-1"
+      >
+        Abrir Dialog
+      </button>
     </div>
 
     <div class="form-row">
@@ -41,6 +54,7 @@
 
 <script>
 import Toast from "primevue/toast";
+import ConfirmDialog from "primevue/confirmdialog";
 import * as yup from "yup";
 import {
   CrosierInputInt,
@@ -51,6 +65,7 @@ import {
   SetFocus,
 } from "crosier-vue";
 import { mapGetters, mapMutations } from "vuex";
+import TheDialog from "./dialog.vue";
 
 export default {
   components: {
@@ -59,6 +74,8 @@ export default {
     CrosierInputTextarea,
     CrosierInputInt,
     CrosierCurrency,
+    TheDialog,
+    ConfirmDialog,
   },
 
   data() {
