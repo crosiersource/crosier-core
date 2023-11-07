@@ -144,6 +144,10 @@ input[type=submit], input[type=button], input[type=password] {
   z-index: 1102 !important;
 }
 
+.p-multiselect-panel.p-component {
+  z-index: 1102 !important;
+}
+
 .p-toast.p-component {
   z-index: 99999 !important;
 }
