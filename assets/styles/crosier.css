@@ -141,11 +141,11 @@ input[type=submit], input[type=button], input[type=password] {
 
 
 .p-dropdown-panel.p-component {
-  z-index: 1102 !important;
+  z-index: 1202 !important;
 }
 
 .p-multiselect-panel.p-component {
-  z-index: 1102 !important;
+  z-index: 1202 !important;
 }
 
 .p-toast.p-component {
