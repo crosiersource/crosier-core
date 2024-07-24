@@ -10,6 +10,7 @@ use CrosierSource\CrosierLibBaseBundle\Utils\DateTimeUtils\DateTimeUtils;
 use CrosierSource\CrosierLibBaseBundle\Utils\StringUtils\StringUtils;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
+use Doctrine\ORM\EntityManagerInterface;
 use Postmark\PostmarkClient;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -35,16 +36,19 @@ class SecurityController extends AbstractController
     private RateLimiterFactory $anonymousApiLimiter;
 
     private SyslogBusiness $syslog;
+    
+    private EntityManagerInterface $doctrine;
 
 
     public function __construct(
         UserEntityHandler  $userEntityHandler,
         RateLimiterFactory $anonymousApiLimiter,
-        SyslogBusiness     $syslog
+        SyslogBusiness     $syslog,
     )
     {
         $this->userEntityHandler = $userEntityHandler;
         $this->anonymousApiLimiter = $anonymousApiLimiter;
+        $this->doctrine = $userEntityHandler->getDoctrine();
         $this->syslog = $syslog->setApp('core')->setComponent(self::class);
     }
 
@@ -131,7 +135,7 @@ class SecurityController extends AbstractController
         }
 
         /** @var Connection $conn */
-        $conn = $this->getDoctrine()->getConnection();
+        $conn = $this->doctrine->getConnection();
 
         try {
             $str = $params['confirmUser'];
@@ -143,7 +147,7 @@ class SecurityController extends AbstractController
 
             if ($rs) {
                 foreach ($rs as $r) {
-                    $repoUser = $this->getDoctrine()->getRepository(User::class);
+                    $repoUser = $this->doctrine->getRepository(User::class);
                     $user = $repoUser->find($r['id']);
                     $user->tokenRecupSenha = StringUtils::guidv4();
                     $user->dtValidadeTokenRecupSenha = DateTimeUtils::addMinutes(null, 15);
@@ -196,7 +200,7 @@ class SecurityController extends AbstractController
 
         $this->syslog->info("Confirmando link de recuperação de senha", $token);
 
-        $repoUser = $this->getDoctrine()->getRepository(User::class);
+        $repoUser = $this->doctrine->getRepository(User::class);
         $user = $repoUser->findOneByTokenRecupSenha($token);
 
         if (!$user || !$user->dtValidadeTokenRecupSenha) {
@@ -244,7 +248,7 @@ class SecurityController extends AbstractController
             }
 
             /** @var Connection $conn */
-            $conn = $this->getDoctrine()->getConnection();
+            $conn = $this->doctrine->getConnection();
 
             $rs = $conn->fetchAssociative('SELECT id FROM sec_user WHERE ativo AND token_recupsenha = :token AND id = :id',
                 ['token' => $token, 'id' => $id]);
@@ -252,7 +256,7 @@ class SecurityController extends AbstractController
                 return CrosierApiResponse::error();
             }
 
-            $repoUser = $this->getDoctrine()->getRepository(User::class);
+            $repoUser = $this->doctrine->getRepository(User::class);
             $user = $repoUser->find($id);
 
             $user->password = $password;
