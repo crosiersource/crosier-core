@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use CrosierSource\CrosierLibBaseBundle\Business\Config\SyslogBusiness;
 use CrosierSource\CrosierLibBaseBundle\Controller\BaseController;
 use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Cache\ItemInterface;
@@ -18,6 +20,8 @@ class DefaultController extends BaseController
 
     private LoggerInterface $logger;
 
+    protected SyslogBusiness $syslog;
+
 
     /**
      * @required
@@ -28,7 +32,16 @@ class DefaultController extends BaseController
         $this->logger = $logger;
     }
 
-    
+    /**
+     * @required
+     * @param mixed $syslog
+     */
+    public function setSyslog(SyslogBusiness $syslog): void
+    {
+        $this->syslog = $syslog->setApp("crosier-core")->setComponent("DefaultController");
+    }
+
+
     /**
      *
      * @Route("/", name="index")
@@ -38,7 +51,7 @@ class DefaultController extends BaseController
         return $this->doRender('dashboard.html.twig');
     }
 
-    
+
     /**
      * @Route("/logAnError", name="logAnError")
      * @IsGranted("ROLE_ADMIN", statusCode=403)
@@ -48,6 +61,16 @@ class DefaultController extends BaseController
         $this->logger->error('Um erro que não é um erro.');
         $this->addFlash('error', 'Errou!');
         return $this->doRender('dashboard.html.twig');
+    }
+
+    /**
+     * @Route("/logAnErrorToSyslog", name="logAnErrorToSyslog")
+     * @IsGranted("ROLE_ADMIN", statusCode=403)
+     */
+    public function logAnErrorToSyslog(): JsonResponse
+    {
+        $this->syslog->error('Um erro que não é um erro.');
+        return new JsonResponse(['message' => 'Erro logado no syslog']);
     }
 
 
@@ -73,7 +96,7 @@ class DefaultController extends BaseController
         return $this->doRender('@CrosierLibBase/vue-app-page.html.twig', $params);
     }
 
-    
+
     /**
      * @Route("/vsm/{vuePage}", name="vsm_vuePage", requirements={"vuePage"=".+"})
      */
@@ -95,7 +118,7 @@ class DefaultController extends BaseController
         return $this->render('@CrosierLibBase/vue-app-page-semmenu.html.twig', $params);
     }
 
-    
+
     /**
      *
      * @Route("/nosec", name="nosec", methods={"GET"})
