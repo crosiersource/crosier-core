@@ -4,14 +4,6 @@ CREATE USER 'crosier_dev'@'%' IDENTIFIED BY 'crosier_dev';
 GRANT ALL PRIVILEGES ON crosier_dev.* TO 'crosier_dev'@'%';
 FLUSH PRIVILEGES;
 
-
-CREATE DATABASE crosier_dev_logs CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci';
-CREATE USER 'crosier_dev_logs'@'%' IDENTIFIED BY 'crosier_dev_logs';
--- ALTER USER 'crosier_dev'@'localhost' IDENTIFIED BY 'crosier_dev';
-GRANT ALL PRIVILEGES ON crosier_dev_logs.* TO 'crosier_dev_logs'@'%';
-FLUSH PRIVILEGES;
-
-
 -- dbname=crosier_dev
 -- mysql_config_editor set --login-path=$dbname --host=localhost --user=$dbname --password
 
