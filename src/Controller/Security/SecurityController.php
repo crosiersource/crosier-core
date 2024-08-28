@@ -36,7 +36,7 @@ class SecurityController extends AbstractController
     private RateLimiterFactory $anonymousApiLimiter;
 
     private SyslogBusiness $syslog;
-    
+
     private EntityManagerInterface $doctrine;
 
 
@@ -134,18 +134,19 @@ class SecurityController extends AbstractController
             throw new BadRequestHttpException();
         }
 
-        /** @var Connection $conn */
         $conn = $this->doctrine->getConnection();
 
         try {
             $str = $params['confirmUser'];
-            
+
             $this->syslog->info("Iniciando 'recuperação de senha' para: " . $str);
 
             $rs = $conn->fetchAllAssociative('SELECT id FROM sec_user WHERE ativo = true AND email = :str',
                 ['str' => $str]);
 
             if ($rs) {
+                $links = [];
+                $user = null;
                 foreach ($rs as $r) {
                     $repoUser = $this->doctrine->getRepository(User::class);
                     $user = $repoUser->find($r['id']);
@@ -157,7 +158,7 @@ class SecurityController extends AbstractController
                     $primeiroNome = ucfirst(strtolower($primeiroNome));
 
                     $link = $_SERVER['CROSIERCORE_URL'] . '/sec/user/recuperaSenha/confirmaLink?token=' . $user->tokenRecupSenha . '&id=' . $user->getId();
-                    
+
                     $this->syslog->info("Link para recuperação de senha enviado para o e-mail: " . $user->email, $link);
 
                     $links[] = [
@@ -169,9 +170,10 @@ class SecurityController extends AbstractController
                 }
                 $html = $this->renderView('Security/emailConfirmaAtivacao.html.twig',
                     ['links' => $links]);
-
-                $client = new PostmarkClient($_SERVER['PM_TOKEN']);
-                $client->sendEmail('mailer@crosier.com.br', $user->email, 'Recuperação de senha', $html);
+                if ($user) {
+                    $client = new PostmarkClient($_SERVER['PM_TOKEN']);
+                    $client->sendEmail('mailer@crosier.com.br', $user->email, 'Recuperação de senha', $html);
+                }
             } else {
                 $this->syslog->info("Usuário não encontrado (ativo) para o e-mail: " . $str);
             }
@@ -213,7 +215,7 @@ class SecurityController extends AbstractController
             return $this->render('erro.html.twig', ['msg' => 'Token expirado.']);
         }
         $this->syslog->info("Token confirmado. Usuário: " . $user->username);
-        
+
         return $this->render('@CrosierLibBase/vue-app-page-semmenu.html.twig', [
             'serverParams' => json_encode([
                 'crosierLogo' => $_SERVER['CROSIER_LOGO'],
