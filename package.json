@@ -10,7 +10,7 @@
         "@popperjs/core": "^2.5.4",
         "axios": "^1.7.4",
         "axios-cache-adapter": "^2.7.3",
-        "bootstrap": "5.0.0",
+        "bootstrap": "4.6.2",
         "bootstrap-datepicker": "^1.8.0",
         "chart.js": "^3.3.2",
         "cleave.js": "^1.6.0",
